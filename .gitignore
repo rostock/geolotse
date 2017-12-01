@@ -1,0 +1,12 @@
+# kompilierte Dateien und Cache
+__pycache__/
+*.py[cod]
+
+# kompilierte Übersetzungen
+*.mo
+
+# private Konfiguration
+secrets.py
+
+# WSGI-Skripte
+*.wsgi

@@ -1,0 +1,49 @@
+# English translations for geolotse.
+# Copyright (C) 2017 Hanse- und Universitätsstadt Rostock
+# This file is distributed under the same license as the geolotse project.
+# FIRST AUTHOR <sebastian.gutzeit@rostock.de>, 2017.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: sebastian.gutzeit@rostock.de\n"
+"POT-Creation-Date: 2017-12-01 12:29+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Sebastian Gutzeit <sebastian.gutzeit@rostock.de>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.5.1\n"
+
+#: geolotse.py:39
+msgid "Katalog"
+msgstr "Catalog"
+
+#: geolotse.py:43
+msgid "Lebenslagen"
+msgstr "Situations"
+
+#: templates/index.html:15
+msgid "Ich esse nix!"
+msgstr "i eat"
+
+#: templates/index.html:16
+msgid "Ich kacke!"
+msgstr "x"
+
+#: templates/index.html:17
+msgid "Ich pisse!"
+msgstr "y"
+
+#: templates/index.html:18
+msgid "Ich mache!"
+msgstr "z"
+
+#: templates/index.html:19
+msgid "Ich xxxx!"
+msgstr "a"
+

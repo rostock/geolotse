@@ -1,0 +1,28 @@
+{% extends 'bootstrap/base.html' %}
+
+{% block html_attribs %} lang="{{ g.current_lang }}"{% endblock %}
+
+{% block metas %}
+    {{ super() }}
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="author" content="{{ config.META_AUTHOR }}" />
+    <meta name="description" content="{{ config.META_DESCRIPTION }}" />
+    <meta name="keywords" content="{{ config.META_KEYWORDS }}" />
+{% endblock %}
+
+{% block title %}
+  {{ config.TITLE }}{% block subtitle %}{% if subtitle %} – {{ subtitle }}{% endif %}{% endblock -%}
+{% endblock %}
+
+{% block styles %}
+    {{ super() }}
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+{% endblock %}
+
+{% block body %}
+    {{ _('Ich esse nix!') }}
+    {{ _('Ich kacke!') }}
+    {{ _('Ich pisse!') }}
+    {{ _('Ich mache!') }}
+    {{ _('Ich xxxx!') }}
+{% endblock %}

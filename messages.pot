@@ -1,0 +1,28 @@
+#: geolotse.py:39
+msgid "Katalog"
+msgstr ""
+
+#: geolotse.py:43
+msgid "Lebenslagen"
+msgstr ""
+
+#: templates/index.html:15
+msgid "Ich esse nix!"
+msgstr ""
+
+#: templates/index.html:16
+msgid "Ich kacke!"
+msgstr ""
+
+#: templates/index.html:17
+msgid "Ich pisse!"
+msgstr ""
+
+#: templates/index.html:18
+msgid "Ich mache!"
+msgstr ""
+
+#: templates/index.html:19
+msgid "Ich xxxx!"
+msgstr ""
+
