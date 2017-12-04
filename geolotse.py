@@ -47,10 +47,8 @@ class Situations(db.Model):
 # i18n and l10n
 @babel.localeselector
 def get_locale():
-  #return request.accept_languages.best_match(app.config['LANGUAGES'].keys())
   return g.get('current_lang', app.config['BABEL_DEFAULT_LOCALE'])
 
-# routing and custom error handling
 @app.before_request
 def before():
   if request.view_args and 'lang_code' in request.view_args:
@@ -61,9 +59,11 @@ def before():
   else:
     g.current_lang = request.accept_languages.best_match(app.config['LANGUAGES'].keys())
 
+
+# routing and custom error handling
 @app.route('/')
 def index_without_lang_code():
-  return redirect(url_for('index', lang_code = app.config['BABEL_DEFAULT_LOCALE']))
+  return redirect(url_for('index', lang_code = g.current_lang if g.current_lang else app.config['BABEL_DEFAULT_LOCALE']))
 
 @app.route('/<lang_code>')
 def index():
@@ -71,7 +71,7 @@ def index():
 
 @app.route('/catalog')
 def catalog_without_lang_code():
-  return redirect(url_for('catalog', lang_code = app.config['BABEL_DEFAULT_LOCALE']))
+  return redirect(url_for('catalog', lang_code = g.current_lang if g.current_lang else app.config['BABEL_DEFAULT_LOCALE']))
 
 @app.route('/<lang_code>/catalog')
 def catalog():
@@ -79,7 +79,7 @@ def catalog():
 
 @app.route('/situations')
 def situations_without_lang_code():
-  return redirect(url_for('situations', lang_code = app.config['BABEL_DEFAULT_LOCALE']))
+  return redirect(url_for('situations', lang_code = g.current_lang if g.current_lang else app.config['BABEL_DEFAULT_LOCALE']))
 
 @app.route('/<lang_code>/situations')
 def situations():
