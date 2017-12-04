@@ -66,13 +66,13 @@ def upgrade():
     sa.Column('name', sa.String(length=255))
     )
     op.bulk_insert(link_groups_table, [
-        { 'name': 'api' },
         { 'name': 'application' },
+        { 'name': 'helper' },
+        { 'name': 'api' },
+        { 'name': 'geoservice' },
         { 'name': 'documentation' },
         { 'name': 'download' },
-        { 'name': 'external' },
-        { 'name': 'geoservice' },
-        { 'name': 'helper' }
+        { 'name': 'external' }
       ]
     )
     # ### end Alembic commands ###

@@ -4,7 +4,6 @@ from flask_bootstrap import Bootstrap
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from alembic import op
-from psycopg2 import _psycopg
 
 
 # initialise application
@@ -136,8 +135,10 @@ def catalog_without_lang_code():
 
 @app.route('/<lang_code>/catalog')
 def catalog():
-  link_groups = db.session.query(Link_Groups).query.order_by(Link_Groups.name).all()
-  return render_template('catalog.html', subtitle = gettext(u'Katalog'), link_groups = link_groups)
+  link_groups = Link_Groups.query.order_by(Link_Groups.id).all()
+  link_group_external = Link_Groups.query.filter_by(name = 'external').first()
+  externals = Links.query.filter_by(group_id = link_group_external.id).order_by(Links.title).all()
+  return render_template('catalog.html', subtitle = gettext(u'Katalog'), link_groups = link_groups, externals = externals)
 
 @app.route('/situations')
 def situations_without_lang_code():
