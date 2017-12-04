@@ -1,5 +1,38 @@
 {% extends 'index.html' %}
 
-{% block body %}
-    {{ subtitle }}
+{% block content %}
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#MainNavBar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="{{ url_for('index', lang_code = g.current_lang) }}">{{ config.TITLE }}</a>
+            </div>
+            <div class="collapse navbar-collapse" id="MainNavBar">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="active"><a href="#">Katalog</a></li>
+                    <li><a href="{{ url_for('situations', lang_code = g.current_lang) }}">{{ _('Lebenslagen') }}</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container-fluid">
+        <div class="panel-group" id="accordion">
+            {% for link_group in link_groups %}
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#collapse-{{ link_group.id }}">{{ link_group.name }}</a>
+                        </h4>
+                    </div>
+                    <div id="collapse-{{ link_group.id }}" class="panel-collapse collapse">
+                        <div class="panel-body">Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.</div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
 {% endblock %}

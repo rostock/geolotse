@@ -3,6 +3,8 @@ from flask_babel import Babel, gettext
 from flask_bootstrap import Bootstrap
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
+from alembic import op
+from psycopg2 import _psycopg
 
 
 # initialise application
@@ -26,22 +28,81 @@ db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
 
-# database
+# initialise database
+links_tags = db.Table(
+  'links_tags',
+  db.Column('link_id', db.Integer, db.ForeignKey('links.id'), primary_key = True),
+  db.Column('tag_id', db.Integer, db.ForeignKey('tags.id'), primary_key = True)
+)
+
+situations_tags = db.Table(
+  'situations_tags',
+  db.Column('situation_id', db.Integer, db.ForeignKey('situations.id'), primary_key = True),
+  db.Column('tag_id', db.Integer, db.ForeignKey('tags.id'), primary_key = True)
+)
+
+class Link_Groups(db.Model):
+  __tablename__ = 'link_groups'
+  
+  id = db.Column(db.Integer, primary_key = True)
+  name = db.Column(db.String(255), unique = True, nullable = False)
+  
+  def __init__(self, name):
+    self.name = name
+  
+  def __repr__(self):
+    return '<link_groups id {}>'.format(self.id)
+
+class Links(db.Model):
+  __tablename__ = 'links'
+  
+  id = db.Column(db.Integer, primary_key = True)
+  group_id = db.Column(db.Integer, db.ForeignKey('link_groups.id'), nullable = False)
+  title = db.Column(db.String(255), nullable = False)
+  link = db.Column(db.String(255), nullable = False)
+  public = db.Column(db.Boolean, nullable = False)
+  
+  group = db.relationship('Link_Groups', backref = db.backref('links', lazy = False))
+  tags = db.relationship('Tags', secondary = links_tags, lazy = 'subquery', backref = db.backref('links', lazy = True))
+  
+  def __init__(self, group_id, title, link, public):
+    self.group_id = group_id
+    self.title = title
+    self.link = link
+    self.public = public
+  
+  def __repr__(self):
+    return '<links id {}>'.format(self.id)
+      
 class Situations(db.Model):
   __tablename__ = 'situations'
   
   id = db.Column(db.Integer, primary_key = True)
-  name = db.Column(db.String(255), unique = True, nullable = False)
-  title = db.Column(db.String(255), nullable = False)
+  title = db.Column(db.String(255), unique = True, nullable = False)
   stars = db.Column(db.SmallInteger, nullable = False)
   
-  def __init__(self, name, title, stars):
-      self.name = name
-      self.title = title
-      self.stars = stars
+  tags = db.relationship('Tags', secondary = situations_tags, lazy = 'subquery', backref = db.backref('situations', lazy = True))
+  
+  def __init__(self, title, stars):
+    self.title = title
+    self.stars = stars
   
   def __repr__(self):
-      return '<situations id {}>'.format(self.id)
+    return '<situations id {}>'.format(self.id)
+      
+class Tags(db.Model):
+  __tablename__ = 'tags'
+  
+  id = db.Column(db.Integer, primary_key = True)
+  title = db.Column(db.String(255), unique = True, nullable = False)
+  auto = db.Column(db.Boolean, nullable = False)
+  
+  def __init__(self, title, auto):
+    self.title = title
+    self.auto = auto
+  
+  def __repr__(self):
+    return '<tags id {}>'.format(self.id)
 
 
 # i18n and l10n
@@ -75,7 +136,8 @@ def catalog_without_lang_code():
 
 @app.route('/<lang_code>/catalog')
 def catalog():
-  return render_template('catalog.html', subtitle = gettext(u'Katalog'))
+  link_groups = db.session.query(Link_Groups).query.order_by(Link_Groups.name).all()
+  return render_template('catalog.html', subtitle = gettext(u'Katalog'), link_groups = link_groups)
 
 @app.route('/situations')
 def situations_without_lang_code():
