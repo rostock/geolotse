@@ -1,0 +1,19 @@
+{% extends 'index.html' %}
+
+{% block content %}
+  {% include 'navbar.html' %}
+  <div class="container-fluid">
+    <h3 class="static-page-headline">{{ subtitle }}</h3>
+    <h4 class="static-page-subheadline">{{ _('Nutzung des vorliegenden Angebotes der Hanse- und Universitätsstadt Rostock') }}</h4>
+    <p>{{ _('Die Nutzung des vorliegenden Angebotes der Hanse- und Universitätsstadt Rostock ist ohne Angabe personenbezogener Daten möglich.') }}</p>
+    <h4 class="static-page-subheadline">{{ _('Kontaktaufnahme mit der Hanse- und Universitätsstadt Rostock') }}</h4>
+    <p>{{ _('Bei einer Kontaktaufnahme mit der Hanse- und Universitätsstadt Rostock werden personenbezogene Daten (Name, Anschrift, Telefonnummer, E-Mail-Adresse etc.) nur intern und nur zu ihrem vorgesehenen Zweck gespeichert und verwendet. Sie unterliegen dem DSG M-V. Eine Weitergabe an Dritte erfolgt ausschließlich bei gesetzlicher oder durch Gerichtsentscheidung hervorgerufener Verpflichtung oder im Falle von Angriffen auf die Internetinfrastruktur der Hanse- und Universitätsstadt Rostock, soweit eine Rechts- oder Strafverfolgung dies erfordert. Eine Weitergabe zu kommerziellen oder anderen Zwecken erfolgt nicht.') }}</p>
+    <h4 class="static-page-subheadline">{{ _('Protokollierung') }}</h4>
+    <p>{{ _('Wenn Sie auf das vorliegende Angebot der Hanse- und Universitätsstadt Rostock zugreifen, werden keine Zugriffsdaten protokolliert.') }}</p>
+    <h4 class="static-page-subheadline">{{ _('Einsatz von Cookies') }}</h4>
+    <p>{{ _('Das vorliegende Angebot der Hanse- und Universitätsstadt Rostock verwendet keine Cookies.') }}</p>
+    <h4 class="static-page-subheadline">{{ _('Sicherheit') }}</h4>
+    <p>{{ _('Die Hanse- und Universitätsstadt Rostock setzt für das vorliegende Angebot technische und organisatorische Sicherheitsmaßnahmen ein, um gespeicherte und verwendete Daten gegen zufällige oder vorsätzliche Manipulation, Verlust, Zerstörung oder gegen den Zugriff unberechtigter Dritter zu schützen. Die Sicherheitsmaßnahmen werden entsprechend der technologischen Entwicklung fortlaufend verbessert.') }}</p>
+  </div>
+  {% include 'footer.html' %}
+{% endblock %}

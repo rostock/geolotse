@@ -1,3 +1,13 @@
+.external_links {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.filter-input {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
 .green {
   color: #00b748;
 }

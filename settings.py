@@ -1,24 +1,26 @@
 # -*- coding: utf-8 -*-
 
-# application title
+# application
 TITLE = u'Geolotse.HRO'
+REPOSITORY = 'https://github.com/rostock/geolotse'
+CONTACT = 'geodienste@rostock.de'
+META_AUTHOR = u'Hanse- und Universitätsstadt Rostock'
+META_DESCRIPTION = u'Einstiegsmöglichkeit in die Geodateninfrastruktur der Hanse- und Universitätsstadt Rostock und Schnittstelle aller Anwendungen mit Raumbezug des Kataster-, Vermessungs- und Liegenschaftsamtes der Hanse- und Universitätsstadt Rostock'
+META_KEYWORDS = u'Geodaten,Geodienste,Karte,Kataster,Liegenschaften,Rostock,Vermessung,Verwaltung'
 
-# i18n and l10n
+# i18n and l10n: language
 LANGUAGES = {
   'de': 'Deutsch',
   'en': 'English'
 }
 BABEL_DEFAULT_LOCALE = 'de'
+
+# i18n and l10n: dates and times
 DEFAULT_TIMEZONE = 'Europe/Berlin'
 BABEL_DEFAULT_TIMEZONE = DEFAULT_TIMEZONE
 
 # database
 SQLALCHEMY_TRACK_MODIFICATIONS = False
-
-# content for HTML meta elements
-META_AUTHOR = u'Hanse- und Universitätsstadt Rostock'
-META_DESCRIPTION = u'Einstiegsmöglichkeit in die Geodateninfrastruktur der Hanse- und Universitätsstadt Rostock und Schnittstelle aller Anwendungen mit Raumbezug des Kataster-, Vermessungs- und Liegenschaftsamtes der Hanse- und Universitätsstadt Rostock'
-META_KEYWORDS = u'Geodaten,Geodienste,Karte,Kataster,Liegenschaften,Rostock,Vermessung,Verwaltung'
 
 # redirection URLs for HTTP error codes
 REDIRECT_URL_400 = 'https://geo.sv.rostock.de/400.html'

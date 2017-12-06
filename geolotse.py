@@ -163,9 +163,33 @@ def catalog_without_lang_code():
 @app.route('/<lang_code>/catalog')
 def catalog():
   groups = Groups.query.order_by(Groups.order).all()
+  group_documentation = Groups.query.filter_by(name = 'documentation').first()
+  group_download = Groups.query.filter_by(name = 'download').first()
   group_external = Groups.query.filter_by(name = 'external').first()
+  group_geoservice = Groups.query.filter_by(name = 'geoservice').first()
+  documentation_links = Links.query.filter_by(group_id = group_documentation.id).order_by(Links.title).all()
+  download_links = Links.query.filter_by(group_id = group_download.id).order_by(Links.title).all()
   external_links = Links.query.filter_by(group_id = group_external.id).order_by(Links.title).all()
-  return render_template('catalog.html', subtitle = gettext(u'Katalog'), groups = groups, external_links = external_links)
+  external_tags = Tags.query.filter_by(group_id = group_external.id).order_by(Tags.title).all()
+  geoservice_links = Links.query.filter_by(group_id = group_geoservice.id).order_by(Links.title).all()
+  geoservice_tags = Tags.query.filter_by(group_id = group_geoservice.id).order_by(Tags.title).all()
+  return render_template('catalog.html', subtitle = gettext(u'Katalog'), groups = groups, external_links = external_links, documentation_links = documentation_links, download_links = download_links, external_tags = external_tags, geoservice_links = geoservice_links, geoservice_tags = geoservice_tags)
+
+@app.route('/imprint')
+def imprint_without_lang_code():
+  return redirect(url_for('imprint', lang_code = g.current_lang if g.current_lang else app.config['BABEL_DEFAULT_LOCALE']))
+
+@app.route('/<lang_code>/imprint')
+def imprint():
+  return render_template('imprint.html', subtitle = gettext(u'Impressum'))
+
+@app.route('/privacy_policy')
+def privacy_policy_without_lang_code():
+  return redirect(url_for('privacy_policy', lang_code = g.current_lang if g.current_lang else app.config['BABEL_DEFAULT_LOCALE']))
+
+@app.route('/<lang_code>/privacy_policy')
+def privacy_policy():
+  return render_template('privacy_policy.html', subtitle = gettext(u'Datenschutz'))
 
 @app.route('/situations')
 def situations_without_lang_code():
@@ -174,6 +198,14 @@ def situations_without_lang_code():
 @app.route('/<lang_code>/situations')
 def situations():
   return render_template('situations.html', subtitle = gettext(u'Lebenslagen'))
+
+@app.route('/terms_of_use')
+def terms_of_use_without_lang_code():
+  return redirect(url_for('terms_of_use', lang_code = g.current_lang if g.current_lang else app.config['BABEL_DEFAULT_LOCALE']))
+
+@app.route('/<lang_code>/terms_of_use')
+def terms_of_use():
+  return render_template('terms_of_use.html', subtitle = gettext(u'Nutzungsbedingungen'))
 
 @app.errorhandler(403)
 def error_403(error):

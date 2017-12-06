@@ -1,0 +1,14 @@
+<footer class="footer">
+  <div class="container-fluid">
+    <div class="text-center">
+      <a href="{{ config.REPOSITORY }}" target="_blank">{{ _('Code') }}</a> •
+      <a href="{{ url_for('privacy_policy', lang_code = g.current_lang) }}">{{ _('Datenschutz') }}</a> •
+      <a href="{{ url_for('imprint', lang_code = g.current_lang) }}">{{ _('Impressum') }}</a> •
+      <a href="mailto:{{ config.CONTACT }}">{{ _('Kontakt') }}</a> •
+      <a href="{{ url_for('terms_of_use', lang_code = g.current_lang) }}">{{ _('Nutzungsbedingungen') }}</a>
+    </div>
+    <div class="text-center small">
+      Fonts © 2009, <a href="https://www.paratype.com" target="_blank">ParaType</a> (<a target="_blank" href="{{ url_for('static', filename='styles/fonts/license.txt') }}">{{ _('Lizenz') }}</a>)
+    </div>
+  </div>
+</footer>

@@ -30,7 +30,112 @@
   src: url(fonts/PTS76F_W.ttf);
 }
 
+html {
+  position: relative;
+  min-height: 100%;
+}
+
 body {
   font-family: 'PT Sans', sans-serif;
+  margin-bottom: 60px;
   padding-top: 70px;
+}
+
+a,
+a:focus,
+a:hover,
+a:visited {
+  color: #006cb7;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #777;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-weight: bold;
+}
+
+.static-page-headline {
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+.static-page-subheadline {
+  margin-top: 15px;
+}
+
+nav {
+  background-color: #006cb7;
+  color: #fff;
+  border: 0;
+}
+
+nav a,
+nav a:focus,
+nav a:visited {
+  color: #fff;
+}
+
+nav a:hover {
+  color: #d9d9d9;
+}
+
+nav li > a,
+nav li > a:focus,
+nav li > a:visited {
+  background-color: #006cb7 !important;
+  color: #fff !important;
+}
+
+nav li > a:hover {
+  background-color: #006cb7 !important;
+  color: #d9d9d9 !important;
+}
+
+nav li.active > a,
+nav li.active > a:hover {
+  background-color: #008ced !important;
+  color: #fff !important;
+}
+
+.panel-info .panel-heading a:hover {
+  color: #fff;
+}
+
+.list-group {
+  margin-bottom: 0;
+}
+
+.panel-body > h5{
+  margin-top: 20px;
+}
+
+.panel-body > h5.first{
+  margin-top: 0;
+}
+
+footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 60px;
+  padding: 10px 0;
+  background-color: #006cb7;
+  color: #fff;
+}
+
+footer a,
+footer a:focus,
+footer a:visited {
+  color: #fff;
+}
+
+footer a:hover {
+  color: #d9d9d9;
 }

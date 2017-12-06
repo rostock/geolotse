@@ -3,57 +3,99 @@
 {% set active_page = 'catalog' %}
 
 {% block styles %}
-    {{ super() }}
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/catalog.css') }}" />
-{% endblock %}
-
-{% block content %}
-    {% include 'navbar.html' %}
-    <div class="container-fluid">
-        <div class="panel-group" id="accordion">
-            {% for group in groups %}
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a data-toggle="collapse" data-parent="#accordion" href="#collapse-{{ group.name }}">
-                                {% if group.name == 'api' %}
-                                    <span class="glyphicon glyphicon-dashboard" aria-hidden="true"></span> {{ _('API (Programmierschnittstellen)') }}
-                                {% elif group.name == 'application' %}
-                                    <span class="glyphicon glyphicon-phone" aria-hidden="true"></span> {{ _('Anwendungen') }}
-                                {% elif group.name == 'documentation' %}
-                                    <span class="glyphicon glyphicon-book" aria-hidden="true"></span> {{ _('Dokumentationen') }}
-                                {% elif group.name == 'download' %}
-                                    <span class="glyphicon glyphicon-download" aria-hidden="true"></span> {{ _('Downloads') }}
-                                {% elif group.name == 'external' %}
-                                    <span class="glyphicon glyphicon-link" aria-hidden="true"></span> {{ _('externe Links') }}
-                                {% elif group.name == 'geoservice' %}
-                                    <span class="glyphicon glyphicon-globe" aria-hidden="true"></span> {{ _('Geodatendienste') }}
-                                {% elif group.name == 'helper' %}
-                                    <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> {{ _('Tools') }}
-                                {% else %}
-                                    <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span> {{ group.name }}
-                                {% endif %}
-                            </a>
-                        </h4>
-                    </div>
-                    <div id="collapse-{{ group.name }}" class="panel-collapse collapse">
-                        <div class="panel-body">
-                            {% if group.name == 'external' %}
-                                {% for external_link in external_links %}
-                                    <span class="glyphicon glyphicon-{% if external_link.reachable == True %}ok-sign green{% else %}remove-sign red{% endif %}" aria-hidden="true" title="{{ _('letzte Prüfung auf Erreichbarkeit') }}: {{ external_link.reachable_last_check|datetime_l10n('light') }}"></span> <a href="{{ external_link.link }}" target="_blank">{{ external_link.title }}</a>
-                                    {{ external_link.tags[0].title }}
-                                    <br/>
-                                {% endfor %}
-                            {% endif %}
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
-        </div>
-    </div>
+  {{ super() }}
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/catalog.css') }}" />
 {% endblock %}
 
 {% block scripts %}
-    {{super()}}
-    <script src="{{url_for('static', filename='js/catalog.js')}}"></script>
+  {{super()}}
+  <script type="application/javascript" src="{{url_for('static', filename='js/catalog.js')}}"></script>
+{% endblock %}
+
+{% block content %}
+  {% include 'navbar.html' %}
+  <div class="container-fluid">
+    <div class="panel-group" id="accordion">
+      {% for group in groups %}
+        <div class="panel panel-info">
+          <div class="panel-heading">
+            <h4 class="panel-title">
+              <a data-toggle="collapse" data-parent="#accordion" href="#collapse-{{ group.name }}">
+                {% if group.name == 'api' %}
+                  <span class="glyphicon glyphicon-dashboard" aria-hidden="true"></span> {{ _('API (Programmierschnittstellen)') }}
+                {% elif group.name == 'application' %}
+                  <span class="glyphicon glyphicon-phone" aria-hidden="true"></span> {{ _('Anwendungen') }}
+                {% elif group.name == 'documentation' %}
+                  <span class="glyphicon glyphicon-book" aria-hidden="true"></span> {{ _('Dokumentationen') }}
+                {% elif group.name == 'download' %}
+                  <span class="glyphicon glyphicon-download" aria-hidden="true"></span> {{ _('Downloads') }}
+                {% elif group.name == 'external' %}
+                  <span class="glyphicon glyphicon-link" aria-hidden="true"></span> {{ _('externe Links') }}
+                {% elif group.name == 'geoservice' %}
+                  <span class="glyphicon glyphicon-globe" aria-hidden="true"></span> {{ _('Geodatendienste') }}
+                {% elif group.name == 'helper' %}
+                  <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> {{ _('Tools') }}
+                {% else %}
+                  <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span> {{ group.name }}
+                {% endif %}
+              </a>
+            </h4>
+          </div>
+          <div id="collapse-{{ group.name }}" class="panel-collapse collapse">
+            <div class="panel-body">
+              {% if group.name == 'documentation' %}
+                <div class="list-group">
+                  {% for documentation_link in documentation_links %}
+                    <a href="{{ documentation_link.link }}" target="_blank" class="list-group-item list-group-item-action">
+                      <span class="glyphicon glyphicon-{% if documentation_link.reachable == True %}ok-sign green{% else %}remove-sign red{% endif %}" aria-hidden="true" title="{{ _('letzte Prüfung auf Erreichbarkeit') }}: {{ documentation_link.reachable_last_check|datetime_l10n('full') }}"></span>
+                      <span class="glyphicon glyphicon-eye-{% if documentation_link.public == True %}open green{% else %}close red{% endif %}" aria-hidden="true" title="{% if documentation_link.public == True %}{{ _('öffentlich zugänglich') }}{% else %}{{ _('nicht öffentlich zugänglich') }}{% endif %}"></span>
+                      {{ documentation_link.title }}
+                    </a>
+                  {% endfor %}
+                </div>
+              {% endif %}
+              {% if group.name == 'download' %}
+                <div class="list-group">
+                  {% for download_link in download_links %}
+                    <a href="{{ download_link.link }}" target="_blank" class="list-group-item list-group-item-action">
+                      <span class="glyphicon glyphicon-{% if download_link.reachable == True %}ok-sign green{% else %}remove-sign red{% endif %}" aria-hidden="true" title="{{ _('letzte Prüfung auf Erreichbarkeit') }}: {{ download_link.reachable_last_check|datetime_l10n('full') }}"></span>
+                      <span class="glyphicon glyphicon-eye-{% if download_link.public == True %}open green{% else %}close red{% endif %}" aria-hidden="true" title="{% if download_link.public == True %}{{ _('öffentlich zugänglich') }}{% else %}{{ _('nicht öffentlich zugänglich') }}{% endif %}"></span>
+                      {{ download_link.title }}
+                    </a>
+                  {% endfor %}
+                </div>
+              {% endif %}
+              {% if group.name == 'external' %}
+                <input class="filter-input" id="external-filter-input" placeholder="{{ _('Listeninhalte filtern') }}…" type="text" />
+                {% for external_tag in external_tags %}
+                  <h5{% if loop.first %} class="first"{% endif %}>{{ external_tag.title }}</h5>
+                  <div class="external-list-group">
+                    {% for external_link in external_links %}
+                      {% if external_link.tags[0].id == external_tag.id %}
+                        <a href="{{ external_link.link }}" target="_blank" class="list-group-item list-group-item-action">
+                          <span class="glyphicon glyphicon-{% if external_link.reachable == True %}ok-sign green{% else %}remove-sign red{% endif %}" aria-hidden="true" title="{{ _('letzte Prüfung auf Erreichbarkeit') }}: {{ external_link.reachable_last_check|datetime_l10n('full') }}"></span>
+                          <span class="glyphicon glyphicon-eye-{% if external_link.public == True %}open green{% else %}close red{% endif %}" aria-hidden="true" title="{% if external_link.public == True %}{{ _('öffentlich zugänglich') }}{% else %}{{ _('nicht öffentlich zugänglich') }}{% endif %}"></span>
+                          {{ external_link.title }}
+                        </a>
+                      {% endif %}
+                    {% endfor %}
+                  </div>
+                {% endfor %}
+              {% endif %}
+              {% if group.name == 'geoservice' %}
+                <div id="geoservice-checkboxes">
+                {% for geoservice_tag in geoservice_tags %}
+                  <label class="checkbox-inline">
+                    <input type="checkbox" id="geoservice-checkbox-{{ geoservice_tag.id }}" value="{{ geoservice_tag.id }}" checked="checked" /> {{ geoservice_tag.title }}
+                  </label>
+                {% endfor %}
+                </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% include 'footer.html' %}
 {% endblock %}

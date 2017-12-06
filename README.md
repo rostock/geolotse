@@ -2,7 +2,9 @@
 
 A landing page for organisations wanting to connect and integrate their various geodata, geodata services and geospatial applications
 
-python -m flask db init
+!!! python -m flask db init
+
+!!! only 1 tag per external link in db because only 1 (= first) will be used
 
 # Create an ad-hoc table to use for the insert statement.
 groups_table = sa.table('groups',
