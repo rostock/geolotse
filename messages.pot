@@ -1,12 +1,40 @@
-#: geolotse.py:137 templates/index.html:23
+#: geolotse.py:160 templates/index.html:24
 msgid "Katalog"
 msgstr ""
 
-#: geolotse.py:145 templates/index.html:24
+#: geolotse.py:168 templates/index.html:25
 msgid "Lebenslagen"
 msgstr ""
 
-#: templates/situations.html:5
-msgid "zurück"
+#: templates/catalog.html:20
+msgid "API (Programmierschnittstellen)"
+msgstr ""
+
+#: templates/catalog.html:22
+msgid "Anwendungen"
+msgstr ""
+
+#: templates/catalog.html:24
+msgid "Dokumentationen"
+msgstr ""
+
+#: templates/catalog.html:26
+msgid "Downloads"
+msgstr ""
+
+#: templates/catalog.html:28
+msgid "externe Links"
+msgstr ""
+
+#: templates/catalog.html:30
+msgid "Geodatendienste"
+msgstr ""
+
+#: templates/catalog.html:32
+msgid "Tools"
+msgstr ""
+
+#: templates/catalog.html:43
+msgid "letzte Prüfung auf Erreichbarkeit"
 msgstr ""
 

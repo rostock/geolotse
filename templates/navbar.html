@@ -1,0 +1,25 @@
+{% set navbar_right = [
+  ('catalog', 'Katalog'),
+  ('situations', 'Lebenslagen')
+] %}
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="{{ url_for('index', lang_code = g.current_lang) }}">{{ config.TITLE }}</a>
+        </div>
+        <div class="collapse navbar-collapse" id="main-navbar">
+            <ul class="nav navbar-nav navbar-right">
+                {% for url, title in navbar_right %}
+                    <li{% if url == active_page %} class="active"{% endif %}>
+                        <a{% if url == active_page %} href="#"{% else %} href="{{ url_for(url, lang_code = g.current_lang) }}"{% endif %}><span class="glyphicon glyphicon-{% if url == 'catalog' %}list{% elif url == 'situations' %}map-marker{% else %}question-sign{% endif %}" aria-hidden="true"></span> {{ _(title|e) }}</a>
+                    </li>
+                {% endfor %}
+        </div>
+    </div>
+</nav>

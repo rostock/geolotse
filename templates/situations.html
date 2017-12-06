@@ -1,6 +1,7 @@
 {% extends 'index.html' %}
 
+{% set active_page = 'situations' %}
+
 {% block content %}
-    <h1>{{ subtitle }}</h1>
-    <a href="{{ url_for('index', lang_code = g.current_lang) }}">{{ _('zurück') }}</a>
+    {% include 'navbar.html' %}
 {% endblock %}

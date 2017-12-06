@@ -1,56 +1,47 @@
 {% extends 'index.html' %}
 
+{% set active_page = 'catalog' %}
+
+{% block styles %}
+    {{ super() }}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/catalog.css') }}" />
+{% endblock %}
+
 {% block content %}
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#MainNavBar">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="{{ url_for('index', lang_code = g.current_lang) }}">{{ config.TITLE }}</a>
-            </div>
-            <div class="collapse navbar-collapse" id="MainNavBar">
-                <ul class="nav navbar-nav navbar-right">
-                    <li class="active"><a href="#">Katalog</a></li>
-                    <li><a href="{{ url_for('situations', lang_code = g.current_lang) }}">{{ _('Lebenslagen') }}</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+    {% include 'navbar.html' %}
     <div class="container-fluid">
         <div class="panel-group" id="accordion">
-            {% for link_group in link_groups %}
+            {% for group in groups %}
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4 class="panel-title">
-                            <a data-toggle="collapse" data-parent="#accordion" href="#collapse-{{ link_group.name }}">
-                            {% if link_group.name == 'api' %}
-                                {{ _('API (Programmierschnittstellen)') }}
-                            {% elif link_group.name == 'application' %}
-                                {{ _('Anwendungen') }}
-                            {% elif link_group.name == 'documentation' %}
-                                {{ _('Dokumentationen') }}
-                            {% elif link_group.name == 'download' %}
-                                {{ _('Download') }}
-                            {% elif link_group.name == 'external' %}
-                                {{ _('externe Links') }}
-                            {% elif link_group.name == 'geoservice' %}
-                                {{ _('Geodatendienste') }}
-                            {% elif link_group.name == 'helper' %}
-                                {{ _('Tools') }}
-                            {% else %}
-                                {{ link_group.name }}
-                            {% endif %}
+                            <a data-toggle="collapse" data-parent="#accordion" href="#collapse-{{ group.name }}">
+                                {% if group.name == 'api' %}
+                                    <span class="glyphicon glyphicon-dashboard" aria-hidden="true"></span> {{ _('API (Programmierschnittstellen)') }}
+                                {% elif group.name == 'application' %}
+                                    <span class="glyphicon glyphicon-phone" aria-hidden="true"></span> {{ _('Anwendungen') }}
+                                {% elif group.name == 'documentation' %}
+                                    <span class="glyphicon glyphicon-book" aria-hidden="true"></span> {{ _('Dokumentationen') }}
+                                {% elif group.name == 'download' %}
+                                    <span class="glyphicon glyphicon-download" aria-hidden="true"></span> {{ _('Downloads') }}
+                                {% elif group.name == 'external' %}
+                                    <span class="glyphicon glyphicon-link" aria-hidden="true"></span> {{ _('externe Links') }}
+                                {% elif group.name == 'geoservice' %}
+                                    <span class="glyphicon glyphicon-globe" aria-hidden="true"></span> {{ _('Geodatendienste') }}
+                                {% elif group.name == 'helper' %}
+                                    <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> {{ _('Tools') }}
+                                {% else %}
+                                    <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span> {{ group.name }}
+                                {% endif %}
                             </a>
                         </h4>
                     </div>
-                    <div id="collapse-{{ link_group.name }}" class="panel-collapse collapse">
+                    <div id="collapse-{{ group.name }}" class="panel-collapse collapse">
                         <div class="panel-body">
-                            {% if link_group.name == 'external' %}
-                                {% for external in externals %}
-                                    <a href="{{ external.link }}" target="_blank">{{ external.title }}</a>
+                            {% if group.name == 'external' %}
+                                {% for external_link in external_links %}
+                                    <span class="glyphicon glyphicon-{% if external_link.reachable == True %}ok-sign green{% else %}remove-sign red{% endif %}" aria-hidden="true" title="{{ _('letzte Prüfung auf Erreichbarkeit') }}: {{ external_link.reachable_last_check|datetime_l10n('light') }}"></span> <a href="{{ external_link.link }}" target="_blank">{{ external_link.title }}</a>
+                                    {{ external_link.tags[0].title }}
                                     <br/>
                                 {% endfor %}
                             {% endif %}
@@ -60,4 +51,9 @@
             {% endfor %}
         </div>
     </div>
+{% endblock %}
+
+{% block scripts %}
+    {{super()}}
+    <script src="{{url_for('static', filename='js/catalog.js')}}"></script>
 {% endblock %}

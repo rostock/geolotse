@@ -1,5 +1,5 @@
 from flask import Flask, abort, g, redirect, render_template, request, url_for
-from flask_babel import Babel, gettext
+from flask_babel import Babel, format_datetime, gettext
 from flask_bootstrap import Bootstrap
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
@@ -40,35 +40,41 @@ situations_tags = db.Table(
   db.Column('tag_id', db.Integer, db.ForeignKey('tags.id'), primary_key = True)
 )
 
-class Link_Groups(db.Model):
-  __tablename__ = 'link_groups'
+class Groups(db.Model):
+  __tablename__ = 'groups'
   
   id = db.Column(db.Integer, primary_key = True)
   name = db.Column(db.String(255), unique = True, nullable = False)
+  order = db.Column(db.SmallInteger, unique = True, nullable = False)
   
-  def __init__(self, name):
+  def __init__(self, name, order):
     self.name = name
+    self.order = order
   
   def __repr__(self):
-    return '<link_groups id {}>'.format(self.id)
+    return '<groups id {}>'.format(self.id)
 
 class Links(db.Model):
   __tablename__ = 'links'
   
   id = db.Column(db.Integer, primary_key = True)
-  group_id = db.Column(db.Integer, db.ForeignKey('link_groups.id'), nullable = False)
+  group_id = db.Column(db.Integer, db.ForeignKey('groups.id'), nullable = False)
   title = db.Column(db.String(255), nullable = False)
   link = db.Column(db.String(255), nullable = False)
   public = db.Column(db.Boolean, nullable = False)
+  reachable = db.Column(db.Boolean, nullable = False)
+  reachable_last_check = db.Column(db.DateTime(timezone = True), nullable = False)
   
-  group = db.relationship('Link_Groups', backref = db.backref('links', lazy = False))
+  group = db.relationship('Groups', backref = db.backref('links', lazy = False))
   tags = db.relationship('Tags', secondary = links_tags, lazy = 'subquery', backref = db.backref('links', lazy = True))
   
-  def __init__(self, group_id, title, link, public):
+  def __init__(self, group_id, title, link, public, reachable, reachable_last_check):
     self.group_id = group_id
     self.title = title
     self.link = link
     self.public = public
+    self.reachable = reachable
+    self.reachable_last_check = reachable_last_check
   
   def __repr__(self):
     return '<links id {}>'.format(self.id)
@@ -93,10 +99,14 @@ class Tags(db.Model):
   __tablename__ = 'tags'
   
   id = db.Column(db.Integer, primary_key = True)
+  group_id = db.Column(db.Integer, db.ForeignKey('groups.id'), nullable = False)
   title = db.Column(db.String(255), unique = True, nullable = False)
   auto = db.Column(db.Boolean, nullable = False)
   
-  def __init__(self, title, auto):
+  group = db.relationship('Groups', backref = db.backref('tags', lazy = False))
+  
+  def __init__(self, group_id, title, auto):
+    self.group_id = group_id
     self.title = title
     self.auto = auto
   
@@ -104,7 +114,7 @@ class Tags(db.Model):
     return '<tags id {}>'.format(self.id)
 
 
-# i18n and l10n
+# i18n and l10n: language
 @babel.localeselector
 def get_locale():
   return g.get('current_lang', app.config['BABEL_DEFAULT_LOCALE'])
@@ -118,6 +128,23 @@ def before():
     request.view_args.pop('lang_code')
   else:
     g.current_lang = request.accept_languages.best_match(app.config['LANGUAGES'].keys())
+
+
+# i18n and l10n: dates and times
+def datetime_l10n(value, format = 'full'):
+  if g.current_lang and g.current_lang == app.config['BABEL_DEFAULT_LOCALE']:
+    if format == 'full':
+      format = "EEEE, dd.MM.yyyy, HH:mm 'Uhr'"
+    elif format == 'light':
+      format = "dd.MM.yyyy, HH:mm"
+  else:
+    if format == 'full':
+      format = "full"
+    elif format == 'light':
+      format = "short"
+  return format_datetime(value, format)
+
+app.jinja_env.filters['datetime_l10n'] = datetime_l10n
 
 
 # routing and custom error handling
@@ -135,10 +162,10 @@ def catalog_without_lang_code():
 
 @app.route('/<lang_code>/catalog')
 def catalog():
-  link_groups = Link_Groups.query.order_by(Link_Groups.id).all()
-  link_group_external = Link_Groups.query.filter_by(name = 'external').first()
-  externals = Links.query.filter_by(group_id = link_group_external.id).order_by(Links.title).all()
-  return render_template('catalog.html', subtitle = gettext(u'Katalog'), link_groups = link_groups, externals = externals)
+  groups = Groups.query.order_by(Groups.order).all()
+  group_external = Groups.query.filter_by(name = 'external').first()
+  external_links = Links.query.filter_by(group_id = group_external.id).order_by(Links.title).all()
+  return render_template('catalog.html', subtitle = gettext(u'Katalog'), groups = groups, external_links = external_links)
 
 @app.route('/situations')
 def situations_without_lang_code():

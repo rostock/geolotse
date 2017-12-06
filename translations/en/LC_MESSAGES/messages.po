@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: sebastian.gutzeit@rostock.de\n"
-"POT-Creation-Date: 2017-12-04 13:10+0100\n"
+"POT-Creation-Date: 2017-12-05 16:04+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Sebastian Gutzeit <sebastian.gutzeit@rostock.de>\n"
 "Language: en\n"
@@ -19,15 +19,43 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.5.1\n"
 
-#: geolotse.py:137 templates/index.html:23
+#: geolotse.py:160 templates/index.html:24
 msgid "Katalog"
 msgstr "Catalog"
 
-#: geolotse.py:145 templates/index.html:24
+#: geolotse.py:168 templates/index.html:25
 msgid "Lebenslagen"
 msgstr "Situations"
 
-#: templates/situations.html:5
-msgid "zurück"
-msgstr "back"
+#: templates/catalog.html:20
+msgid "API (Programmierschnittstellen)"
+msgstr "API (Application programming interfaces)"
+
+#: templates/catalog.html:22
+msgid "Anwendungen"
+msgstr "Applications"
+
+#: templates/catalog.html:24
+msgid "Dokumentationen"
+msgstr "Documentations"
+
+#: templates/catalog.html:26
+msgid "Downloads"
+msgstr "Downloads"
+
+#: templates/catalog.html:28
+msgid "externe Links"
+msgstr "External links"
+
+#: templates/catalog.html:30
+msgid "Geodatendienste"
+msgstr "Geo services"
+
+#: templates/catalog.html:32
+msgid "Tools"
+msgstr "Helpers"
+
+#: templates/catalog.html:43
+msgid "letzte Prüfung auf Erreichbarkeit"
+msgstr "last availability check"
 
