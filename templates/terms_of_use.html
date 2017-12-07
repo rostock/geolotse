@@ -1,10 +1,15 @@
 {% extends 'index.html' %}
 
+{% block styles %}
+  {{ super() }}
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/static-page.css') }}" />
+{% endblock %}
+
 {% block content %}
   {% include 'navbar.html' %}
   <div class="container-fluid">
-    <h3 class="static-page-headline">{{ subtitle }}</h3>
-    <h4 class="static-page-subheadline">{{ _('Nutzung der Inhalte der Hanse- und Universitätsstadt Rostock') }}</h4>
+    <h3 class="headline">{{ subtitle }}</h3>
+    <h4 class="subheadline">{{ _('Nutzung der Inhalte der Hanse- und Universitätsstadt Rostock') }}</h4>
     <p>{{ _('Die von der Hanse- und Universitätsstadt Rostock angebotenen und in ihrem Eigentum befindlichen Inhalte unterliegen der gemeinfreien Lizenz') }} <a href="https://creativecommons.org/publicdomain/zero/1.0" target="_blank">Creative Commons Zero Universal 1.0 Public Domain Dedication</a> {{ _('(CC0 1.0). Damit ist alles gestattet, ohne um weitere Erlaubnis bitten zu müssen.') }}</p>
   </div>
   {% include 'footer.html' %}

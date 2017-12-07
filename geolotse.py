@@ -64,17 +64,20 @@ class Links(db.Model):
   public = db.Column(db.Boolean, nullable = False)
   reachable = db.Column(db.Boolean, nullable = False)
   reachable_last_check = db.Column(db.DateTime(timezone = True), nullable = False)
+  parent_id = db.Column(db.Integer, db.ForeignKey('links.id'), nullable = False)
   
   group = db.relationship('Groups', backref = db.backref('links', lazy = False))
   tags = db.relationship('Tags', secondary = links_tags, lazy = 'subquery', backref = db.backref('links', lazy = True))
+  parent = db.relationship('Links', backref = db.backref('links', lazy = False), remote_side = id)
   
-  def __init__(self, group_id, title, link, public, reachable, reachable_last_check):
+  def __init__(self, group_id, title, link, public, reachable, reachable_last_check, parent_id):
     self.group_id = group_id
     self.title = title
     self.link = link
     self.public = public
     self.reachable = reachable
     self.reachable_last_check = reachable_last_check
+    self.parent_id = parent_id
   
   def __repr__(self):
     return '<links id {}>'.format(self.id)
@@ -102,6 +105,7 @@ class Tags(db.Model):
   group_id = db.Column(db.Integer, db.ForeignKey('groups.id'), nullable = False)
   title = db.Column(db.String(255), unique = True, nullable = False)
   auto = db.Column(db.Boolean, nullable = False)
+  typifier = db.Column(db.Boolean, nullable = False)
   
   group = db.relationship('Groups', backref = db.backref('tags', lazy = False))
   
@@ -109,6 +113,7 @@ class Tags(db.Model):
     self.group_id = group_id
     self.title = title
     self.auto = auto
+    self.typifier = typifier
   
   def __repr__(self):
     return '<tags id {}>'.format(self.id)
@@ -147,7 +152,31 @@ def datetime_l10n(value, format = 'full'):
 app.jinja_env.filters['datetime_l10n'] = datetime_l10n
 
 
-# routing and custom error handling
+# database functions
+def get_link_children(parent_id, with_parent = True):
+  return Links.query.filter_by(parent_id = parent_id).all() if with_parent == True else Links.query.filter(Links.parent_id == parent_id, Links.id != parent_id).all()
+  
+def get_link_children_typifier_tags(parent_id, with_parent_tags = True):
+  list = []
+  links = Links.query.filter_by(parent_id = parent_id).all() if with_parent_tags == True else Links.query.filter(Links.parent_id == parent_id, Links.id != parent_id).all()
+  for link in links:
+    for tag in link.tags:
+      tag.typifier == True and list.append(tag.title)
+  list.sort()
+  return tuple(list)
+
+def get_link_typifier_tag(id, only_title = True):
+  link = Links.query.filter_by(id = id).first()
+  for tag in link.tags:
+    if tag.typifier == True:
+      return tag.title if only_title == True else tag
+
+app.jinja_env.filters['get_link_children'] = get_link_children
+app.jinja_env.filters['get_link_children_typifier_tags'] = get_link_children_typifier_tags
+app.jinja_env.filters['get_link_typifier_tag'] = get_link_typifier_tag
+
+
+# routing, database and custom error handling
 @app.route('/')
 def index_without_lang_code():
   return redirect(url_for('index', lang_code = g.current_lang if g.current_lang else app.config['BABEL_DEFAULT_LOCALE']))
@@ -162,17 +191,17 @@ def catalog_without_lang_code():
 
 @app.route('/<lang_code>/catalog')
 def catalog():
-  groups = Groups.query.order_by(Groups.order).all()
-  group_documentation = Groups.query.filter_by(name = 'documentation').first()
-  group_download = Groups.query.filter_by(name = 'download').first()
-  group_external = Groups.query.filter_by(name = 'external').first()
-  group_geoservice = Groups.query.filter_by(name = 'geoservice').first()
+  groups = Groups.query.with_entities(Groups.name).order_by(Groups.order).all()
+  group_documentation = Groups.query.with_entities(Groups.id).filter_by(name = 'documentation').first()
+  group_download = Groups.query.with_entities(Groups.id).filter_by(name = 'download').first()
+  group_external = Groups.query.with_entities(Groups.id).filter_by(name = 'external').first()
+  group_geoservice = Groups.query.with_entities(Groups.id).filter_by(name = 'geoservice').first()
   documentation_links = Links.query.filter_by(group_id = group_documentation.id).order_by(Links.title).all()
   download_links = Links.query.filter_by(group_id = group_download.id).order_by(Links.title).all()
   external_links = Links.query.filter_by(group_id = group_external.id).order_by(Links.title).all()
   external_tags = Tags.query.filter_by(group_id = group_external.id).order_by(Tags.title).all()
   geoservice_links = Links.query.filter_by(group_id = group_geoservice.id).order_by(Links.title).all()
-  geoservice_tags = Tags.query.filter_by(group_id = group_geoservice.id).order_by(Tags.title).all()
+  geoservice_tags = Tags.query.filter(Tags.group_id == group_geoservice.id, Tags.typifier == True).order_by(Tags.title).all()
   return render_template('catalog.html', subtitle = gettext(u'Katalog'), groups = groups, external_links = external_links, documentation_links = documentation_links, download_links = download_links, external_tags = external_tags, geoservice_links = geoservice_links, geoservice_tags = geoservice_tags)
 
 @app.route('/imprint')

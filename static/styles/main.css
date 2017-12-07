@@ -45,8 +45,16 @@ a,
 a:focus,
 a:hover,
 a:visited {
-  color: #006cb7;
   text-decoration: none;
+}
+
+a,
+a:focus,
+a:visited,
+:not(a[data-toggle="collapse"]),
+:not(a[data-toggle="collapse"]:focus),
+:not(a[data-toggle="collapse"]:visited) {
+  color: #006cb7;
 }
 
 a:hover {
@@ -61,13 +69,9 @@ h5 {
   font-weight: bold;
 }
 
-.static-page-headline {
-  margin-top: 0;
-  margin-bottom: 20px;
-}
-
-.static-page-subheadline {
-  margin-top: 15px;
+span.full-width {
+  display: block;
+  width: 100%;
 }
 
 nav {
@@ -102,22 +106,6 @@ nav li.active > a,
 nav li.active > a:hover {
   background-color: #008ced !important;
   color: #fff !important;
-}
-
-.panel-info .panel-heading a:hover {
-  color: #fff;
-}
-
-.list-group {
-  margin-bottom: 0;
-}
-
-.panel-body > h5{
-  margin-top: 20px;
-}
-
-.panel-body > h5.first{
-  margin-top: 0;
 }
 
 footer {

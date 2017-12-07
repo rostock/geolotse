@@ -1,3 +1,7 @@
+.checkboxes {
+  margin-bottom: 10px;
+}
+
 .external_links {
   display: block;
   margin-bottom: 5px;
@@ -12,6 +16,26 @@
   color: #00b748;
 }
 
+.list-group {
+  margin-bottom: 0;
+}
+
+.panel-body > h5{
+  margin-top: 25px;
+}
+
+.panel-body > h5.first{
+  margin-top: 0;
+}
+
+.panel-info .panel-heading a:hover {
+  color: #fff;
+}
+
 .red {
   color: #d81920;
+}
+
+#geoservice-accordion h4 > a {
+  font-weight: normal;
 }

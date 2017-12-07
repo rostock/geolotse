@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 81284d52ba53
+Revision ID: 7d078a134dad
 Revises: 
-Create Date: 2017-12-06 09:46:21.204795
+Create Date: 2017-12-07 11:03:42.354798
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '81284d52ba53'
+revision = '7d078a134dad'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -41,7 +41,9 @@ def upgrade():
     sa.Column('public', sa.Boolean(), nullable=False),
     sa.Column('reachable', sa.Boolean(), nullable=False),
     sa.Column('reachable_last_check', sa.DateTime(timezone=True), nullable=False),
+    sa.Column('parent_id', sa.Integer(), nullable=False),
     sa.ForeignKeyConstraint(['group_id'], ['groups.id'], ),
+    sa.ForeignKeyConstraint(['parent_id'], ['links.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('tags',
@@ -67,12 +69,13 @@ def upgrade():
     sa.ForeignKeyConstraint(['tag_id'], ['tags.id'], ),
     sa.PrimaryKeyConstraint('situation_id', 'tag_id')
     )
-    # Create an ad-hoc table to use for the insert statement.
+    # ad-hoc table for the insert statement
     groups_table = sa.table('groups',
     sa.Column('id', sa.Integer()),
     sa.Column('name', sa.String(length=255)),
     sa.Column('order', sa.SmallInteger)
     )
+    # insert statement
     op.bulk_insert(groups_table, [
         { 'name': 'api', 'order': 3 },
         { 'name': 'application', 'order': 1 },
