@@ -1,20 +1,20 @@
-#: geolotse.py:176
+#: geolotse.py:247
 msgid "Katalog"
 msgstr ""
 
-#: geolotse.py:184 templates/footer.html:6
+#: geolotse.py:255 templates/footer.html:6
 msgid "Impressum"
 msgstr ""
 
-#: geolotse.py:192 templates/footer.html:5
+#: geolotse.py:263 templates/footer.html:5
 msgid "Datenschutz"
 msgstr ""
 
-#: geolotse.py:200
+#: geolotse.py:271
 msgid "Lebenslagen"
 msgstr ""
 
-#: geolotse.py:208 templates/footer.html:8
+#: geolotse.py:279 templates/footer.html:8
 msgid "Nutzungsbedingungen"
 msgstr ""
 
@@ -47,92 +47,133 @@ msgid "Tools"
 msgstr ""
 
 #: templates/catalog.html:50 templates/catalog.html:61
-#: templates/catalog.html:76
+#: templates/catalog.html:76 templates/catalog.html:136
 msgid "letzte Prüfung auf Erreichbarkeit"
 msgstr ""
 
 #: templates/catalog.html:51 templates/catalog.html:62
-#: templates/catalog.html:77
+#: templates/catalog.html:77 templates/catalog.html:137
 msgid "öffentlich zugänglich"
 msgstr ""
 
 #: templates/catalog.html:51 templates/catalog.html:62
-#: templates/catalog.html:77
+#: templates/catalog.html:77 templates/catalog.html:137
 msgid "nicht öffentlich zugänglich"
 msgstr ""
 
-#: templates/catalog.html:69
+#: templates/catalog.html:69 templates/catalog.html:93
 msgid "Listeninhalte filtern"
+msgstr ""
+
+#: templates/catalog.html:112
+msgid "Schlagworte/Tags/Keywords"
+msgstr ""
+
+#: templates/catalog.html:123
+msgid "Annex-Thema"
+msgstr ""
+
+#: templates/catalog.html:126
+msgid "Beschreibung"
+msgstr ""
+
+#: templates/catalog.html:129
+msgid "Metadaten"
+msgstr ""
+
+#: templates/catalog.html:134 templates/catalog.html:163
+msgid "Link"
+msgstr ""
+
+#: templates/catalog.html:143
+msgid "Datenquelle"
+msgstr ""
+
+#: templates/catalog.html:145
+msgid "Stand"
+msgstr ""
+
+#: templates/catalog.html:149
+msgid "Autor"
+msgid_plural "Autoren"
+msgstr[0] ""
+msgstr[1] ""
+
+#: templates/catalog.html:154 templates/footer.html:7 templates/imprint.html:57
+msgid "Kontakt"
+msgstr ""
+
+#: templates/catalog.html:165
+msgid ""
+"Link zu OpenData.HRO, dem Open-Data-Portal der Hanse- und "
+"Universitätsstadt Rostock"
 msgstr ""
 
 #: templates/footer.html:4
 msgid "Code"
 msgstr ""
 
-#: templates/footer.html:7 templates/imprint.html:65
-msgid "Kontakt"
-msgstr ""
-
 #: templates/footer.html:11
 msgid "Lizenz"
 msgstr ""
 
-#: templates/imprint.html:7
+#: templates/imprint.html:12
 msgid "Herausgeberin"
 msgstr ""
 
-#: templates/imprint.html:8 templates/imprint.html:24 templates/imprint.html:40
+#: templates/imprint.html:14 templates/imprint.html:26
+#: templates/imprint.html:37
 msgid "Hanse- und Universitätsstadt Rostock"
 msgstr ""
 
-#: templates/imprint.html:10 templates/imprint.html:26
+#: templates/imprint.html:15 templates/imprint.html:27
 msgid "Büro des Oberbürgermeisters"
 msgstr ""
 
-#: templates/imprint.html:12
+#: templates/imprint.html:16
 msgid "Presse- und Informationsstelle"
 msgstr ""
 
-#: templates/imprint.html:16 templates/imprint.html:34
-#: templates/imprint.html:48
+#: templates/imprint.html:18 templates/imprint.html:31
+#: templates/imprint.html:41
 msgid "Telefon"
 msgstr ""
 
-#: templates/imprint.html:18 templates/imprint.html:36
-#: templates/imprint.html:50
+#: templates/imprint.html:19 templates/imprint.html:32
+#: templates/imprint.html:42
 msgid "Telefax"
 msgstr ""
 
-#: templates/imprint.html:20 templates/imprint.html:38
-#: templates/imprint.html:52
+#: templates/imprint.html:20 templates/imprint.html:33
+#: templates/imprint.html:43
 msgid "E-Mail"
 msgstr ""
 
-#: templates/imprint.html:21
+#: templates/imprint.html:22
 msgid "Umsatzsteuer-Identifikationsnummer gemäß § 27a Umsatzsteuergesetz"
 msgstr ""
 
-#: templates/imprint.html:23
+#: templates/imprint.html:24
 msgid "Verantwortung gemäß § 7 Abs. 1 Telemediengesetz"
 msgstr ""
 
-#: templates/imprint.html:30
+#: templates/imprint.html:29
 msgid "Pressesprecher Presse- und Informationsstelle"
 msgstr ""
 
-#: templates/imprint.html:39
+#: templates/imprint.html:35
 msgid "Konzept, Betreuung und technische Realisierung"
 msgstr ""
 
-#: templates/imprint.html:42
+#: templates/imprint.html:38
 msgid "Kataster-, Vermessungs- und Liegenschaftsamt"
 msgstr ""
 
-#: templates/imprint.html:53
+#: templates/imprint.html:45
 msgid "Haftung für angebotene Inhalte"
 msgstr ""
 
-#: templates/imprint.html:54
+#: templates/imprint.html:46
 msgid ""
 "Trotz sorgfältigen Recherchen und Prüfungen übernimmt die Hanse- und "
 "Universitätsstadt Rostock für die Richtigkeit, Vollständigkeit und "
@@ -153,11 +194,11 @@ msgid ""
 "Kenntnis einer konkreten Rechtsverletzung."
 msgstr ""
 
-#: templates/imprint.html:55
+#: templates/imprint.html:47
 msgid "Haftung für externe Links"
 msgstr ""
 
-#: templates/imprint.html:56
+#: templates/imprint.html:48
 msgid ""
 "Für die von Dritten angebotenen fremden Inhalte, auf die mittels externer"
 " Links verwiesen ist, übernimmt die Hanse- und Universitätsstadt Rostock "
@@ -173,27 +214,27 @@ msgid ""
 " externen Links umgehend entfernen."
 msgstr ""
 
-#: templates/imprint.html:57
+#: templates/imprint.html:49
 msgid "Urheberrecht"
 msgstr ""
 
-#: templates/imprint.html:58 templates/terms_of_use.html:8
+#: templates/imprint.html:50 templates/terms_of_use.html:13
 msgid ""
 "Die von der Hanse- und Universitätsstadt Rostock angebotenen und in ihrem"
 " Eigentum befindlichen Inhalte unterliegen der gemeinfreien Lizenz"
 msgstr ""
 
-#: templates/imprint.html:58 templates/terms_of_use.html:8
+#: templates/imprint.html:50 templates/terms_of_use.html:13
 msgid ""
 "(CC0 1.0). Damit ist alles gestattet, ohne um weitere Erlaubnis bitten zu"
 " müssen."
 msgstr ""
 
-#: templates/imprint.html:59
+#: templates/imprint.html:51
 msgid "Verweise auf angebotene Inhalte"
 msgstr ""
 
-#: templates/imprint.html:60
+#: templates/imprint.html:52
 msgid ""
 "Verweise auf die angebotenen Inhalte durch externe Angebote Dritter sind "
 "ausdrücklich erwünscht. Hingegen sind Verweise durch Angebote natürlicher"
@@ -202,11 +243,11 @@ msgid ""
 "Artikeln mit sittenwidrigem Inhalt betreiben, nicht zulässig."
 msgstr ""
 
-#: templates/imprint.html:61
+#: templates/imprint.html:53
 msgid "Barrierefreiheit"
 msgstr ""
 
-#: templates/imprint.html:62
+#: templates/imprint.html:54
 msgid ""
 "Die Hanse- und Universitätsstadt Rostock verpflichtet sich in ihren "
 "Leitlinien zur Stadtentwicklung die zum 26. März 2009 in Deutschland in "
@@ -222,11 +263,11 @@ msgid ""
 " Wide Web Consortiums (W3C)."
 msgstr ""
 
-#: templates/imprint.html:63
+#: templates/imprint.html:55
 msgid "Nutzung der Kontaktdaten"
 msgstr ""
 
-#: templates/imprint.html:64
+#: templates/imprint.html:56
 msgid ""
 "Der unverlangten Nutzung der in diesem Impressum veröffentlichten "
 "Kontaktdaten der Hanse- und Universitätsstadt Rostock durch Dritte, "
@@ -237,29 +278,29 @@ msgid ""
 "Informationsmaterialien vor."
 msgstr ""
 
-#: templates/imprint.html:66
+#: templates/imprint.html:59
 msgid ""
 "Kommentare, Anregungen und Kritik zu dem vorliegenden Angebot der Hanse- "
 "und Universitätsstadt Rostock richten Sie bitte an:"
 msgstr ""
 
-#: templates/privacy_policy.html:7
+#: templates/privacy_policy.html:12
 msgid ""
 "Nutzung des vorliegenden Angebotes der Hanse- und Universitätsstadt "
 "Rostock"
 msgstr ""
 
-#: templates/privacy_policy.html:8
+#: templates/privacy_policy.html:13
 msgid ""
 "Die Nutzung des vorliegenden Angebotes der Hanse- und Universitätsstadt "
 "Rostock ist ohne Angabe personenbezogener Daten möglich."
 msgstr ""
 
-#: templates/privacy_policy.html:9
+#: templates/privacy_policy.html:14
 msgid "Kontaktaufnahme mit der Hanse- und Universitätsstadt Rostock"
 msgstr ""
 
-#: templates/privacy_policy.html:10
+#: templates/privacy_policy.html:15
 msgid ""
 "Bei einer Kontaktaufnahme mit der Hanse- und Universitätsstadt Rostock "
 "werden personenbezogene Daten (Name, Anschrift, Telefonnummer, E-Mail-"
@@ -272,31 +313,31 @@ msgid ""
 "kommerziellen oder anderen Zwecken erfolgt nicht."
 msgstr ""
 
-#: templates/privacy_policy.html:11
+#: templates/privacy_policy.html:16
 msgid "Protokollierung"
 msgstr ""
 
-#: templates/privacy_policy.html:12
+#: templates/privacy_policy.html:17
 msgid ""
 "Wenn Sie auf das vorliegende Angebot der Hanse- und Universitätsstadt "
 "Rostock zugreifen, werden keine Zugriffsdaten protokolliert."
 msgstr ""
 
-#: templates/privacy_policy.html:13
+#: templates/privacy_policy.html:18
 msgid "Einsatz von Cookies"
 msgstr ""
 
-#: templates/privacy_policy.html:14
+#: templates/privacy_policy.html:19
 msgid ""
 "Das vorliegende Angebot der Hanse- und Universitätsstadt Rostock "
 "verwendet keine Cookies."
 msgstr ""
 
-#: templates/privacy_policy.html:15
+#: templates/privacy_policy.html:20
 msgid "Sicherheit"
 msgstr ""
 
-#: templates/privacy_policy.html:16
+#: templates/privacy_policy.html:21
 msgid ""
 "Die Hanse- und Universitätsstadt Rostock setzt für das vorliegende "
 "Angebot technische und organisatorische Sicherheitsmaßnahmen ein, um "
@@ -306,7 +347,7 @@ msgid ""
 "technologischen Entwicklung fortlaufend verbessert."
 msgstr ""
 
-#: templates/terms_of_use.html:7
+#: templates/terms_of_use.html:12
 msgid "Nutzung der Inhalte der Hanse- und Universitätsstadt Rostock"
 msgstr ""
 

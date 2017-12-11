@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 7d078a134dad
+Revision ID: 79c554cd0c94
 Revises: 
-Create Date: 2017-12-07 11:03:42.354798
+Create Date: 2017-12-11 15:54:18.037448
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '7d078a134dad'
+revision = '79c554cd0c94'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -42,6 +42,15 @@ def upgrade():
     sa.Column('reachable', sa.Boolean(), nullable=False),
     sa.Column('reachable_last_check', sa.DateTime(timezone=True), nullable=False),
     sa.Column('parent_id', sa.Integer(), nullable=False),
+    sa.Column('order', sa.SmallInteger(), nullable=False),
+    sa.Column('description', sa.Text(), nullable=True),
+    sa.Column('date', sa.Date(), nullable=True),
+    sa.Column('authorship_place', sa.ARRAY(sa.String(length=255)), nullable=True),
+    sa.Column('authorship_name', sa.ARRAY(sa.String(length=255)), nullable=True),
+    sa.Column('authorship_mail', sa.ARRAY(sa.String(length=255)), nullable=True),
+    sa.Column('data_link', sa.String(length=255), nullable=True),
+    sa.Column('metadata_link', sa.String(length=255), nullable=True),
+    sa.Column('inspire_annex_theme', sa.String(length=255), nullable=True),
     sa.ForeignKeyConstraint(['group_id'], ['groups.id'], ),
     sa.ForeignKeyConstraint(['parent_id'], ['links.id'], ),
     sa.PrimaryKeyConstraint('id')
@@ -51,6 +60,7 @@ def upgrade():
     sa.Column('group_id', sa.Integer(), nullable=False),
     sa.Column('title', sa.String(length=255), nullable=False),
     sa.Column('auto', sa.Boolean(), nullable=False),
+    sa.Column('typifier', sa.Boolean(), nullable=False),
     sa.ForeignKeyConstraint(['group_id'], ['groups.id'], ),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('title')
@@ -68,23 +78,6 @@ def upgrade():
     sa.ForeignKeyConstraint(['situation_id'], ['situations.id'], ),
     sa.ForeignKeyConstraint(['tag_id'], ['tags.id'], ),
     sa.PrimaryKeyConstraint('situation_id', 'tag_id')
-    )
-    # ad-hoc table for the insert statement
-    groups_table = sa.table('groups',
-    sa.Column('id', sa.Integer()),
-    sa.Column('name', sa.String(length=255)),
-    sa.Column('order', sa.SmallInteger)
-    )
-    # insert statement
-    op.bulk_insert(groups_table, [
-        { 'name': 'api', 'order': 3 },
-        { 'name': 'application', 'order': 1 },
-        { 'name': 'documentation', 'order': 5 },
-        { 'name': 'download', 'order': 6 },
-        { 'name': 'external', 'order': 7 },
-        { 'name': 'geoservice', 'order': 4 },
-        { 'name': 'helper', 'order': 2 }
-      ]
     )
     # ### end Alembic commands ###
 

@@ -1,5 +1,5 @@
 from flask import Flask, abort, g, redirect, render_template, request, url_for
-from flask_babel import Babel, format_datetime, gettext
+from flask_babel import Babel, format_date, format_datetime, gettext
 from flask_bootstrap import Bootstrap
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
@@ -65,12 +65,21 @@ class Links(db.Model):
   reachable = db.Column(db.Boolean, nullable = False)
   reachable_last_check = db.Column(db.DateTime(timezone = True), nullable = False)
   parent_id = db.Column(db.Integer, db.ForeignKey('links.id'), nullable = False)
+  order = db.Column(db.SmallInteger, nullable = False)
+  description = db.Column(db.Text, nullable = True)
+  date = db.Column(db.Date, nullable = True)
+  authorship_place = db.Column(db.ARRAY(db.String(255)), nullable = True)
+  authorship_name = db.Column(db.ARRAY(db.String(255)), nullable = True)
+  authorship_mail = db.Column(db.ARRAY(db.String(255)), nullable = True)
+  data_link = db.Column(db.String(255), nullable = True)
+  metadata_link = db.Column(db.String(255), nullable = True)
+  inspire_annex_theme = db.Column(db.String(255), nullable = True)
   
-  group = db.relationship('Groups', backref = db.backref('links', lazy = False))
-  tags = db.relationship('Tags', secondary = links_tags, lazy = 'subquery', backref = db.backref('links', lazy = True))
-  parent = db.relationship('Links', backref = db.backref('links', lazy = False), remote_side = id)
+  group = db.relationship('Groups', backref = db.backref('links', lazy = 'dynamic'))
+  tags = db.relationship('Tags', secondary = links_tags, lazy = 'dynamic', backref = db.backref('links', lazy = 'dynamic'))
+  parent = db.relationship('Links', backref = db.backref('links', lazy = 'dynamic'), remote_side = id)
   
-  def __init__(self, group_id, title, link, public, reachable, reachable_last_check, parent_id):
+  def __init__(self, group_id, title, link, public, reachable, reachable_last_check, parent_id, order, description, date, authorship_place, authorship_name, authorship_mail, data_link, metadata_link, inspire_annex_theme):
     self.group_id = group_id
     self.title = title
     self.link = link
@@ -78,6 +87,15 @@ class Links(db.Model):
     self.reachable = reachable
     self.reachable_last_check = reachable_last_check
     self.parent_id = parent_id
+    self.order = order
+    self.description = description
+    self.date = date
+    self.authorship_place = authorship_place
+    self.authorship_name = authorship_name
+    self.authorship_mail = authorship_mail
+    self.data_link = data_link
+    self.metadata_link = metadata_link
+    self.inspire_annex_theme = inspire_annex_theme
   
   def __repr__(self):
     return '<links id {}>'.format(self.id)
@@ -89,7 +107,7 @@ class Situations(db.Model):
   title = db.Column(db.String(255), unique = True, nullable = False)
   stars = db.Column(db.SmallInteger, nullable = False)
   
-  tags = db.relationship('Tags', secondary = situations_tags, lazy = 'subquery', backref = db.backref('situations', lazy = True))
+  tags = db.relationship('Tags', secondary = situations_tags, lazy = 'dynamic', backref = db.backref('situations', lazy = 'dynamic'))
   
   def __init__(self, title, stars):
     self.title = title
@@ -107,7 +125,7 @@ class Tags(db.Model):
   auto = db.Column(db.Boolean, nullable = False)
   typifier = db.Column(db.Boolean, nullable = False)
   
-  group = db.relationship('Groups', backref = db.backref('tags', lazy = False))
+  group = db.relationship('Groups', backref = db.backref('tags', lazy = 'dynamic'))
   
   def __init__(self, group_id, title, auto):
     self.group_id = group_id
@@ -136,6 +154,19 @@ def before():
 
 
 # i18n and l10n: dates and times
+def date_l10n(value, format = 'full'):
+  if g.current_lang and g.current_lang == app.config['BABEL_DEFAULT_LOCALE']:
+    if format == 'full':
+      format = "EEEE, dd.MM.yyyy'"
+    elif format == 'light':
+      format = "dd.MM.yyyy"
+  else:
+    if format == 'full':
+      format = "full"
+    elif format == 'light':
+      format = "short"
+  return format_date(value, format)
+
 def datetime_l10n(value, format = 'full'):
   if g.current_lang and g.current_lang == app.config['BABEL_DEFAULT_LOCALE']:
     if format == 'full':
@@ -149,12 +180,22 @@ def datetime_l10n(value, format = 'full'):
       format = "short"
   return format_datetime(value, format)
 
+app.jinja_env.filters['date_l10n'] = date_l10n
 app.jinja_env.filters['datetime_l10n'] = datetime_l10n
 
 
 # database functions
 def get_link_children(parent_id, with_parent = True):
-  return Links.query.filter_by(parent_id = parent_id).all() if with_parent == True else Links.query.filter(Links.parent_id == parent_id, Links.id != parent_id).all()
+  return Links.query.filter_by(parent_id = parent_id).order_by(Links.order).all() if with_parent == True else Links.query.filter(Links.parent_id == parent_id, Links.id != parent_id).order_by(Links.order).all()
+  
+def get_link_children_tags(parent_id, with_parent_tags = True):
+  list = []
+  links = Links.query.filter_by(parent_id = parent_id).all() if with_parent_tags == True else Links.query.filter(Links.parent_id == parent_id, Links.id != parent_id).all()
+  for link in links:
+    for tag in link.tags:
+      tag.typifier == False and list.append(tag.title)
+  list.sort()
+  return tuple(list)
   
 def get_link_children_typifier_tags(parent_id, with_parent_tags = True):
   list = []
@@ -172,6 +213,7 @@ def get_link_typifier_tag(id, only_title = True):
       return tag.title if only_title == True else tag
 
 app.jinja_env.filters['get_link_children'] = get_link_children
+app.jinja_env.filters['get_link_children_tags'] = get_link_children_tags
 app.jinja_env.filters['get_link_children_typifier_tags'] = get_link_children_typifier_tags
 app.jinja_env.filters['get_link_typifier_tag'] = get_link_typifier_tag
 
