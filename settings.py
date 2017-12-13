@@ -19,11 +19,14 @@ BABEL_DEFAULT_LOCALE = 'de'
 DEFAULT_TIMEZONE = 'Europe/Berlin'
 BABEL_DEFAULT_TIMEZONE = DEFAULT_TIMEZONE
 
+# Bootstrap
+BOOTSTRAP_SERVE_LOCAL = True
+
 # database
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 
-# Bootstrap
-BOOTSTRAP_SERVE_LOCAL = True
+# cache
+CACHE_MEMCACHED_SERVERS = ['127.0.0.1:11211']
 
 # redirection URLs for HTTP error codes
 REDIRECT_URL_400 = 'https://geo.sv.rostock.de/400.html'

@@ -1,9 +1,12 @@
-from flask import Flask, abort, g, redirect, render_template, request, url_for
+from alembic import op
+from flask import abort, Flask, g, redirect, render_template, request, url_for
 from flask_babel import Babel, format_date, format_datetime, gettext
+from flask_cache import Cache
+from flask_compress import Compress
 from flask_bootstrap import Bootstrap
 from flask_migrate import Migrate
-from flask_sqlalchemy import SQLAlchemy
-from alembic import op
+from flask_sqlalchemy import Model, SQLAlchemy
+from flask_sqlalchemy_cache import CachingQuery
 
 
 # initialise application
@@ -20,11 +23,20 @@ app.jinja_env.lstrip_blocks = True
 app.jinja_env.trim_blocks = True
 
 
-# initialise Babel, Bootstrap, SQLAlchemy and Migrate
+# initialise Babel, Bootstrap, Compress, SQLAlchemy, Migrate and Cache
 babel = Babel(app)
 Bootstrap(app)
-db = SQLAlchemy(app)
+Compress(app)
+Model.query_class = CachingQuery
+db = SQLAlchemy(app, session_options = {
+  'query_cls': CachingQuery
+})
 migrate = Migrate(app, db)
+cache = Cache(app, config = {
+  'CACHE_TYPE': 'memcached',
+  'CACHE_MEMCACHED_SERVERS': app.config['CACHE_MEMCACHED_SERVERS'],
+  'CACHE_KEY_PREFIX': 'geolotse'
+})
 
 
 # initialise database
@@ -185,19 +197,39 @@ app.jinja_env.filters['datetime_l10n'] = datetime_l10n
 
 
 # database functions
-def get_link_children(parent_id, with_parent = True):
+GROUP_ID_DOCUMENTATION = Groups.query.with_entities(Groups.id).filter_by(name = 'documentation').first()
+GROUP_ID_DOWNLOAD = Groups.query.with_entities(Groups.id).filter_by(name = 'download').first()
+GROUP_ID_EXTERNAL = Groups.query.with_entities(Groups.id).filter_by(name = 'external').first()
+GROUP_ID_GEOSERVICE = Groups.query.with_entities(Groups.id).filter_by(name = 'geoservice').first()
+
+@cache.memoize(timeout = 43200)
+def get_external_tags():
+  return Tags.query.filter_by(group_id = GROUP_ID_EXTERNAL).order_by(Tags.title).all()
+
+@cache.memoize(timeout = 43200)
+def get_geoservice_tags():
+  return Tags.query.filter(Tags.group_id == GROUP_ID_GEOSERVICE, Tags.typifier == True).order_by(Tags.title).all()
+
+@cache.memoize(timeout = 43200)
+def get_groups():
+  return Groups.query.with_entities(Groups.name).order_by(Groups.order).all()
+
+@cache.memoize(timeout = 43200)
+def get_link_children(parent_id = 1, with_parent = True):
   return Links.query.filter_by(parent_id = parent_id).order_by(Links.order).all() if with_parent == True else Links.query.filter(Links.parent_id == parent_id, Links.id != parent_id).order_by(Links.order).all()
-  
-def get_link_children_tags(parent_id, with_parent_tags = True):
+
+@cache.memoize(timeout = 43200)
+def get_link_children_tags(parent_id = 1, with_parent_tags = True):
   list = []
   links = Links.query.filter_by(parent_id = parent_id).all() if with_parent_tags == True else Links.query.filter(Links.parent_id == parent_id, Links.id != parent_id).all()
   for link in links:
     for tag in link.tags:
-      tag.typifier == False and list.append(tag.title)
+      (tag.typifier == False and tag.title not in list) and list.append(tag.title)
   list.sort()
   return tuple(list)
-  
-def get_link_children_typifier_tags(parent_id, with_parent_tags = True):
+
+@cache.memoize(timeout = 43200)
+def get_link_children_typifier_tags(parent_id = 1, with_parent_tags = True):
   list = []
   links = Links.query.filter_by(parent_id = parent_id).all() if with_parent_tags == True else Links.query.filter(Links.parent_id == parent_id, Links.id != parent_id).all()
   for link in links:
@@ -206,16 +238,26 @@ def get_link_children_typifier_tags(parent_id, with_parent_tags = True):
   list.sort()
   return tuple(list)
 
-def get_link_typifier_tag(id, only_title = True):
+@cache.memoize(timeout = 43200)
+def get_link_typifier_tag(id = 1, only_title = True):
   link = Links.query.filter_by(id = id).first()
   for tag in link.tags:
     if tag.typifier == True:
       return tag.title if only_title == True else tag
 
+@cache.memoize(timeout = 900)
+def get_links_by_group_id(group_id = 1):
+  return Links.query.filter_by(group_id = group_id).order_by(Links.title).all()
+
+@cache.memoize(timeout = 43200)
+def get_tag_links(id):
+  return Links.query.join(Links.tags).filter(Tags.id == id).order_by(Links.title).all()
+
 app.jinja_env.filters['get_link_children'] = get_link_children
 app.jinja_env.filters['get_link_children_tags'] = get_link_children_tags
 app.jinja_env.filters['get_link_children_typifier_tags'] = get_link_children_typifier_tags
 app.jinja_env.filters['get_link_typifier_tag'] = get_link_typifier_tag
+app.jinja_env.filters['get_tag_links'] = get_tag_links
 
 
 # routing, database and custom error handling
@@ -233,18 +275,7 @@ def catalog_without_lang_code():
 
 @app.route('/<lang_code>/catalog')
 def catalog():
-  groups = Groups.query.with_entities(Groups.name).order_by(Groups.order).all()
-  group_documentation = Groups.query.with_entities(Groups.id).filter_by(name = 'documentation').first()
-  group_download = Groups.query.with_entities(Groups.id).filter_by(name = 'download').first()
-  group_external = Groups.query.with_entities(Groups.id).filter_by(name = 'external').first()
-  group_geoservice = Groups.query.with_entities(Groups.id).filter_by(name = 'geoservice').first()
-  documentation_links = Links.query.filter_by(group_id = group_documentation.id).order_by(Links.title).all()
-  download_links = Links.query.filter_by(group_id = group_download.id).order_by(Links.title).all()
-  external_links = Links.query.filter_by(group_id = group_external.id).order_by(Links.title).all()
-  external_tags = Tags.query.filter_by(group_id = group_external.id).order_by(Tags.title).all()
-  geoservice_links = Links.query.filter_by(group_id = group_geoservice.id).order_by(Links.title).all()
-  geoservice_tags = Tags.query.filter(Tags.group_id == group_geoservice.id, Tags.typifier == True).order_by(Tags.title).all()
-  return render_template('catalog.html', subtitle = gettext(u'Katalog'), groups = groups, external_links = external_links, documentation_links = documentation_links, download_links = download_links, external_tags = external_tags, geoservice_links = geoservice_links, geoservice_tags = geoservice_tags)
+  return render_template('catalog.html', subtitle = gettext(u'Katalog'), groups = get_groups(), documentation_links = get_links_by_group_id(GROUP_ID_DOCUMENTATION), download_links = get_links_by_group_id(GROUP_ID_DOWNLOAD), geoservice_links = get_links_by_group_id(GROUP_ID_GEOSERVICE), external_tags = get_external_tags(), geoservice_tags = get_geoservice_tags())
 
 @app.route('/imprint')
 def imprint_without_lang_code():
