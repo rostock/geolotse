@@ -108,11 +108,21 @@ nav li.active > a:hover {
   color: #fff !important;
 }
 
+.navbar-brand {
+  padding: 10px 0 0 15px;
+}
+
+.navbar-brand > img {
+  height: 30px;
+  margin-bottom: 3px;
+  display: inline-block;
+}
+
 footer {
   position: fixed;
   bottom: 0;
-  width: 100%;
   height: 60px;
+  width: 100%;
   padding: 10px 0;
   background-color: #006cb7;
   color: #fff;

@@ -17,12 +17,22 @@
 {% block styles %}
   {{ super() }}
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/main.css') }}" />
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/index.css') }}" />
   <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
 {% endblock %}
 
 {% block content %}
   {% include 'navbar.html' %}
   <div class="container-fluid">
+    <div class="row-fluid">
+      <img class="logo center-block" src="{{ url_for('static', filename='images/geolotse.svg') }}" />
+    </div>
+    <div class="row-fluid">
+      <div class="text-center">
+        <h1>{{ config.TITLE }}</h1>
+        <p>{{ _('Einstiegsmöglichkeit in die Geodateninfrastruktur der Hanse- und Universitätsstadt Rostock und Schnittstelle aller Anwendungen mit Raumbezug des Kataster-, Vermessungs- und Liegenschaftsamtes der Hanse- und Universitätsstadt Rostock') }}</p>
+      </div>
+    </div>
   </div>
   {% include 'footer.html' %}
 {% endblock %}
