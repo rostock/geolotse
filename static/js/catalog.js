@@ -1,6 +1,7 @@
 $(document).ready(function() {
   var anchor = window.location.hash;
   $(anchor).collapse('toggle');
+  $('[data-toggle="tooltip"]').tooltip();
 });
 
 $( '#external-filter-input' ).keyup(function() {

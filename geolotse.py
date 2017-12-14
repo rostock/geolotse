@@ -245,7 +245,7 @@ def get_link_typifier_tag(id = 1, only_title = True):
     if tag.typifier == True:
       return tag.title if only_title == True else tag
 
-@cache.memoize(timeout = 900)
+@cache.memoize(timeout = 840)
 def get_links_by_group_id(group_id = 1):
   return Links.query.filter_by(group_id = group_id).order_by(Links.title).all()
 

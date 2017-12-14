@@ -74,20 +74,14 @@ span.full-width {
   width: 100%;
 }
 
-nav {
-  background-color: #006cb7;
-  color: #fff;
-  border: 0;
-}
-
 nav a,
 nav a:focus,
 nav a:visited {
-  color: #fff;
+  color: #fff !important;
 }
 
 nav a:hover {
-  color: #d9d9d9;
+  color: #d9d9d9 !important;
 }
 
 nav li > a,
@@ -118,6 +112,34 @@ nav li.active > a:hover {
   display: inline-block;
 }
 
+.navbar-default {
+  background-color: #006cb7;
+  color: #fff;
+  border: 0;
+}
+
+.navbar-default .navbar-toggle,
+.navbar-default .navbar-toggle:focus,
+.navbar-default .navbar-toggle:visited {
+  background-color: #006cb7;
+  border-color: #fff;
+}
+
+.navbar-default .navbar-toggle:hover {
+  background-color: #006cb7;
+  border-color: #d9d9d9;
+}
+
+.navbar-default .navbar-toggle .icon-bar,
+.navbar-default .navbar-toggle .icon-bar:focus,
+.navbar-default .navbar-toggle .icon-bar:visited {
+  background-color: #fff;
+}
+
+.navbar-default .navbar-toggle .icon-bar:hover {
+  background-color: #d9d9d9;
+}
+
 footer {
   position: fixed;
   bottom: 0;
@@ -137,3 +159,12 @@ footer a:visited {
 footer a:hover {
   color: #d9d9d9;
 }
+
+.tooltip > .tooltip-inner {
+  padding: 10px;
+  background-color: #006cb7;
+}
+
+.tooltip.right > .tooltip-arrow {
+  border-right-color: #006cb7;
+  }

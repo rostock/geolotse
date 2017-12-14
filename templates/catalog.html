@@ -47,8 +47,8 @@
                 <div class="list-group">
                   {% for documentation_link in documentation_links %}
                     <a href="{{ documentation_link.link }}" target="_blank" class="list-group-item list-group-item-action">
-                      <span class="glyphicon glyphicon-{% if documentation_link.reachable == True %}ok-sign green{% else %}remove-sign red{% endif %}" aria-hidden="true" title="{{ _('letzte Prüfung auf Erreichbarkeit') }}: {{ documentation_link.reachable_last_check|datetime_l10n('full') }}"></span>
-                      <span class="glyphicon glyphicon-eye-{% if documentation_link.public == True %}open green{% else %}close red{% endif %}" aria-hidden="true" title="{% if documentation_link.public == True %}{{ _('öffentlich zugänglich') }}{% else %}{{ _('nicht öffentlich zugänglich') }}{% endif %}"></span>
+                      <span class="glyphicon glyphicon-{% if documentation_link.reachable == True %}ok-sign green{% else %}remove-sign red{% endif %}" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{{ _('letzte Prüfung auf Erreichbarkeit') }}: {{ documentation_link.reachable_last_check|datetime_l10n('full') }}"></span>
+                      <span class="glyphicon glyphicon-eye-{% if documentation_link.public == True %}open green{% else %}close red{% endif %}" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{% if documentation_link.public == True %}{{ _('öffentlich zugänglich') }}{% else %}{{ _('nicht öffentlich zugänglich') }}{% endif %}"></span>
                       {{ documentation_link.title }}
                     </a>
                   {% endfor %}
@@ -58,8 +58,8 @@
                 <div class="list-group">
                   {% for download_link in download_links %}
                     <a href="{{ download_link.link }}" target="_blank" class="list-group-item list-group-item-action">
-                      <span class="glyphicon glyphicon-{% if download_link.reachable == True %}ok-sign green{% else %}remove-sign red{% endif %}" aria-hidden="true" title="{{ _('letzte Prüfung auf Erreichbarkeit') }}: {{ download_link.reachable_last_check|datetime_l10n('full') }}"></span>
-                      <span class="glyphicon glyphicon-eye-{% if download_link.public == True %}open green{% else %}close red{% endif %}" aria-hidden="true" title="{% if download_link.public == True %}{{ _('öffentlich zugänglich') }}{% else %}{{ _('nicht öffentlich zugänglich') }}{% endif %}"></span>
+                      <span class="glyphicon glyphicon-{% if download_link.reachable == True %}ok-sign green{% else %}remove-sign red{% endif %}" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{{ _('letzte Prüfung auf Erreichbarkeit') }}: {{ download_link.reachable_last_check|datetime_l10n('full') }}"></span>
+                      <span class="glyphicon glyphicon-eye-{% if download_link.public == True %}open green{% else %}close red{% endif %}" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{% if download_link.public == True %}{{ _('öffentlich zugänglich') }}{% else %}{{ _('nicht öffentlich zugänglich') }}{% endif %}"></span>
                       {{ download_link.title }}
                     </a>
                   {% endfor %}
@@ -72,8 +72,8 @@
                   <div class="external-list-group">
                     {% for external_link in external_tag.id|get_tag_links() %}
                       <a href="{{ external_link.link }}" target="_blank" class="list-group-item list-group-item-action">
-                        <span class="glyphicon glyphicon-{% if external_link.reachable == True %}ok-sign green{% else %}remove-sign red{% endif %}" aria-hidden="true" title="{{ _('letzte Prüfung auf Erreichbarkeit') }}: {{ external_link.reachable_last_check|datetime_l10n('full') }}"></span>
-                        <span class="glyphicon glyphicon-eye-{% if external_link.public == True %}open green{% else %}close red{% endif %}" aria-hidden="true" title="{% if external_link.public == True %}{{ _('öffentlich zugänglich') }}{% else %}{{ _('nicht öffentlich zugänglich') }}{% endif %}"></span>
+                        <span class="glyphicon glyphicon-{% if external_link.reachable == True %}ok-sign green{% else %}remove-sign red{% endif %}" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{{ _('letzte Prüfung auf Erreichbarkeit') }}: {{ external_link.reachable_last_check|datetime_l10n('full') }}"></span>
+                        <span class="glyphicon glyphicon-eye-{% if external_link.public == True %}open green{% else %}close red{% endif %}" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{% if external_link.public == True %}{{ _('öffentlich zugänglich') }}{% else %}{{ _('nicht öffentlich zugänglich') }}{% endif %}"></span>
                         {{ external_link.title }}
                       </a>
                     {% endfor %}
@@ -134,8 +134,8 @@
                                 {% endif %}
                                 <span class="full-width"><em>{{ _('Link') }}</em></span>
                                 <a href="{{ child.link }}" target="_blank">
-                                  <span class="glyphicon glyphicon-{% if child.reachable == True %}ok-sign green{% else %}remove-sign red{% endif %}" aria-hidden="true" title="{{ _('letzte Prüfung auf Erreichbarkeit') }}: {{ child.reachable_last_check|datetime_l10n('full') }}"></span>
-                                  <span class="glyphicon glyphicon-eye-{% if child.public == True %}open green{% else %}close red{% endif %}" aria-hidden="true" title="{% if child.public == True %}{{ _('öffentlich zugänglich') }}{% else %}{{ _('nicht öffentlich zugänglich') }}{% endif %}"></span>
+                                  <span class="glyphicon glyphicon-{% if child.reachable == True %}ok-sign green{% else %}remove-sign red{% endif %}" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{{ _('letzte Prüfung auf Erreichbarkeit') }}: {{ child.reachable_last_check|datetime_l10n('full') }}"></span>
+                                  <span class="glyphicon glyphicon-eye-{% if child.public == True %}open green{% else %}close red{% endif %}" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{% if child.public == True %}{{ _('öffentlich zugänglich') }}{% else %}{{ _('nicht öffentlich zugänglich') }}{% endif %}"></span>
                                   {{ child.link }}
                                 </a>
                               </div>
@@ -152,7 +152,7 @@
                                   <span class="full-width">
                                     {% if geoservice_link.authorship_name[loop.index0] != None %}
                                       {% if geoservice_link.authorship_mail[loop.index0] != None %}
-                                        <a href="mailto:{{ geoservice_link.authorship_mail[loop.index0] }}"><span class="glyphicon glyphicon-envelope" aria-hidden="true" title="{{ _('Kontakt') }}"></span></a>
+                                        <a href="mailto:{{ geoservice_link.authorship_mail[loop.index0] }}"><span class="glyphicon glyphicon-envelope" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{{ _('Kontakt') }}"></span></a>
                                       {% endif %}
                                       {{ geoservice_link.authorship_name[loop.index0] }} •
                                     {% endif %}
