@@ -46,6 +46,12 @@ links_tags = db.Table(
   db.Column('tag_id', db.Integer, db.ForeignKey('tags.id'), primary_key = True)
 )
 
+links_sublinks = db.Table(
+  'links_sublinks',
+  db.Column('link_id', db.Integer, db.ForeignKey('links.id'), primary_key = True),
+  db.Column('sublink_id', db.Integer, db.ForeignKey('sublinks.id'), primary_key = True)
+)
+
 situations_tags = db.Table(
   'situations_tags',
   db.Column('situation_id', db.Integer, db.ForeignKey('situations.id'), primary_key = True),
@@ -83,15 +89,14 @@ class Links(db.Model):
   authorship_place = db.Column(db.ARRAY(db.String(255)), nullable = True)
   authorship_name = db.Column(db.ARRAY(db.String(255)), nullable = True)
   authorship_mail = db.Column(db.ARRAY(db.String(255)), nullable = True)
-  data_link = db.Column(db.String(255), nullable = True)
-  metadata_link = db.Column(db.String(255), nullable = True)
   inspire_annex_theme = db.Column(db.String(255), nullable = True)
   
   group = db.relationship('Groups', backref = db.backref('links', lazy = 'dynamic'))
   tags = db.relationship('Tags', secondary = links_tags, lazy = 'dynamic', backref = db.backref('links', lazy = 'dynamic'))
   parent = db.relationship('Links', backref = db.backref('links', lazy = 'dynamic'), remote_side = id)
+  sublinks = db.relationship('Sublinks', secondary = links_sublinks, lazy = 'dynamic', backref = db.backref('sublinks', lazy = 'dynamic'))
   
-  def __init__(self, group_id, title, link, public, reachable, reachable_last_check, parent_id, order, description, date, authorship_place, authorship_name, authorship_mail, data_link, metadata_link, inspire_annex_theme):
+  def __init__(self, group_id, title, link, public, reachable, reachable_last_check, parent_id, order, description, date, authorship_place, authorship_name, authorship_mail, inspire_annex_theme):
     self.group_id = group_id
     self.title = title
     self.link = link
@@ -105,8 +110,6 @@ class Links(db.Model):
     self.authorship_place = authorship_place
     self.authorship_name = authorship_name
     self.authorship_mail = authorship_mail
-    self.data_link = data_link
-    self.metadata_link = metadata_link
     self.inspire_annex_theme = inspire_annex_theme
   
   def __repr__(self):
@@ -127,6 +130,30 @@ class Situations(db.Model):
   
   def __repr__(self):
     return '<situations id {}>'.format(self.id)
+
+class Sublinks(db.Model):
+  __tablename__ = 'sublinks'
+  
+  id = db.Column(db.Integer, primary_key = True)
+  target_id = db.Column(db.Integer, db.ForeignKey('targets.id'), nullable = False)
+  title = db.Column(db.String(255), nullable = False)
+  link = db.Column(db.String(255), nullable = False)
+  public = db.Column(db.Boolean, nullable = False)
+  reachable = db.Column(db.Boolean, nullable = False)
+  reachable_last_check = db.Column(db.DateTime(timezone = True), nullable = False)
+  
+  target = db.relationship('Targets', backref = db.backref('sublinks', lazy = 'dynamic'))
+  
+  def __init__(self, target_id, title, link, public, reachable, reachable_last_check):
+    self.target_id = target_id
+    self.title = title
+    self.link = link
+    self.public = public
+    self.reachable = reachable
+    self.reachable_last_check = reachable_last_check
+  
+  def __repr__(self):
+    return '<sublinks id {}>'.format(self.id)
       
 class Tags(db.Model):
   __tablename__ = 'tags'
@@ -147,6 +174,18 @@ class Tags(db.Model):
   
   def __repr__(self):
     return '<tags id {}>'.format(self.id)
+
+class Targets(db.Model):
+  __tablename__ = 'targets'
+  
+  id = db.Column(db.Integer, primary_key = True)
+  name = db.Column(db.String(255), unique = True, nullable = False)
+  
+  def __init__(self, name):
+    self.name = name
+  
+  def __repr__(self):
+    return '<targets id {}>'.format(self.id)
 
 
 # i18n and l10n: language
@@ -202,6 +241,9 @@ GROUP_ID_DOWNLOAD = Groups.query.with_entities(Groups.id).filter_by(name = 'down
 GROUP_ID_EXTERNAL = Groups.query.with_entities(Groups.id).filter_by(name = 'external').first()
 GROUP_ID_GEOSERVICE = Groups.query.with_entities(Groups.id).filter_by(name = 'geoservice').first()
 
+TARGET_ID_METADATA = Targets.query.with_entities(Targets.id).filter_by(name = 'metadata').first()
+TARGET_ID_OPENDATA = Targets.query.with_entities(Targets.id).filter_by(name = 'opendata').first()
+
 @cache.memoize(timeout = 43200)
 def get_external_tags():
   return Tags.query.filter_by(group_id = GROUP_ID_EXTERNAL).order_by(Tags.title).all()
@@ -239,6 +281,20 @@ def get_link_children_typifier_tags(parent_id = 1, with_parent_tags = True):
   return tuple(list)
 
 @cache.memoize(timeout = 43200)
+def get_link_metadata_sublink(id = 1):
+  link = Links.query.filter_by(id = id).first()
+  for sublink in link.sublinks:
+    if sublink.target_id == TARGET_ID_METADATA[0]:
+      return sublink
+
+@cache.memoize(timeout = 43200)
+def get_link_opendata_sublink(id = 1):
+  link = Links.query.filter_by(id = id).first()
+  for sublink in link.sublinks:
+    if sublink.target_id == TARGET_ID_OPENDATA[0]:
+      return sublink
+
+@cache.memoize(timeout = 43200)
 def get_link_typifier_tag(id = 1, only_title = True):
   link = Links.query.filter_by(id = id).first()
   for tag in link.tags:
@@ -257,6 +313,8 @@ app.jinja_env.filters['get_link_children'] = get_link_children
 app.jinja_env.filters['get_link_children_tags'] = get_link_children_tags
 app.jinja_env.filters['get_link_children_typifier_tags'] = get_link_children_typifier_tags
 app.jinja_env.filters['get_link_typifier_tag'] = get_link_typifier_tag
+app.jinja_env.filters['get_link_metadata_sublink'] = get_link_metadata_sublink
+app.jinja_env.filters['get_link_opendata_sublink'] = get_link_opendata_sublink
 app.jinja_env.filters['get_tag_links'] = get_tag_links
 
 

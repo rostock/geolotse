@@ -1,20 +1,20 @@
-#: geolotse.py:278
+#: geolotse.py:336
 msgid "Katalog"
 msgstr ""
 
-#: geolotse.py:286 templates/footer.html:6
+#: geolotse.py:344 templates/footer.html:6
 msgid "Impressum"
 msgstr ""
 
-#: geolotse.py:294 templates/footer.html:5
+#: geolotse.py:352 templates/footer.html:5
 msgid "Datenschutz"
 msgstr ""
 
-#: geolotse.py:302
+#: geolotse.py:360
 msgid "Lebenslagen"
 msgstr ""
 
-#: geolotse.py:310 templates/footer.html:8
+#: geolotse.py:368 templates/footer.html:8
 msgid "Nutzungsbedingungen"
 msgstr ""
 
@@ -47,66 +47,63 @@ msgid "Tools"
 msgstr ""
 
 #: templates/catalog.html:50 templates/catalog.html:61
-#: templates/catalog.html:75 templates/catalog.html:137
+#: templates/catalog.html:75 templates/catalog.html:134
+#: templates/catalog.html:141 templates/catalog.html:172
 msgid "letzte Prüfung auf Erreichbarkeit"
 msgstr ""
 
 #: templates/catalog.html:51 templates/catalog.html:62
-#: templates/catalog.html:76 templates/catalog.html:138
+#: templates/catalog.html:76 templates/catalog.html:135
+#: templates/catalog.html:142 templates/catalog.html:173
 msgid "öffentlich zugänglich"
 msgstr ""
 
 #: templates/catalog.html:51 templates/catalog.html:62
-#: templates/catalog.html:76 templates/catalog.html:138
+#: templates/catalog.html:76 templates/catalog.html:135
+#: templates/catalog.html:142 templates/catalog.html:173
 msgid "nicht öffentlich zugänglich"
 msgstr ""
 
-#: templates/catalog.html:69 templates/catalog.html:91
-msgid "Listeninhalte filtern"
+#: templates/catalog.html:69 templates/catalog.html:92
+msgid "Freitextfilter"
 msgstr ""
 
-#: templates/catalog.html:112
+#: templates/catalog.html:113
 msgid "Schlagworte/Tags/Keywords"
 msgstr ""
 
-#: templates/catalog.html:124
+#: templates/catalog.html:125
 msgid "Annex-Thema"
 msgstr ""
 
-#: templates/catalog.html:127
+#: templates/catalog.html:128
 msgid "Beschreibung"
 msgstr ""
 
-#: templates/catalog.html:130
+#: templates/catalog.html:132
 msgid "Metadaten"
 msgstr ""
 
-#: templates/catalog.html:135 templates/catalog.html:164
+#: templates/catalog.html:139 templates/catalog.html:170
 msgid "Link"
 msgstr ""
 
-#: templates/catalog.html:144
+#: templates/catalog.html:148
 msgid "Datenquelle"
 msgstr ""
 
-#: templates/catalog.html:146
+#: templates/catalog.html:150
 msgid "Stand"
 msgstr ""
 
-#: templates/catalog.html:150
+#: templates/catalog.html:154
 msgid "Autor"
 msgid_plural "Autoren"
 msgstr[0] ""
 msgstr[1] ""
 
-#: templates/catalog.html:155 templates/footer.html:7 templates/imprint.html:57
+#: templates/catalog.html:160 templates/footer.html:7 templates/imprint.html:57
 msgid "Kontakt"
-msgstr ""
-
-#: templates/catalog.html:166
-msgid ""
-"Link zu OpenData.HRO, dem Open-Data-Portal der Hanse- und "
-"Universitätsstadt Rostock"
 msgstr ""
 
 #: templates/footer.html:4

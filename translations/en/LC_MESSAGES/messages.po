@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: sebastian.gutzeit@rostock.de\n"
-"POT-Creation-Date: 2017-12-13 15:16+0100\n"
+"POT-Creation-Date: 2017-12-15 16:06+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Sebastian Gutzeit <sebastian.gutzeit@rostock.de>\n"
 "Language: en\n"
@@ -19,23 +19,23 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.5.1\n"
 
-#: geolotse.py:278
+#: geolotse.py:336
 msgid "Katalog"
 msgstr "Catalog"
 
-#: geolotse.py:286 templates/footer.html:6
+#: geolotse.py:344 templates/footer.html:6
 msgid "Impressum"
 msgstr "Imprint"
 
-#: geolotse.py:294 templates/footer.html:5
+#: geolotse.py:352 templates/footer.html:5
 msgid "Datenschutz"
 msgstr "Privacy policy"
 
-#: geolotse.py:302
+#: geolotse.py:360
 msgid "Lebenslagen"
 msgstr "Situations"
 
-#: geolotse.py:310 templates/footer.html:8
+#: geolotse.py:368 templates/footer.html:8
 msgid "Nutzungsbedingungen"
 msgstr "Terms of use"
 
@@ -68,67 +68,64 @@ msgid "Tools"
 msgstr "Helpers"
 
 #: templates/catalog.html:50 templates/catalog.html:61
-#: templates/catalog.html:75 templates/catalog.html:137
+#: templates/catalog.html:75 templates/catalog.html:134
+#: templates/catalog.html:141 templates/catalog.html:172
 msgid "letzte Prüfung auf Erreichbarkeit"
 msgstr "last availability check"
 
 #: templates/catalog.html:51 templates/catalog.html:62
-#: templates/catalog.html:76 templates/catalog.html:138
+#: templates/catalog.html:76 templates/catalog.html:135
+#: templates/catalog.html:142 templates/catalog.html:173
 msgid "öffentlich zugänglich"
 msgstr "publicly available"
 
 #: templates/catalog.html:51 templates/catalog.html:62
-#: templates/catalog.html:76 templates/catalog.html:138
+#: templates/catalog.html:76 templates/catalog.html:135
+#: templates/catalog.html:142 templates/catalog.html:173
 msgid "nicht öffentlich zugänglich"
 msgstr "not publicly available"
 
-#: templates/catalog.html:69 templates/catalog.html:91
-msgid "Listeninhalte filtern"
-msgstr "Filter list"
+#: templates/catalog.html:69 templates/catalog.html:92
+msgid "Freitextfilter"
+msgstr "Free text filter"
 
-#: templates/catalog.html:112
+#: templates/catalog.html:113
 msgid "Schlagworte/Tags/Keywords"
 msgstr "Tags/Keywords"
 
-#: templates/catalog.html:124
+#: templates/catalog.html:125
 msgid "Annex-Thema"
 msgstr "Annex theme"
 
-#: templates/catalog.html:127
+#: templates/catalog.html:128
 msgid "Beschreibung"
 msgstr "Description"
 
-#: templates/catalog.html:130
+#: templates/catalog.html:132
 msgid "Metadaten"
 msgstr "Metadata"
 
-#: templates/catalog.html:135 templates/catalog.html:164
+#: templates/catalog.html:139 templates/catalog.html:170
 msgid "Link"
 msgstr "Link"
 
-#: templates/catalog.html:144
+#: templates/catalog.html:148
 msgid "Datenquelle"
 msgstr "Data source"
 
-#: templates/catalog.html:146
+#: templates/catalog.html:150
 msgid "Stand"
 msgstr "Updated"
 
-#: templates/catalog.html:150
+#: templates/catalog.html:154
 msgid "Autor"
 msgid_plural "Autoren"
 msgstr[0] "Author"
 msgstr[1] "Authors"
 
-#: templates/catalog.html:155 templates/footer.html:7 templates/imprint.html:57
+#: templates/catalog.html:160 templates/footer.html:7 templates/imprint.html:57
 msgid "Kontakt"
 msgstr "Contact"
-
-#: templates/catalog.html:166
-msgid ""
-"Link zu OpenData.HRO, dem Open-Data-Portal der Hanse- und "
-"Universitätsstadt Rostock"
-msgstr "Link to the Open data portal of the municipality of Rostock"
 
 #: templates/footer.html:4
 msgid "Code"
@@ -332,7 +329,9 @@ msgid ""
 "Raumbezug des Kataster-, Vermessungs- und Liegenschaftsamtes der Hanse- "
 "und Universitätsstadt Rostock"
 msgstr ""
-"Access to the spatial data infrastructure of the municipality of Rostock and interface of all applications with spatial reference offered by the Land Registry Office of the municipality of Rostock"
+"Access to the spatial data infrastructure of the municipality of Rostock "
+"and interface of all applications with spatial reference offered by the "
+"Land Registry Office of the municipality of Rostock"
 
 #: templates/privacy_policy.html:12
 msgid ""
@@ -424,4 +423,3 @@ msgstr ""
 #: templates/terms_of_use.html:12
 msgid "Nutzung der Inhalte der Hanse- und Universitätsstadt Rostock"
 msgstr "Using the content of the municipality of Rostock"
-

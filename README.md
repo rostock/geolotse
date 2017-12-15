@@ -6,11 +6,15 @@ A landing page for organisations wanting to connect and integrate their various 
 
 !!! only 1 tag per external link in db because only 1 (= first) will be used
 
-# Create an ad-hoc table to use for the insert statement.
+# Create ad-hoc tables to use for the insert statements.
 groups_table = sa.table('groups',
 sa.Column('id', sa.Integer()),
 sa.Column('name', sa.String(length=255)),
 sa.Column('order', sa.SmallInteger)
+)
+targets_table = sa.table('targets',
+sa.Column('id', sa.Integer()),
+sa.Column('name', sa.String(length=255))
 )
 op.bulk_insert(groups_table, [
     { 'name': 'api', 'order': 3 },
@@ -20,5 +24,11 @@ op.bulk_insert(groups_table, [
     { 'name': 'external', 'order': 7 },
     { 'name': 'geoservice', 'order': 4 },
     { 'name': 'helper', 'order': 2 }
+  ]
+)
+op.bulk_insert(targets_table, [
+    { 'name': 'geoportal' },
+    { 'name': 'metadata' },
+    { 'name': 'opendata' }
   ]
 )

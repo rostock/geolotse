@@ -66,7 +66,7 @@
                 </div>
               {% endif %}
               {% if group.name == 'external' %}
-                <input class="filter-input" id="external-filter-input" placeholder="{{ _('Listeninhalte filtern') }}…" type="text" />
+                <span class="glyphicon glyphicon-filter" aria-hidden="true"></span> <input class="filter-input" id="external-filter-input" placeholder="{{ _('Freitextfilter') }}…" type="text" />
                 {% for external_tag in external_tags %}
                   <h5{% if loop.first %} class="first"{% endif %}>{{ external_tag.title }}</h5>
                   <div class="external-list-group">
@@ -82,13 +82,14 @@
               {% endif %}
               {% if group.name == 'geoservice' %}
                 <div class="checkboxes" id="geoservice-checkboxes">
+                  <span class="glyphicon glyphicon-filter" aria-hidden="true"></span>
                   {% for geoservice_tag in geoservice_tags %}
                     <label class="checkbox-inline">
                       <input type="checkbox" class="geoservice-checkbox" id="geoservice-checkbox-{{ geoservice_tag.id }}" value="{{ geoservice_tag.title }}" checked="checked" /> {{ geoservice_tag.title }}
                     </label>
                   {% endfor %}
                 </div>
-                <input class="filter-input" id="geoservice-filter-input" placeholder="{{ _('Listeninhalte filtern') }}…" type="text" />
+                <span class="glyphicon glyphicon-filter" aria-hidden="true"></span> <input class="filter-input" id="geoservice-filter-input" placeholder="{{ _('Freitextfilter') }}…" type="text" />
                 <div class="panel-group" id="geoservice-accordion">
                   {% for geoservice_link in geoservice_links %}
                     {% if geoservice_link.parent_id == geoservice_link.id %}
@@ -109,7 +110,7 @@
                           <div class="panel-body">
                             {% set link_children_tags = geoservice_link.id|get_link_children_tags(True) %}
                             {% if link_children_tags|length > 0 %}
-                              <h5 class="first">{{ _('Schlagworte/Tags/Keywords') }}</h5>
+                              <h5 class="first"><span class="glyphicon glyphicon-tag" aria-hidden="true"></span> {{ _('Schlagworte/Tags/Keywords') }}</h5>
                               <span class="full-width">
                                 {% for tag in link_children_tags %}
                                     {{ tag }}{% if not loop.last %} •{% endif %}
@@ -119,20 +120,23 @@
                             {% for child in geoservice_link.id|get_link_children(True) %}
                               <div class="geoservice-child">
                                 {% set typifier_tag = child.id|get_link_typifier_tag(True) %}
-                                <h5 {% if link_children_tags|length == 0 %}class="first"{% endif %}>{{ typifier_tag }}</h5>
+                                <h5 {% if link_children_tags|length == 0 %}class="first"{% endif %}><span class="glyphicon glyphicon-globe" aria-hidden="true"></span> {{ typifier_tag }}</h5>
                                 {% if 'inspire' in typifier_tag|lower and child.inspire_annex_theme != None %}
-                                  <span class="full-width"><em>{{ _('Annex-Thema') }}</em></span>
+                                  <span class="full-width"><span class="glyphicon glyphicon-flag" aria-hidden="true"></span> {{ _('Annex-Thema') }}</span>
                                   <span class="full-width">{{ child.inspire_annex_theme }}</span>
                                 {% endif %}
-                                <span class="full-width"><em>{{ _('Beschreibung') }}</em></span>
+                                <span class="full-width"><span class="glyphicon glyphicon-comment" aria-hidden="true"></span> {{ _('Beschreibung') }}</span>
                                 <span class="full-width">{{ child.description }}</span>
-                                {% if child.metadata_link != None %}
-                                  <span class="full-width"><em>{{ _('Metadaten') }}</em></span>
-                                  <a href="{{ child.metadata_link }}" target="_blank">
-                                    <span class="glyphicon glyphicon-link" aria-hidden="true"></span> {{ child.metadata_link }}
+                                {% set metadata_sublink = child.id|get_link_metadata_sublink() %}
+                                {% if metadata_sublink != None %}
+                                  <span class="full-width"><span class="glyphicon glyphicon-paperclip" aria-hidden="true"></span> {{ _('Metadaten') }}</span>
+                                  <a href="{{ metadata_sublink.link }}" target="_blank">
+                                    <span class="glyphicon glyphicon-{% if metadata_sublink.reachable == True %}ok-sign green{% else %}remove-sign red{% endif %}" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{{ _('letzte Prüfung auf Erreichbarkeit') }}: {{ metadata_sublink.reachable_last_check|datetime_l10n('full') }}"></span>
+                                    <span class="glyphicon glyphicon-eye-{% if metadata_sublink.public == True %}open green{% else %}close red{% endif %}" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{% if metadata_sublink.public == True %}{{ _('öffentlich zugänglich') }}{% else %}{{ _('nicht öffentlich zugänglich') }}{% endif %}"></span>
+                                    {{ metadata_sublink.title }}
                                   </a>
                                 {% endif %}
-                                <span class="full-width"><em>{{ _('Link') }}</em></span>
+                                <span class="full-width"><span class="glyphicon glyphicon-link" aria-hidden="true"></span> {{ _('Link') }}</span>
                                 <a href="{{ child.link }}" target="_blank">
                                   <span class="glyphicon glyphicon-{% if child.reachable == True %}ok-sign green{% else %}remove-sign red{% endif %}" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{{ _('letzte Prüfung auf Erreichbarkeit') }}: {{ child.reachable_last_check|datetime_l10n('full') }}"></span>
                                   <span class="glyphicon glyphicon-eye-{% if child.public == True %}open green{% else %}close red{% endif %}" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{% if child.public == True %}{{ _('öffentlich zugänglich') }}{% else %}{{ _('nicht öffentlich zugänglich') }}{% endif %}"></span>
@@ -141,29 +145,33 @@
                               </div>
                             {% endfor %}
                             {% if geoservice_link.date != None or geoservice_link.authorship_place != None or geoservice_link.authorship_name != None or geoservice_link.authorship_mail != None or geoservice_link.data_link != None %}
-                              <h5>{{ _('Datenquelle') }}</h5>
+                              <h5><span class="glyphicon glyphicon-home" aria-hidden="true"></span> {{ _('Datenquelle') }}</h5>
                               {% if geoservice_link.date != None %}
-                                <span class="full-width"><em>{{ _('Stand') }}</em></span>
+                                <span class="full-width"><span class="glyphicon glyphicon-time" aria-hidden="true"></span> {{ _('Stand') }}</span>
                                 <span class="full-width">{{ geoservice_link.date|date_l10n('full') }}</span>
                               {% endif %}
                               {% if geoservice_link.authorship_place != None or geoservice_link.authorship_name != None or geoservice_link.authorship_mail != None %}
-                                <span class="full-width"><em>{{ ngettext('Autor', 'Autoren', geoservice_link.authorship_place|length) }}</em></span>
+                                <span class="full-width"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> {{ ngettext('Autor', 'Autoren', geoservice_link.authorship_place|length) }}</span>
                                 {% for authorship_place in geoservice_link.authorship_place %}
                                   <span class="full-width">
                                     {% if geoservice_link.authorship_name[loop.index0] != None %}
+                                      {{ geoservice_link.authorship_name[loop.index0] }}
                                       {% if geoservice_link.authorship_mail[loop.index0] != None %}
                                         <a href="mailto:{{ geoservice_link.authorship_mail[loop.index0] }}"><span class="glyphicon glyphicon-envelope" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{{ _('Kontakt') }}"></span></a>
                                       {% endif %}
-                                      {{ geoservice_link.authorship_name[loop.index0] }} •
+                                      •
                                     {% endif %}
                                     {{ authorship_place }}
                                   </span>
                                 {% endfor %}
                               {% endif %}
-                              {% if geoservice_link.data_link != None %}
-                                <span class="full-width"><em>{{ _('Link') }}</em></span>
-                                <a href="{{ geoservice_link.data_link }}" target="_blank">
-                                  <span class="glyphicon glyphicon-link" aria-hidden="true"></span> {{ _('Link zu OpenData.HRO, dem Open-Data-Portal der Hanse- und Universitätsstadt Rostock') }}
+                              {% set opendata_sublink = geoservice_link.id|get_link_opendata_sublink() %}
+                              {% if opendata_sublink != None %}
+                                <span class="full-width"><span class="glyphicon glyphicon-link" aria-hidden="true"></span> {{ _('Link') }}</span>
+                                <a href="{{ opendata_sublink.link }}" target="_blank">
+                                  <span class="glyphicon glyphicon-{% if opendata_sublink.reachable == True %}ok-sign green{% else %}remove-sign red{% endif %}" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{{ _('letzte Prüfung auf Erreichbarkeit') }}: {{ opendata_sublink.reachable_last_check|datetime_l10n('full') }}"></span>
+                                  <span class="glyphicon glyphicon-eye-{% if opendata_sublink.public == True %}open green{% else %}close red{% endif %}" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{% if opendata_sublink.public == True %}{{ _('öffentlich zugänglich') }}{% else %}{{ _('nicht öffentlich zugänglich') }}{% endif %}"></span>
+                                  {{ opendata_sublink.title }}
                                 </a>
                               {% endif %}
                             {% endif %}
