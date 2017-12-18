@@ -4,6 +4,10 @@ a > small,
   margin-top: 3px;
 }
 
+.application-logo {
+  height: 20px;
+}
+
 .checkboxes {
   margin-bottom: 10px;
 }

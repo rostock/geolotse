@@ -4,6 +4,23 @@ $(document).ready(function() {
   $('[data-toggle="tooltip"]').tooltip();
 });
 
+$( '#application-filter-input' ).keyup(function() {
+  var value = $(this).val().toLowerCase();
+  $('#application-accordion > div').each(function() {
+    if ($(this).text().toLowerCase().search(value) > -1) {
+      $(this).removeClass('hidden-by-filter-input');
+      if (!$(this).hasClass('hidden-by-checkbox')) {
+        $(this).show();
+      }
+    } else {
+      $(this).addClass('hidden-by-filter-input');
+      if (!$(this).hasClass('hidden-by-checkbox')) {
+        $(this).hide();
+      }
+    }
+  });
+});
+
 $( '#external-filter-input' ).keyup(function() {
   var value = $(this).val().toLowerCase();
   $('.external-list-group > a').each(function() {
@@ -68,6 +85,17 @@ $( '#geoservice-filter-input' ).keyup(function() {
       if (!$(this).hasClass('hidden-by-checkbox')) {
         $(this).hide();
       }
+    }
+  });
+});
+
+$( '#helper-filter-input' ).keyup(function() {
+  var value = $(this).val().toLowerCase();
+  $('.helper-list-group > a').each(function() {
+    if ($(this).text().toLowerCase().search(value) > -1) {
+      $(this).show();
+    } else {
+      $(this).hide();
     }
   });
 });
