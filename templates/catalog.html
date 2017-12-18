@@ -119,9 +119,9 @@
                             {% endif %}
                             {% for child in geoservice_link.id|get_link_children(True) %}
                               <div class="geoservice-child">
-                                {% set typifier_tag = child.id|get_link_typifier_tag(True) %}
-                                <h5 {% if link_children_tags|length == 0 %}class="first"{% endif %}><span class="glyphicon glyphicon-globe" aria-hidden="true"></span> {{ typifier_tag }}</h5>
-                                {% if 'inspire' in typifier_tag|lower and child.inspire_annex_theme != None %}
+                                {% set typifier_tag = child.id|get_link_typifier_tag() %}
+                                <h5 {% if link_children_tags|length == 0 %}class="first"{% endif %}><span class="glyphicon glyphicon-globe" aria-hidden="true"></span> {{ typifier_tag.title }}</h5>
+                                {% if 'inspire' in typifier_tag.title|lower and child.inspire_annex_theme != None %}
                                   <span class="full-width"><span class="glyphicon glyphicon-flag" aria-hidden="true"></span> {{ _('Annex-Thema') }}</span>
                                   <span class="full-width">{{ child.inspire_annex_theme }}</span>
                                 {% endif %}

@@ -9,8 +9,10 @@ from flask_sqlalchemy import Model, SQLAlchemy
 from flask_sqlalchemy_cache import CachingQuery
 
 
+
 # initialise application
 app = Flask(__name__, static_url_path='/assets')
+
 
 
 # import configurations from files
@@ -18,9 +20,11 @@ app.config.from_pyfile('secrets.py', silent = True)
 app.config.from_pyfile('settings.py', silent = True)
 
 
+
 # Jinja2 whitespace and indent control
 app.jinja_env.lstrip_blocks = True
 app.jinja_env.trim_blocks = True
+
 
 
 # initialise Babel, Bootstrap, Compress, SQLAlchemy, Migrate and Cache
@@ -37,6 +41,7 @@ cache = Cache(app, config = {
   'CACHE_MEMCACHED_SERVERS': app.config['CACHE_MEMCACHED_SERVERS'],
   'CACHE_KEY_PREFIX': 'geolotse'
 })
+
 
 
 # initialise database
@@ -90,6 +95,7 @@ class Links(db.Model):
   authorship_name = db.Column(db.ARRAY(db.String(255)), nullable = True)
   authorship_mail = db.Column(db.ARRAY(db.String(255)), nullable = True)
   inspire_annex_theme = db.Column(db.String(255), nullable = True)
+  logo = db.Column(db.String(255), nullable = True)
   
   group = db.relationship('Groups', backref = db.backref('links', lazy = 'dynamic'))
   tags = db.relationship('Tags', secondary = links_tags, lazy = 'dynamic', backref = db.backref('links', lazy = 'dynamic'))
@@ -160,7 +166,7 @@ class Tags(db.Model):
   
   id = db.Column(db.Integer, primary_key = True)
   group_id = db.Column(db.Integer, db.ForeignKey('groups.id'), nullable = False)
-  title = db.Column(db.String(255), unique = True, nullable = False)
+  title = db.Column(db.String(255), nullable = False)
   auto = db.Column(db.Boolean, nullable = False)
   typifier = db.Column(db.Boolean, nullable = False)
   
@@ -188,6 +194,7 @@ class Targets(db.Model):
     return '<targets id {}>'.format(self.id)
 
 
+
 # i18n and l10n: language
 @babel.localeselector
 def get_locale():
@@ -202,6 +209,7 @@ def before():
     request.view_args.pop('lang_code')
   else:
     g.current_lang = request.accept_languages.best_match(app.config['LANGUAGES'].keys())
+
 
 
 # i18n and l10n: dates and times
@@ -235,15 +243,26 @@ app.jinja_env.filters['date_l10n'] = date_l10n
 app.jinja_env.filters['datetime_l10n'] = datetime_l10n
 
 
+
+# populate constants with database values before first request
+@app.before_first_request
+def populate_constants():   
+  global GROUP_ID_DOCUMENTATION
+  global GROUP_ID_DOWNLOAD
+  global GROUP_ID_EXTERNAL
+  global GROUP_ID_GEOSERVICE
+  global TARGET_ID_METADATA
+  global TARGET_ID_OPENDATA
+  GROUP_ID_DOCUMENTATION = Groups.query.with_entities(Groups.id).filter_by(name = 'documentation').first()
+  GROUP_ID_DOWNLOAD = Groups.query.with_entities(Groups.id).filter_by(name = 'download').first()
+  GROUP_ID_EXTERNAL = Groups.query.with_entities(Groups.id).filter_by(name = 'external').first()
+  GROUP_ID_GEOSERVICE = Groups.query.with_entities(Groups.id).filter_by(name = 'geoservice').first()
+  TARGET_ID_METADATA = Targets.query.with_entities(Targets.id).filter_by(name = 'metadata').first()
+  TARGET_ID_OPENDATA = Targets.query.with_entities(Targets.id).filter_by(name = 'opendata').first()
+
+
+
 # database functions
-GROUP_ID_DOCUMENTATION = Groups.query.with_entities(Groups.id).filter_by(name = 'documentation').first()
-GROUP_ID_DOWNLOAD = Groups.query.with_entities(Groups.id).filter_by(name = 'download').first()
-GROUP_ID_EXTERNAL = Groups.query.with_entities(Groups.id).filter_by(name = 'external').first()
-GROUP_ID_GEOSERVICE = Groups.query.with_entities(Groups.id).filter_by(name = 'geoservice').first()
-
-TARGET_ID_METADATA = Targets.query.with_entities(Targets.id).filter_by(name = 'metadata').first()
-TARGET_ID_OPENDATA = Targets.query.with_entities(Targets.id).filter_by(name = 'opendata').first()
-
 @cache.memoize(timeout = 43200)
 def get_external_tags():
   return Tags.query.filter_by(group_id = GROUP_ID_EXTERNAL).order_by(Tags.title).all()
@@ -263,50 +282,39 @@ def get_link_children(parent_id = 1, with_parent = True):
 @cache.memoize(timeout = 43200)
 def get_link_children_tags(parent_id = 1, with_parent_tags = True):
   list = []
-  links = Links.query.filter_by(parent_id = parent_id).all() if with_parent_tags == True else Links.query.filter(Links.parent_id == parent_id, Links.id != parent_id).all()
-  for link in links:
-    for tag in link.tags:
-      (tag.typifier == False and tag.title not in list) and list.append(tag.title)
+  tags = Tags.query.join(Links.tags).filter(Links.parent_id == parent_id, Tags.typifier == False).all() if with_parent_tags == True else Tags.query.join(Links.tags).filter(Links.parent_id == parent_id, Links.id != parent_id, Tags.typifier == False).all()
+  for tag in tags:
+    tag.title not in list and list.append(tag.title)
   list.sort()
   return tuple(list)
 
 @cache.memoize(timeout = 43200)
 def get_link_children_typifier_tags(parent_id = 1, with_parent_tags = True):
   list = []
-  links = Links.query.filter_by(parent_id = parent_id).all() if with_parent_tags == True else Links.query.filter(Links.parent_id == parent_id, Links.id != parent_id).all()
-  for link in links:
-    for tag in link.tags:
-      tag.typifier == True and list.append(tag.title)
+  tags = Tags.query.join(Links.tags).filter(Links.parent_id == parent_id, Tags.typifier == True).all() if with_parent_tags == True else Tags.query.join(Links.tags).filter(Links.parent_id == parent_id, Links.id != parent_id, Tags.typifier == True).all()
+  for tag in tags:
+    list.append(tag.title)
   list.sort()
   return tuple(list)
 
 @cache.memoize(timeout = 43200)
 def get_link_metadata_sublink(id = 1):
-  link = Links.query.filter_by(id = id).first()
-  for sublink in link.sublinks:
-    if sublink.target_id == TARGET_ID_METADATA[0]:
-      return sublink
+  return Sublinks.query.join(Links.sublinks).filter(Links.id == id, Sublinks.target_id == TARGET_ID_METADATA).first()
 
 @cache.memoize(timeout = 43200)
 def get_link_opendata_sublink(id = 1):
-  link = Links.query.filter_by(id = id).first()
-  for sublink in link.sublinks:
-    if sublink.target_id == TARGET_ID_OPENDATA[0]:
-      return sublink
+  return Sublinks.query.join(Links.sublinks).filter(Links.id == id, Sublinks.target_id == TARGET_ID_OPENDATA).first()
 
 @cache.memoize(timeout = 43200)
-def get_link_typifier_tag(id = 1, only_title = True):
-  link = Links.query.filter_by(id = id).first()
-  for tag in link.tags:
-    if tag.typifier == True:
-      return tag.title if only_title == True else tag
+def get_link_typifier_tag(id = 1):
+  return Tags.query.join(Links.tags).filter(Links.id == id, Tags.typifier == True).first()
 
 @cache.memoize(timeout = 840)
 def get_links_by_group_id(group_id = 1):
   return Links.query.filter_by(group_id = group_id).order_by(Links.title).all()
 
 @cache.memoize(timeout = 43200)
-def get_tag_links(id):
+def get_tag_links(id = 1):
   return Links.query.join(Links.tags).filter(Tags.id == id).order_by(Links.title).all()
 
 app.jinja_env.filters['get_link_children'] = get_link_children
@@ -318,7 +326,8 @@ app.jinja_env.filters['get_link_opendata_sublink'] = get_link_opendata_sublink
 app.jinja_env.filters['get_tag_links'] = get_tag_links
 
 
-# routing, database and custom error handling
+
+# routing and custom error handling
 @app.route('/')
 def index_without_lang_code():
   return redirect(url_for('index', lang_code = g.current_lang if g.current_lang else app.config['BABEL_DEFAULT_LOCALE']))
