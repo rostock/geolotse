@@ -63,33 +63,20 @@ situations_tags = db.Table(
   db.Column('tag_id', db.Integer, db.ForeignKey('tags.id'), primary_key = True)
 )
 
-class Groups(db.Model):
-  __tablename__ = 'groups'
-  
-  id = db.Column(db.Integer, primary_key = True)
-  name = db.Column(db.String(255), unique = True, nullable = False)
-  order = db.Column(db.SmallInteger, unique = True, nullable = False)
-  
-  def __init__(self, name, order):
-    self.name = name
-    self.order = order
-  
-  def __repr__(self):
-    return '<groups id {}>'.format(self.id)
-
 class Links(db.Model):
   __tablename__ = 'links'
   
   id = db.Column(db.Integer, primary_key = True)
-  group_id = db.Column(db.Integer, db.ForeignKey('groups.id'), nullable = False)
+  parent_id = db.Column(db.Integer, db.ForeignKey('links.id'), nullable = False)
+  category = db.Column(db.String(255), nullable = False, index = True)
+  category_order = db.Column(db.SmallInteger, nullable = False, index = True)
+  group = db.Column(db.String(255), nullable = False, index = True)
+  group_order = db.Column(db.SmallInteger, nullable = False, index = True)
   title = db.Column(db.String(255), nullable = False)
   link = db.Column(db.String(255), nullable = False)
   public = db.Column(db.Boolean, nullable = False)
   reachable = db.Column(db.Boolean, nullable = False)
   reachable_last_check = db.Column(db.DateTime(timezone = True), nullable = False)
-  parent_id = db.Column(db.Integer, db.ForeignKey('links.id'), nullable = False)
-  order = db.Column(db.SmallInteger, nullable = False)
-  parent_order = db.Column(db.SmallInteger, nullable = True)
   description = db.Column(db.Text, nullable = True)
   date = db.Column(db.Date, nullable = True)
   authorship_place = db.Column(db.ARRAY(db.String(255)), nullable = True)
@@ -98,21 +85,21 @@ class Links(db.Model):
   inspire_annex_theme = db.Column(db.String(255), nullable = True)
   logo = db.Column(db.String(255), nullable = True)
   
-  group = db.relationship('Groups', backref = db.backref('links', lazy = 'dynamic'))
   tags = db.relationship('Tags', secondary = links_tags, lazy = 'dynamic', backref = db.backref('links', lazy = 'dynamic'))
   parent = db.relationship('Links', backref = db.backref('links', lazy = 'dynamic'), remote_side = id)
   sublinks = db.relationship('Sublinks', secondary = links_sublinks, lazy = 'dynamic', backref = db.backref('sublinks', lazy = 'dynamic'))
   
-  def __init__(self, group_id, title, link, public, reachable, reachable_last_check, parent_id, order, parent_order, description, date, authorship_place, authorship_name, authorship_mail, inspire_annex_theme, logo):
-    self.group_id = group_id
+  def __init__(self, parent_id, category, category_order, group, group_order, title, link, public, reachable, reachable_last_check, description, date, authorship_place, authorship_name, authorship_mail, inspire_annex_theme, logo):
+    self.parent_id = parent_id
+    self.category = category
+    self.category_order = category_order
+    self.group = group
+    self.group_order = group_order
     self.title = title
     self.link = link
     self.public = public
     self.reachable = reachable
     self.reachable_last_check = reachable_last_check
-    self.parent_id = parent_id
-    self.order = order
-    self.parent_order = parent_order
     self.description = description
     self.date = date
     self.authorship_place = authorship_place
@@ -144,17 +131,15 @@ class Sublinks(db.Model):
   __tablename__ = 'sublinks'
   
   id = db.Column(db.Integer, primary_key = True)
-  target_id = db.Column(db.Integer, db.ForeignKey('targets.id'), nullable = False)
+  target = db.Column(db.String(255), nullable = False, index = True)
   title = db.Column(db.String(255), nullable = False)
   link = db.Column(db.String, nullable = False)
   public = db.Column(db.Boolean, nullable = False)
   reachable = db.Column(db.Boolean, nullable = False)
   reachable_last_check = db.Column(db.DateTime(timezone = True), nullable = False)
   
-  target = db.relationship('Targets', backref = db.backref('sublinks', lazy = 'dynamic'))
-  
-  def __init__(self, target_id, title, link, public, reachable, reachable_last_check):
-    self.target_id = target_id
+  def __init__(self, target, title, link, public, reachable, reachable_last_check):
+    self.target = target
     self.title = title
     self.link = link
     self.public = public
@@ -168,33 +153,15 @@ class Tags(db.Model):
   __tablename__ = 'tags'
   
   id = db.Column(db.Integer, primary_key = True)
-  group_id = db.Column(db.Integer, db.ForeignKey('groups.id'), nullable = False)
   title = db.Column(db.String(255), nullable = False)
   auto = db.Column(db.Boolean, nullable = False)
-  typifier = db.Column(db.Boolean, nullable = False)
   
-  group = db.relationship('Groups', backref = db.backref('tags', lazy = 'dynamic'))
-  
-  def __init__(self, group_id, title, auto):
-    self.group_id = group_id
+  def __init__(self, title, auto):
     self.title = title
     self.auto = auto
-    self.typifier = typifier
   
   def __repr__(self):
     return '<tags id {}>'.format(self.id)
-
-class Targets(db.Model):
-  __tablename__ = 'targets'
-  
-  id = db.Column(db.Integer, primary_key = True)
-  name = db.Column(db.String(255), unique = True, nullable = False)
-  
-  def __init__(self, name):
-    self.name = name
-  
-  def __repr__(self):
-    return '<targets id {}>'.format(self.id)
 
 
 
@@ -247,114 +214,59 @@ app.jinja_env.filters['datetime_l10n'] = datetime_l10n
 
 
 
-# clear cache and populate constants with database values before first request
+# clear cache before first request
 @app.before_first_request
-def populate_constants():
+def clear_cache():
   cache.clear()
-  global GROUP_ID_API
-  global GROUP_ID_APPLICATION
-  global GROUP_ID_DOCUMENTATION
-  global GROUP_ID_DOWNLOAD
-  global GROUP_ID_EXTERNAL
-  global GROUP_ID_GEOSERVICE
-  global GROUP_ID_HELPER
-  global TARGET_ID_GEOPORTAL
-  global TARGET_ID_GEOPORTAL_MOBILE
-  global TARGET_ID_METADATA
-  global TARGET_ID_OPENDATA
-  GROUP_ID_API = Groups.query.with_entities(Groups.id).filter_by(name = 'api').first()
-  GROUP_ID_APPLICATION = Groups.query.with_entities(Groups.id).filter_by(name = 'application').first()
-  GROUP_ID_DOCUMENTATION = Groups.query.with_entities(Groups.id).filter_by(name = 'documentation').first()
-  GROUP_ID_DOWNLOAD = Groups.query.with_entities(Groups.id).filter_by(name = 'download').first()
-  GROUP_ID_EXTERNAL = Groups.query.with_entities(Groups.id).filter_by(name = 'external').first()
-  GROUP_ID_GEOSERVICE = Groups.query.with_entities(Groups.id).filter_by(name = 'geoservice').first()
-  GROUP_ID_HELPER = Groups.query.with_entities(Groups.id).filter_by(name = 'helper').first()
-  TARGET_ID_GEOPORTAL = Targets.query.with_entities(Targets.id).filter_by(name = 'geoportal').first()
-  TARGET_ID_GEOPORTAL_MOBILE = Targets.query.with_entities(Targets.id).filter_by(name = 'geoportal_mobile').first()
-  TARGET_ID_METADATA = Targets.query.with_entities(Targets.id).filter_by(name = 'metadata').first()
-  TARGET_ID_OPENDATA = Targets.query.with_entities(Targets.id).filter_by(name = 'opendata').first()
 
 
 
 # database functions
-@cache.memoize(timeout = app.config['VOLATILE_DATA_CACHE_TIMEOUT'])
-def get_application_links():
-  return Links.query.filter(Links.group_id == GROUP_ID_APPLICATION, Links.id == Links.parent_id).order_by(Links.parent_order).all()
-  
 @cache.memoize(timeout = app.config['DEFAULT_CACHE_TIMEOUT'])
-def get_external_tags():
-  return Tags.query.filter_by(group_id = GROUP_ID_EXTERNAL).order_by(Tags.title).all()
+def get_link_sublink(id = 1, target = 'geoportal'):
+  return Sublinks.query.join(Links.sublinks).filter(Links.id == id, Sublinks.target == target).first()
 
 @cache.memoize(timeout = app.config['DEFAULT_CACHE_TIMEOUT'])
-def get_geoservice_tags():
-  return Tags.query.filter(Tags.group_id == GROUP_ID_GEOSERVICE, Tags.typifier == True).order_by(Tags.title).all()
+def get_links(category = 'api', group_order = False):
+  return Links.query.filter_by(category = category).order_by(Links.group, Links.group_order, Links.title).all() if group_order == True else Links.query.filter_by(category = category).order_by(Links.title).all()
 
 @cache.memoize(timeout = app.config['DEFAULT_CACHE_TIMEOUT'])
-def get_groups():
-  return Groups.query.with_entities(Groups.name).order_by(Groups.order).all()
+def get_links_categories():
+  return Links.query.with_entities(Links.category).group_by(Links.category, Links.category_order).order_by(Links.category_order).all()
 
 @cache.memoize(timeout = app.config['DEFAULT_CACHE_TIMEOUT'])
-def get_helper_tags():
-  return Tags.query.filter_by(group_id = GROUP_ID_HELPER).order_by(Tags.title).all()
+def get_links_groups(category = 'api'):
+  return Links.query.with_entities(Links.group).filter_by(category = category).group_by(Links.group).order_by(Links.group).all()
 
 @cache.memoize(timeout = app.config['DEFAULT_CACHE_TIMEOUT'])
-def get_link_children(parent_id = 1, with_parent = True):
-  return Links.query.filter_by(parent_id = parent_id).order_by(Links.order).all() if with_parent == True else Links.query.filter(Links.parent_id == parent_id, Links.id != parent_id).order_by(Links.order).all()
+def get_parent_link_children(parent_id = 1, include_parent_link = True):
+  return Links.query.filter_by(parent_id = parent_id).order_by(Links.group_order).all() if include_parent_link == True else Links.query.filter(Links.parent_id == parent_id, Links.id != parent_id).order_by(Links.group_order).all()
 
 @cache.memoize(timeout = app.config['DEFAULT_CACHE_TIMEOUT'])
-def get_link_children_tags(parent_id = 1, with_parent_tags = True):
+def get_parent_link_children_groups(parent_id = 1, include_parent_link_groups = True):
+  return Links.query.filter_by(parent_id = parent_id).order_by(Links.group).all() if include_parent_link_groups == True else Links.query.filter(Links.parent_id == parent_id, Links.id != parent_id).order_by(Links.group).all()
+
+@cache.memoize(timeout = app.config['DEFAULT_CACHE_TIMEOUT'])
+def get_parent_link_children_tags(parent_id = 1, include_parent_link_tags = True):
   list = []
-  tags = Tags.query.join(Links.tags).filter(Links.parent_id == parent_id, Tags.typifier == False).all() if with_parent_tags == True else Tags.query.join(Links.tags).filter(Links.parent_id == parent_id, Links.id != parent_id, Tags.typifier == False).all()
+  tags = Tags.query.join(Links.tags).filter(Links.parent_id == parent_id).all() if include_parent_link_tags == True else Tags.query.join(Links.tags).filter(Links.parent_id == parent_id, Links.id != parent_id).all()
   for tag in tags:
     tag.title not in list and list.append(tag.title)
   list.sort()
   return tuple(list)
 
-@cache.memoize(timeout = app.config['DEFAULT_CACHE_TIMEOUT'])
-def get_link_children_typifier_tags(parent_id = 1, with_parent_tags = True):
-  list = []
-  tags = Tags.query.join(Links.tags).filter(Links.parent_id == parent_id, Tags.typifier == True).all() if with_parent_tags == True else Tags.query.join(Links.tags).filter(Links.parent_id == parent_id, Links.id != parent_id, Tags.typifier == True).all()
-  for tag in tags:
-    list.append(tag.title)
-  list.sort()
-  return tuple(list)
-
-@cache.memoize(timeout = app.config['DEFAULT_CACHE_TIMEOUT'])
-def get_link_geoportal_sublink(id = 1):
-  return Sublinks.query.join(Links.sublinks).filter(Links.id == id, Sublinks.target_id == TARGET_ID_GEOPORTAL).first()
-
-@cache.memoize(timeout = app.config['DEFAULT_CACHE_TIMEOUT'])
-def get_link_geoportal_mobile_sublink(id = 1):
-  return Sublinks.query.join(Links.sublinks).filter(Links.id == id, Sublinks.target_id == TARGET_ID_GEOPORTAL_MOBILE).first()
-
-@cache.memoize(timeout = app.config['DEFAULT_CACHE_TIMEOUT'])
-def get_link_metadata_sublink(id = 1):
-  return Sublinks.query.join(Links.sublinks).filter(Links.id == id, Sublinks.target_id == TARGET_ID_METADATA).first()
-
-@cache.memoize(timeout = app.config['DEFAULT_CACHE_TIMEOUT'])
-def get_link_opendata_sublink(id = 1):
-  return Sublinks.query.join(Links.sublinks).filter(Links.id == id, Sublinks.target_id == TARGET_ID_OPENDATA).first()
-
-@cache.memoize(timeout = app.config['DEFAULT_CACHE_TIMEOUT'])
-def get_link_typifier_tag(id = 1):
-  return Tags.query.join(Links.tags).filter(Links.id == id, Tags.typifier == True).first()
-
 @cache.memoize(timeout = app.config['VOLATILE_DATA_CACHE_TIMEOUT'])
-def get_links_by_group_id(group_id = 1):
-  return Links.query.filter_by(group_id = group_id).order_by(Links.title).all()
+def get_parent_links(category = 'api', group_order = False):
+  return Links.query.filter(Links.category == category, Links.id == Links.parent_id).order_by(Links.group, Links.title).all() if group_order == True else Links.query.filter(Links.category == category, Links.id == Links.parent_id).order_by(Links.title).all()
 
 @cache.memoize(timeout = app.config['DEFAULT_CACHE_TIMEOUT'])
 def get_tag_links(id = 1):
   return Links.query.join(Links.tags).filter(Tags.id == id).order_by(Links.title).all()
 
-app.jinja_env.filters['get_link_children'] = get_link_children
-app.jinja_env.filters['get_link_children_tags'] = get_link_children_tags
-app.jinja_env.filters['get_link_children_typifier_tags'] = get_link_children_typifier_tags
-app.jinja_env.filters['get_link_typifier_tag'] = get_link_typifier_tag
-app.jinja_env.filters['get_link_geoportal_sublink'] = get_link_geoportal_sublink
-app.jinja_env.filters['get_link_geoportal_mobile_sublink'] = get_link_geoportal_mobile_sublink
-app.jinja_env.filters['get_link_metadata_sublink'] = get_link_metadata_sublink
-app.jinja_env.filters['get_link_opendata_sublink'] = get_link_opendata_sublink
+app.jinja_env.filters['get_link_sublink'] = get_link_sublink
+app.jinja_env.filters['get_parent_link_children'] = get_parent_link_children
+app.jinja_env.filters['get_parent_link_children_groups'] = get_parent_link_children_groups
+app.jinja_env.filters['get_parent_link_children_tags'] = get_parent_link_children_tags
 app.jinja_env.filters['get_tag_links'] = get_tag_links
 
 
@@ -374,7 +286,7 @@ def catalog_without_lang_code():
 
 @app.route('/<lang_code>/catalog')
 def catalog():
-  return render_template('catalog.html', subtitle = gettext(u'Katalog'), groups = get_groups(), api_links = get_links_by_group_id(GROUP_ID_API), application_links = get_application_links(), documentation_links = get_links_by_group_id(GROUP_ID_DOCUMENTATION), download_links = get_links_by_group_id(GROUP_ID_DOWNLOAD), geoservice_links = get_links_by_group_id(GROUP_ID_GEOSERVICE), external_tags = get_external_tags(), geoservice_tags = get_geoservice_tags(), helper_tags = get_helper_tags())
+  return render_template('catalog.html', subtitle = gettext(u'Katalog'), categories = get_links_categories(), api_links = get_parent_links('api', False), application_links = get_parent_links('application', True), documentation_links = get_parent_links('documentation', False), download_links = get_parent_links('download', False), external_links = get_links('external', True), geoservice_groups = get_links_groups('geoservice'), geoservice_links = get_parent_links('geoservice', False), helper_links = get_links('helper', True))
 
 @app.route('/imprint')
 def imprint_without_lang_code():

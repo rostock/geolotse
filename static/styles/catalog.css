@@ -16,11 +16,6 @@ a > small,
   padding-bottom: 3px;
 }
 
-.external_links {
-  display: block;
-  margin-bottom: 5px;
-}
-
 .filter-input {
   width: 300px;
   margin-bottom: 20px;
@@ -53,6 +48,7 @@ a > small,
   color: #d81920;
 }
 
+#application-accordion h4 > a,
 #geoservice-accordion h4 > a {
   font-weight: normal;
 }

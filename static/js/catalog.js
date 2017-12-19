@@ -45,7 +45,7 @@ $('.geoservice-checkbox').change(function() {
         }
       }
     });
-    $('.geoservice-typifier-tag').each(function() {
+    $('.geoservice-group-tag').each(function() {
       if ($(this).text().search(value) > -1) {
         $(this).show();
       }
@@ -64,7 +64,7 @@ $('.geoservice-checkbox').change(function() {
         }
       }
     });
-    $('.geoservice-typifier-tag').each(function() {
+    $('.geoservice-group-tag').each(function() {
       if ($(this).text().search(value) > -1) {
         $(this).hide();
       }

@@ -16,34 +16,32 @@
   {% include 'navbar.html' %}
   <div class="container-fluid">
     <div class="panel-group" id="accordion">
-      {% for group in groups %}
+      {% for category in categories %}
         <div class="panel panel-info">
           <div class="panel-heading">
             <h4 class="panel-title">
-              <a data-toggle="collapse" data-parent="#accordion" href="#{{ group.name }}">
-                {% if group.name == 'api' %}
+              <a data-toggle="collapse" data-parent="#accordion" href="#{{ category.category }}">
+                {% if category.category == 'api' %}
                   <span class="glyphicon glyphicon-dashboard" aria-hidden="true"></span> {{ _('API (Programmierschnittstellen)') }}
-                {% elif group.name == 'application' %}
+                {% elif category.category == 'application' %}
                   <span class="glyphicon glyphicon-phone" aria-hidden="true"></span> {{ _('Anwendungen') }}
-                {% elif group.name == 'documentation' %}
+                {% elif category.category == 'documentation' %}
                   <span class="glyphicon glyphicon-book" aria-hidden="true"></span> {{ _('Dokumentationen') }}
-                {% elif group.name == 'download' %}
+                {% elif category.category == 'download' %}
                   <span class="glyphicon glyphicon-download" aria-hidden="true"></span> {{ _('Downloads') }}
-                {% elif group.name == 'external' %}
+                {% elif category.category == 'external' %}
                   <span class="glyphicon glyphicon-link" aria-hidden="true"></span> {{ _('externe Links') }}
-                {% elif group.name == 'geoservice' %}
+                {% elif category.category == 'geoservice' %}
                   <span class="glyphicon glyphicon-globe" aria-hidden="true"></span> {{ _('Geodatendienste') }}
-                {% elif group.name == 'helper' %}
+                {% elif category.category == 'helper' %}
                   <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> {{ _('Tools') }}
-                {% else %}
-                  <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span> {{ group.name }}
                 {% endif %}
               </a>
             </h4>
           </div>
-          <div id="{{ group.name }}" class="panel-collapse collapse">
+          <div id="{{ category.category }}" class="panel-collapse collapse">
             <div class="panel-body">
-              {% if group.name == 'api' %}
+              {% if category.category == 'api' %}
                 <div class="list-group">
                   {% for api_link in api_links %}
                     <a href="{{ api_link.link }}" target="_blank" class="list-group-item list-group-item-action">
@@ -54,39 +52,36 @@
                   {% endfor %}
                 </div>
               {% endif %}
-              {% if group.name == 'application' %}
-                <span class="glyphicon glyphicon-filter" aria-hidden="true"></span> <input class="filter-input form-control" id="application-filter-input" placeholder="{{ _('Freitextfilter') }}…" type="text" />
+              {% if category.category == 'application' %}
+                <span class="glyphicon glyphicon-filter" aria-hidden="true"></span> <input class="filter-input" id="application-filter-input" placeholder="{{ _('Freitextfilter') }}…" type="text" />
                 <div class="panel-group" id="application-accordion">
                   {% for application_link in application_links %}
-                    {% if application_link.parent_id == application_link.id %}
-                      <div class="panel panel-info">
-                        <div class="panel-heading">
-                          <h4 class="panel-title">
-                            <a data-toggle="collapse" href="#application-{{ application_link.id }}">
-                              {% set typifier_tag = application_link.id|get_link_typifier_tag() %}
-                              <span class="full-width">{% if application_link.logo != None %}<img src="{{url_for('static', filename='images/') }}{{ application_link.logo }}" class="application-logo" /> {% endif %}{{ typifier_tag.title }}</span>
-                            </a>
-                          </h4>
-                        </div>
-                        <div id="application-{{ application_link.id }}" class="panel-collapse collapse">
-                          <div class="panel-body">
-                            {% for child in application_link.id|get_link_children(True) %}
-                              <div class="application-child">
-                                <a href="{{ child.link }}" target="_blank">
-                                  <span class="glyphicon glyphicon-{% if child.reachable == True %}ok-sign green{% else %}remove-sign red{% endif %}" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{{ _('letzte Prüfung auf Erreichbarkeit') }}: {{ child.reachable_last_check|datetime_l10n('full') }}"></span>
-                                  <span class="glyphicon glyphicon-eye-{% if child.public == True %}open green{% else %}close red{% endif %}" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{% if child.public == True %}{{ _('öffentlich zugänglich') }}{% else %}{{ _('nicht öffentlich zugänglich') }}{% endif %}"></span>
-                                  {{ child.title }}
-                                </a>
-                              </div>
-                            {% endfor %}
-                          </div>
+                    <div class="panel panel-info">
+                      <div class="panel-heading">
+                        <h4 class="panel-title">
+                          <a data-toggle="collapse" href="#application-{{ application_link.id }}">
+                            <span class="full-width">{% if application_link.logo != None %}<img src="{{url_for('static', filename='images/') }}{{ application_link.logo }}" class="application-logo" /> {% endif %}{{ application_link.group }}</span>
+                          </a>
+                        </h4>
+                      </div>
+                      <div id="application-{{ application_link.id }}" class="panel-collapse collapse">
+                        <div class="panel-body">
+                          {% for child in application_link.id|get_parent_link_children(True) %}
+                            <div class="application-child">
+                              <a href="{{ child.link }}" target="_blank">
+                                <span class="glyphicon glyphicon-{% if child.reachable == True %}ok-sign green{% else %}remove-sign red{% endif %}" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{{ _('letzte Prüfung auf Erreichbarkeit') }}: {{ child.reachable_last_check|datetime_l10n('full') }}"></span>
+                                <span class="glyphicon glyphicon-eye-{% if child.public == True %}open green{% else %}close red{% endif %}" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{% if child.public == True %}{{ _('öffentlich zugänglich') }}{% else %}{{ _('nicht öffentlich zugänglich') }}{% endif %}"></span>
+                                {{ child.title }}
+                              </a>
+                            </div>
+                          {% endfor %}
                         </div>
                       </div>
-                    {% endif %}
+                    </div>
                   {% endfor %}
                 </div>
               {% endif %}
-              {% if group.name == 'documentation' %}
+              {% if category.category == 'documentation' %}
                 <div class="list-group">
                   {% for documentation_link in documentation_links %}
                     <a href="{{ documentation_link.link }}" target="_blank" class="list-group-item list-group-item-action">
@@ -97,7 +92,7 @@
                   {% endfor %}
                 </div>
               {% endif %}
-              {% if group.name == 'download' %}
+              {% if category.category == 'download' %}
                 <div class="list-group">
                   {% for download_link in download_links %}
                     <a href="{{ download_link.link }}" target="_blank" class="list-group-item list-group-item-action">
@@ -108,105 +103,114 @@
                   {% endfor %}
                 </div>
               {% endif %}
-              {% if group.name == 'external' %}
-                <span class="glyphicon glyphicon-filter" aria-hidden="true"></span> <input class="filter-input form-control" id="external-filter-input" placeholder="{{ _('Freitextfilter') }}…" type="text" />
-                {% for external_tag in external_tags %}
-                  <h5{% if loop.first %} class="first"{% endif %}>{{ external_tag.title }}</h5>
-                  <div class="external-list-group">
-                    {% for external_link in external_tag.id|get_tag_links() %}
-                      <a href="{{ external_link.link }}" target="_blank" class="list-group-item list-group-item-action">
-                        <span class="glyphicon glyphicon-{% if external_link.reachable == True %}ok-sign green{% else %}remove-sign red{% endif %}" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{{ _('letzte Prüfung auf Erreichbarkeit') }}: {{ external_link.reachable_last_check|datetime_l10n('full') }}"></span>
-                        <span class="glyphicon glyphicon-eye-{% if external_link.public == True %}open green{% else %}close red{% endif %}" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{% if external_link.public == True %}{{ _('öffentlich zugänglich') }}{% else %}{{ _('nicht öffentlich zugänglich') }}{% endif %}"></span>
-                        {{ external_link.title }}
-                      </a>
-                    {% endfor %}
-                  </div>
+              {% if category.category == 'external' %}
+                <span class="glyphicon glyphicon-filter" aria-hidden="true"></span> <input class="filter-input" id="external-filter-input" placeholder="{{ _('Freitextfilter') }}…" type="text" />
+                {% for external_link in external_links %}
+                  {% if external_link.id == external_link.parent_id %}
+                    {% if not loop.first %}
+                      </div>
+                    {% endif %}
+                    <h5{% if loop.first %} class="first"{% endif %}>{{ external_link.group }}</h5>
+                    <div class="external-list-group">
+                  {% endif %}
+                  <a href="{{ external_link.link }}" target="_blank" class="list-group-item list-group-item-action">
+                    <span class="glyphicon glyphicon-{% if external_link.reachable == True %}ok-sign green{% else %}remove-sign red{% endif %}" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{{ _('letzte Prüfung auf Erreichbarkeit') }}: {{ external_link.reachable_last_check|datetime_l10n('full') }}"></span>
+                    <span class="glyphicon glyphicon-eye-{% if external_link.public == True %}open green{% else %}close red{% endif %}" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{% if external_link.public == True %}{{ _('öffentlich zugänglich') }}{% else %}{{ _('nicht öffentlich zugänglich') }}{% endif %}"></span>
+                    {{ external_link.title }}
+                  </a>
+                  {% if loop.last %}
+                    </div>
+                  {% endif %}
                 {% endfor %}
               {% endif %}
-              {% if group.name == 'helper' %}
-                <span class="glyphicon glyphicon-filter" aria-hidden="true"></span> <input class="filter-input form-control" id="helper-filter-input" placeholder="{{ _('Freitextfilter') }}…" type="text" />
-                {% for helper_tag in helper_tags %}
-                  <h5{% if loop.first %} class="first"{% endif %}>{{ helper_tag.title }}</h5>
-                  <div class="helper-list-group">
-                    {% for helper_link in helper_tag.id|get_tag_links() %}
-                      <a href="{{ helper_link.link }}" target="_blank" class="list-group-item list-group-item-action">
-                        <span class="glyphicon glyphicon-{% if helper_link.reachable == True %}ok-sign green{% else %}remove-sign red{% endif %}" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{{ _('letzte Prüfung auf Erreichbarkeit') }}: {{ helper_link.reachable_last_check|datetime_l10n('full') }}"></span>
-                        <span class="glyphicon glyphicon-eye-{% if helper_link.public == True %}open green{% else %}close red{% endif %}" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{% if helper_link.public == True %}{{ _('öffentlich zugänglich') }}{% else %}{{ _('nicht öffentlich zugänglich') }}{% endif %}"></span>
-                        {{ helper_link.title }}
-                      </a>
-                    {% endfor %}
-                  </div>
+              {% if category.category == 'helper' %}
+                <span class="glyphicon glyphicon-filter" aria-hidden="true"></span> <input class="filter-input" id="helper-filter-input" placeholder="{{ _('Freitextfilter') }}…" type="text" />
+                {% for helper_link in helper_links %}
+                  {% if helper_link.id == helper_link.parent_id %}
+                    {% if not loop.first %}
+                      </div>
+                    {% endif %}
+                    <h5{% if loop.first %} class="first"{% endif %}>{{ helper_link.group }}</h5>
+                    <div class="helper-list-group">
+                  {% endif %}
+                  <a href="{{ helper_link.link }}" target="_blank" class="list-group-item list-group-item-action">
+                    <span class="glyphicon glyphicon-{% if helper_link.reachable == True %}ok-sign green{% else %}remove-sign red{% endif %}" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{{ _('letzte Prüfung auf Erreichbarkeit') }}: {{ helper_link.reachable_last_check|datetime_l10n('full') }}"></span>
+                    <span class="glyphicon glyphicon-eye-{% if helper_link.public == True %}open green{% else %}close red{% endif %}" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{% if helper_link.public == True %}{{ _('öffentlich zugänglich') }}{% else %}{{ _('nicht öffentlich zugänglich') }}{% endif %}"></span>
+                    {{ helper_link.title }}
+                  </a>
+                  {% if loop.last %}
+                    </div>
+                  {% endif %}
                 {% endfor %}
               {% endif %}
-              {% if group.name == 'geoservice' %}
+              {% if category.category == 'geoservice' %}
                 <div class="checkboxes" id="geoservice-checkboxes">
                   <span class="glyphicon glyphicon-filter" aria-hidden="true"></span>
-                  {% for geoservice_tag in geoservice_tags %}
+                  {% for geoservice_group in geoservice_groups %}
                     <label class="checkbox-inline">
-                      <input type="checkbox" class="geoservice-checkbox" id="geoservice-checkbox-{{ geoservice_tag.id }}" value="{{ geoservice_tag.title }}" checked="checked" /> {{ geoservice_tag.title }}
+                      <input type="checkbox" class="geoservice-checkbox" id="geoservice-checkbox-{{ geoservice_group.group|lower }}" value="{{ geoservice_group.group }}" checked="checked" /> {{ geoservice_group.group }}
                     </label>
                   {% endfor %}
                 </div>
-                <span class="glyphicon glyphicon-filter" aria-hidden="true"></span> <input class="filter-input form-control" id="geoservice-filter-input" placeholder="{{ _('Freitextfilter') }}…" type="text" />
+                <span class="glyphicon glyphicon-filter" aria-hidden="true"></span> <input class="filter-input" id="geoservice-filter-input" placeholder="{{ _('Freitextfilter') }}…" type="text" />
                 <div class="panel-group" id="geoservice-accordion">
                   {% for geoservice_link in geoservice_links %}
-                    {% if geoservice_link.parent_id == geoservice_link.id %}
-                      <div class="panel panel-info">
-                        <div class="panel-heading">
-                          <h4 class="panel-title">
-                            <a data-toggle="collapse" href="#geoservice-{{ geoservice_link.id }}">
-                              <span class="full-width">{{ geoservice_link.title }}</span>
-                              <small>
-                                {% for typifier_tag in geoservice_link.id|get_link_children_typifier_tags(True) %}
-                                  <span class="full-width geoservice-typifier-tag">{{ typifier_tag }}</span>
-                                {% endfor %}
-                              </small>
-                            </a>
-                          </h4>
-                        </div>
-                        <div id="geoservice-{{ geoservice_link.id }}" class="panel-collapse collapse">
-                          <div class="panel-body">
-                            {% set link_children_tags = geoservice_link.id|get_link_children_tags(True) %}
-                            {% if link_children_tags|length > 0 %}
-                              <h5 class="first"><span class="glyphicon glyphicon-tag" aria-hidden="true"></span> {{ _('Schlagworte/Tags/Keywords') }}</h5>
-                              <span class="full-width">
-                                {% for tag in link_children_tags %}
-                                    {{ tag }}{% if not loop.last %} •{% endif %}
-                                {% endfor %}
-                              </span>
+                    <div class="panel panel-info">
+                      <div class="panel-heading">
+                        <h4 class="panel-title">
+                          <a data-toggle="collapse" href="#geoservice-{{ geoservice_link.id }}">
+                            <span class="full-width">{{ geoservice_link.title }}</span>
+                            <small>
+                              {% for group in geoservice_link.id|get_parent_link_children_groups(True) %}
+                                <span class="full-width geoservice-group-tag">{{ group.group }}</span>
+                              {% endfor %}
+                            </small>
+                          </a>
+                        </h4>
+                      </div>
+                      <div id="geoservice-{{ geoservice_link.id }}" class="panel-collapse collapse">
+                        <div class="panel-body">
+                          {% set link_children_tags = geoservice_link.id|get_parent_link_children_tags(True) %}
+                          {% if link_children_tags|length > 0 %}
+                            <h5 class="first"><span class="glyphicon glyphicon-tag" aria-hidden="true"></span> {{ _('Schlagworte/Tags/Keywords') }}</h5>
+                            <span class="full-width">
+                              {% for tag in link_children_tags %}
+                                  {{ tag }}{% if not loop.last %} •{% endif %}
+                              {% endfor %}
+                            </span>
+                          {% endif %}
+                          {% set geoportal_sublink = geoservice_link.id|get_link_sublink('geoportal') %}
+                          {% set geoportal_mobile_sublink = geoservice_link.id|get_link_sublink('geoportal_mobile') %}
+                          {% if geoportal_sublink != None or geoportal_mobile_sublink != None %}
+                            <h5><span class="glyphicon glyphicon-picture" aria-hidden="true"></span> {{ _('Vorschau') }}</h5>
+                            {% if geoportal_sublink != None %}
+                              <span class="full-width"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> {{ _('Desktop') }}</span>
+                              <a href="{{ geoportal_sublink.link }}" target="_blank">
+                                <span class="glyphicon glyphicon-{% if geoportal_sublink.reachable == True %}ok-sign green{% else %}remove-sign red{% endif %}" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{{ _('letzte Prüfung auf Erreichbarkeit') }}: {{ geoportal_sublink.reachable_last_check|datetime_l10n('full') }}"></span>
+                                <span class="glyphicon glyphicon-eye-{% if geoportal_sublink.public == True %}open green{% else %}close red{% endif %}" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{% if geoportal_sublink.public == True %}{{ _('öffentlich zugänglich') }}{% else %}{{ _('nicht öffentlich zugänglich') }}{% endif %}"></span>
+                                {{ geoportal_sublink.title }}
+                              </a>
                             {% endif %}
-                            {% set geoportal_sublink = geoservice_link.id|get_link_geoportal_sublink() %}
-                            {% set geoportal_mobile_sublink = geoservice_link.id|get_link_geoportal_mobile_sublink() %}
-                            {% if geoportal_sublink != None or geoportal_mobile_sublink != None %}
-                              <h5><span class="glyphicon glyphicon-picture" aria-hidden="true"></span> {{ _('Vorschau') }}</h5>
-                              {% if geoportal_sublink != None %}
-                                <span class="full-width"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> {{ _('Desktop') }}</span>
-                                <a href="{{ geoportal_sublink.link }}" target="_blank">
-                                  <span class="glyphicon glyphicon-{% if geoportal_sublink.reachable == True %}ok-sign green{% else %}remove-sign red{% endif %}" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{{ _('letzte Prüfung auf Erreichbarkeit') }}: {{ geoportal_sublink.reachable_last_check|datetime_l10n('full') }}"></span>
-                                  <span class="glyphicon glyphicon-eye-{% if geoportal_sublink.public == True %}open green{% else %}close red{% endif %}" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{% if geoportal_sublink.public == True %}{{ _('öffentlich zugänglich') }}{% else %}{{ _('nicht öffentlich zugänglich') }}{% endif %}"></span>
-                                  {{ geoportal_sublink.title }}
-                                </a>
-                              {% endif %}
-                              {% if geoportal_mobile_sublink != None %}
-                                <span class="full-width"><span class="glyphicon glyphicon-phone" aria-hidden="true"></span> {{ _('mobil') }}</span>
-                                <a href="{{ geoportal_mobile_sublink.link }}" target="_blank">
-                                  <span class="glyphicon glyphicon-{% if geoportal_mobile_sublink.reachable == True %}ok-sign green{% else %}remove-sign red{% endif %}" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{{ _('letzte Prüfung auf Erreichbarkeit') }}: {{ geoportal_mobile_sublink.reachable_last_check|datetime_l10n('full') }}"></span>
-                                  <span class="glyphicon glyphicon-eye-{% if geoportal_mobile_sublink.public == True %}open green{% else %}close red{% endif %}" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{% if geoportal_mobile_sublink.public == True %}{{ _('öffentlich zugänglich') }}{% else %}{{ _('nicht öffentlich zugänglich') }}{% endif %}"></span>
-                                  {{ geoportal_mobile_sublink.title }}
-                                </a>
-                              {% endif %}
+                            {% if geoportal_mobile_sublink != None %}
+                              <span class="full-width"><span class="glyphicon glyphicon-phone" aria-hidden="true"></span> {{ _('mobil') }}</span>
+                              <a href="{{ geoportal_mobile_sublink.link }}" target="_blank">
+                                <span class="glyphicon glyphicon-{% if geoportal_mobile_sublink.reachable == True %}ok-sign green{% else %}remove-sign red{% endif %}" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{{ _('letzte Prüfung auf Erreichbarkeit') }}: {{ geoportal_mobile_sublink.reachable_last_check|datetime_l10n('full') }}"></span>
+                                <span class="glyphicon glyphicon-eye-{% if geoportal_mobile_sublink.public == True %}open green{% else %}close red{% endif %}" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{% if geoportal_mobile_sublink.public == True %}{{ _('öffentlich zugänglich') }}{% else %}{{ _('nicht öffentlich zugänglich') }}{% endif %}"></span>
+                                {{ geoportal_mobile_sublink.title }}
+                              </a>
                             {% endif %}
-                            {% for child in geoservice_link.id|get_link_children(True) %}
-                              <div class="geoservice-child">
-                                {% set typifier_tag = child.id|get_link_typifier_tag() %}
-                                <h5 {% if link_children_tags|length == 0 %}class="first"{% endif %}><span class="glyphicon glyphicon-globe" aria-hidden="true"></span> {{ typifier_tag.title }}</h5>
-                                {% if 'inspire' in typifier_tag.title|lower and child.inspire_annex_theme != None %}
-                                  <span class="full-width"><span class="glyphicon glyphicon-flag" aria-hidden="true"></span> {{ _('Annex-Thema') }}</span>
-                                  <span class="full-width">{{ child.inspire_annex_theme }}</span>
-                                {% endif %}
-                                <span class="full-width"><span class="glyphicon glyphicon-comment" aria-hidden="true"></span> {{ _('Beschreibung') }}</span>
-                                <span class="full-width">{{ child.description }}</span>
-                                {% set metadata_sublink = child.id|get_link_metadata_sublink() %}
+                          {% endif %}
+                          {% for child in geoservice_link.id|get_parent_link_children(True) %}
+                            <div class="geoservice-child">
+                              <h5 {% if link_children_tags|length == 0 %}class="first"{% endif %}><span class="glyphicon glyphicon-globe" aria-hidden="true"></span> {{ child.group }}</h5>
+                              {% if 'inspire' in child.group|lower and child.inspire_annex_theme != None %}
+                                <span class="full-width"><span class="glyphicon glyphicon-flag" aria-hidden="true"></span> {{ _('Annex-Thema') }}</span>
+                                <span class="full-width">{{ child.inspire_annex_theme }}</span>
+                              {% endif %}
+                              <span class="full-width"><span class="glyphicon glyphicon-comment" aria-hidden="true"></span> {{ _('Beschreibung') }}</span>
+                              <span class="full-width">{{ child.description }}</span>
+                              {% if 'inspire' in child.group|lower %}
+                                {% set metadata_sublink = child.id|get_link_sublink('metadata') %}
                                 {% if metadata_sublink != None %}
                                   <span class="full-width"><span class="glyphicon glyphicon-paperclip" aria-hidden="true"></span> {{ _('Metadaten') }}</span>
                                   <a href="{{ metadata_sublink.link }}" target="_blank">
@@ -215,49 +219,49 @@
                                     {{ metadata_sublink.title }}
                                   </a>
                                 {% endif %}
-                                <span class="full-width"><span class="glyphicon glyphicon-link" aria-hidden="true"></span> {{ _('Link') }}</span>
-                                <a href="{{ child.link }}" target="_blank">
-                                  <span class="glyphicon glyphicon-{% if child.reachable == True %}ok-sign green{% else %}remove-sign red{% endif %}" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{{ _('letzte Prüfung auf Erreichbarkeit') }}: {{ child.reachable_last_check|datetime_l10n('full') }}"></span>
-                                  <span class="glyphicon glyphicon-eye-{% if child.public == True %}open green{% else %}close red{% endif %}" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{% if child.public == True %}{{ _('öffentlich zugänglich') }}{% else %}{{ _('nicht öffentlich zugänglich') }}{% endif %}"></span>
-                                  {{ child.link }}
-                                </a>
-                              </div>
-                            {% endfor %}
-                            {% if geoservice_link.date != None or geoservice_link.authorship_place != None or geoservice_link.authorship_name != None or geoservice_link.authorship_mail != None or geoservice_link.data_link != None %}
-                              <h5><span class="glyphicon glyphicon-home" aria-hidden="true"></span> {{ _('Datenquelle') }}</h5>
-                              {% if geoservice_link.date != None %}
-                                <span class="full-width"><span class="glyphicon glyphicon-time" aria-hidden="true"></span> {{ _('Stand') }}</span>
-                                <span class="full-width">{{ geoservice_link.date|date_l10n('full') }}</span>
                               {% endif %}
-                              {% if geoservice_link.authorship_place != None or geoservice_link.authorship_name != None or geoservice_link.authorship_mail != None %}
-                                <span class="full-width"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> {{ ngettext('Autor', 'Autoren', geoservice_link.authorship_place|length) }}</span>
-                                {% for authorship_place in geoservice_link.authorship_place %}
-                                  <span class="full-width">
-                                    {% if geoservice_link.authorship_name[loop.index0] != None %}
-                                      {{ geoservice_link.authorship_name[loop.index0] }}
-                                      {% if geoservice_link.authorship_mail[loop.index0] != None %}
-                                        <a href="mailto:{{ geoservice_link.authorship_mail[loop.index0] }}"><span class="glyphicon glyphicon-envelope" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{{ _('Kontakt') }}"></span></a>
-                                      {% endif %}
-                                      •
-                                    {% endif %}
-                                    {{ authorship_place }}
-                                  </span>
-                                {% endfor %}
-                              {% endif %}
-                              {% set opendata_sublink = geoservice_link.id|get_link_opendata_sublink() %}
-                              {% if opendata_sublink != None %}
-                                <span class="full-width"><span class="glyphicon glyphicon-link" aria-hidden="true"></span> {{ _('Link') }}</span>
-                                <a href="{{ opendata_sublink.link }}" target="_blank">
-                                  <span class="glyphicon glyphicon-{% if opendata_sublink.reachable == True %}ok-sign green{% else %}remove-sign red{% endif %}" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{{ _('letzte Prüfung auf Erreichbarkeit') }}: {{ opendata_sublink.reachable_last_check|datetime_l10n('full') }}"></span>
-                                  <span class="glyphicon glyphicon-eye-{% if opendata_sublink.public == True %}open green{% else %}close red{% endif %}" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{% if opendata_sublink.public == True %}{{ _('öffentlich zugänglich') }}{% else %}{{ _('nicht öffentlich zugänglich') }}{% endif %}"></span>
-                                  {{ opendata_sublink.title }}
-                                </a>
-                              {% endif %}
+                              <span class="full-width"><span class="glyphicon glyphicon-link" aria-hidden="true"></span> {{ _('Link') }}</span>
+                              <a href="{{ child.link }}" target="_blank">
+                                <span class="glyphicon glyphicon-{% if child.reachable == True %}ok-sign green{% else %}remove-sign red{% endif %}" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{{ _('letzte Prüfung auf Erreichbarkeit') }}: {{ child.reachable_last_check|datetime_l10n('full') }}"></span>
+                                <span class="glyphicon glyphicon-eye-{% if child.public == True %}open green{% else %}close red{% endif %}" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{% if child.public == True %}{{ _('öffentlich zugänglich') }}{% else %}{{ _('nicht öffentlich zugänglich') }}{% endif %}"></span>
+                                {{ child.link }}
+                              </a>
+                            </div>
+                          {% endfor %}
+                          {% if geoservice_link.date != None or geoservice_link.authorship_place != None or geoservice_link.authorship_name != None or geoservice_link.authorship_mail != None or geoservice_link.data_link != None %}
+                            <h5><span class="glyphicon glyphicon-home" aria-hidden="true"></span> {{ _('Datenquelle') }}</h5>
+                            {% if geoservice_link.date != None %}
+                              <span class="full-width"><span class="glyphicon glyphicon-time" aria-hidden="true"></span> {{ _('Stand') }}</span>
+                              <span class="full-width">{{ geoservice_link.date|date_l10n('full') }}</span>
                             {% endif %}
-                          </div>
+                            {% if geoservice_link.authorship_place != None or geoservice_link.authorship_name != None or geoservice_link.authorship_mail != None %}
+                              <span class="full-width"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> {{ ngettext('Autor', 'Autoren', geoservice_link.authorship_place|length) }}</span>
+                              {% for authorship_place in geoservice_link.authorship_place %}
+                                <span class="full-width">
+                                  {% if geoservice_link.authorship_name[loop.index0] != None %}
+                                    {{ geoservice_link.authorship_name[loop.index0] }}
+                                    {% if geoservice_link.authorship_mail[loop.index0] != None %}
+                                      <a href="mailto:{{ geoservice_link.authorship_mail[loop.index0] }}"><span class="glyphicon glyphicon-envelope" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{{ _('Kontakt') }}"></span></a>
+                                    {% endif %}
+                                    •
+                                  {% endif %}
+                                  {{ authorship_place }}
+                                </span>
+                              {% endfor %}
+                            {% endif %}
+                            {% set opendata_sublink = geoservice_link.id|get_link_sublink('opendata') %}
+                            {% if opendata_sublink != None %}
+                              <span class="full-width"><span class="glyphicon glyphicon-link" aria-hidden="true"></span> {{ _('Link') }}</span>
+                              <a href="{{ opendata_sublink.link }}" target="_blank">
+                                <span class="glyphicon glyphicon-{% if opendata_sublink.reachable == True %}ok-sign green{% else %}remove-sign red{% endif %}" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{{ _('letzte Prüfung auf Erreichbarkeit') }}: {{ opendata_sublink.reachable_last_check|datetime_l10n('full') }}"></span>
+                                <span class="glyphicon glyphicon-eye-{% if opendata_sublink.public == True %}open green{% else %}close red{% endif %}" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{% if opendata_sublink.public == True %}{{ _('öffentlich zugänglich') }}{% else %}{{ _('nicht öffentlich zugänglich') }}{% endif %}"></span>
+                                {{ opendata_sublink.title }}
+                              </a>
+                            {% endif %}
+                          {% endif %}
                         </div>
                       </div>
-                    {% endif %}
+                    </div>
                   {% endfor %}
                 </div>
               {% endif %}
