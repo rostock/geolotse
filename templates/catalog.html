@@ -55,7 +55,7 @@
                 </div>
               {% endif %}
               {% if group.name == 'application' %}
-                <span class="glyphicon glyphicon-filter" aria-hidden="true"></span> <input class="filter-input" id="application-filter-input" placeholder="{{ _('Freitextfilter') }}…" type="text" />
+                <span class="glyphicon glyphicon-filter" aria-hidden="true"></span> <input class="filter-input form-control" id="application-filter-input" placeholder="{{ _('Freitextfilter') }}…" type="text" />
                 <div class="panel-group" id="application-accordion">
                   {% for application_link in application_links %}
                     {% if application_link.parent_id == application_link.id %}
@@ -109,7 +109,7 @@
                 </div>
               {% endif %}
               {% if group.name == 'external' %}
-                <span class="glyphicon glyphicon-filter" aria-hidden="true"></span> <input class="filter-input" id="external-filter-input" placeholder="{{ _('Freitextfilter') }}…" type="text" />
+                <span class="glyphicon glyphicon-filter" aria-hidden="true"></span> <input class="filter-input form-control" id="external-filter-input" placeholder="{{ _('Freitextfilter') }}…" type="text" />
                 {% for external_tag in external_tags %}
                   <h5{% if loop.first %} class="first"{% endif %}>{{ external_tag.title }}</h5>
                   <div class="external-list-group">
@@ -124,7 +124,7 @@
                 {% endfor %}
               {% endif %}
               {% if group.name == 'helper' %}
-                <span class="glyphicon glyphicon-filter" aria-hidden="true"></span> <input class="filter-input" id="helper-filter-input" placeholder="{{ _('Freitextfilter') }}…" type="text" />
+                <span class="glyphicon glyphicon-filter" aria-hidden="true"></span> <input class="filter-input form-control" id="helper-filter-input" placeholder="{{ _('Freitextfilter') }}…" type="text" />
                 {% for helper_tag in helper_tags %}
                   <h5{% if loop.first %} class="first"{% endif %}>{{ helper_tag.title }}</h5>
                   <div class="helper-list-group">
@@ -147,7 +147,7 @@
                     </label>
                   {% endfor %}
                 </div>
-                <span class="glyphicon glyphicon-filter" aria-hidden="true"></span> <input class="filter-input" id="geoservice-filter-input" placeholder="{{ _('Freitextfilter') }}…" type="text" />
+                <span class="glyphicon glyphicon-filter" aria-hidden="true"></span> <input class="filter-input form-control" id="geoservice-filter-input" placeholder="{{ _('Freitextfilter') }}…" type="text" />
                 <div class="panel-group" id="geoservice-accordion">
                   {% for geoservice_link in geoservice_links %}
                     {% if geoservice_link.parent_id == geoservice_link.id %}

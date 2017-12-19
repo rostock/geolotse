@@ -303,12 +303,16 @@ msgid ""
 "und Universitätsstadt Rostock richten Sie bitte an:"
 msgstr ""
 
-#: templates/index.html:34
+#: templates/index.html:37
 msgid ""
 "Einstiegsmöglichkeit in die Geodateninfrastruktur der Hanse- und "
 "Universitätsstadt Rostock und Schnittstelle aller Anwendungen mit "
 "Raumbezug des Kataster-, Vermessungs- und Liegenschaftsamtes der Hanse- "
 "und Universitätsstadt Rostock"
+msgstr ""
+
+#: templates/index.html:40
+msgid "Suche"
 msgstr ""
 
 #: templates/privacy_policy.html:12

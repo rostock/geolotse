@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: sebastian.gutzeit@rostock.de\n"
-"POT-Creation-Date: 2017-12-18 15:40+0100\n"
+"POT-Creation-Date: 2017-12-19 10:53+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Sebastian Gutzeit <sebastian.gutzeit@rostock.de>\n"
 "Language: en\n"
@@ -344,7 +344,7 @@ msgid ""
 "und Universitätsstadt Rostock richten Sie bitte an:"
 msgstr "Please feel free to address your questions, wishes or suggestions to:"
 
-#: templates/index.html:34
+#: templates/index.html:37
 msgid ""
 "Einstiegsmöglichkeit in die Geodateninfrastruktur der Hanse- und "
 "Universitätsstadt Rostock und Schnittstelle aller Anwendungen mit "
@@ -354,6 +354,10 @@ msgstr ""
 "Access to the spatial data infrastructure of the municipality of Rostock "
 "and interface of all applications with spatial reference offered by the "
 "Land Registry Office of the municipality of Rostock"
+
+#: templates/index.html:40
+msgid "Suche"
+msgstr "Search"
 
 #: templates/privacy_policy.html:12
 msgid ""

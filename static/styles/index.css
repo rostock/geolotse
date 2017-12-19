@@ -1,3 +1,18 @@
+.center-block {
+  width: 50%;
+  margin-left: 25%;
+  margin-top: 60px;
+}
+
+.center-block > p {
+  font-size: 16px;
+}
+
+.col-md-6 p {
+  padding: 25px;
+  font-size: 15px;
+}
+
 .image-block {
   width: 384px;
   height: 150px;
@@ -5,15 +20,26 @@
   margin-bottom: 50px;
 }
 
-.image-block > img {
+.image-block img {
   float: left;
   height: 150px;
 }
 
-.image-block > img:nth-child(1) {
+.image-block img:nth-child(1) {
   margin-right: 10px
 }
 
-.image-block > img:nth-child(2) {
+.image-block img:nth-child(2) {
   margin-left: 10px
+}
+
+.mega-glyphicon {
+  font-size: 120px;
+}
+
+#search-input {
+  display: inline;
+  width: 400px;
+  margin: 0 auto;
+  margin-top: 20px;
 }

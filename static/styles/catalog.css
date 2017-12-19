@@ -24,6 +24,7 @@ a > small,
 .filter-input {
   width: 300px;
   margin-bottom: 20px;
+  display: inline;
 }
 
 .green {
