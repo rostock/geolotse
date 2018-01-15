@@ -31,6 +31,9 @@ CACHE_MEMCACHED_SERVERS = ['127.0.0.1:11211']
 DEFAULT_CACHE_TIMEOUT = 43200
 VOLATILE_DATA_CACHE_TIMEOUT = 840
 
+# Solr
+SOLR_URL = 'http://127.0.0.1:8983/solr/geolotse'
+
 # redirection URLs for HTTP error codes
 REDIRECT_URL_400 = 'https://geo.sv.rostock.de/400.html'
 REDIRECT_URL_403 = 'https://geo.sv.rostock.de/403.html'

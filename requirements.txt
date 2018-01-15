@@ -8,3 +8,4 @@ Flask-Compress==1.4.0
 python-memcached==1.58
 Flask-Cache==0.13.1
 Flask-SQLAlchemy-Cache==0.1.5
+pysolr==3.7.0

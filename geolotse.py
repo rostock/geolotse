@@ -7,6 +7,8 @@ from flask_bootstrap import Bootstrap
 from flask_migrate import Migrate
 from flask_sqlalchemy import Model, SQLAlchemy
 from flask_sqlalchemy_cache import CachingQuery
+from pysolr import Solr
+from json import dumps
 
 
 
@@ -27,7 +29,7 @@ app.jinja_env.trim_blocks = True
 
 
 
-# initialise Babel, Bootstrap, Compress, SQLAlchemy, Migrate and Cache
+# initialise Babel, Bootstrap, Compress, SQLAlchemy, Migrate, Cache and Solr
 babel = Babel(app)
 Bootstrap(app)
 Compress(app)
@@ -41,6 +43,7 @@ cache = Cache(app, config = {
   'CACHE_MEMCACHED_SERVERS': app.config['CACHE_MEMCACHED_SERVERS'],
   'CACHE_KEY_PREFIX': 'geolotse'
 })
+solr = Solr(app.config['SOLR_URL'])
 
 
 
@@ -280,6 +283,19 @@ def index_without_lang_code():
 def index():
   return render_template('index.html')
 
+@app.route('/search')
+def search():
+  results = solr.search('*' + request.args['query'] + '*')
+  data = []
+  for result in results:
+    item = { 'id': result['id']}
+    item['category'] = result['category']
+    item['title'] = result['title']
+    item['link'] = result['link']
+    data.append(item)
+  return dumps(data)
+  #http://labnode10.sv.rostock.de/geolotse/search?query=post
+
 @app.route('/catalog')
 def catalog_without_lang_code():
   return redirect(url_for('catalog', lang_code = g.current_lang if g.current_lang else app.config['BABEL_DEFAULT_LOCALE']))
@@ -287,6 +303,14 @@ def catalog_without_lang_code():
 @app.route('/<lang_code>/catalog')
 def catalog():
   return render_template('catalog.html', subtitle = gettext(u'Katalog'), categories = get_links_categories(), api_links = get_parent_links('api', False), application_links = get_parent_links('application', True), documentation_links = get_parent_links('documentation', False), download_links = get_parent_links('download', False), external_links = get_links('external', True), geoservice_groups = get_links_groups('geoservice'), geoservice_links = get_parent_links('geoservice', False), helper_links = get_links('helper', True))
+
+@app.route('/situations')
+def situations_without_lang_code():
+  return redirect(url_for('situations', lang_code = g.current_lang if g.current_lang else app.config['BABEL_DEFAULT_LOCALE']))
+
+@app.route('/<lang_code>/situations')
+def situations():
+  return render_template('situations.html', subtitle = gettext(u'Lebenslagen'))
 
 @app.route('/imprint')
 def imprint_without_lang_code():
@@ -303,14 +327,6 @@ def privacy_policy_without_lang_code():
 @app.route('/<lang_code>/privacy_policy')
 def privacy_policy():
   return render_template('privacy_policy.html', subtitle = gettext(u'Datenschutz'))
-
-@app.route('/situations')
-def situations_without_lang_code():
-  return redirect(url_for('situations', lang_code = g.current_lang if g.current_lang else app.config['BABEL_DEFAULT_LOCALE']))
-
-@app.route('/<lang_code>/situations')
-def situations():
-  return render_template('situations.html', subtitle = gettext(u'Lebenslagen'))
 
 @app.route('/terms_of_use')
 def terms_of_use_without_lang_code():

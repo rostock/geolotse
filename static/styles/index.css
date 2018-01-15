@@ -37,6 +37,11 @@
   font-size: 120px;
 }
 
+#clear-search-input {
+  right: 25px;
+  cursor: pointer;
+}
+
 #search-input {
   display: inline;
   width: 400px;

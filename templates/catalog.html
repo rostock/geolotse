@@ -53,7 +53,8 @@
                 </div>
               {% endif %}
               {% if category.category == 'application' %}
-                <span class="glyphicon glyphicon-filter" aria-hidden="true"></span> <input class="filter-input" id="application-filter-input" placeholder="{{ _('Freitextfilter') }}…" type="text" />
+                <span class="glyphicon glyphicon-filter" aria-hidden="true"></span>
+                <input class="filter-input" id="application-filter-input" placeholder="{{ _('Freitextfilter') }}…" type="search" />
                 <div class="panel-group" id="application-accordion">
                   {% for application_link in application_links %}
                     <div class="panel panel-info">
@@ -104,7 +105,8 @@
                 </div>
               {% endif %}
               {% if category.category == 'external' %}
-                <span class="glyphicon glyphicon-filter" aria-hidden="true"></span> <input class="filter-input" id="external-filter-input" placeholder="{{ _('Freitextfilter') }}…" type="text" />
+                <span class="glyphicon glyphicon-filter" aria-hidden="true"></span>
+                <input class="filter-input" id="external-filter-input" placeholder="{{ _('Freitextfilter') }}…" type="search" />
                 {% for external_link in external_links %}
                   {% if external_link.id == external_link.parent_id %}
                     {% if not loop.first %}
@@ -123,26 +125,6 @@
                   {% endif %}
                 {% endfor %}
               {% endif %}
-              {% if category.category == 'helper' %}
-                <span class="glyphicon glyphicon-filter" aria-hidden="true"></span> <input class="filter-input" id="helper-filter-input" placeholder="{{ _('Freitextfilter') }}…" type="text" />
-                {% for helper_link in helper_links %}
-                  {% if helper_link.id == helper_link.parent_id %}
-                    {% if not loop.first %}
-                      </div>
-                    {% endif %}
-                    <h5{% if loop.first %} class="first"{% endif %}>{{ helper_link.group }}</h5>
-                    <div class="helper-list-group">
-                  {% endif %}
-                  <a href="{{ helper_link.link }}" target="_blank" class="list-group-item list-group-item-action">
-                    <span class="glyphicon glyphicon-{% if helper_link.reachable == True %}ok-sign green{% else %}remove-sign red{% endif %}" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{{ _('letzte Prüfung auf Erreichbarkeit') }}: {{ helper_link.reachable_last_check|datetime_l10n('full') }}"></span>
-                    <span class="glyphicon glyphicon-eye-{% if helper_link.public == True %}open green{% else %}close red{% endif %}" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{% if helper_link.public == True %}{{ _('öffentlich zugänglich') }}{% else %}{{ _('nicht öffentlich zugänglich') }}{% endif %}"></span>
-                    {{ helper_link.title }}
-                  </a>
-                  {% if loop.last %}
-                    </div>
-                  {% endif %}
-                {% endfor %}
-              {% endif %}
               {% if category.category == 'geoservice' %}
                 <div class="checkboxes" id="geoservice-checkboxes">
                   <span class="glyphicon glyphicon-filter" aria-hidden="true"></span>
@@ -152,7 +134,8 @@
                     </label>
                   {% endfor %}
                 </div>
-                <span class="glyphicon glyphicon-filter" aria-hidden="true"></span> <input class="filter-input" id="geoservice-filter-input" placeholder="{{ _('Freitextfilter') }}…" type="text" />
+                <span class="glyphicon glyphicon-filter" aria-hidden="true"></span>
+                <input class="filter-input" id="geoservice-filter-input" placeholder="{{ _('Freitextfilter') }}…" type="search" />
                 <div class="panel-group" id="geoservice-accordion">
                   {% for geoservice_link in geoservice_links %}
                     <div class="panel panel-info">
@@ -264,6 +247,27 @@
                     </div>
                   {% endfor %}
                 </div>
+              {% endif %}
+              {% if category.category == 'helper' %}
+                <span class="glyphicon glyphicon-filter" aria-hidden="true"></span>
+                <input class="filter-input" id="helper-filter-input" placeholder="{{ _('Freitextfilter') }}…" type="search" />
+                {% for helper_link in helper_links %}
+                  {% if helper_link.id == helper_link.parent_id %}
+                    {% if not loop.first %}
+                      </div>
+                    {% endif %}
+                    <h5{% if loop.first %} class="first"{% endif %}>{{ helper_link.group }}</h5>
+                    <div class="helper-list-group">
+                  {% endif %}
+                  <a href="{{ helper_link.link }}" target="_blank" class="list-group-item list-group-item-action">
+                    <span class="glyphicon glyphicon-{% if helper_link.reachable == True %}ok-sign green{% else %}remove-sign red{% endif %}" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{{ _('letzte Prüfung auf Erreichbarkeit') }}: {{ helper_link.reachable_last_check|datetime_l10n('full') }}"></span>
+                    <span class="glyphicon glyphicon-eye-{% if helper_link.public == True %}open green{% else %}close red{% endif %}" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{% if helper_link.public == True %}{{ _('öffentlich zugänglich') }}{% else %}{{ _('nicht öffentlich zugänglich') }}{% endif %}"></span>
+                    {{ helper_link.title }}
+                  </a>
+                  {% if loop.last %}
+                    </div>
+                  {% endif %}
+                {% endfor %}
               {% endif %}
             </div>
           </div>

@@ -6,6 +6,7 @@ A landing page for organisations wanting to connect and integrate their various 
 
 *   [*Python*](https://www.python.org)
 *   [*Virtualenv*](https://virtualenv.pypa.io)
+*   [*Apache Solr*](http://lucene.apache.org/solr)
 *   An object-relational database management system, [*PostgreSQL*](https://www.postgresql.org) is recommended
 *   A memory caching server, [*Memcached*](https://memcached.org) is recommended
 
@@ -48,6 +49,43 @@ A landing page for organisations wanting to connect and integrate their various 
         cd /usr/local/geolotse/geolotse
         export FLASK_APP=geolotse.py
         python -m flask db upgrade
+        
+1.  Deactivate the virtual *Python* environment:
+
+        deactivate
+
+1.  Fill the databse with data (you can use the `examples/database_pgsql.sql` for testing)
+1.  Create a new empty *Apache Solr* core:
+
+        /path/to/solr/bin/solr create -c geolotse
+
+1.  Open file `/path/to/solr/home/geolotse/conf/solrconfig.xml` and remove below elements:
+
+        <initParams path="/update/**">…</initParams>
+        <processor class="solr.AddSchemaFieldsUpdateProcessorFactory">…</processor>
+
+1.  Add below element to root element `<config>`:
+
+        <schemaFactory class="ClassicIndexSchemaFactory"/>
+
+1.  Remove `managed-schema` file from the new *Apache Solr* core directory:
+
+        rm /path/to/solr/home/geolotse/conf/managed-schema
+
+1.  Copy the search schema to the new *Apache Solr* core directory:
+
+        cp /usr/local/geolotse/geolotse/solr/schema.xml /path/to/solr/home/geolotse/conf
+        
+1.  Make sure that both the user and the group of the search schema `/path/to/solr/home/geolotse/conf/schema.xml` match the user and the group of the other files within the new *Apache Solr* core directory (i.e. the *Apache Solr* user and its group, usually `solr` and `daemon`)
+1.  Activate the virtual *Python* environment:
+
+        source /usr/local/geolotse/virtualenv/bin/activate
+        
+1.  Run the search index builder:
+
+        python search_index.py
+        
+1.  Create a cronjob to run the search index builder periodically and thus keeping the search index up-to-date
 
 ## Deployment
 

@@ -4,7 +4,7 @@ $(document).ready(function() {
   $('[data-toggle="tooltip"]').tooltip();
 });
 
-$( '#application-filter-input' ).keyup(function() {
+$('#application-filter-input').keyup(function() {
   var value = $(this).val().toLowerCase();
   $('#application-accordion > div').each(function() {
     if ($(this).text().toLowerCase().search(value) > -1) {
@@ -21,7 +21,7 @@ $( '#application-filter-input' ).keyup(function() {
   });
 });
 
-$( '#external-filter-input' ).keyup(function() {
+$('#external-filter-input').keyup(function() {
   var value = $(this).val().toLowerCase();
   $('.external-list-group > a').each(function() {
     if ($(this).text().toLowerCase().search(value) > -1) {
@@ -72,7 +72,7 @@ $('.geoservice-checkbox').change(function() {
   }
 });
 
-$( '#geoservice-filter-input' ).keyup(function() {
+$('#geoservice-filter-input').keyup(function() {
   var value = $(this).val().toLowerCase();
   $('#geoservice-accordion > div').each(function() {
     if ($(this).text().toLowerCase().search(value) > -1) {
@@ -89,7 +89,7 @@ $( '#geoservice-filter-input' ).keyup(function() {
   });
 });
 
-$( '#helper-filter-input' ).keyup(function() {
+$('#helper-filter-input').keyup(function() {
   var value = $(this).val().toLowerCase();
   $('.helper-list-group > a').each(function() {
     if ($(this).text().toLowerCase().search(value) > -1) {
