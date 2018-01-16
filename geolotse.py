@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from alembic import op
 from flask import abort, Flask, g, redirect, render_template, request, url_for
 from flask_babel import Babel, format_date, format_datetime, gettext
@@ -285,16 +286,45 @@ def index():
 
 @app.route('/search')
 def search():
-  results = solr.search('*' + request.args['query'] + '*')
+  query = '*' + request.args['query'].replace(' ', '* *') + '*'
+  if 'start' in request.args and 'rows' in request.args:
+    start = request.args['start']
+    rows = request.args['rows']
+  else:
+    start = 0
+    rows = 10
+  results = solr.search(q = query, start = start, rows = rows, sort = 'category_order asc, title asc, group_order asc, id asc')
   data = []
   for result in results:
     item = { 'id': result['id']}
     item['category'] = result['category']
+    if item['category'] == 'api':
+      item['category_label'] = gettext(u'API (Programmierschnittstelle)')
+    elif item['category'] == 'application':
+      item['category_label'] = gettext(u'Anwendung')
+    elif item['category'] == 'documentation':
+      item['category_label'] = gettext(u'Dokumentation')
+    elif item['category'] == 'download':
+      item['category_label'] = gettext(u'Download')
+    elif item['category'] == 'geoservice':
+      item['category_label'] = gettext(u'Geodatendienst')
+    elif item['category'] == 'situation':
+      item['category_label'] = gettext(u'Lebenslage')
+    else:
+      item['category_label'] = result['category']
+    item['group'] = result['group']
     item['title'] = result['title']
     item['link'] = result['link']
+    item['public'] = result['public']
+    if item['public'] == True:
+      item['public_label'] = gettext(u'öffentlich zugänglich')
+    else:
+      item['public_label'] = gettext(u'nicht öffentlich zugänglich')
     data.append(item)
-  return dumps(data)
-  #http://labnode10.sv.rostock.de/geolotse/search?query=post
+  return dumps({
+    'hits': results.hits,
+    'results': data
+  })
 
 @app.route('/catalog')
 def catalog_without_lang_code():

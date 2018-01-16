@@ -81,6 +81,7 @@ A landing page for organisations wanting to connect and integrate their various 
 
         source /usr/local/geolotse/virtualenv/bin/activate
         
+1.  Sorry, there is some hard coded stuff in the search index builder file `search_index.py` (marked with comment # `sorry, some hard coded stuff in here`): change it so that it fits your needs        
 1.  Run the search index builder:
 
         python search_index.py
@@ -124,7 +125,7 @@ If you want to deploy geolotse with [*Apache HTTP Server*](https://httpd.apache.
 1.  Update the file `/usr/local/geolotse/geolotse/messages.pot` by extracting all translatable strings into it:
 
         cd /usr/local/geolotse/geolotse
-        pybabel extract -F babel.cfg --omit-header -o messages.pot
+        pybabel extract -F babel.cfg --omit-header -o messages.pot .
 
 1.  Update all translation files (i.e. the `*.po` files):
 

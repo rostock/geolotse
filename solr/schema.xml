@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <schema name="geolotse" version="2.7">
     <types>
+        <fieldType name="boolean" class="solr.BoolField" sortMissingLast="true" omitNorms="true"/>
+        <fieldType name="int" class="solr.TrieIntField" positionIncrementGap="0" precisionStep="0" omitNorms="true"/>
         <fieldType name="long" class="solr.TrieLongField" positionIncrementGap="0" precisionStep="0" omitNorms="true"/>
         <fieldType name="string" class="solr.StrField" sortMissingLast="true" omitNorms="true"/>
         <fieldType name="text" class="solr.TextField" positionIncrementGap="100">
@@ -18,9 +20,13 @@
     <fields>
         <field name="id" type="string" required="true" />
         <field name="_text_" type="text" stored="false" multiValued="true" required="true" />
-        <field name="category" type="string" indexed="false" required="true" />
-        <field name="title" type="string" indexed="false" required="true" />
+        <field name="category" type="string" required="true" />
+        <field name="group" type="string" required="true" />
+        <field name="title" type="string" required="true" />
         <field name="link" type="string" indexed="false" required="true" />
+        <field name="public" type="boolean" indexed="false" required="true" />
+        <field name="category_order" type="int" indexed="true" required="true" docValues="true" />
+        <field name="group_order" type="int" indexed="true" required="true" docValues="true" />
         <field name="_version_" type="long"/>
     </fields>
 

@@ -13,6 +13,10 @@
   font-size: 15px;
 }
 
+.green {
+  color: #00b748;
+}
+
 .image-block {
   width: 384px;
   height: 150px;
@@ -35,6 +39,26 @@
 
 .mega-glyphicon {
   font-size: 120px;
+}
+
+.red {
+  color: #d81920;
+}
+
+#results {
+  margin-top: 5px;
+}
+
+#results > div {
+  margin-top: 3px;
+}
+
+#results-pagination-ul {
+  margin: 15px 0;
+}
+
+#results-pagination-ul > li > span{
+  cursor: pointer;
 }
 
 #clear-search-input {

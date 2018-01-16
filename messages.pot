@@ -1,20 +1,62 @@
-#: geolotse.py:289
+#: geolotse.py:302
+msgid "API (Programmierschnittstelle)"
+msgstr ""
+
+#: geolotse.py:304
+msgid "Anwendung"
+msgstr ""
+
+#: geolotse.py:306
+msgid "Dokumentation"
+msgstr ""
+
+#: geolotse.py:308
+msgid "Download"
+msgstr ""
+
+#: geolotse.py:310
+msgid "Geodatendienst"
+msgstr ""
+
+#: geolotse.py:312
+msgid "Lebenslage"
+msgstr ""
+
+#: geolotse.py:320 templates/catalog.html:49 templates/catalog.html:74
+#: templates/catalog.html:90 templates/catalog.html:101
+#: templates/catalog.html:120 templates/catalog.html:173
+#: templates/catalog.html:181 templates/catalog.html:201
+#: templates/catalog.html:209 templates/catalog.html:240
+#: templates/catalog.html:264
+msgid "öffentlich zugänglich"
+msgstr ""
+
+#: geolotse.py:322 templates/catalog.html:49 templates/catalog.html:74
+#: templates/catalog.html:90 templates/catalog.html:101
+#: templates/catalog.html:120 templates/catalog.html:173
+#: templates/catalog.html:181 templates/catalog.html:201
+#: templates/catalog.html:209 templates/catalog.html:240
+#: templates/catalog.html:264
+msgid "nicht öffentlich zugänglich"
+msgstr ""
+
+#: geolotse.py:335 templates/index.html:61
 msgid "Katalog"
 msgstr ""
 
-#: geolotse.py:297
+#: geolotse.py:343
 msgid "Lebenslagen"
 msgstr ""
 
-#: geolotse.py:305 templates/footer.html:6
+#: geolotse.py:351 templates/footer.html:6
 msgid "Impressum"
 msgstr ""
 
-#: geolotse.py:313 templates/footer.html:5
+#: geolotse.py:359 templates/footer.html:5
 msgid "Datenschutz"
 msgstr ""
 
-#: geolotse.py:321 templates/footer.html:8
+#: geolotse.py:367 templates/footer.html:8
 msgid "Nutzungsbedingungen"
 msgstr ""
 
@@ -46,85 +88,67 @@ msgstr ""
 msgid "Tools"
 msgstr ""
 
-#: templates/catalog.html:48 templates/catalog.html:72
-#: templates/catalog.html:88 templates/catalog.html:99
-#: templates/catalog.html:117 templates/catalog.html:169
-#: templates/catalog.html:177 templates/catalog.html:197
-#: templates/catalog.html:205 templates/catalog.html:236
-#: templates/catalog.html:259
+#: templates/catalog.html:48 templates/catalog.html:73
+#: templates/catalog.html:89 templates/catalog.html:100
+#: templates/catalog.html:119 templates/catalog.html:172
+#: templates/catalog.html:180 templates/catalog.html:200
+#: templates/catalog.html:208 templates/catalog.html:239
+#: templates/catalog.html:263
 msgid "letzte Prüfung auf Erreichbarkeit"
 msgstr ""
 
-#: templates/catalog.html:49 templates/catalog.html:73
-#: templates/catalog.html:89 templates/catalog.html:100
-#: templates/catalog.html:118 templates/catalog.html:170
-#: templates/catalog.html:178 templates/catalog.html:198
-#: templates/catalog.html:206 templates/catalog.html:237
-#: templates/catalog.html:260
-msgid "öffentlich zugänglich"
-msgstr ""
-
-#: templates/catalog.html:49 templates/catalog.html:73
-#: templates/catalog.html:89 templates/catalog.html:100
-#: templates/catalog.html:118 templates/catalog.html:170
-#: templates/catalog.html:178 templates/catalog.html:198
-#: templates/catalog.html:206 templates/catalog.html:237
-#: templates/catalog.html:260
-msgid "nicht öffentlich zugänglich"
-msgstr ""
-
-#: templates/catalog.html:56 templates/catalog.html:107
-#: templates/catalog.html:135 templates/catalog.html:249
+#: templates/catalog.html:57 templates/catalog.html:109
+#: templates/catalog.html:138 templates/catalog.html:253
 msgid "Freitextfilter"
 msgstr ""
 
-#: templates/catalog.html:155
+#: templates/catalog.html:158
 msgid "Schlagworte/Tags/Keywords"
 msgstr ""
 
-#: templates/catalog.html:165
+#: templates/catalog.html:168
 msgid "Vorschau"
 msgstr ""
 
-#: templates/catalog.html:167
+#: templates/catalog.html:170
 msgid "Desktop"
 msgstr ""
 
-#: templates/catalog.html:175
+#: templates/catalog.html:178
 msgid "mobil"
 msgstr ""
 
-#: templates/catalog.html:187
+#: templates/catalog.html:190
 msgid "Annex-Thema"
 msgstr ""
 
-#: templates/catalog.html:190
+#: templates/catalog.html:193
 msgid "Beschreibung"
 msgstr ""
 
-#: templates/catalog.html:195
+#: templates/catalog.html:198
 msgid "Metadaten"
 msgstr ""
 
-#: templates/catalog.html:203 templates/catalog.html:234
+#: templates/catalog.html:206 templates/catalog.html:237
 msgid "Link"
 msgstr ""
 
-#: templates/catalog.html:212
+#: templates/catalog.html:215
 msgid "Datenquelle"
 msgstr ""
 
-#: templates/catalog.html:214
+#: templates/catalog.html:217
 msgid "Stand"
 msgstr ""
 
-#: templates/catalog.html:218
+#: templates/catalog.html:221
 msgid "Autor"
 msgid_plural "Autoren"
 msgstr[0] ""
 msgstr[1] ""
 
-#: templates/catalog.html:224 templates/footer.html:7 templates/imprint.html:57
+#: templates/catalog.html:227 templates/footer.html:7 templates/imprint.html:57
 msgid "Kontakt"
 msgstr ""
 
@@ -303,7 +327,7 @@ msgid ""
 "und Universitätsstadt Rostock richten Sie bitte an:"
 msgstr ""
 
-#: templates/index.html:37
+#: templates/index.html:42
 msgid ""
 "Einstiegsmöglichkeit in die Geodateninfrastruktur der Hanse- und "
 "Universitätsstadt Rostock und Schnittstelle aller Anwendungen mit "
@@ -311,8 +335,14 @@ msgid ""
 "und Universitätsstadt Rostock"
 msgstr ""
 
-#: templates/index.html:40
-msgid "Suche in Lebenslagen und Katalog"
+#: templates/index.html:46
+msgid "Suche in Lebenslagen, Anwendungen, Geodatendiensten"
+msgstr ""
+
+#: templates/index.html:61
+msgid ""
+"Stöbern Sie in der Geodateninfrastruktur der Hanse- und Universitätsstadt"
+" Rostock anhand übersichtlich geordneter, filterbarer Listen."
 msgstr ""
 
 #: templates/privacy_policy.html:12
