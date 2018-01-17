@@ -42,7 +42,7 @@ for link in links:
   # sorry, some hard coded stuff in here
   else:
     add = False
-    if link.id == link.parent_id and link.group != 'Geoport.HRO' and link.group != 'Klarschiff.HRO':
+    if link.id == link.parent_id and link.group != 'Geolotse.HRO' and link.group != 'Geoport.HRO' and link.group != 'Klarschiff.HRO':
       title = link.group
       add = True
     elif link.link == 'https://www.geoport-hro.de/desktop':

@@ -336,7 +336,7 @@ msgid ""
 msgstr ""
 
 #: templates/index.html:46
-msgid "Suche in Lebenslagen, Anwendungen, Geodatendiensten"
+msgid "Suche in Lebenslagen, Geodatendiensten"
 msgstr ""
 
 #: templates/index.html:61

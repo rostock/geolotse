@@ -15,12 +15,23 @@
         <img src="{{ url_for('static', filename='images/geolotse.svg') }}" />
         {{ config.TITLE }}
       </a>
+      <div class="navbar-languages">
+        <span class="glyphicon glyphicon-bullhorn"></span>
+        {% for key in config.LANGUAGES %}
+          <a {% if g.current_lang == key %}href="#"{% else %}href="{{ url_for(request.endpoint, lang_code = key) }}"{% endif %}>{{ key }}</a>
+          {% if not loop.last %}
+            |
+          {% endif %}
+        {% endfor %}
+      </div>
     </div>
     <div class="collapse navbar-collapse" id="main-navbar">
       <ul class="nav navbar-nav navbar-right">
         {% for url, title in navbar_right %}
           <li{% if active_page and url == active_page %} class="active"{% endif %}>
-            <a{% if active_page and url == active_page %} href="#"{% else %} href="{{ url_for(url, lang_code = g.current_lang) }}"{% endif %}><span class="glyphicon glyphicon-{% if url == 'catalog' %}list{% elif url == 'situations' %}map-marker{% else %}question-sign{% endif %}" aria-hidden="true"></span> {{ _(title|e) }}</a>
+            <a{% if active_page and url == active_page %} href="#"{% else %} href="{{ url_for(url, lang_code = g.current_lang) }}"{% endif %}>
+              <span class="glyphicon glyphicon-{% if url == 'catalog' %}list{% elif url == 'situations' %}map-marker{% else %}question-sign{% endif %}" aria-hidden="true"></span> {{ _(title|e) }}
+            </a>
           </li>
         {% endfor %}
     </div>

@@ -113,6 +113,10 @@ nav li.active > a:hover {
   display: inline-block;
 }
 
+.navbar-collapse {
+  text-align: center;
+}
+
 .navbar-default {
   background-color: #006cb7;
   color: #fff;
@@ -141,9 +145,26 @@ nav li.active > a:hover {
   background-color: #d9d9d9;
 }
 
+.navbar-languages {
+  float: left;
+  padding: 13px 0 0 30px;
+}
+
+@media (max-width: 767px) {
+  footer {
+    position: absolute;
+  }
+}
+
+@media (min-width: 768px) {
+  footer {
+    position: fixed;
+  }
+}
+
 footer {
-  position: fixed;
   bottom: 0;
+  left: 0;
   height: 60px;
   width: 100%;
   padding: 10px 0;
@@ -168,4 +189,4 @@ footer a:hover {
 
 .tooltip.right > .tooltip-arrow {
   border-right-color: #006cb7;
-  }
+}

@@ -50,6 +50,9 @@ function populateResultsPagination(hits, start, currentPage) {
   var pagination = '';
   pagination += '<nav>';
   pagination +=   '<ul id="results-pagination-ul" class="pagination pagination-sm">';
+  if (currentPage > 1) {
+    pagination +=   '<li class="page-item active"><span class="page-link" data-page="' + (currentPage - 1) + '">&lt;</span></li>';
+  }
   for (i = 1; i <= pages; i++) {
     var fromResults = ((i - 1) * ROWS) + 1;
     var toResults = (i * ROWS > hits) ? hits : i * ROWS;
@@ -58,6 +61,9 @@ function populateResultsPagination(hits, start, currentPage) {
     } else {
       pagination += '<li class="page-item"><span class="page-link" data-toggle="tooltip" data-placement="right" title="' + fromResults + '–' + toResults + '/' + hits + '" data-page="' + i + '">' + i + '</span></li>';
     }
+  }
+  if (currentPage < pages) {
+    pagination +=   '<li class="page-item active"><span class="page-link" data-page="' + (currentPage + 1) + '">&gt;</span></li>';
   }
   pagination +=   '</ul>';
   pagination += '</nav>';

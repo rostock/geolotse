@@ -57,7 +57,7 @@
   margin: 15px 0;
 }
 
-#results-pagination-ul > li > span{
+#results-pagination-ul > li > span {
   cursor: pointer;
 }
 
@@ -68,7 +68,7 @@
 
 #search-input {
   display: inline;
-  width: 400px;
+  width: 300px;
   margin: 0 auto;
   margin-top: 20px;
 }

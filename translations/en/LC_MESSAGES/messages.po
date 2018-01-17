@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: sebastian.gutzeit@rostock.de\n"
-"POT-Creation-Date: 2018-01-16 16:00+0100\n"
+"POT-Creation-Date: 2018-01-17 13:01+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Sebastian Gutzeit <sebastian.gutzeit@rostock.de>\n"
 "Language: en\n"
@@ -380,8 +380,8 @@ msgstr ""
 "Land Registry Office of the municipality of Rostock"
 
 #: templates/index.html:46
-msgid "Suche in Lebenslagen, Anwendungen, Geodatendiensten"
-msgstr "Search within situations, applications, geo services"
+msgid "Suche in Lebenslagen, Geodatendiensten"
+msgstr "Search within situations, geo services"
 
 #: templates/index.html:61
 msgid ""

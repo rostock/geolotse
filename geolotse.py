@@ -366,6 +366,10 @@ def terms_of_use_without_lang_code():
 def terms_of_use():
   return render_template('terms_of_use.html', subtitle = gettext(u'Nutzungsbedingungen'))
 
+@app.errorhandler(400)
+def error_400(error):
+  return redirect(app.config['REDIRECT_URL_400'])
+
 @app.errorhandler(403)
 def error_403(error):
   return redirect(app.config['REDIRECT_URL_403'])
