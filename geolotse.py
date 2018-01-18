@@ -297,6 +297,7 @@ def search():
   data = []
   for result in results:
     item = { 'id': result['id']}
+    item['database_id'] = result['database_id']
     item['category'] = result['category']
     if item['category'] == 'api':
       item['category_label'] = gettext(u'API (Programmierschnittstelle)')
@@ -312,9 +313,13 @@ def search():
       item['category_label'] = gettext(u'Lebenslage')
     else:
       item['category_label'] = result['category']
-    item['group'] = result['group']
     item['title'] = result['title']
-    item['link'] = result['link']
+    if 'link' in result:
+      item['link'] = result['link']
+    elif item['category'] == 'geoservice':
+      item['link'] = url_for('catalog', lang_code = g.current_lang if g.current_lang else app.config['BABEL_DEFAULT_LOCALE']) + '#geoservice-' + str(result['database_id'])
+    else:
+      item['link'] = ''
     item['public'] = result['public']
     if item['public'] == True:
       item['public_label'] = gettext(u'öffentlich zugänglich')

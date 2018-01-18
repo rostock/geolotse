@@ -66,6 +66,10 @@ a[disabled="disabled"] {
   cursor: default;
 }
 
+h1 {
+  font-size: 38px;
+}
+
 h1,
 h2,
 h3,

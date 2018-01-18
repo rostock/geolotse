@@ -20,10 +20,10 @@
     <fields>
         <field name="id" type="string" required="true" />
         <field name="_text_" type="text" stored="false" multiValued="true" required="true" />
+        <field name="database_id" type="int" required="true" />
         <field name="category" type="string" required="true" />
-        <field name="group" type="string" required="true" />
         <field name="title" type="string" required="true" />
-        <field name="link" type="string" indexed="false" required="true" />
+        <field name="link" type="string" indexed="false" />
         <field name="public" type="boolean" indexed="false" required="true" />
         <field name="category_order" type="int" indexed="true" required="true" docValues="true" />
         <field name="group_order" type="int" indexed="true" required="true" docValues="true" />

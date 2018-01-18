@@ -1,7 +1,17 @@
 $(document).ready(function() {
-  var anchor = window.location.hash;
-  $(anchor).collapse('toggle');
   $('[data-toggle="tooltip"]').tooltip();
+  if (window.location.hash) {
+    var anchor = window.location.hash;
+    if ($(anchor).length && anchor.indexOf('geoservice-') !== -1) {
+      $('#geoservice').addClass('in');
+      $('#geoservice').attr('aria-expanded', 'true');
+      $(anchor).addClass('in');
+      $(anchor).attr('aria-expanded', 'true');
+      $(document).scrollTop($(anchor).offset().top - 125);
+    } else if ($(anchor).length) {
+      $(anchor).collapse('toggle');
+    }
+  }
 });
 
 $('#application-filter-input').keyup(function() {

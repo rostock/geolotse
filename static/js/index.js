@@ -7,7 +7,6 @@ function clearResults() {
 function populateResults(resultsData) {
   var results = '';
   var categoryIcon = '';
-  var group = '';
   jQuery.each(resultsData, function(index, item) {
     switch(item.category) {
       case 'api':
@@ -24,7 +23,6 @@ function populateResults(resultsData) {
         break;
       case 'geoservice':
         categoryIcon = 'globe';
-        group = item.group + ' | ';
         break;
       case 'situation':
         categoryIcon = 'map-marker';
@@ -37,7 +35,6 @@ function populateResults(resultsData) {
     results +=   '<a href="' + item.link + '" target="_blank">';
     results +=     '<span class="glyphicon glyphicon-' + categoryIcon + '" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="' + item.category_label + '"></span> ';
     results +=     '<span class="glyphicon glyphicon-eye-' + publicIcon + '" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="' + item.public_label + '"></span> ';
-    results +=     group;
     results +=     item.title;
     results +=   '</a>';
     results += '</div>';

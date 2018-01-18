@@ -13,7 +13,7 @@ index_counter = 0
 
 
 # build search index for catalog
-links = Links.query.filter(Links.category.notin_(('external', 'helper'))).all()
+links = Links.query.filter(Links.parent_id == Links.id, Links.category.notin_(('external', 'helper'))).all()
 for link in links:
   index_counter += 1
   description = link.description if link.description else ''
@@ -26,14 +26,25 @@ for link in links:
       tag.title not in tag_list and tag_list.append(tag.title)
     tag_list = tuple(tag_list)
   if link.category != 'application':
+    if link.category == 'geoservice':
+      groups = Links.query.with_entities(Links.group).filter(Links.parent_id == link.parent_id).all()
+      if not groups:
+        group_list = ''
+      else:
+        group_list = []
+        for group in groups:
+          group.group not in group_list and group_list.append(group.group)
+        group_list = tuple(group_list)
+    else:
+      group_list = ''
     solr.add([
       {
         'id': index_counter,
-        '_text_': link.group + link.title + link.link + description + str(tag_list),
+        '_text_': str(group_list) + link.title + link.link + description + str(tag_list),
+        'database_id': link.id,
         'category': link.category,
-        'group': link.group,
         'title': link.title,
-        'link': link.link,
+        'link': link.link if link.category != 'geoservice' else '',
         'public': link.public,
         'category_order': link.category_order,
         'group_order': link.group_order
@@ -74,8 +85,8 @@ for link in links:
         {
           'id': index_counter,
           '_text_': title + link.link + description + str(tag_list),
+          'database_id': link.id,
           'category': link.category,
-          'group': title,
           'title': title,
           'link': link.link,
           'public': link.public,
@@ -103,12 +114,12 @@ for situation in situations:
     {
       'id': index_counter,
       '_text_': situation.title + situation.link + str(tag_list),
+      'database_id': situation.id,
       'category': 'situation',
-      'group': 'situation',
       'title': situation.title,
-      'link': situation.link,
+      'link': '',
       'public': True,
-      'category_order': 0,
+      'category_order': situation.stars,
       'group_order': 0
     }
   ])
