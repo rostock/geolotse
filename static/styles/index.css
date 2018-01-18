@@ -1,7 +1,7 @@
 .center-block {
   width: 50%;
   margin-left: 25%;
-  margin-top: 40px;
+  margin-top: 50px;
 }
 
 .center-block > p {
@@ -17,23 +17,21 @@
   color: #00b748;
 }
 
-.image-block {
-  width: 311px;
-  height: 120px;
-  margin: 0 auto;
+.header-center-block {
+  width: 30%;
+  margin-left: 35%;
 }
 
-.image-block img {
+.image {
+  height: 60px;
+}
+
+.image-left {
   float: left;
-  height: 120px;
 }
 
-.image-block img.first-img {
-  margin-right: 10px
-}
-
-.image-block img.last-img {
-  margin-left: 10px
+.image-right {
+  float: right;
 }
 
 .mega-glyphicon {
@@ -42,6 +40,15 @@
 
 .red {
   color: #d81920;
+}
+
+.search-center-block {
+  margin-top: 20px;
+}
+
+.title {
+  height: 60px;
+  padding-top: 10px;
 }
 
 #results {

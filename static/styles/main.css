@@ -61,6 +61,11 @@ a:hover {
   color: #777;
 }
 
+a[disabled="disabled"] {
+  pointer-events: none;
+  cursor: default;
+}
+
 h1,
 h2,
 h3,
@@ -77,7 +82,8 @@ span.full-width {
 
 nav a,
 nav a:focus,
-nav a:visited {
+nav a:visited ,
+nav a[disabled="disabled"]:hover {
   color: #fff !important;
 }
 
@@ -148,6 +154,10 @@ nav li.active > a:hover {
 .navbar-languages {
   float: left;
   padding: 13px 0 0 30px;
+}
+
+.navbar-languages > span {
+  margin-right: 6px;
 }
 
 @media (max-width: 767px) {

@@ -1,5 +1,7 @@
 {% extends 'bootstrap/base.html' %}
 
+{% set active_page = active_page|default('index') %}
+
 {% block html_attribs %} lang="{{ g.current_lang }}"{% endblock %}
 
 {% block metas %}
@@ -29,19 +31,15 @@
 {% block content %}
   {% include 'navbar.html' %}
   <div class="container-fluid">
-    <div class="row-fluid image-block">
-      <a href="#">
-        <img class="first-img" src="{{ url_for('static', filename='images/child.svg') }}" />
-      </a>
-      <a href="{{ config.PARENT }}" target="_blank">
-        <img class="last-img" src="{{ url_for('static', filename='images/parent.svg') }}" />
-      </a>
+    <div class="row-fluid text-center header-center-block">
+      <img class="image image-left" src="{{ url_for('static', filename='images/child.svg') }}" />
+      <img class="image image-right" src="{{ url_for('static', filename='images/parent.svg') }}" />
+      <h1 class="title">{{ config.TITLE }}</h1>
     </div>
     <div class="row-fluid text-center center-block">
-      <h1>{{ config.TITLE }}</h1>
       <p>{{ _('Einstiegsmöglichkeit in die Geodateninfrastruktur der Hanse- und Universitätsstadt Rostock und Schnittstelle aller Anwendungen mit Raumbezug des Kataster-, Vermessungs- und Liegenschaftsamtes der Hanse- und Universitätsstadt Rostock') }}</p>
     </div>
-    <div class="row-fluid text-center">
+    <div class="row-fluid text-center search-center-block">
       <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
       <input class="form-control" id="search-input" placeholder="{{ _('Suche in Lebenslagen, Geodatendiensten') }}…" type="search" />
       <span id="clear-search-input" class="glyphicon glyphicon-remove-circle"></span>
