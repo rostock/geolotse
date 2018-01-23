@@ -337,7 +337,7 @@ def catalog_without_lang_code():
 
 @app.route('/<lang_code>/catalog')
 def catalog():
-  return render_template('catalog.html', subtitle = gettext(u'Katalog'), categories = get_links_categories(), api_links = get_parent_links('api', False), application_links = get_parent_links('application', True), documentation_links = get_parent_links('documentation', False), download_links = get_parent_links('download', False), external_links = get_links('external', True), geoservice_groups = get_links_groups('geoservice'), geoservice_links = get_parent_links('geoservice', False), helper_links = get_links('helper', True))
+  return render_template('catalog.html', subtitle = gettext(u'Katalog'), categories = get_links_categories(), api_links = get_parent_links('api', False), application_links = get_parent_links('application', True), documentation_links = get_parent_links('documentation', False), download_links = get_parent_links('download', False), external_links = get_links('external', True), form_links = get_links('form', True), geoservice_groups = get_links_groups('geoservice'), geoservice_links = get_parent_links('geoservice', False), helper_links = get_links('helper', True))
 
 @app.route('/situations')
 def situations_without_lang_code():

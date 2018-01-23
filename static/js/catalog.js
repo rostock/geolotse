@@ -42,6 +42,17 @@ $('#external-filter-input').keyup(function() {
   });
 });
 
+$('#form-filter-input').keyup(function() {
+  var value = $(this).val().toLowerCase();
+  $('.form-list-group > a').each(function() {
+    if ($(this).text().toLowerCase().search(value) > -1) {
+      $(this).show();
+    } else {
+      $(this).hide();
+    }
+  });
+});
+
 $('.geoservice-checkbox').change(function() {
   var value = $(this).val();
   if ($(this).is(':checked')) {

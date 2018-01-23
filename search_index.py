@@ -13,7 +13,7 @@ index_counter = 0
 
 
 # build search index for catalog
-links = Links.query.filter(Links.parent_id == Links.id, Links.category.notin_(('external', 'helper'))).all()
+links = Links.query.filter(Links.parent_id == Links.id, Links.category.notin_(('external', 'form', 'helper'))).all()
 for link in links:
   index_counter += 1
   description = link.description if link.description else ''

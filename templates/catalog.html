@@ -31,6 +31,8 @@
                   <span class="glyphicon glyphicon-download" aria-hidden="true"></span> {{ _('Downloads') }}
                 {% elif category.category == 'external' %}
                   <span class="glyphicon glyphicon-link" aria-hidden="true"></span> {{ _('externe Links') }}
+                {% elif category.category == 'form' %}
+                  <span class="glyphicon glyphicon-inbox" aria-hidden="true"></span> {{ _('Formulare') }}
                 {% elif category.category == 'geoservice' %}
                   <span class="glyphicon glyphicon-globe" aria-hidden="true"></span> {{ _('Geodatendienste') }}
                 {% elif category.category == 'helper' %}
@@ -124,6 +126,17 @@
                     </div>
                   {% endif %}
                 {% endfor %}
+              {% endif %}
+              {% if category.category == 'form' %}
+                <div class="list-group">
+                  {% for form_link in form_links %}
+                    <a href="{{ form_link.link }}" target="_blank" class="list-group-item list-group-item-action">
+                      <span class="glyphicon glyphicon-{% if form_link.reachable == True %}ok-sign green{% else %}remove-sign red{% endif %}" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{{ _('letzte Prüfung auf Erreichbarkeit') }}: {{ form_link.reachable_last_check|datetime_l10n('full') }}"></span>
+                      <span class="glyphicon glyphicon-eye-{% if form_link.public == True %}open green{% else %}close red{% endif %}" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{% if form_link.public == True %}{{ _('öffentlich zugänglich') }}{% else %}{{ _('nicht öffentlich zugänglich') }}{% endif %}"></span>
+                      {{ form_link.title }}
+                    </a>
+                  {% endfor %}
+                </div>
               {% endif %}
               {% if category.category == 'geoservice' %}
                 <div class="checkboxes" id="geoservice-checkboxes">
