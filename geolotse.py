@@ -259,7 +259,7 @@ def get_parent_link_children_tags(parent_id = 1, include_parent_link_tags = True
   list.sort()
   return tuple(list)
 
-@cache.memoize(timeout = app.config['VOLATILE_DATA_CACHE_TIMEOUT'])
+@cache.memoize(timeout = app.config['DEFAULT_CACHE_TIMEOUT'])
 def get_parent_links(category = 'api', group_order = False):
   return Links.query.filter(Links.category == category, Links.id == Links.parent_id).order_by(Links.group, Links.title).all() if group_order == True else Links.query.filter(Links.category == category, Links.id == Links.parent_id).order_by(Links.title).all()
 
