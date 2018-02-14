@@ -13,7 +13,7 @@ index_counter = 0
 
 
 # build search index for catalog
-links = Links.query.filter(Links.parent_id == Links.id, Links.category.notin_(('external', 'form', 'helper'))).all()
+links = Links.query.filter(Links.search == True).all()
 for link in links:
   index_counter += 1
   description = link.description if link.description else ''
@@ -50,35 +50,13 @@ for link in links:
         'group_order': link.group_order
       }
     ])
-  # sorry, some hard coded stuff in here
   else:
     add = False
-    if link.id == link.parent_id and link.group != 'Geolotse.HRO' and link.group != 'Geoport.HRO' and link.group != 'Klarschiff.HRO':
+    if not link.search_title:
       title = link.group
       add = True
-    elif link.link == 'https://www.geoport-hro.de/desktop':
-      title = link.group
-      add = True
-    elif link.link == 'https://www.geoport-hro.de/mobil':
-      title = link.group + u' mobil'
-      add = True
-    elif link.link == 'https://geo.sv.rostock.de/geoport-desktop':
-      title = link.group + u' für die Verwaltung'
-      add = True
-    elif link.link == 'https://geo.sv.rostock.de/geoport-mobil':
-      title = link.group + u' mobil für die Verwaltung'
-      add = True
-    elif link.link == 'https://www.klarschiff-hro.de':
-      title = link.group
-      add = True
-    elif link.link == 'https://www.klarschiff-hro.de/map?mobile=true':
-      title = link.group + u' mobil'
-      add = True
-    elif link.link == 'https://geo.sv.rostock.de/klarschiff':
-      title = link.group + u' für die Verwaltung'
-      add = True
-    elif link.link == 'https://geo.sv.rostock.de/geoport-mobil':
-      title = link.group + u' Prüf- und Protokollclient'
+    else:
+      title = link.search_title
       add = True
     if add == True:
       solr.add([

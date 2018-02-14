@@ -81,7 +81,6 @@ A landing page for organisations wanting to connect and integrate their various 
 
         source /usr/local/geolotse/virtualenv/bin/activate
         
-1.  Sorry, there is some hard coded stuff in the search index builder file `search_index.py` (marked with comment # `sorry, some hard coded stuff in here`): change it so that it fits your needs        
 1.  Run the search index builder:
 
         python search_index.py
