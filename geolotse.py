@@ -83,7 +83,7 @@ class Links(db.Model):
   reachable_last_check = db.Column(db.DateTime(timezone = True), nullable = False)
   description = db.Column(db.Text, nullable = True)
   date = db.Column(db.Date, nullable = True)
-  authorship_place = db.Column(db.ARRAY(db.String(255)), nullable = True)
+  authorship_organisation = db.Column(db.ARRAY(db.String(255)), nullable = True)
   authorship_name = db.Column(db.ARRAY(db.String(255)), nullable = True)
   authorship_mail = db.Column(db.ARRAY(db.String(255)), nullable = True)
   inspire_annex_theme = db.Column(db.String(255), nullable = True)
@@ -95,7 +95,7 @@ class Links(db.Model):
   parent = db.relationship('Links', backref = db.backref('links', lazy = 'dynamic'), remote_side = id)
   sublinks = db.relationship('Sublinks', secondary = links_sublinks, lazy = 'dynamic', backref = db.backref('sublinks', lazy = 'dynamic'))
   
-  def __init__(self, parent_id, category, category_order, group, group_order, title, link, public, reachable, reachable_last_check, description, date, authorship_place, authorship_name, authorship_mail, inspire_annex_theme, logo, search, search_title):
+  def __init__(self, parent_id, category, category_order, group, group_order, title, link, public, reachable, reachable_last_check, description, date, authorship_organisation, authorship_name, authorship_mail, inspire_annex_theme, logo, search, search_title):
     self.parent_id = parent_id
     self.category = category
     self.category_order = category_order
@@ -108,7 +108,7 @@ class Links(db.Model):
     self.reachable_last_check = reachable_last_check
     self.description = description
     self.date = date
-    self.authorship_place = authorship_place
+    self.authorship_organisation = authorship_organisation
     self.authorship_name = authorship_name
     self.authorship_mail = authorship_mail
     self.inspire_annex_theme = inspire_annex_theme

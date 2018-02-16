@@ -54,7 +54,7 @@ A landing page for organisations wanting to connect and integrate their various 
 
         deactivate
 
-1.  Fill the databse with data, either by applying the `examples/database_pgsql.sql` as a starting point and/or for testing or by filling the database from scratch with your own data – the [database](##database) section below might be helpful in either case
+1.  Fill the databse with data, either by applying the `examples/database_pgsql.sql` as a starting point and/or for testing or by filling the database from scratch with your own data – the section on the [database structure](#database-structure) below might be helpful in either case
 1.  Create a new empty *Apache Solr* core:
 
         /path/to/solr/bin/solr create -c geolotse
@@ -135,22 +135,62 @@ If you want to deploy geolotse with [*Apache HTTP Server*](https://httpd.apache.
 
         pybabel compile -f -d translations
         
-## Database
+## Database structure
 
 The database consists of four main tables:
 
 *   `links` – All the links listed in the catalog view, shown as search results and/or used by situations are stored here
-*   `situations` – All the links listed in the catalog view, shown as search results and used by situations are stored here
-*   `sublinks` – All the links listed in the catalog view, shown as search results and used by situations are stored here
-*   `tags` – All the tags are stored here
+*   `situations` – All the situations presented in the situation view go here
+*   `sublinks` – All the sublinks related to the links are stored here
+*   `tags` – All the tags related to the links meet here
 
 The other tables are used for storing the relations between the four main tables (e.g. between links and tags).
+
+### Links (table `links`)
+
+A few details on the important attributes (i.e. fields):
+
+*   `parent_id` – This integer field is mandatory since some logic within the code is based on it. The decision which link within a `category` and/or `group` is considered as the `parent` has to be made wisely and the results differ within a categories and/or groups: play around and find out yourself or check the `examples/database_pgsql.sql` for many examples. Always put an existing `id` in here since the value is checked within a foreign key constraint
+*   `category` – This text field is mandatory since some logic within the code is based on it. The value shall be one of `api` (for API, i.e. application programming interfaces), `application` (for applications), `documentation` (for documentations, i.e. documentation websites), `download` (for downloads, i.e. download portals), `external` (for external links), `form` (for forms), `geoservice` (for geo services) or `helper` (for helpers, i.e. tools)
+*   `title` – This text field is mandatory since every link needs a title, i.e. a name – but not necessarily an unique one
+*   `link` – This text field is mandatory since this *is* the link itself
+*   `public` – The value `FALSE` in this boolean field means *“This link is not publicly available.”*, the value `TRUE` however means *“This link is publicly available.”*. The field is mandatory since some logic within the code is based on it
+*   `reachable` – The value `FALSE` in this boolean field means *“This link is currently not reachable.”*, the value `TRUE` however means *“This link is currently reachable.”*. The field is mandatory since some logic within the code is based on it
+*   `reachable_last_check` – The value of this timestamp field represents the timestamp of the last reachability check of the link. The field is mandatory since some logic within the code is based on it
+*   `description` – The description of the link and/or its target goes in this text field. The information is used in the catalog view
+*   `date` – The date the link and/or its target was last updated is stored in this date field. The information is used in the catalog view
+*   `authorship_organisation` – The organisation(s) of the author(s) of the link and/or its target go(es) in this text array field. The order has to be the same as in the `authorship_name` and `authorship_mail` fields since all these three fields are evaluated together in the code. The information is used in the catalog view
+*   `authorship_name` – The name(s) of the author(s) of the link and/or its target go(es) in this text array field. The order has to be the same as in the `authorship_organisation` and `authorship_mail` fields since all these three fields are evaluated together in the code. The information is used in the catalog view
+*   `authorship_mail` – The email address(es) of the author(s) of the link and/or its target go(es) in this text array field. The order has to be the same as in the `authorship_organisation` and `authorship_name` fields since all these three fields are evaluated together in the code. The information is used in the catalog view
+*   `inspire_annex_theme` – The [*INSPIRE*](http://inspire.ec.europa.eu) annex theme of the link and/or its target is stored in this text field. The information is used in the catalog view
+*   `logo` – If you want a link categorised as `application` and with `parent_id` equalling `id` to be equipped with a logo in the catalog view, its file name (*with* extension) has to go in this text field. Put the logo file itself in the `static/images` folder. Logo information for links with other categories than `application` is not evaluated
+*   `search` – The value `FALSE` in this boolean field means *“This link is considered as a search result and thus included in the search index.”*, the value `TRUE` however means *“This link is not considered as a search result and thus not included in the search index.”*. The field is mandatory since some logic within the code is based on it
+*   `search_title` – If you want a link categorised as `application` to have a different title than the value of `group` in the search result list, the title hat to go in this text field
+
+Always think of the *relations between links and sublinks* as well as the *relations between links and tags* if you insert, delete or update links, especially by a bot (e.g. a cronjob)!
+
+Both the `reachable` and `reachable_last_check` fields could be kept up-to-date by using a cronjob checking the reachability of the links.
+
+### Sublinks (table `sublinks`)
+
+A few details on the important attributes (i.e. fields):
+
+*   `target` – This text field is mandatory since some logic within the code is based on it. The value shall be one of `metadata` (for sublinks leading to metadata of links, e.g. a specific page in a metadata information system), `geoportal` (for sublinks leading to the representation of links in a geodata portal), `geoportal_mobile` (for sublinks leading to the representation of links in a mobile geodata portal) or `opendata` (for sublinks leading to the representation of links in an open data portal)
+*   `title` – This text field is mandatory since every sublink needs a title, i.e. a name – but not necessarily an unique one
+*   `link` – This text field is mandatory since this *is* the sublink itself
+*   `public` – The value `FALSE` in this boolean field means *“This sublink is not publicly available.”*, the value `TRUE` however means *“This sublink is publicly available.”*. The field is mandatory since some logic within the code is based on it
+*   `reachable` – The value `FALSE` in this boolean field means *“This sublink is currently not reachable.”*, the value `TRUE` however means *“This sublink is currently reachable.”*. The field is mandatory since some logic within the code is based on it
+*   `reachable_last_check` – The value of this timestamp field represents the timestamp of the last reachability check of the sublink. The field is mandatory since some logic within the code is based on it
+
+Always think of the *relations between links and sublinks* if you insert, delete or update sublinks, especially by a bot (e.g. a cronjob)!
+
+Both the `reachable` and `reachable_last_check` fields could be kept up-to-date by using a cronjob checking the reachability of the sublinks.
 
 ### Tags (table `tags`)
 
 A few details on the important attributes (i.e. fields):
 
-*   `title` – This text field is mandatory since the title *IS* the tag
-*   `auto` – The value `FALSE` in this boolean field means something like *This tag shall be kept in this table until it is deleted by the administrator.*, the value `TRUE` means something like *This tag is rather volatile and may be deleted or updated by a bot (e.g. a cronjob).*; the field is mandatory since some external logic can be built upon its value (e.g. a cronjob could visit all your geoservice links, fetch all the tags, remove all the tags where `auto` is `FALSE` and insert all the fetched tags)
+*   `title` – This text field is mandatory since this *is* the tag itself
+*   `auto` – The value `FALSE` in this boolean field means something like *“This tag shall be kept in this table until it is deleted by the administrator.”*, the value `TRUE` however means something like *“This tag is rather volatile and may be deleted or updated by a bot (e.g. a cronjob).”*. The field is mandatory since some external logic can be built upon its value (e.g. a cronjob could visit all your geo service links, automatically collect all of the related tags, remove all the tags where `auto` is `FALSE` and finally insert all the collected tags)
 
-Always think of the relations between links and tags if you insert, delete or update tags, especially by a bot (e.g. a cronjob)!
+Always think of the *relations between links and tags* if you insert, delete or update tags, especially by a bot (e.g. a cronjob)!
