@@ -24,7 +24,7 @@ function populateResults(resultsData) {
       case 'geoservice':
         categoryIcon = 'globe';
         break;
-      case 'situation':
+      case 'theme':
         categoryIcon = 'map-marker';
         break;
       default:

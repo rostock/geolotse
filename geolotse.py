@@ -61,10 +61,10 @@ links_sublinks = db.Table(
   db.Column('sublink_id', db.Integer, db.ForeignKey('sublinks.id'), primary_key = True)
 )
 
-situations_tags = db.Table(
-  'situations_tags',
-  db.Column('situation_id', db.Integer, db.ForeignKey('situations.id'), primary_key = True),
-  db.Column('tag_id', db.Integer, db.ForeignKey('tags.id'), primary_key = True)
+links_themes = db.Table(
+  'links_themes',
+  db.Column('link_id', db.Integer, db.ForeignKey('links.id'), primary_key = True),
+  db.Column('theme_id', db.Integer, db.ForeignKey('themes.id'), primary_key = True)
 )
 
 class Links(db.Model):
@@ -118,22 +118,6 @@ class Links(db.Model):
   
   def __repr__(self):
     return '<links id {}>'.format(self.id)
-      
-class Situations(db.Model):
-  __tablename__ = 'situations'
-  
-  id = db.Column(db.Integer, primary_key = True)
-  title = db.Column(db.String(255), unique = True, nullable = False)
-  stars = db.Column(db.SmallInteger, nullable = False)
-  
-  tags = db.relationship('Tags', secondary = situations_tags, lazy = 'dynamic', backref = db.backref('situations', lazy = 'dynamic'))
-  
-  def __init__(self, title, stars):
-    self.title = title
-    self.stars = stars
-  
-  def __repr__(self):
-    return '<situations id {}>'.format(self.id)
 
 class Sublinks(db.Model):
   __tablename__ = 'sublinks'
@@ -170,6 +154,20 @@ class Tags(db.Model):
   
   def __repr__(self):
     return '<tags id {}>'.format(self.id)
+      
+class Themes(db.Model):
+  __tablename__ = 'themes'
+  
+  id = db.Column(db.Integer, primary_key = True)
+  title = db.Column(db.String(255), unique = True, nullable = False)
+  stars = db.Column(db.SmallInteger, nullable = False)
+  
+  def __init__(self, title, stars):
+    self.title = title
+    self.stars = stars
+  
+  def __repr__(self):
+    return '<themes id {}>'.format(self.id)
 
 
 
@@ -313,8 +311,8 @@ def search():
       item['category_label'] = gettext(u'Download')
     elif item['category'] == 'geoservice':
       item['category_label'] = gettext(u'Geodatendienst')
-    elif item['category'] == 'situation':
-      item['category_label'] = gettext(u'Lebenslage')
+    elif item['category'] == 'theme':
+      item['category_label'] = gettext(u'Thema')
     else:
       item['category_label'] = result['category']
     item['title'] = result['title']
@@ -343,13 +341,13 @@ def catalog_without_lang_code():
 def catalog():
   return render_template('catalog.html', subtitle = gettext(u'Katalog'), categories = get_links_categories(), api_links = get_parent_links('api', False), application_links = get_parent_links('application', True), documentation_links = get_parent_links('documentation', False), download_links = get_parent_links('download', False), external_links = get_links('external', True), form_links = get_links('form', True), geoservice_groups = get_links_groups('geoservice'), geoservice_links = get_parent_links('geoservice', False), helper_links = get_links('helper', True))
 
-@app.route('/situations')
-def situations_without_lang_code():
-  return redirect(url_for('situations', lang_code = g.current_lang if g.current_lang else app.config['BABEL_DEFAULT_LOCALE']))
+@app.route('/themes')
+def themes_without_lang_code():
+  return redirect(url_for('themes', lang_code = g.current_lang if g.current_lang else app.config['BABEL_DEFAULT_LOCALE']))
 
-@app.route('/<lang_code>/situations')
-def situations():
-  return render_template('situations.html', subtitle = gettext(u'Lebenslagen'))
+@app.route('/<lang_code>/themes')
+def themes():
+  return render_template('themes.html', subtitle = gettext(u'Themen'))
 
 @app.route('/imprint')
 def imprint_without_lang_code():

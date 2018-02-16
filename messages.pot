@@ -1,34 +1,25 @@
-#: geolotse.py:303
+#: geolotse.py:305
 msgid "API (Programmierschnittstelle)"
 msgstr ""
 
-#: geolotse.py:305
+#: geolotse.py:307
 msgid "Anwendung"
 msgstr ""
 
-#: geolotse.py:307
+#: geolotse.py:309
 msgid "Dokumentation"
 msgstr ""
 
-#: geolotse.py:309
+#: geolotse.py:311
 msgid "Download"
 msgstr ""
 
-#: geolotse.py:311
+#: geolotse.py:313
 msgid "Geodatendienst"
 msgstr ""
 
-#: geolotse.py:313
-msgid "Lebenslage"
-msgstr ""
-
-#: geolotse.py:325 templates/catalog.html:51 templates/catalog.html:76
-#: templates/catalog.html:92 templates/catalog.html:103
-#: templates/catalog.html:122 templates/catalog.html:135
-#: templates/catalog.html:186 templates/catalog.html:194
-#: templates/catalog.html:214 templates/catalog.html:222
-#: templates/catalog.html:253 templates/catalog.html:277
-msgid "öffentlich zugänglich"
+#: geolotse.py:315
+msgid "Thema"
 msgstr ""
 
 #: geolotse.py:327 templates/catalog.html:51 templates/catalog.html:76
@@ -37,26 +28,35 @@ msgstr ""
 #: templates/catalog.html:186 templates/catalog.html:194
 #: templates/catalog.html:214 templates/catalog.html:222
 #: templates/catalog.html:253 templates/catalog.html:277
+msgid "öffentlich zugänglich"
+msgstr ""
+
+#: geolotse.py:329 templates/catalog.html:51 templates/catalog.html:76
+#: templates/catalog.html:92 templates/catalog.html:103
+#: templates/catalog.html:122 templates/catalog.html:135
+#: templates/catalog.html:186 templates/catalog.html:194
+#: templates/catalog.html:214 templates/catalog.html:222
+#: templates/catalog.html:253 templates/catalog.html:277
 msgid "nicht öffentlich zugänglich"
 msgstr ""
 
-#: geolotse.py:340 templates/index.html:59
+#: geolotse.py:342 templates/index.html:59
 msgid "Katalog"
 msgstr ""
 
-#: geolotse.py:348
-msgid "Lebenslagen"
+#: geolotse.py:350
+msgid "Themen"
 msgstr ""
 
-#: geolotse.py:356 templates/footer.html:6
+#: geolotse.py:358 templates/footer.html:6
 msgid "Impressum"
 msgstr ""
 
-#: geolotse.py:364 templates/footer.html:5
+#: geolotse.py:366 templates/footer.html:5
 msgid "Datenschutz"
 msgstr ""
 
-#: geolotse.py:372 templates/footer.html:8
+#: geolotse.py:374 templates/footer.html:8
 msgid "Nutzungsbedingungen"
 msgstr ""
 
@@ -358,7 +358,7 @@ msgid ""
 msgstr ""
 
 #: templates/index.html:44
-msgid "Suche in Lebenslagen, Geodatendiensten"
+msgid "Suche in Themen, Geodatendiensten"
 msgstr ""
 
 #: templates/index.html:59

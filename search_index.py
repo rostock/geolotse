@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from geolotse import app, Links, Situations, Tags
+from geolotse import app, Links, Themes, Tags
 from flask_sqlalchemy import SQLAlchemy
 from pysolr import Solr
 
@@ -76,11 +76,11 @@ for link in links:
 
 
 
-# build search index for situations
-situations = Situations.query.all()
-for situation in situations:
+# build search index for themes
+themes = Themes.query.all()
+for theme in themes:
   index_counter += 1
-  tags = Tags.query.join(Situations.tags).filter(Situations.id == situation.id).all()
+  tags = Tags.query.join(Themes.tags).filter(Themes.id == theme.id).all()
   if not tags:
     tag_list = ''
   else:
@@ -91,13 +91,13 @@ for situation in situations:
   solr.add([
     {
       'id': index_counter,
-      '_text_': situation.title + situation.link + str(tag_list),
-      'database_id': situation.id,
-      'category': 'situation',
-      'title': situation.title,
+      '_text_': theme.title + theme.link + str(tag_list),
+      'database_id': theme.id,
+      'category': 'theme',
+      'title': theme.title,
       'link': '',
       'public': True,
-      'category_order': situation.stars,
+      'category_order': theme.stars,
       'group_order': 0
     }
   ])

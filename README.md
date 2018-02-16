@@ -139,10 +139,10 @@ If you want to deploy geolotse with [*Apache HTTP Server*](https://httpd.apache.
 
 The database consists of four main tables:
 
-*   `links` – All the links listed in the catalog view, shown as search results and/or used by situations are stored here
-*   `situations` – All the situations presented in the situation view go here
+*   `links` – All the links listed in the catalog view, shown as search results and/or used by themes are stored here
 *   `sublinks` – All the sublinks related to the links are stored here
 *   `tags` – All the tags related to the links meet here
+*   `themes` – All the themes presented in the theme view go here
 
 The other tables are used for storing the relations between the four main tables (e.g. between links and tags).
 

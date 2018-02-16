@@ -1,5 +1,5 @@
 {% set navbar_right = [
-  ('situations', 'Lebenslagen'),
+  ('themes', 'Themen'),
   ('catalog', 'Katalog')
 ] %}
 
@@ -30,7 +30,7 @@
         {% for url, title in navbar_right %}
           <li{% if active_page and url == active_page %} class="active"{% endif %}>
             <a{% if active_page and url == active_page %} href="javascript:function() { return false; }" disabled="disabled"{% else %} href="{{ url_for(url, lang_code = g.current_lang) }}"{% endif %}>
-              <span class="glyphicon glyphicon-{% if url == 'catalog' %}list{% elif url == 'situations' %}map-marker{% else %}question-sign{% endif %}" aria-hidden="true"></span> {{ _(title|e) }}
+              <span class="glyphicon glyphicon-{% if url == 'catalog' %}list{% elif url == 'themes' %}map-marker{% else %}question-sign{% endif %}" aria-hidden="true"></span> {{ _(title|e) }}
             </a>
           </li>
         {% endfor %}
