@@ -54,7 +54,7 @@ A landing page for organisations wanting to connect and integrate their various 
 
         deactivate
 
-1.  Fill the databse with data (you can use the `examples/database_pgsql.sql` for testing)
+1.  Fill the databse with data, either by applying the `examples/database_pgsql.sql` as a starting point and/or for testing or by filling the database from scratch with your own data – the [database](##database) section below might be helpful in either case
 1.  Create a new empty *Apache Solr* core:
 
         /path/to/solr/bin/solr create -c geolotse
@@ -134,3 +134,23 @@ If you want to deploy geolotse with [*Apache HTTP Server*](https://httpd.apache.
 1.  Compile the `*.po` file(s) – this will generate the required `*.mo`:
 
         pybabel compile -f -d translations
+        
+## Database
+
+The database consists of four main tables:
+
+*   `links` – All the links listed in the catalog view, shown as search results and/or used by situations are stored here
+*   `situations` – All the links listed in the catalog view, shown as search results and used by situations are stored here
+*   `sublinks` – All the links listed in the catalog view, shown as search results and used by situations are stored here
+*   `tags` – All the tags are stored here
+
+The other tables are used for storing the relations between the four main tables (e.g. between links and tags).
+
+### Tags (table `tags`)
+
+A few details on the important attributes (i.e. fields):
+
+*   `title` – This text field is mandatory since the title *IS* the tag
+*   `auto` – The value `FALSE` in this boolean field means something like *This tag shall be kept in this table until it is deleted by the administrator.*, the value `TRUE` means something like *This tag is rather volatile and may be deleted or updated by a bot (e.g. a cronjob).*; the field is mandatory since some external logic can be built upon its value (e.g. a cronjob could visit all your geoservice links, fetch all the tags, remove all the tags where `auto` is `FALSE` and insert all the fetched tags)
+
+Always think of the relations between links and tags if you insert, delete or update tags, especially by a bot (e.g. a cronjob)!
