@@ -7,6 +7,7 @@ from flask_compress import Compress
 from flask_bootstrap import Bootstrap
 from flask_migrate import Migrate
 from flask_sqlalchemy import Model, SQLAlchemy
+from sqlalchemy import func
 from flask_sqlalchemy_cache import CachingQuery
 from pysolr import Solr
 from json import dumps
@@ -160,11 +161,11 @@ class Themes(db.Model):
   
   id = db.Column(db.Integer, primary_key = True)
   title = db.Column(db.String(255), unique = True, nullable = False)
-  stars = db.Column(db.SmallInteger, nullable = False)
+  thumb = db.Column(db.String(255), nullable = True)
   
-  def __init__(self, title, stars):
+  def __init__(self, title, thumb):
     self.title = title
-    self.stars = stars
+    self.thumb = thumb
   
   def __repr__(self):
     return '<themes id {}>'.format(self.id)
@@ -269,6 +270,10 @@ def get_parent_links(category = 'api', group_order = False):
 def get_tag_links(id = 1):
   return Links.query.join(Links.tags).filter(Tags.id == id).order_by(Links.title).all()
 
+@cache.memoize(timeout = app.config['DEFAULT_CACHE_TIMEOUT'])
+def get_themes():
+  return Themes.query.order_by(func.random()).all()
+
 app.jinja_env.filters['get_link_sublink'] = get_link_sublink
 app.jinja_env.filters['get_parent_link_children'] = get_parent_link_children
 app.jinja_env.filters['get_parent_link_children_groups'] = get_parent_link_children_groups
@@ -347,7 +352,7 @@ def themes_without_lang_code():
 
 @app.route('/<lang_code>/themes')
 def themes():
-  return render_template('themes.html', subtitle = gettext(u'Themen'))
+  return render_template('themes.html', subtitle = gettext(u'Themen'), themes = get_themes())
 
 @app.route('/imprint')
 def imprint_without_lang_code():

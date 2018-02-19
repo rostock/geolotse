@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: sebastian.gutzeit@rostock.de\n"
-"POT-Creation-Date: 2018-02-16 14:22+0100\n"
+"POT-Creation-Date: 2018-02-19 16:56+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Sebastian Gutzeit <sebastian.gutzeit@rostock.de>\n"
 "Language: en\n"
@@ -19,31 +19,31 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.5.3\n"
 
-#: geolotse.py:305
+#: geolotse.py:310
 msgid "API (Programmierschnittstelle)"
 msgstr "API (Application programming interface)"
 
-#: geolotse.py:307
+#: geolotse.py:312
 msgid "Anwendung"
 msgstr "Application"
 
-#: geolotse.py:309
+#: geolotse.py:314
 msgid "Dokumentation"
 msgstr "Documentation"
 
-#: geolotse.py:311
+#: geolotse.py:316
 msgid "Download"
 msgstr "Download"
 
-#: geolotse.py:313
+#: geolotse.py:318
 msgid "Geodatendienst"
 msgstr "Geo service"
 
-#: geolotse.py:315
+#: geolotse.py:320
 msgid "Thema"
 msgstr "Theme"
 
-#: geolotse.py:327 templates/catalog.html:51 templates/catalog.html:76
+#: geolotse.py:332 templates/catalog.html:51 templates/catalog.html:76
 #: templates/catalog.html:92 templates/catalog.html:103
 #: templates/catalog.html:122 templates/catalog.html:135
 #: templates/catalog.html:186 templates/catalog.html:194
@@ -52,7 +52,7 @@ msgstr "Theme"
 msgid "öffentlich zugänglich"
 msgstr "publicly available"
 
-#: geolotse.py:329 templates/catalog.html:51 templates/catalog.html:76
+#: geolotse.py:334 templates/catalog.html:51 templates/catalog.html:76
 #: templates/catalog.html:92 templates/catalog.html:103
 #: templates/catalog.html:122 templates/catalog.html:135
 #: templates/catalog.html:186 templates/catalog.html:194
@@ -61,23 +61,23 @@ msgstr "publicly available"
 msgid "nicht öffentlich zugänglich"
 msgstr "not publicly available"
 
-#: geolotse.py:342 templates/index.html:59
+#: geolotse.py:347 templates/index.html:59
 msgid "Katalog"
 msgstr "Catalog"
 
-#: geolotse.py:350
+#: geolotse.py:355 templates/index.html:53
 msgid "Themen"
 msgstr "Themes"
 
-#: geolotse.py:358 templates/footer.html:6
+#: geolotse.py:363 templates/footer.html:6
 msgid "Impressum"
 msgstr "Imprint"
 
-#: geolotse.py:366 templates/footer.html:5
+#: geolotse.py:371 templates/footer.html:5
 msgid "Datenschutz"
 msgstr "Privacy policy"
 
-#: geolotse.py:374 templates/footer.html:8
+#: geolotse.py:379 templates/footer.html:8
 msgid "Nutzungsbedingungen"
 msgstr "Terms of use"
 
@@ -404,6 +404,15 @@ msgstr ""
 #: templates/index.html:44
 msgid "Suche in Themen, Geodatendiensten"
 msgstr "Search within themes, geo services"
+
+#: templates/index.html:53
+msgid ""
+"Finden Sie zu einem Thema, das Sie interessiert, in Ihrer Nähe alle "
+"Angebote aus der Geodateninfrastruktur der Hanse- und Universitätsstadt "
+"Rostock."
+msgstr "Find all information near you relating to your topic of interest "
+"provided through the spatial data infrastructure of the municipality "
+"of Rostock."
 
 #: templates/index.html:59
 msgid ""

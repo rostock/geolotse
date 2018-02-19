@@ -1,0 +1,63 @@
+.leaflet-container {
+  font-family: 'PT Sans', sans-serif;
+  margin-bottom: 60px;
+  padding-top: 70px;
+}
+
+.slider {
+  width: 90%;
+  margin-left: 5%;
+}
+
+.slick-prev:before,
+.slick-next:before {
+  color: #006cb7;
+  opacity: 1;
+}
+
+.slick-prev:before,
+.slick-next:before,
+.slick-prev:focus::before,
+.slick-next:focus::before,
+.slick-prev:visited::before,
+.slick-next:visited::before {
+  color: #006cb7;
+  opacity: 1;
+}
+
+.slick-prev:hover::before,
+.slick-next:hover::before {
+  color: #777;
+  opacity: 1;
+}
+
+.theme {
+  height: 250px;
+  width: 250px;
+  margin: auto;
+  background-color: #006cb7;
+  text-align: center;
+  cursor: pointer;
+}
+
+.theme-title {
+  position: relative;
+  top: 10px;
+  color: #fff;
+  font-weight: bold;
+}
+
+.theme-thumb {
+  height: 185px;
+  max-height: 185px;
+  max-width: 185px;
+  margin: auto;
+  margin-top: 12px;
+}
+
+#map {
+  height: 600px;
+  width: 85.5%;
+  margin-left: 7.4%;
+  margin-top: 20px;
+}

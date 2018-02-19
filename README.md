@@ -7,8 +7,8 @@ A landing page for organisations wanting to connect and integrate their various 
 *   [*Python*](https://www.python.org)
 *   [*Virtualenv*](https://virtualenv.pypa.io)
 *   [*Apache Solr*](http://lucene.apache.org/solr)
-*   An object-relational database management system, [*PostgreSQL*](https://www.postgresql.org) is recommended
-*   A memory caching server, [*Memcached*](https://memcached.org) is recommended
+*   [*PostgreSQL*](https://www.postgresql.org)
+*   [*Memcached*](https://memcached.org)
 
 ## Installation
 
@@ -170,7 +170,7 @@ A few details on the important attributes (i.e. fields):
 *   `search` – The value `FALSE` in this boolean field means *“This link is considered as a search result and thus included in the search index.”*, the value `TRUE` however means *“This link is not considered as a search result and thus not included in the search index.”*. The field is mandatory since some logic within the code is based on it
 *   `search_title` – If you want a link categorised as `application` to have a different title than the value of `group` in the search result list, the title hat to go in this text field
 
-Always think of the *relations between links and sublinks* as well as the *relations between links and tags* if you insert, delete or update links, especially by a bot (e.g. a cronjob)!
+Always think of the *relations between links and sublinks*, the *relations between links and tags* and the *relations between links and themes* if you insert, delete or update links, especially by a bot (e.g. a cronjob)!
 
 Both the `reachable` and `reachable_last_check` fields could be kept up-to-date by using a cronjob checking the reachability of the links.
 
@@ -197,3 +197,12 @@ A few details on the important attributes (i.e. fields):
 *   `auto` – The value `FALSE` in this boolean field means something like *“This tag shall be kept in this table until it is deleted by the administrator.”*, the value `TRUE` however means something like *“This tag is rather volatile and may be deleted or updated by a bot (e.g. a cronjob).”*. The field is mandatory since some external logic can be built upon its value (e.g. a cronjob could visit all your geo service links, automatically collect all of the related tags, remove all the tags where `auto` is `FALSE` and finally insert all the collected tags)
 
 Always think of the *relations between links and tags* if you insert, delete or update tags, especially by a bot (e.g. a cronjob)!
+
+### Themes (table `themes`)
+
+A few details on the important attributes (i.e. fields):
+
+*   `title` – This text field is mandatory since every theme needs a *unique* title
+*   `thumb` – If you want a theme to be equipped with an unique thumbnail in the theme view, its file name (*with* extension) has to go in this text field. Put the thumbnail file itself in the `static/images` folder
+
+Always think of the *relations between links and themes* if you insert, delete or update tags, especially by a bot (e.g. a cronjob)!

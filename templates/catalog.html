@@ -9,7 +9,7 @@
 
 {% block scripts %}
   {{super()}}
-  <script type="application/javascript" src="{{url_for('static', filename='js/catalog.js')}}"></script>
+  <script type="application/javascript" src="{{ url_for('static', filename='js/catalog.js') }}"></script>
 {% endblock %}
 
 {% block content %}
@@ -63,7 +63,7 @@
                       <div class="panel-heading">
                         <h4 class="panel-title">
                           <a data-toggle="collapse" href="#application-{{ application_link.id }}">
-                            <span class="full-width">{% if application_link.logo != None %}<img src="{{url_for('static', filename='images/') }}{{ application_link.logo }}" class="application-logo" /> {% endif %}{{ application_link.group }}</span>
+                            <span class="full-width">{% if application_link.logo != None %}<img src="{{ url_for('static', filename='images/') }}{{ application_link.logo }}" class="application-logo" /> {% endif %}{{ application_link.group }}</span>
                           </a>
                         </h4>
                       </div>
