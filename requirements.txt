@@ -9,3 +9,4 @@ python-memcached==1.59
 Flask-Cache==0.13.1
 Flask-SQLAlchemy-Cache==0.1.5
 pysolr==3.7.0
+user-agents==1.1.0

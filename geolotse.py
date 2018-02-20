@@ -7,10 +7,11 @@ from flask_compress import Compress
 from flask_bootstrap import Bootstrap
 from flask_migrate import Migrate
 from flask_sqlalchemy import Model, SQLAlchemy
-from sqlalchemy import func
 from flask_sqlalchemy_cache import CachingQuery
-from pysolr import Solr
 from json import dumps
+from pysolr import Solr
+from sqlalchemy import func
+from user_agents import parse
 
 
 
@@ -289,9 +290,14 @@ def index_without_lang_code():
 
 @app.route('/<lang_code>')
 def index():
-  return render_template('index.html')
+  user_agent = parse(request.headers.get('User-Agent'))
+  return render_template('index.html', mobile = user_agent.is_mobile)
 
 @app.route('/search')
+def search_without_lang_code():
+  return redirect(url_for('search', lang_code = g.current_lang if g.current_lang else app.config['BABEL_DEFAULT_LOCALE']))
+
+@app.route('/<lang_code>/search')
 def search():
   query = '*' + request.args['query'].replace(' ', '* *') + '*'
   if 'start' in request.args and 'rows' in request.args:
@@ -344,7 +350,8 @@ def catalog_without_lang_code():
 
 @app.route('/<lang_code>/catalog')
 def catalog():
-  return render_template('catalog.html', subtitle = gettext(u'Katalog'), categories = get_links_categories(), api_links = get_parent_links('api', False), application_links = get_parent_links('application', True), documentation_links = get_parent_links('documentation', False), download_links = get_parent_links('download', False), external_links = get_links('external', True), form_links = get_links('form', True), geoservice_groups = get_links_groups('geoservice'), geoservice_links = get_parent_links('geoservice', False), helper_links = get_links('helper', True))
+  user_agent = parse(request.headers.get('User-Agent'))
+  return render_template('catalog.html', mobile = user_agent.is_mobile, subtitle = gettext(u'Katalog'), categories = get_links_categories(), api_links = get_parent_links('api', False), application_links = get_parent_links('application', True), documentation_links = get_parent_links('documentation', False), download_links = get_parent_links('download', False), external_links = get_links('external', True), form_links = get_links('form', True), geoservice_groups = get_links_groups('geoservice'), geoservice_links = get_parent_links('geoservice', False), helper_links = get_links('helper', True))
 
 @app.route('/themes')
 def themes_without_lang_code():
@@ -352,7 +359,8 @@ def themes_without_lang_code():
 
 @app.route('/<lang_code>/themes')
 def themes():
-  return render_template('themes.html', subtitle = gettext(u'Themen'), themes = get_themes())
+  user_agent = parse(request.headers.get('User-Agent'))
+  return render_template('themes.html', mobile = user_agent.is_mobile, subtitle = gettext(u'Themen'), themes = get_themes())
 
 @app.route('/imprint')
 def imprint_without_lang_code():
@@ -360,7 +368,8 @@ def imprint_without_lang_code():
 
 @app.route('/<lang_code>/imprint')
 def imprint():
-  return render_template('imprint.html', subtitle = gettext(u'Impressum'))
+  user_agent = parse(request.headers.get('User-Agent'))
+  return render_template('imprint.html', mobile = user_agent.is_mobile, subtitle = gettext(u'Impressum'))
 
 @app.route('/privacy_policy')
 def privacy_policy_without_lang_code():

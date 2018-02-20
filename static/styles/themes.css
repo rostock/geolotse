@@ -34,16 +34,22 @@
 .theme {
   height: 250px;
   width: 250px;
+  border-radius: 50%;
   margin: auto;
-  background-color: #006cb7;
+  color: #31708f;
+  background-color: #d9edf7;
+  border: 1px solid #bce8f1;
   text-align: center;
   cursor: pointer;
 }
 
+.theme:hover {
+  color: #fff;
+}
+
 .theme-title {
   position: relative;
-  top: 10px;
-  color: #fff;
+  top: 15px;
   font-weight: bold;
 }
 
@@ -52,7 +58,7 @@
   max-height: 185px;
   max-width: 185px;
   margin: auto;
-  margin-top: 12px;
+  margin-top: 15px;
 }
 
 #map {

@@ -1,4 +1,17 @@
+// globals
+
+// constants
 ROWS = 20;
+LANG_CODE = location.href.match(/([^\/]*)\/*$/)[1];
+if ($('#defining-container').data('mobile')) {
+  MOBILE = true;
+} else {
+  MOBILE = false;
+}
+
+
+
+// functions
 
 function clearResults() {
   $('#results').html('');
@@ -42,6 +55,10 @@ function populateResults(resultsData) {
   $('#results').html(results);
 }
 
+function clearResultsPagination() {
+  $('#results-pagination').html('');
+}
+
 function populateResultsPagination(hits, start, currentPage) {
   var pages = Math.ceil(hits / ROWS);
   var pagination = '';
@@ -67,15 +84,11 @@ function populateResultsPagination(hits, start, currentPage) {
   $('#results-pagination').html(pagination);
 }
 
-function clearResultsPagination() {
-  $('#results-pagination').html('');
-}
-
 function search(query, start) {
   clearResults();
   clearResultsPagination();
   $.ajax({
-    url: 'search',
+    url: LANG_CODE + '/search',
     data: {
       query: query,
       start: start,
@@ -90,6 +103,10 @@ function search(query, start) {
     }
   });
 }
+
+
+
+// jQuery events
 
 $('#search-input').keyup(function() {
   var value = $(this).val();

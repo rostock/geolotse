@@ -6,7 +6,7 @@ A landing page for organisations wanting to connect and integrate their various 
 
 *   [*Python*](https://www.python.org)
 *   [*Virtualenv*](https://virtualenv.pypa.io)
-*   [*Apache Solr*](http://lucene.apache.org/solr)
+*   [*Apache Solr*](https://lucene.apache.org/solr)
 *   [*PostgreSQL*](https://www.postgresql.org)
 *   [*Memcached*](https://memcached.org)
 
@@ -36,6 +36,7 @@ A landing page for organisations wanting to connect and integrate their various 
         
 1.  Edit the secret settings file 
 1.  Edit the general settings file `/usr/local/geolotse/geolotse/settings.py`
+1.  Edit the [*Leaflet*](http://leafletjs.com) related (i.e. theme view map and map search related) settings in both the *globals* and *functions* sections of file `/usr/local/geolotse/geolotse/static/js/themes.js`
 
 ## Initialisation
 
@@ -89,7 +90,7 @@ A landing page for organisations wanting to connect and integrate their various 
 
 ## Deployment
 
-If you want to deploy geolotse with [*Apache HTTP Server*](https://httpd.apache.org) you have to make sure that [*mod_wsgi*](http://modwsgi.readthedocs.io) is installed, a module that provides a Web Server Gateway Interface (WSGI) compliant interface for hosting *Python* based web applications. Then, you can follow these steps:
+If you want to deploy geolotse with [*Apache HTTP Server*](https://httpd.apache.org) you have to make sure that [*mod_wsgi*](https://modwsgi.readthedocs.io) is installed, a module that provides a Web Server Gateway Interface (WSGI) compliant interface for hosting *Python* based web applications. Then, you can follow these steps:
 
 1.  Create a new empty file `geolotse.wsgi`:
 
@@ -165,7 +166,7 @@ A few details on the important attributes (i.e. fields):
 *   `authorship_organisation` – The organisation(s) of the author(s) of the link and/or its target go(es) in this text array field. The order has to be the same as in the `authorship_name` and `authorship_mail` fields since all these three fields are evaluated together in the code. The information is used in the catalog view
 *   `authorship_name` – The name(s) of the author(s) of the link and/or its target go(es) in this text array field. The order has to be the same as in the `authorship_organisation` and `authorship_mail` fields since all these three fields are evaluated together in the code. The information is used in the catalog view
 *   `authorship_mail` – The email address(es) of the author(s) of the link and/or its target go(es) in this text array field. The order has to be the same as in the `authorship_organisation` and `authorship_name` fields since all these three fields are evaluated together in the code. The information is used in the catalog view
-*   `inspire_annex_theme` – The [*INSPIRE*](http://inspire.ec.europa.eu) annex theme of the link and/or its target is stored in this text field. The information is used in the catalog view
+*   `inspire_annex_theme` – The [*INSPIRE*](https://inspire.ec.europa.eu) annex theme of the link and/or its target is stored in this text field. The information is used in the catalog view
 *   `logo` – If you want a link categorised as `application` and with `parent_id` equalling `id` to be equipped with a logo in the catalog view, its file name (*with* extension) has to go in this text field. Put the logo file itself in the `static/images` folder. Logo information for links with other categories than `application` is not evaluated
 *   `search` – The value `FALSE` in this boolean field means *“This link is considered as a search result and thus included in the search index.”*, the value `TRUE` however means *“This link is not considered as a search result and thus not included in the search index.”*. The field is mandatory since some logic within the code is based on it
 *   `search_title` – If you want a link categorised as `application` to have a different title than the value of `group` in the search result list, the title hat to go in this text field

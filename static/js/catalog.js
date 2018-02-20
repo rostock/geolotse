@@ -1,5 +1,22 @@
+// globals
+
+// constants
+if ($('#defining-container').data('mobile')) {
+  MOBILE = true;
+} else {
+  MOBILE = false;
+}
+
+
+
+// jQuery document ready event
+
 $(document).ready(function() {
+  
+  // enable Bootstraﬂ tooltips
   $('[data-toggle="tooltip"]').tooltip();
+  
+  // process URL fragment identifier
   if (window.location.hash) {
     var anchor = window.location.hash;
     if ($(anchor).length && anchor.indexOf('geoservice-') !== -1) {
@@ -13,6 +30,10 @@ $(document).ready(function() {
     }
   }
 });
+
+
+
+// other jQuery events
 
 $('#application-filter-input').keyup(function() {
   var value = $(this).val().toLowerCase();

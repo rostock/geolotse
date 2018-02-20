@@ -1,28 +1,28 @@
-#: geolotse.py:310
+#: geolotse.py:314
 msgid "API (Programmierschnittstelle)"
 msgstr ""
 
-#: geolotse.py:312
+#: geolotse.py:316
 msgid "Anwendung"
 msgstr ""
 
-#: geolotse.py:314
+#: geolotse.py:318
 msgid "Dokumentation"
 msgstr ""
 
-#: geolotse.py:316
+#: geolotse.py:320
 msgid "Download"
 msgstr ""
 
-#: geolotse.py:318
+#: geolotse.py:322
 msgid "Geodatendienst"
 msgstr ""
 
-#: geolotse.py:320
+#: geolotse.py:324
 msgid "Thema"
 msgstr ""
 
-#: geolotse.py:332 templates/catalog.html:51 templates/catalog.html:76
+#: geolotse.py:336 templates/catalog.html:51 templates/catalog.html:76
 #: templates/catalog.html:92 templates/catalog.html:103
 #: templates/catalog.html:122 templates/catalog.html:135
 #: templates/catalog.html:186 templates/catalog.html:194
@@ -31,7 +31,7 @@ msgstr ""
 msgid "öffentlich zugänglich"
 msgstr ""
 
-#: geolotse.py:334 templates/catalog.html:51 templates/catalog.html:76
+#: geolotse.py:338 templates/catalog.html:51 templates/catalog.html:76
 #: templates/catalog.html:92 templates/catalog.html:103
 #: templates/catalog.html:122 templates/catalog.html:135
 #: templates/catalog.html:186 templates/catalog.html:194
@@ -40,23 +40,23 @@ msgstr ""
 msgid "nicht öffentlich zugänglich"
 msgstr ""
 
-#: geolotse.py:347 templates/index.html:59
+#: geolotse.py:351 templates/index.html:59
 msgid "Katalog"
 msgstr ""
 
-#: geolotse.py:355 templates/index.html:53
+#: geolotse.py:359 templates/index.html:53
 msgid "Themen"
 msgstr ""
 
-#: geolotse.py:363 templates/footer.html:6
+#: geolotse.py:367 templates/footer.html:6
 msgid "Impressum"
 msgstr ""
 
-#: geolotse.py:371 templates/footer.html:5
+#: geolotse.py:375 templates/footer.html:5
 msgid "Datenschutz"
 msgstr ""
 
-#: geolotse.py:379 templates/footer.html:8
+#: geolotse.py:383 templates/footer.html:8
 msgid "Nutzungsbedingungen"
 msgstr ""
 
@@ -439,5 +439,13 @@ msgstr ""
 
 #: templates/terms_of_use.html:12
 msgid "Nutzung der Inhalte der Hanse- und Universitätsstadt Rostock"
+msgstr ""
+
+#: templates/themes.html:44
+msgid "Karte"
+msgstr ""
+
+#: templates/themes.html:45
+msgid "Luftbild"
 msgstr ""
 

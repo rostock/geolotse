@@ -30,7 +30,7 @@
 
 {% block content %}
   {% include 'navbar.html' %}
-  <div class="container-fluid">
+  <div class="container-fluid" id="defining-container" data-mobile="{{ mobile|lower }}">
     <div class="row-fluid text-center header-center-block">
       <img class="image image-left" src="{{ url_for('static', filename='images/child.svg') }}" />
       <img class="image image-right" src="{{ url_for('static', filename='images/parent.svg') }}" />
