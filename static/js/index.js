@@ -46,8 +46,8 @@ function populateResults(resultsData) {
     var publicIcon = (item.public === true) ? 'open green' : 'close red';
     results += '<div class="results-entry">';
     results +=   '<a href="' + item.link + '" target="_blank">';
-    results +=     '<span class="glyphicon glyphicon-' + categoryIcon + '" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="' + item.category_label + '"></span> ';
-    results +=     '<span class="glyphicon glyphicon-eye-' + publicIcon + '" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="' + item.public_label + '"></span> ';
+    results +=     '<span class="glyphicon glyphicon-' + categoryIcon + '"' + ((!MOBILE) ? ' aria-hidden="true" data-toggle="tooltip" data-placement="right" title="' + item.category_label + '"' : '') + '></span> ';
+    results +=     '<span class="glyphicon glyphicon-eye-' + publicIcon + '"' + ((!MOBILE) ? ' aria-hidden="true" data-toggle="tooltip" data-placement="right" title="' + item.public_label + '"' : '') + '></span> ';
     results +=     item.title;
     results +=   '</a>';
     results += '</div>';
@@ -132,9 +132,11 @@ $('#clear-search-input').click(function() {
   clearResultsPagination();
 });
 
-$('body').tooltip({
-  selector: '[data-toggle="tooltip"]'
-});
+if (!MOBILE) {
+  $('body').tooltip({
+    selector: '[data-toggle="tooltip"]'
+  });
+}
 
 $('body').on('click', '#results-pagination-ul > li > span', function(e) {
   var start = ($(e.target).attr('data-page') - 1) * ROWS;

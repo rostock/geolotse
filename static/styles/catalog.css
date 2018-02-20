@@ -17,9 +17,16 @@ a > small,
 }
 
 .filter-input {
-  width: 300px;
-  margin-bottom: 20px;
   display: inline;
+  margin-bottom: 20px;
+}
+
+.filter-input:not(.mobile) {
+  width: 300px;
+}
+
+.filter-input.mobile {
+  width: 85%;
 }
 
 .green {

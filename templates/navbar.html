@@ -1,7 +1,15 @@
-{% set navbar_right = [
-  ('themes', 'Themen'),
-  ('catalog', 'Katalog')
-] %}
+{% if mobile %}
+  {% set navbar_right = [
+    ('themes', 'Themen'),
+    ('catalog', 'Katalog'),
+    ('imprint', 'Impressum')
+  ] %}
+{% else %}
+  {% set navbar_right = [
+    ('themes', 'Themen'),
+    ('catalog', 'Katalog')
+  ] %}
+{% endif %}
 
 <nav class="navbar navbar-default navbar-fixed-top">
   <div class="container-fluid">
@@ -15,22 +23,33 @@
         <img src="{{ url_for('static', filename='images/geolotse.svg') }}" />
         {{ config.TITLE }}
       </a>
-      <div class="navbar-languages">
-        <span class="glyphicon glyphicon-bullhorn"></span>
-        {% for key in config.LANGUAGES %}
-          <a {% if g.current_lang == key %}href="javascript:function() { return false; }" disabled="disabled"{% else %}href="{{ url_for(request.endpoint, lang_code = key) }}"{% endif %}>{{ key }}</a>
-          {% if not loop.last %}
-            |
-          {% endif %}
-        {% endfor %}
-      </div>
+      {% if not mobile %}
+        <div class="navbar-languages">
+          <span class="glyphicon glyphicon-bullhorn"></span>
+          {% for key in config.LANGUAGES %}
+            <a{% if g.current_lang == key %} href="javascript:function() { return false; }" disabled="disabled"{% else %}href="{{ url_for(request.endpoint, lang_code = key) }}"{% endif %}>{{ key }}</a>
+            {% if not loop.last %}
+              |
+            {% endif %}
+          {% endfor %}
+        </div>
+      {% endif %}
     </div>
     <div class="collapse navbar-collapse" id="main-navbar">
       <ul class="nav navbar-nav navbar-right">
+        {% if mobile %}
+          {% for key in config.LANGUAGES %}
+            <li{% if g.current_lang == key %} class="active"{% endif %}>
+              <a {% if g.current_lang == key %}href="javascript:function() { return false; }" disabled="disabled"{% else %}href="{{ url_for(request.endpoint, lang_code = key) }}"{% endif %}>
+                <span class="glyphicon glyphicon-bullhorn"></span> {{ key }}
+              </a>
+            </li>
+          {% endfor %}
+        {% endif %}
         {% for url, title in navbar_right %}
           <li{% if active_page and url == active_page %} class="active"{% endif %}>
             <a{% if active_page and url == active_page %} href="javascript:function() { return false; }" disabled="disabled"{% else %} href="{{ url_for(url, lang_code = g.current_lang) }}"{% endif %}>
-              <span class="glyphicon glyphicon-{% if url == 'catalog' %}list{% elif url == 'themes' %}map-marker{% else %}question-sign{% endif %}" aria-hidden="true"></span> {{ _(title|e) }}
+              <span class="glyphicon glyphicon-{% if url == 'catalog' %}list{% elif url == 'themes' %}map-marker{% elif url == 'imprint' %}user{% else %}question-sign{% endif %}" aria-hidden="true"></span> {{ _(title|e) }}
             </a>
           </li>
         {% endfor %}

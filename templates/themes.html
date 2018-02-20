@@ -43,5 +43,7 @@
   </div>
   <div class="translation hidden" id="map-layer-title" data-translation="{{ _('Karte') }}"></div>
   <div class="translation hidden" id="aerial-layer-title" data-translation="{{ _('Luftbild') }}"></div>
-  {% include 'footer.html' %}
+  {% if not mobile %}
+    {% include 'footer.html' %}
+  {% endif %}
 {% endblock %}

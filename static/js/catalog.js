@@ -14,7 +14,9 @@ if ($('#defining-container').data('mobile')) {
 $(document).ready(function() {
   
   // enable Bootstraﬂ tooltips
-  $('[data-toggle="tooltip"]').tooltip();
+  if (!MOBILE) {
+    $('[data-toggle="tooltip"]').tooltip();
+  }
   
   // process URL fragment identifier
   if (window.location.hash) {

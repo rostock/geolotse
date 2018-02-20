@@ -72,7 +72,9 @@ function showMap(themeTitle) {
 $(document).ready(function() {
   
   // enable Bootstrap tooltips
-  $('[data-toggle="tooltip"]').tooltip();
+  if (!MOBILE) {
+    $('[data-toggle="tooltip"]').tooltip();
+  }
   
   // initialise slick
   $('.slider').slick({

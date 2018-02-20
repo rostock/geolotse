@@ -9,6 +9,10 @@
   margin-left: 5%;
 }
 
+.slick-dots {
+  bottom: -50px;
+}
+
 .slick-prev:before,
 .slick-next:before {
   color: #006cb7;
@@ -65,5 +69,5 @@
   height: 600px;
   width: 85.5%;
   margin-left: 7.4%;
-  margin-top: 20px;
+  margin-top: 50px;
 }

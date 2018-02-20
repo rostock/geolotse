@@ -1,23 +1,23 @@
-.center-block {
+.center-block:not(.mobile) {
   width: 50%;
   margin-left: 25%;
   margin-top: 50px;
+}
+
+.center-block.mobile {
+  width: 90%;
+  margin-left: 5%;
 }
 
 .center-block > p {
   font-size: 16px;
 }
 
-.col-md-6 p {
-  padding: 15px 25px 0 25px;
-  font-size: 15px;
-}
-
 .green {
   color: #00b748;
 }
 
-.header-center-block {
+.header-center-block:not(.mobile) {
   width: 30%;
   margin-left: 35%;
 }
@@ -38,12 +38,28 @@
   font-size: 90px;
 }
 
+.mega-glyphicon-text {
+  font-size: 15px;
+}
+
+.mega-glyphicon-text:not(.mobile) {
+  padding: 15px 25px 0 25px;
+}
+
+.mega-glyphicon-text.mobile {
+  padding: 5px 0 10px 0;
+}
+
 .red {
   color: #d81920;
 }
 
 .search-center-block {
   margin-top: 20px;
+}
+
+.search-center-block.mobile {
+  margin-bottom: 20px;
 }
 
 .title {
@@ -74,7 +90,14 @@
 
 #search-input {
   display: inline;
-  width: 300px;
   margin: 0 auto;
+}
+
+#search-input:not(.mobile) {
+  width: 300px;
   margin-top: 20px;
+}
+
+#search-input.mobile {
+  width: 85%;
 }
