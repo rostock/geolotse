@@ -40,14 +40,22 @@
   width: 250px;
   border-radius: 50%;
   margin: auto;
-  color: #31708f;
-  background-color: #d9edf7;
-  border: 1px solid #bce8f1;
-  text-align: center;
+  color: #fff;
+  background-color: #006cb7;
   cursor: pointer;
+  text-align: center;
+}
+
+.theme.active {
+  background-color: #008ced;
+  cursor: default;
 }
 
 .theme:hover {
+  color: #d9d9d9;
+}
+
+.theme.active:hover {
   color: #fff;
 }
 
@@ -65,9 +73,13 @@
   margin-top: 15px;
 }
 
-#map {
+#map-container {
   height: 600px;
   width: 85.5%;
-  margin-left: 7.4%;
-  margin-top: 50px;
+  margin: 60px 0 20px 7.4%;
+}
+
+#map {
+  height: 100%;
+  width: 100%;
 }

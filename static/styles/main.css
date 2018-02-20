@@ -177,13 +177,15 @@ nav li.active > a:hover {
 }
 
 footer {
+  position: fixed;
   bottom: 0;
   left: 0;
+  right: 0;
   height: 60px;
-  width: 100%;
   padding: 10px 0;
   background-color: #006cb7;
   color: #fff;
+  z-index: 10000;
 }
 
 footer a,

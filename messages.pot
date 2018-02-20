@@ -40,11 +40,11 @@ msgstr ""
 msgid "nicht öffentlich zugänglich"
 msgstr ""
 
-#: geolotse.py:354 templates/index.html:61
+#: geolotse.py:354 templates/index.html:62
 msgid "Katalog"
 msgstr ""
 
-#: geolotse.py:363 templates/index.html:55
+#: geolotse.py:363 templates/index.html:56
 msgid "Themen"
 msgstr ""
 
@@ -349,7 +349,7 @@ msgid ""
 "und Universitätsstadt Rostock richten Sie bitte an:"
 msgstr ""
 
-#: templates/index.html:42
+#: templates/index.html:43
 msgid ""
 "Einstiegsmöglichkeit in die Geodateninfrastruktur der Hanse- und "
 "Universitätsstadt Rostock und Schnittstelle aller Anwendungen mit "
@@ -357,18 +357,18 @@ msgid ""
 "und Universitätsstadt Rostock"
 msgstr ""
 
-#: templates/index.html:46
+#: templates/index.html:47
 msgid "Suche in Themen und Katalog"
 msgstr ""
 
-#: templates/index.html:55
+#: templates/index.html:56
 msgid ""
 "Finden Sie zu einem Thema, das Sie interessiert, in Ihrer Nähe alle "
 "Angebote aus der Geodateninfrastruktur der Hanse- und Universitätsstadt "
 "Rostock."
 msgstr ""
 
-#: templates/index.html:61
+#: templates/index.html:62
 msgid ""
 "Stöbern Sie in der Geodateninfrastruktur der Hanse- und Universitätsstadt"
 " Rostock anhand übersichtlich geordneter, filterbarer Listen."
@@ -441,11 +441,27 @@ msgstr ""
 msgid "Nutzung der Inhalte der Hanse- und Universitätsstadt Rostock"
 msgstr ""
 
-#: templates/themes.html:44
+#: templates/themes.html:45
 msgid "Karte"
 msgstr ""
 
-#: templates/themes.html:45
+#: templates/themes.html:46
 msgid "Luftbild"
+msgstr ""
+
+#: templates/themes.html:47
+msgid "Standortbestimmung"
+msgstr ""
+
+#: templates/themes.html:52
+msgid "Standortbestimmung fehlgeschlagen"
+msgstr ""
+
+#: templates/themes.html:55
+msgid "Karte zentriert auf Standardposition"
+msgstr ""
+
+#: templates/themes.html:58
+msgid "schließen"
 msgstr ""
 
