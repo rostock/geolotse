@@ -331,6 +331,8 @@ def search():
       item['link'] = result['link']
     elif item['category'] == 'geoservice':
       item['link'] = url_for('catalog', lang_code = g.current_lang if g.current_lang else app.config['BABEL_DEFAULT_LOCALE']) + '#geoservice-' + str(result['database_id'])
+    elif item['category'] == 'theme':
+      item['link'] = url_for('themes', lang_code = g.current_lang if g.current_lang else app.config['BABEL_DEFAULT_LOCALE']) + '#theme-' + str(result['database_id'])
     else:
       item['link'] = ''
     item['public'] = result['public']

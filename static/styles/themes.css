@@ -1,16 +1,21 @@
+.headline{
+  margin-bottom: 30px;
+  text-align: center;
+}
+
 .leaflet-container {
   font-family: 'PT Sans', sans-serif;
-  margin-bottom: 60px;
-  padding-top: 70px;
+  margin-bottom: 12px;
 }
 
-.slider {
-  width: 90%;
-  margin-left: 5%;
+.results-entry {
+  margin-bottom: 3px;
+  cursor: pointer;
+  color: #337ab7;
 }
 
-.slick-dots {
-  bottom: -50px;
+.results-entry:hover{
+  color: #777;
 }
 
 .slick-prev:before,
@@ -33,6 +38,11 @@
 .slick-next:hover::before {
   color: #777;
   opacity: 1;
+}
+
+.slider {
+  width: 90%;
+  margin-left: 5%;
 }
 
 .theme {
@@ -73,13 +83,42 @@
   margin-top: 15px;
 }
 
+#address-input {
+  display: inline;
+  margin-bottom: 10px;
+  width: 250px;
+}
+
+#clear-address-input {
+  right: 25px;
+  cursor: pointer;
+}
+
+#geoportal-link {
+  font-size: 16px;
+  text-align: center;
+  cursor: pointer;
+  color: #337ab7;
+}
+
+#geoportal-link:hover{
+  color: #777;
+}
+
+#icon-address-input {
+  margin-left: 27px;
+}
+
 #map-container {
-  height: 600px;
-  width: 85.5%;
-  margin: 60px 0 20px 7.4%;
+  margin: 60px 0 20px 0;
 }
 
 #map {
-  height: 100%;
+  height: 600px;
   width: 100%;
+  margin-top: 5px;
+}
+
+#results {
+  margin: -8px 0 0 57px;
 }

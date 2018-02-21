@@ -48,7 +48,7 @@ a > small,
 }
 
 .panel-info .panel-heading a:hover {
-  color: #fff;
+  color: #fff !important;
 }
 
 .red {

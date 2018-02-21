@@ -5,6 +5,10 @@ __pycache__/
 # compiled translations
 *.mo
 
+# custom logos and thumbnails
+static/images/logos/*
+static/images/thumbs/*
+
 # private configuration
 secrets.py
 

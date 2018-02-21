@@ -4,7 +4,18 @@
 
 {% block styles %}
   {{ super() }}
+{% endblock %}
+
+{% block main_styles %}
+  {{ super() }}
+{% endblock %}
+
+{% block local_styles %}
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/static-page.css') }}" />
+{% endblock %}
+
+{% block favicon %}
+  {{ super() }}
 {% endblock %}
 
 {% block content %}

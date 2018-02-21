@@ -132,13 +132,13 @@ $('#clear-search-input').click(function() {
   clearResultsPagination();
 });
 
+$('body').on('click', '#results-pagination-ul > li > span', function(e) {
+  var start = ($(e.target).attr('data-page') - 1) * ROWS;
+  search($('#search-input').val(), start);
+});
+
 if (!MOBILE) {
   $('body').tooltip({
     selector: '[data-toggle="tooltip"]'
   });
 }
-
-$('body').on('click', '#results-pagination-ul > li > span', function(e) {
-  var start = ($(e.target).attr('data-page') - 1) * ROWS;
-  search($('#search-input').val(), start);
-});

@@ -7,7 +7,6 @@ if ($('#defining-container').data('mobile')) {
 } else {
   MOBILE = false;
 }
-FIRST_THEME = true;
 
 // initialise Leaflet
 proj4.defs('EPSG:25833', '+proj=utm +zone=33 +ellps=WGS84 +towgs84=0,0,0,0,0,0,1 +units=m +no_defs');
@@ -54,14 +53,13 @@ function centerMap(e) {
 
 function onLocationError(e) {
   $('#location-error-modal').modal();
-  map.setView([defaultY, defaultX], 17);
 }
 
 function showMap(themeTitle) {
   $('#map-container').show();
   $('#map-container').removeClass('hidden');
   
-  if (!map) {
+  if (!map || map == null) {
     map = L.map('map', {
       layers: [mapLayer]
     }).fitWorld();
@@ -82,19 +80,43 @@ function showMap(themeTitle) {
     locationControl.addTo(map);
     map.on('locationerror', onLocationError);
     map.on('click', centerMap);
-  }
-  
-  if (MOBILE && FIRST_THEME) {
-    locationControl.start();
-  } else if (FIRST_THEME) {
     map.setView([defaultY, defaultX], 17);
+    if (MOBILE) {
+      locationControl.start();
+    }
   }
-  
-  FIRST_THEME = false;
   
   /*markers.clearLayers();
   var marker = L.marker([defaultY, defaultX], { title: themeTitle } ).on('click', markerClick).addTo(markers);
   map.addLayer(markers);*/
+}
+
+function clearResults() {
+  $('#results').html('');
+}
+
+function populateResults(resultsData) {
+  var results = '';
+  jQuery.each(resultsData, function(index, item) {
+    results += '<div class="results-entry" data-x1="' + item.bbox[0] + '" data-y1="' + item.bbox[1] + '" data-x2="' + item.bbox[2] + '" data-y2="' + item.bbox[3] + '">';
+    results +=   item.label;
+    results += '</div>';
+  });
+  $('#results').html(results);
+}
+
+function search(searchtext) {
+  clearResults();
+  $.ajax({
+    url: 'https://geo.sv.rostock.de/suche/server.php',
+    data: {
+      searchtext: searchtext
+    },
+    dataType: 'json',
+    success: function(data) {
+      populateResults(data.array);
+    }
+  });
 }
 
 
@@ -120,8 +142,10 @@ $(document).ready(function() {
       {
         breakpoint: 1424,
         settings: {
-          dots: true,
+          dots: false,
           infinite: true,
+          focusOnSelect: true,
+          focusOnChange: true,
           slidesToScroll: 4,
           slidesToShow: 4
         }
@@ -129,8 +153,10 @@ $(document).ready(function() {
       {
         breakpoint: 1144,
         settings: {
-          dots: true,
+          dots: false,
           infinite: true,
+          focusOnSelect: true,
+          focusOnChange: true,
           slidesToScroll: 3,
           slidesToShow: 3
         }
@@ -138,8 +164,10 @@ $(document).ready(function() {
       {
         breakpoint: 864,
         settings: {
-          dots: true,
+          dots: false,
           infinite: true,
+          focusOnSelect: true,
+          focusOnChange: true,
           slidesToScroll: 2,
           slidesToShow: 2
         }
@@ -147,8 +175,10 @@ $(document).ready(function() {
       {
         breakpoint: 588,
         settings: {
-          dots: true,
+          dots: false,
           infinite: true,
+          focusOnSelect: true,
+          focusOnChange: true,
           slidesToScroll: 1,
           slidesToShow: 1
         }
@@ -173,6 +203,39 @@ $('.theme').click(function() {
   if (!$(this).hasClass('active')) {
     $('.theme').removeClass('active');
     $(this).addClass('active');
-    showMap($(this).data('map-theme-title'), FIRST_THEME);
+    showMap($(this).data('map-theme-title'));
+    $('html, body').animate({ scrollTop: ($('#map-headline').offset().top - 55)}, 'slow');
   }
+});
+
+$('#address-input').keyup(function() {
+  var value = $(this).val();
+  if (value.length > 2) {
+    value = value.toLowerCase().trim();
+    if (value != '') {
+      search(value);
+    }
+    else {
+      clearResults();
+    }
+  }
+  else {
+    clearResults();
+  }
+});
+
+$('#clear-address-input').click(function() {
+  $('#address-input').val('');
+  clearResults();
+});
+
+$('#geoportal-link').click(function() {
+  var transformation = proj4('EPSG:4326', 'EPSG:25833', [map.getCenter().lng, map.getCenter().lat]);
+  window.open('https://www.geoport-hro.de/?center=' + transformation[0] + ',' + transformation[1] + '&scale=2133', '_blank');
+});
+
+$('body').on('click', '.results-entry', function(e) {
+  var transformation_ll = proj4('EPSG:25833', 'EPSG:4326', [$(e.target).data('x1'), $(e.target).data('y1')]);
+  var transformation_ur = proj4('EPSG:25833', 'EPSG:4326', [$(e.target).data('x2'), $(e.target).data('y2')]);
+  map.fitBounds([[transformation_ll[1], transformation_ll[0]], [transformation_ur[1], transformation_ur[0]]]);
 });

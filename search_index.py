@@ -80,24 +80,16 @@ for link in links:
 themes = Themes.query.all()
 for theme in themes:
   index_counter += 1
-  tags = Tags.query.join(Themes.tags).filter(Themes.id == theme.id).all()
-  if not tags:
-    tag_list = ''
-  else:
-    tag_list = []
-    for tag in tags:
-      tag.title not in tag_list and tag_list.append(tag.title)
-    tag_list = tuple(tag_list)
   solr.add([
     {
       'id': index_counter,
-      '_text_': theme.title + theme.link + str(tag_list),
+      '_text_': theme.title,
       'database_id': theme.id,
       'category': 'theme',
       'title': theme.title,
       'link': '',
       'public': True,
-      'category_order': theme.stars,
+      'category_order': 0,
       'group_order': 0
     }
   ])

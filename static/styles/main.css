@@ -31,21 +31,22 @@
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+  position: relative !important;
+  min-height: 100% !important;
 }
 
 body {
-  font-family: 'PT Sans', sans-serif;
-  margin-bottom: 60px;
-  padding-top: 70px;
+  font-family: 'PT Sans', sans-serif !important;
+  margin-bottom: 60px !important;
+  padding-top: 70px !important;
 }
 
 a,
 a:focus,
 a:hover,
 a:visited {
-  text-decoration: none;
+  outline: none !important;
+  text-decoration: none !important;
 }
 
 a,
@@ -54,20 +55,24 @@ a:visited,
 :not(a[data-toggle="collapse"]),
 :not(a[data-toggle="collapse"]:focus),
 :not(a[data-toggle="collapse"]:visited) {
-  color: #006cb7;
+  color: #006cb7 !important;
 }
 
 a:hover {
-  color: #777;
+  color: #777 !important;
 }
 
 a[disabled="disabled"] {
-  pointer-events: none;
-  cursor: default;
+  pointer-events: none !important;
+  cursor: default !important;
+}
+
+div {
+  outline: none !important;
 }
 
 h1 {
-  font-size: 38px;
+  font-size: 38px !important;
 }
 
 h1,
@@ -76,12 +81,12 @@ h3,
 h4,
 h5,
 .bold {
-  font-weight: bold;
+  font-weight: bold !important;
 }
 
 span.full-width {
-  display: block;
-  width: 100%;
+  display: block !important;
+  width: 100% !important;
 }
 
 nav a,
@@ -114,96 +119,84 @@ nav li.active > a:hover {
 }
 
 .navbar-brand {
-  padding: 10px 0 0 15px;
+  padding: 10px 0 0 15px !important;
 }
 
 .navbar-brand > img {
-  height: 30px;
-  margin-bottom: 3px;
-  display: inline-block;
+  height: 30px !important;
+  margin-bottom: 3px !important;
+  display: inline-block !important;
 }
 
 .navbar-collapse {
-  text-align: center;
+  text-align: center !important;
 }
 
 .navbar-default {
-  background-color: #006cb7;
-  color: #fff;
-  border: 0;
+  background-color: #006cb7 !important;
+  color: #fff !important;
+  border: 0 !important;
 }
 
 .navbar-default .navbar-toggle,
 .navbar-default .navbar-toggle:focus,
 .navbar-default .navbar-toggle:visited {
-  background-color: #006cb7;
-  border-color: #fff;
+  background-color: #006cb7 !important;
+  border-color: #fff !important;
 }
 
 .navbar-default .navbar-toggle:hover {
-  background-color: #006cb7;
-  border-color: #d9d9d9;
+  background-color: #006cb7 !important;
+  border-color: #d9d9d9 !important;
 }
 
 .navbar-default .navbar-toggle .icon-bar,
 .navbar-default .navbar-toggle .icon-bar:focus,
 .navbar-default .navbar-toggle .icon-bar:visited {
-  background-color: #fff;
+  background-color: #fff !important;
 }
 
 .navbar-default .navbar-toggle .icon-bar:hover {
-  background-color: #d9d9d9;
+  background-color: #d9d9d9 !important;
 }
 
 .navbar-languages {
-  float: left;
-  padding: 13px 0 0 30px;
+  float: left !important;
+  padding: 13px 0 0 30px !important;
 }
 
 .navbar-languages > span {
-  margin-right: 6px;
-}
-
-@media (max-width: 767px) {
-  footer {
-    position: absolute;
-  }
-}
-
-@media (min-width: 768px) {
-  footer {
-    position: fixed;
-  }
+  margin-right: 6px !important;
 }
 
 footer {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 60px;
-  padding: 10px 0;
-  background-color: #006cb7;
-  color: #fff;
-  z-index: 10000;
+  position: fixed !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  height: 60px !important;
+  padding: 10px 0 !important;
+  background-color: #006cb7 !important;
+  color: #fff !important;
+  z-index: 1040 !important;
 }
 
 footer a,
 footer a:focus,
 footer a:visited {
-  color: #fff;
+  color: #fff !important;
 }
 
 footer a:hover {
-  color: #d9d9d9;
+  color: #d9d9d9 !important;
 }
 
 .tooltip > .tooltip-inner {
-  padding: 10px;
-  background-color: #006cb7;
-  text-align: left;
+  padding: 10px !important;
+  background-color: #006cb7 !important;
+  text-align: left !important;
 }
 
 .tooltip.right > .tooltip-arrow {
-  border-right-color: #006cb7;
+  border-right-color: #006cb7 !important;
 }

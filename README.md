@@ -1,6 +1,6 @@
 # geolotse
 
-A landing page for organisations wanting to connect and integrate their various geodata, geodata services and geospatial applications
+A landing page for organisations wanting to connect and integrate their various geodata, geodata services and geospatial applications – view it in production: https://geo.sv.rostock.de
 
 ## Requirements
 
@@ -37,6 +37,7 @@ A landing page for organisations wanting to connect and integrate their various 
 1.  Edit the secret settings file 
 1.  Edit the general settings file `/usr/local/geolotse/geolotse/settings.py`
 1.  Edit the [*Leaflet*](http://leafletjs.com) related (i.e. theme view map and map search related) settings in both the *globals* and *functions* sections of file `/usr/local/geolotse/geolotse/static/js/themes.js`
+1.  Edit the theme view map address search related settings in all sections of the file `/usr/local/geolotse/geolotse/static/js/themes.js`
 
 ## Initialisation
 
@@ -167,7 +168,7 @@ A few details on the important attributes (i.e. fields):
 *   `authorship_name` – The name(s) of the author(s) of the link and/or its target go(es) in this text array field. The order has to be the same as in the `authorship_organisation` and `authorship_mail` fields since all these three fields are evaluated together in the code. The information is used in the catalog view
 *   `authorship_mail` – The email address(es) of the author(s) of the link and/or its target go(es) in this text array field. The order has to be the same as in the `authorship_organisation` and `authorship_name` fields since all these three fields are evaluated together in the code. The information is used in the catalog view
 *   `inspire_annex_theme` – The [*INSPIRE*](https://inspire.ec.europa.eu) annex theme of the link and/or its target is stored in this text field. The information is used in the catalog view
-*   `logo` – If you want a link categorised as `application` and with `parent_id` equalling `id` to be equipped with a logo in the catalog view, its file name (*with* extension) has to go in this text field. Put the logo file itself in the `static/images` folder. Logo information for links with other categories than `application` is not evaluated
+*   `logo` – If you want a link categorised as `application` and with `parent_id` equalling `id` to be equipped with a logo in the catalog view, its file name (*with* extension) has to go in this text field. Put the logo file itself in the `static/images/logos` folder. Logo information for links with other categories than `application` is not evaluated
 *   `search` – The value `FALSE` in this boolean field means *“This link is considered as a search result and thus included in the search index.”*, the value `TRUE` however means *“This link is not considered as a search result and thus not included in the search index.”*. The field is mandatory since some logic within the code is based on it
 *   `search_title` – If you want a link categorised as `application` to have a different title than the value of `group` in the search result list, the title hat to go in this text field
 
@@ -204,6 +205,6 @@ Always think of the *relations between links and tags* if you insert, delete or 
 A few details on the important attributes (i.e. fields):
 
 *   `title` – This text field is mandatory since every theme needs a *unique* title
-*   `thumb` – If you want a theme to be equipped with an unique thumbnail in the theme view, its file name (*with* extension) has to go in this text field. Put the thumbnail file itself in the `static/images` folder
+*   `thumb` – If you want a theme to be equipped with an unique thumbnail in the theme view, its file name (*with* extension) has to go in this text field. Put the thumbnail file itself in the `static/images/thumbs` folder
 
 Always think of the *relations between links and themes* if you insert, delete or update tags, especially by a bot (e.g. a cronjob)!
