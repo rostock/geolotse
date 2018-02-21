@@ -1,34 +1,25 @@
-#: geolotse.py:316
+#: geolotse.py:318
 msgid "API (Programmierschnittstelle)"
 msgstr ""
 
-#: geolotse.py:318
+#: geolotse.py:320
 msgid "Anwendung"
 msgstr ""
 
-#: geolotse.py:320
+#: geolotse.py:322
 msgid "Dokumentation"
 msgstr ""
 
-#: geolotse.py:322
+#: geolotse.py:324
 msgid "Download"
 msgstr ""
 
-#: geolotse.py:324
+#: geolotse.py:326
 msgid "Geodatendienst"
 msgstr ""
 
-#: geolotse.py:326
+#: geolotse.py:328
 msgid "Thema"
-msgstr ""
-
-#: geolotse.py:340 templates/catalog.html:65 templates/catalog.html:90
-#: templates/catalog.html:106 templates/catalog.html:117
-#: templates/catalog.html:136 templates/catalog.html:149
-#: templates/catalog.html:200 templates/catalog.html:208
-#: templates/catalog.html:228 templates/catalog.html:236
-#: templates/catalog.html:267 templates/catalog.html:291
-msgid "öffentlich zugänglich"
 msgstr ""
 
 #: geolotse.py:342 templates/catalog.html:65 templates/catalog.html:90
@@ -37,26 +28,35 @@ msgstr ""
 #: templates/catalog.html:200 templates/catalog.html:208
 #: templates/catalog.html:228 templates/catalog.html:236
 #: templates/catalog.html:267 templates/catalog.html:291
+msgid "öffentlich zugänglich"
+msgstr ""
+
+#: geolotse.py:344 templates/catalog.html:65 templates/catalog.html:90
+#: templates/catalog.html:106 templates/catalog.html:117
+#: templates/catalog.html:136 templates/catalog.html:149
+#: templates/catalog.html:200 templates/catalog.html:208
+#: templates/catalog.html:228 templates/catalog.html:236
+#: templates/catalog.html:267 templates/catalog.html:291
 msgid "nicht öffentlich zugänglich"
 msgstr ""
 
-#: geolotse.py:356 templates/index.html:72
+#: geolotse.py:358 templates/index.html:72
 msgid "Katalog"
 msgstr ""
 
-#: geolotse.py:365 templates/index.html:66
+#: geolotse.py:367 templates/index.html:66
 msgid "Themen"
 msgstr ""
 
-#: geolotse.py:374 templates/footer.html:6
+#: geolotse.py:376 templates/footer.html:6
 msgid "Impressum"
 msgstr ""
 
-#: geolotse.py:382 templates/footer.html:5
+#: geolotse.py:384 templates/footer.html:5
 msgid "Datenschutz"
 msgstr ""
 
-#: geolotse.py:390 templates/footer.html:8
+#: geolotse.py:392 templates/footer.html:8
 msgid "Nutzungsbedingungen"
 msgstr ""
 
@@ -445,41 +445,41 @@ msgstr ""
 msgid "Welches Thema interessiert Sie?"
 msgstr ""
 
-#: templates/themes.html:62
-msgid "Diese Angebote existieren zum gewählten Thema:"
+#: templates/themes.html:77
+msgid "Diese Angebote existieren zum Thema"
 msgstr ""
 
-#: templates/themes.html:64
+#: templates/themes.html:79
 msgid "Adressensuche"
 msgstr ""
 
-#: templates/themes.html:71
+#: templates/themes.html:84
 msgid ""
 "Kartensituation in Geoport.HRO öffnen, dem Portal für Geodaten der Hanse-"
 " und Universitätsstadt Rostock und Umgebung"
 msgstr ""
 
-#: templates/themes.html:75
+#: templates/themes.html:87
 msgid "Karte"
 msgstr ""
 
-#: templates/themes.html:76
+#: templates/themes.html:88
 msgid "Luftbild"
 msgstr ""
 
-#: templates/themes.html:77
+#: templates/themes.html:89
 msgid "Standortbestimmung"
 msgstr ""
 
-#: templates/themes.html:82
+#: templates/themes.html:94
 msgid "Standortbestimmung fehlgeschlagen"
 msgstr ""
 
-#: templates/themes.html:85
+#: templates/themes.html:97
 msgid "Karte zentriert auf Standardposition"
 msgstr ""
 
-#: templates/themes.html:88
+#: templates/themes.html:100
 msgid "schließen"
 msgstr ""
 

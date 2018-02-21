@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: sebastian.gutzeit@rostock.de\n"
-"POT-Creation-Date: 2018-02-21 14:10+0100\n"
+"POT-Creation-Date: 2018-02-21 15:40+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Sebastian Gutzeit <sebastian.gutzeit@rostock.de>\n"
 "Language: en\n"
@@ -19,31 +19,31 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.5.3\n"
 
-#: geolotse.py:316
+#: geolotse.py:318
 msgid "API (Programmierschnittstelle)"
 msgstr "API (Application programming interface)"
 
-#: geolotse.py:318
+#: geolotse.py:320
 msgid "Anwendung"
 msgstr "Application"
 
-#: geolotse.py:320
+#: geolotse.py:322
 msgid "Dokumentation"
 msgstr "Documentation"
 
-#: geolotse.py:322
+#: geolotse.py:324
 msgid "Download"
 msgstr "Download"
 
-#: geolotse.py:324
+#: geolotse.py:326
 msgid "Geodatendienst"
 msgstr "Geo service"
 
-#: geolotse.py:326
+#: geolotse.py:328
 msgid "Thema"
 msgstr "Theme"
 
-#: geolotse.py:340 templates/catalog.html:65 templates/catalog.html:90
+#: geolotse.py:342 templates/catalog.html:65 templates/catalog.html:90
 #: templates/catalog.html:106 templates/catalog.html:117
 #: templates/catalog.html:136 templates/catalog.html:149
 #: templates/catalog.html:200 templates/catalog.html:208
@@ -52,7 +52,7 @@ msgstr "Theme"
 msgid "öffentlich zugänglich"
 msgstr "publicly available"
 
-#: geolotse.py:342 templates/catalog.html:65 templates/catalog.html:90
+#: geolotse.py:344 templates/catalog.html:65 templates/catalog.html:90
 #: templates/catalog.html:106 templates/catalog.html:117
 #: templates/catalog.html:136 templates/catalog.html:149
 #: templates/catalog.html:200 templates/catalog.html:208
@@ -61,23 +61,23 @@ msgstr "publicly available"
 msgid "nicht öffentlich zugänglich"
 msgstr "not publicly available"
 
-#: geolotse.py:356 templates/index.html:72
+#: geolotse.py:358 templates/index.html:72
 msgid "Katalog"
 msgstr "Catalog"
 
-#: geolotse.py:365 templates/index.html:66
+#: geolotse.py:367 templates/index.html:66
 msgid "Themen"
 msgstr "Themes"
 
-#: geolotse.py:374 templates/footer.html:6
+#: geolotse.py:376 templates/footer.html:6
 msgid "Impressum"
 msgstr "Imprint"
 
-#: geolotse.py:382 templates/footer.html:5
+#: geolotse.py:384 templates/footer.html:5
 msgid "Datenschutz"
 msgstr "Privacy policy"
 
-#: geolotse.py:390 templates/footer.html:8
+#: geolotse.py:392 templates/footer.html:8
 msgid "Nutzungsbedingungen"
 msgstr "Terms of use"
 
@@ -517,15 +517,15 @@ msgstr "Using the content of the municipality of Rostock"
 msgid "Welches Thema interessiert Sie?"
 msgstr "Choose your topic of interest!"
 
-#: templates/themes.html:62
-msgid "Diese Angebote existieren zum gewählten Thema:"
-msgstr "See what information relating to the chosen topic we offer:"
+#: templates/themes.html:77
+msgid "Diese Angebote existieren zum Thema"
+msgstr "See what information we offer relating to"
 
-#: templates/themes.html:64
+#: templates/themes.html:79
 msgid "Adressensuche"
 msgstr "Address search"
 
-#: templates/themes.html:71
+#: templates/themes.html:84
 msgid ""
 "Kartensituation in Geoport.HRO öffnen, dem Portal für Geodaten der Hanse-"
 " und Universitätsstadt Rostock und Umgebung"
@@ -533,27 +533,26 @@ msgstr ""
 "Open this map situation in Geoport.HRO, the geodata portal of the "
 "municipality of Rostock"
 
-#: templates/themes.html:75
+#: templates/themes.html:87
 msgid "Karte"
 msgstr "Map"
 
-#: templates/themes.html:76
+#: templates/themes.html:88
 msgid "Luftbild"
 msgstr "Aerial image"
 
-#: templates/themes.html:77
+#: templates/themes.html:89
 msgid "Standortbestimmung"
 msgstr "Geolocation"
 
-#: templates/themes.html:82
+#: templates/themes.html:94
 msgid "Standortbestimmung fehlgeschlagen"
 msgstr "Geolocation error"
 
-#: templates/themes.html:85
+#: templates/themes.html:97
 msgid "Karte zentriert auf Standardposition"
 msgstr "Map center is set to default location"
 
-#: templates/themes.html:88
+#: templates/themes.html:100
 msgid "schließen"
 msgstr "close"
-

@@ -205,6 +205,7 @@ Always think of the *relations between links and tags* if you insert, delete or 
 A few details on the important attributes (i.e. fields):
 
 *   `title` – This text field is mandatory since every theme needs a *unique* title
-*   `thumb` – If you want a theme to be equipped with an unique thumbnail in the theme view, its file name (*with* extension) has to go in this text field. Put the thumbnail file itself in the `static/images/thumbs` folder
+*   `descriptive_tags` – The descriptive tag(s) for the theme go(es) in this text array field. The information is used in the theme view theme slider
+*   `icon` – If you want a theme to be equipped with an unique icon in the theme view, its [*Font Awesome*](https://fontawesome.com) name (e.g. [`train`](https://fontawesome.com/icons/train)) has to go in this text field
 
 Always think of the *relations between links and themes* if you insert, delete or update tags, especially by a bot (e.g. a cronjob)!

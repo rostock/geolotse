@@ -61,26 +61,31 @@
   cursor: default;
 }
 
-.theme:hover {
-  color: #d9d9d9;
+.theme-icon {
+  font-size: 130px;
+  margin-top: 25px;
 }
 
-.theme.active:hover {
-  color: #fff;
-}
-
-.theme-title {
+.theme-title,
+.theme-title-flipped {
   position: relative;
-  top: 15px;
   font-weight: bold;
 }
 
-.theme-thumb {
-  height: 185px;
-  max-height: 185px;
-  max-width: 185px;
-  margin: auto;
-  margin-top: 15px;
+.theme-title,
+.theme-title-flipped.light {
+  top: 25px;
+}
+
+.theme-title-flipped.full {
+  top: 45px;
+}
+
+.theme-title > span,
+.theme-title-flipped > span {
+  display: block;
+  width: 150px;
+  margin-left: 50px;
 }
 
 #address-input {
@@ -117,6 +122,10 @@
   height: 600px;
   width: 100%;
   margin-top: 5px;
+}
+
+#map-headline-theme-title {
+  font-style: italic;
 }
 
 #results {

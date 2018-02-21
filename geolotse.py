@@ -162,11 +162,13 @@ class Themes(db.Model):
   
   id = db.Column(db.Integer, primary_key = True)
   title = db.Column(db.String(255), unique = True, nullable = False)
-  thumb = db.Column(db.String(255), nullable = True)
+  descriptive_tags = db.Column(db.ARRAY(db.String(255)), nullable = True)
+  icon = db.Column(db.String(255), nullable = True)
   
-  def __init__(self, title, thumb):
+  def __init__(self, title, descriptive_tags, icon):
     self.title = title
-    self.thumb = thumb
+    self.descriptive_tags = descriptive_tags
+    self.icon = icon
   
   def __repr__(self):
     return '<themes id {}>'.format(self.id)
