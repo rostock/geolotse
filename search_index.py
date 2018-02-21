@@ -80,10 +80,17 @@ for link in links:
 themes = Themes.query.all()
 for theme in themes:
   index_counter += 1
+  if not theme.descriptive_tags:
+    descriptive_tag_list = ''
+  else:
+    descriptive_tag_list = []
+    for descriptive_tag in theme.descriptive_tags:
+      descriptive_tag_list.append(descriptive_tag)
+    descriptive_tag_list = tuple(descriptive_tag_list)
   solr.add([
     {
       'id': index_counter,
-      '_text_': theme.title,
+      '_text_': theme.title + str(descriptive_tag_list),
       'database_id': theme.id,
       'category': 'theme',
       'title': theme.title,

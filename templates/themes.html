@@ -10,7 +10,7 @@
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/externals/slick/slick.css') }}"/>
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/externals/slick/slick-theme.css') }}"/>
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/externals/leaflet/leaflet.css') }}"/>
-  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/externals/font-awesome/font-awesome.min.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/externals/fontawesome/fontawesome-all.min.css') }}">
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/externals/leaflet-locatecontrol/L.Control.Locate.min.css') }}" />
 {% endblock %}
 
@@ -48,23 +48,23 @@
           <div>
             <div class="theme" id="theme-{{ theme.id }}" data-map-theme-title="{{ theme.title }}">
               <span class="theme-title">
-                <span>{{ theme.title }}</span>
+                <span class="theme-text">{{ theme.title }}</span>
                 {% if theme.icon != None %}
-                  <span class="fa fa-{{ theme.icon }} theme-icon"></span>
+                  <i class="fas fa-{{ theme.icon }} theme-icon"></i>
                 {% endif %}
               </span>
               <span class="theme-title-flipped hidden {% if theme.descriptive_tags != None %}full{% else %}light{% endif %}">
                 {% if theme.descriptive_tags != None %}
                   {% for descriptive_tag in theme.descriptive_tags %}
-                    <span>{{ descriptive_tag }}</span>
+                    <span class="theme-text">{{ descriptive_tag }}</span>
                     {% if loop.last %}
-                      <span>…</span>
+                      <span class="theme-text">…</span>
                     {% endif %}
                   {% endfor %}
                 {% else %}
-                  <span>{{ theme.title }}</span>
+                  <span class="theme-text">{{ theme.title }}</span>
                   {% if theme.icon != None %}
-                    <span class="fa fa-{{ theme.icon }} theme-icon"></span>
+                    <i class="fas fa-{{ theme.icon }} theme-icon"></i>
                   {% endif %}
                 {% endif %}
               </span>

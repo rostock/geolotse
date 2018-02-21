@@ -61,8 +61,15 @@
   cursor: default;
 }
 
+.theme-icon,
+.theme-text {
+  display: block;
+  width: 150px;
+  margin-left: 50px;
+}
+
 .theme-icon {
-  font-size: 130px;
+  font-size: 100px;
   margin-top: 25px;
 }
 
@@ -74,18 +81,11 @@
 
 .theme-title,
 .theme-title-flipped.light {
-  top: 25px;
+  top: 40px;
 }
 
 .theme-title-flipped.full {
-  top: 45px;
-}
-
-.theme-title > span,
-.theme-title-flipped > span {
-  display: block;
-  width: 150px;
-  margin-left: 50px;
+  top: 60px;
 }
 
 #address-input {
