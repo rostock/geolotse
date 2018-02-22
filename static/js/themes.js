@@ -79,6 +79,7 @@ function onLocationError(e) {
 
 function populateMap() {
   $('#map-headline').css('color', 'inherit');
+  $('#offers-headline').css('color', 'inherit');
     
   if (MOBILE && FIRST_THEME) {
    locationControl.start();
@@ -209,6 +210,7 @@ $('.theme').click(function() {
     $(this).find('.theme-title').show();
     $(this).find('.theme-title').removeClass('hidden');
     $('#map-headline-theme-title').text(themeTitle + ':');
+    $('#offers-headline-theme-title').text(themeTitle + ':');
     populateMap();
     $('html, body').animate({ scrollTop: ($('#map-headline').offset().top - 55)}, 'slow');
   }

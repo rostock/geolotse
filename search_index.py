@@ -87,10 +87,25 @@ for theme in themes:
     for descriptive_tag in theme.descriptive_tags:
       descriptive_tag_list.append(descriptive_tag)
     descriptive_tag_list = tuple(descriptive_tag_list)
+  links = Links.query.join(Links.themes).filter(Themes.id == theme.id).all()
+  if not links:
+    link_list = ''
+    tag_list = ''
+  else:
+    link_list = []
+    tag_list = []
+    for link in links:
+      link.title not in link_list and link_list.append(link.title)
+      tags = Tags.query.join(Links.tags).filter(Links.parent_id == link.parent_id).all()
+      if tags:
+        for tag in tags:
+          tag.title not in tag_list and tag_list.append(tag.title)
+    tag_list = tuple(tag_list)
+    link_list = tuple(link_list)
   solr.add([
     {
       'id': index_counter,
-      '_text_': theme.title + str(descriptive_tag_list),
+      '_text_': theme.title + str(descriptive_tag_list) + str(link_list) + str(tag_list),
       'database_id': theme.id,
       'category': 'theme',
       'title': theme.title,

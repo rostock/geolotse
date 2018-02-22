@@ -46,9 +46,7 @@ function populateResults(resultsData) {
     var publicIcon = (item.public === true) ? 'open green' : 'close red';
     results += '<div class="results-entry">';
     results +=   '<a href="' + item.link + '" target="_blank">';
-    results +=     '<span class="glyphicon glyphicon-' + categoryIcon + '"' + ((!MOBILE) ? ' aria-hidden="true" data-toggle="tooltip" data-placement="right" title="' + item.category_label + '"' : '') + '></span> ';
-    results +=     '<span class="glyphicon glyphicon-eye-' + publicIcon + '"' + ((!MOBILE) ? ' aria-hidden="true" data-toggle="tooltip" data-placement="right" title="' + item.public_label + '"' : '') + '></span> ';
-    results +=     item.title;
+    results +=     '<span class="glyphicon glyphicon-margin-right glyphicon-' + categoryIcon + '"' + ((!MOBILE) ? ' aria-hidden="true" data-toggle="tooltip" data-placement="right" title="' + item.category_label + '"' : '') + '></span><span class="glyphicon glyphicon-margin-right glyphicon-eye-' + publicIcon + '"' + ((!MOBILE) ? ' aria-hidden="true" data-toggle="tooltip" data-placement="right" title="' + item.public_label + '"' : '') + '></span> ' + item.title;
     results +=   '</a>';
     results += '</div>';
   });

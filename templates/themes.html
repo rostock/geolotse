@@ -43,7 +43,7 @@
   <div class="container-fluid" id="defining-container" data-mobile="{{ mobile|lower }}">
     <div class="row-fluid">
       <{% if mobile %}h4{% else %}h3{% endif %} class="headline">{{ _('Welches Thema interessiert Sie?') }}</{% if mobile %}h4{% else %}h3{% endif %}>
-      <div class="slider">
+      <div class="slider" id="theme-slider">
         {% for theme in themes %}
           <div>
             <div class="theme" id="theme-{{ theme.id }}" data-map-theme-title="{{ theme.title }}">
@@ -83,6 +83,10 @@
       <div id="geoportal-link">
         <span class="glyphicon glyphicon-link" aria-hidden="true"></span> {{ _('Kartensituation in Geoport.HRO öffnen, dem Portal für Geodaten der Hanse- und Universitätsstadt Rostock und Umgebung') }}
       </div>
+    </div>
+    <div class="row-fluid">
+      <{% if mobile %}h4{% else %}h3{% endif %} class="headline" id="offers-headline">{{ _('Diese Angebote existieren zum Thema') }} <span id="offers-headline-theme-title"></span></{% if mobile %}h4{% else %}h3{% endif %}>
+      <div class="slider" id="offer-slider"></div>
     </div>
     <div class="translation hidden" id="map-layer-title" data-translation="{{ _('Karte') }}"></div>
     <div class="translation hidden" id="aerial-layer-title" data-translation="{{ _('Luftbild') }}"></div>

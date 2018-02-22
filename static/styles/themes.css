@@ -149,12 +149,14 @@
   height: 400px;
 }
 
-#map-headline {
+#map-headline,
+#offers-headline  {
   margin-top: 25px;
   color: #fff;
 }
 
-#map-headline-theme-title {
+#map-headline-theme-title,
+#offers-headline-theme-title {
   font-style: italic;
 }
 

@@ -66,7 +66,9 @@ links_sublinks = db.Table(
 links_themes = db.Table(
   'links_themes',
   db.Column('link_id', db.Integer, db.ForeignKey('links.id'), primary_key = True),
-  db.Column('theme_id', db.Integer, db.ForeignKey('themes.id'), primary_key = True)
+  db.Column('theme_id', db.Integer, db.ForeignKey('themes.id'), primary_key = True),
+  db.Column('top', db.Boolean, nullable = True),
+  db.Column('type', db.String(255), nullable = True)
 )
 
 class Links(db.Model):
@@ -93,9 +95,10 @@ class Links(db.Model):
   search = db.Column(db.Boolean, nullable = False)
   search_title = db.Column(db.String(255), nullable = True)
   
-  tags = db.relationship('Tags', secondary = links_tags, lazy = 'dynamic', backref = db.backref('links', lazy = 'dynamic'))
   parent = db.relationship('Links', backref = db.backref('links', lazy = 'dynamic'), remote_side = id)
   sublinks = db.relationship('Sublinks', secondary = links_sublinks, lazy = 'dynamic', backref = db.backref('sublinks', lazy = 'dynamic'))
+  tags = db.relationship('Tags', secondary = links_tags, lazy = 'dynamic', backref = db.backref('links', lazy = 'dynamic'))
+  themes = db.relationship('Themes', secondary = links_themes, lazy = 'dynamic', backref = db.backref('links', lazy = 'dynamic'))
   
   def __init__(self, parent_id, category, category_order, group, group_order, title, link, public, reachable, reachable_last_check, description, date, authorship_organisation, authorship_name, authorship_mail, inspire_annex_theme, logo, search, search_title):
     self.parent_id = parent_id
@@ -274,6 +277,12 @@ def get_tag_links(id = 1):
   return Links.query.join(Links.tags).filter(Tags.id == id).order_by(Links.title).all()
 
 @cache.memoize(timeout = app.config['DEFAULT_CACHE_TIMEOUT'])
+def get_theme_links(id = 1):
+  links_non_geoservice = Links.query.join(Links.themes).filter(Themes.id == id, Links.category != 'geoservice').order_by(Links.category, Links.group, Links.title).all()
+  links_geoservice = Links.query.join(Links.themes).filter(Themes.id == id, Links.category == 'geoservice').order_by(Links.title).all()
+  return links_non_geoservice.union_all(links_geoservice)
+
+@cache.memoize(timeout = app.config['DEFAULT_CACHE_TIMEOUT'])
 def get_themes():
   return Themes.query.order_by(func.random()).all()
 
@@ -365,6 +374,62 @@ def themes_without_lang_code():
 def themes():
   user_agent = parse(request.headers.get('User-Agent'))
   return render_template('themes.html', mobile = user_agent.is_mobile, subtitle = gettext(u'Themen'), themes = get_themes())
+
+@app.route('/offers')
+def offers_without_lang_code():
+  return redirect(url_for('offers', lang_code = g.current_lang if g.current_lang else app.config['BABEL_DEFAULT_LOCALE']))
+
+@app.route('/<lang_code>/offers')
+def offers():
+  theme = request.args['theme']
+  links = get_theme_links(theme)
+  return links
+  #query = '*' + request.args['query'].replace(' ', '* *') + '*'
+  #if 'start' in request.args and 'rows' in request.args:
+  #  start = request.args['start']
+  #  rows = request.args['rows']
+  #else:
+  #  start = 0
+  #  rows = 10
+  #results = solr.search(q = query, start = start, rows = rows, sort = 'category_order asc, title asc, group_order asc, id asc')
+  #data = []
+  #for result in results:
+  #  item = { 'id': result['id']}
+  #  item['database_id'] = result['database_id']
+  #  item['category'] = result['category']
+  #  if item['category'] == 'api':
+  #    item['category_label'] = gettext(u'API (Programmierschnittstelle)')
+  #  elif item['category'] == 'application':
+  #    item['category_label'] = gettext(u'Anwendung')
+  #  elif item['category'] == 'documentation':
+  #    item['category_label'] = gettext(u'Dokumentation')
+  #  elif item['category'] == 'download':
+  #    item['category_label'] = gettext(u'Download')
+  #  elif item['category'] == 'geoservice':
+  #    item['category_label'] = gettext(u'Geodatendienst')
+  #  elif item['category'] == 'theme':
+  #    item['category_label'] = gettext(u'Thema')
+  #  else:
+  #    item['category_label'] = result['category']
+  #  item['title'] = result['title']
+  #  if 'link' in result:
+  #    item['link'] = result['link']
+  #  elif item['category'] == 'geoservice':
+  #    item['link'] = url_for('catalog', lang_code = g.current_lang if g.current_lang else app.config['BABEL_DEFAULT_LOCALE']) + '#geoservice-' + str(result['database_id'])
+  #  elif item['category'] == 'theme':
+  #    item['link'] = url_for('themes', lang_code = g.current_lang if g.current_lang else app.config['BABEL_DEFAULT_LOCALE']) + '#theme-' + str(result['database_id'])
+  #  else:
+  #    item['link'] = ''
+  #  item['public'] = result['public']
+  #  if item['public'] == True:
+  #    item['public_label'] = gettext(u'öffentlich zugänglich')
+  #  else:
+  #    item['public_label'] = gettext(u'nicht öffentlich zugänglich')
+  #  data.append(item)
+  #return dumps({
+  #  'hits': results.hits,
+  #  'results': data
+  #})
 
 @app.route('/imprint')
 def imprint_without_lang_code():
