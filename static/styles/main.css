@@ -37,8 +37,11 @@ html {
 
 body {
   font-family: 'PT Sans', sans-serif !important;
-  margin-bottom: 60px !important;
   padding-top: 70px !important;
+}
+
+body:not(.mobile) {
+  margin-bottom: 60px !important;
 }
 
 a,
@@ -47,15 +50,6 @@ a:hover,
 a:visited {
   outline: none !important;
   text-decoration: none !important;
-}
-
-a,
-a:focus,
-a:visited,
-:not(a[data-toggle="collapse"]),
-:not(a[data-toggle="collapse"]:focus),
-:not(a[data-toggle="collapse"]:visited) {
-  color: #006cb7 !important;
 }
 
 a:hover {

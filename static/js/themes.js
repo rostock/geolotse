@@ -7,6 +7,7 @@ if ($('#defining-container').data('mobile')) {
 } else {
   MOBILE = false;
 }
+FIRST_THEME = true;
 
 // initialise Leaflet
 proj4.defs('EPSG:25833', '+proj=utm +zone=33 +ellps=WGS84 +towgs84=0,0,0,0,0,0,1 +units=m +no_defs');
@@ -29,6 +30,27 @@ var baseMaps = {};
 baseMaps[mapLayerTitle] = mapLayer;
 baseMaps[aerialLayerTitle] = aerialLayer;
 var map;
+map = L.map('map', {
+  layers: [mapLayer]
+}).fitWorld();
+L.control.layers(baseMaps).addTo(map);
+var locationControl = L.control.locate({
+  drawCircle: false,
+  drawMarker: false,
+  locateOptions: {
+    watch: true,
+    enableHighAccuracy: true
+  },
+  onLocationError: false,
+  setView: 'always',
+  strings: {
+    title: locationControlTitle
+  }
+});
+locationControl.addTo(map);
+map.on('locationerror', onLocationError);
+map.on('click', centerMap);
+map.setView([defaultY, defaultX], 17);
 var markers = new L.FeatureGroup();
 
 
@@ -55,36 +77,14 @@ function onLocationError(e) {
   $('#location-error-modal').modal();
 }
 
-function showMap() {
-  $('#map-container').show();
-  $('#map-container').removeClass('hidden');
-  
-  if (!map || map == null) {
-    map = L.map('map', {
-      layers: [mapLayer]
-    }).fitWorld();
-    L.control.layers(baseMaps).addTo(map);
-    var locationControl = L.control.locate({
-    drawCircle: false,
-    drawMarker: false,
-    locateOptions: {
-        watch: true,
-        enableHighAccuracy: true
-    },
-    onLocationError: false,
-    setView: 'always',
-    strings: {
-        title: locationControlTitle
-    }
-    });
-    locationControl.addTo(map);
-    map.on('locationerror', onLocationError);
-    map.on('click', centerMap);
-    map.setView([defaultY, defaultX], 17);
-    if (MOBILE) {
-      locationControl.start();
-    }
+function populateMap() {
+  $('#map-headline').css('color', 'inherit');
+    
+  if (MOBILE && FIRST_THEME) {
+   locationControl.start();
   }
+  
+  FIRST_THEME = false;
   
   /*markers.clearLayers();
   var marker = L.marker([defaultY, defaultX], { title: 'xyz' } ).on('click', markerClick).addTo(markers);
@@ -204,8 +204,12 @@ $('.theme').click(function() {
     var themeTitle = $(this).data('map-theme-title');
     $('.theme').removeClass('active');
     $(this).addClass('active');
+    $(this).find('.theme-title-flipped').hide();
+    $(this).find('.theme-title-flipped').addClass('hidden');
+    $(this).find('.theme-title').show();
+    $(this).find('.theme-title').removeClass('hidden');
     $('#map-headline-theme-title').text(themeTitle + ':');
-    showMap();
+    populateMap();
     $('html, body').animate({ scrollTop: ($('#map-headline').offset().top - 55)}, 'slow');
   }
 });

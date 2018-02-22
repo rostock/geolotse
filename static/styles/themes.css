@@ -18,10 +18,19 @@
   color: #777;
 }
 
+.slick-prev,
+.slick-next {
+  height: 24px;
+  width: 24px;
+  line-height: 24px;
+}
+
 .slick-prev:before,
 .slick-next:before {
   color: #006cb7;
   opacity: 1;
+  font-size: 20px;
+  line-height: 24px;
 }
 
 .slick-prev:before,
@@ -94,6 +103,15 @@
   width: 250px;
 }
 
+#address-input:not(.mobile) {
+  width: 250px;
+  margin-top: 20px;
+}
+
+#address-input.mobile {
+  width: 200px;
+}
+
 #clear-address-input {
   right: 25px;
   cursor: pointer;
@@ -119,9 +137,21 @@
 }
 
 #map {
-  height: 600px;
   width: 100%;
   margin-top: 5px;
+}
+
+#map:not(.mobile) {
+  height: 600px;
+}
+
+#map.mobile {
+  height: 400px;
+}
+
+#map-headline {
+  margin-top: 25px;
+  color: #fff;
 }
 
 #map-headline-theme-title {

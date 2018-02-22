@@ -39,6 +39,8 @@
   {% endblock %}
 {% endblock %}
 
+{% block body_attribs %}{% if mobile %} class="mobile"{% endif %}{% endblock %}
+
 {% block content %}
   {% include 'navbar.html' %}
   <div class="container-fluid" id="defining-container" data-mobile="{{ mobile|lower }}">

@@ -34,7 +34,7 @@
         <div class="panel panel-info">
           <div class="panel-heading">
             <h4 class="panel-title">
-              <a data-toggle="collapse" data-parent="#accordion" href="#{{ category.category }}">
+              <a class="accordion-link" data-toggle="collapse" data-parent="#accordion" href="#{{ category.category }}">
                 {% if category.category == 'api' %}
                   <span class="glyphicon glyphicon-dashboard" aria-hidden="true"></span> {{ _('API (Programmierschnittstellen)') }}
                 {% elif category.category == 'application' %}
@@ -76,7 +76,7 @@
                     <div class="panel panel-info">
                       <div class="panel-heading">
                         <h4 class="panel-title">
-                          <a data-toggle="collapse" href="#application-{{ application_link.id }}">
+                          <a class="accordion-link" data-toggle="collapse" href="#application-{{ application_link.id }}">
                             <span class="full-width">{% if application_link.logo != None %}<img src="{{ url_for('static', filename='images/logos/') }}{{ application_link.logo }}" class="application-logo" /> {% endif %}{{ application_link.group }}</span>
                           </a>
                         </h4>
@@ -168,7 +168,7 @@
                     <div class="panel panel-info">
                       <div class="panel-heading">
                         <h4 class="panel-title">
-                          <a data-toggle="collapse" href="#geoservice-{{ geoservice_link.id }}">
+                          <a class="accordion-link" data-toggle="collapse" href="#geoservice-{{ geoservice_link.id }}">
                             <span class="full-width">{{ geoservice_link.title }}</span>
                             <small>
                               {% for group in geoservice_link.id|get_parent_link_children_groups(True) %}
