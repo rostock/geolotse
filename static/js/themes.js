@@ -82,7 +82,7 @@ function populateMap() {
   $('#offers-headline').css('color', 'inherit');
     
   if (MOBILE && FIRST_THEME) {
-   locationControl.start();
+    locationControl.start();
   }
   
   FIRST_THEME = false;
@@ -105,15 +105,140 @@ function getOffers(theme) {
   });
 }
 
+function clearOffers() {
+  if (!FIRST_THEME) {
+    $('#offer-slider').slick('unslick');
+  }
+  $('#offer-slider').html('');
+}
+
 function populateOffers(offersData) {
   var offers = '';
   jQuery.each(offersData, function(index, item) {
-    //results += '<div class="results-entry" data-x1="' + item.bbox[0] + '" data-y1="' + item.bbox[1] + '" data-x2="' + item.bbox[2] + '" data-y2="' + item.bbox[3] + '">';
-    //results +=   item.label;
-    //results += '</div>';
-    offers += item.title;
+    var title = (item.category === 'application') ? item.group : item.title;
+    switch(item.category) {
+      case 'api':
+        categoryIcon = 'dashboard';
+        break;
+      case 'application':
+        categoryIcon = 'phone';
+        break;
+      case 'documentation':
+        categoryIcon = 'book';
+        break;
+      case 'download':
+        categoryIcon = 'download';
+        break;
+      case 'geoservice':
+        categoryIcon = 'globe';
+        break;
+      default:
+        categoryIcon = 'list';
+    }
+    offers += '<div>';
+    offers +=   '<div class="offer" id="offer-' + item.id + '" data-offer-id="' + item.id + '" data-offer-title="' + title + '" onclick="offerClick(this)" onmouseenter="offerMouseEnter(this)" onmouseleave="offerMouseLeave(this)">';
+    offers +=     '<span class="offer-title">';
+    offers +=       '<span class="offer-text">' + title + '</span>';
+    offers +=       '<span class="glyphicon glyphicon-' + categoryIcon + ' offer-icon"></span>';
+    offers +=     '</span>';
+    offers +=     '<span class="offer-title-flipped hidden">';
+    offers +=       '<span class="offer-text">' + item.category_label + '</span>';
+    offers +=     '</span>';
+    offers +=   '</div>';
+    offers += '</div>';
   });
   $('#offer-slider').html(offers);
+  
+  // initialise slick (for offer slider)
+  $('#offer-slider').slick({
+    dots: false,
+    infinite: true,
+    focusOnSelect: true,
+    focusOnChange: true,
+    slidesToScroll: 5,
+    slidesToShow: 5,
+    responsive: [
+      {
+        breakpoint: 1424,
+        settings: {
+          dots: false,
+          infinite: true,
+          focusOnSelect: true,
+          focusOnChange: true,
+          slidesToScroll: 4,
+          slidesToShow: 4
+        }
+      },
+      {
+        breakpoint: 1144,
+        settings: {
+          dots: false,
+          infinite: true,
+          focusOnSelect: true,
+          focusOnChange: true,
+          slidesToScroll: 3,
+          slidesToShow: 3
+        }
+      },
+      {
+        breakpoint: 864,
+        settings: {
+          dots: false,
+          infinite: true,
+          focusOnSelect: true,
+          focusOnChange: true,
+          slidesToScroll: 2,
+          slidesToShow: 2
+        }
+      },
+      {
+        breakpoint: 588,
+        settings: {
+          dots: false,
+          infinite: true,
+          focusOnSelect: true,
+          focusOnChange: true,
+          slidesToScroll: 1,
+          slidesToShow: 1
+        }
+      }
+    ]
+  });
+}
+
+function offerClick(e){
+  if (!$(e).hasClass('active')) {
+    var offerId = $(e).data('offer-id');
+    var offerTitle = $(e).data('offer-title');
+    $('.offer').removeClass('active');
+    $(e).addClass('active');
+    $(e).find('.offer-title-flipped').hide();
+    $(e).find('.offer-title-flipped').addClass('hidden');
+    $(e).find('.offer-title').show();
+    $(e).find('.offer-title').removeClass('hidden');
+    $('.offer-icon').show();
+    $('.offer-icon').removeClass('hidden');
+    $(e).find('.offer-icon').hide();
+    $(e).find('.offer-icon').addClass('hidden');
+  }
+}
+
+function offerMouseEnter(e){
+  if (!$(e).hasClass('active')) {
+    $(e).find('.offer-title').hide();
+    $(e).find('.offer-title').addClass('hidden');
+    $(e).find('.offer-title-flipped').show();
+    $(e).find('.offer-title-flipped').removeClass('hidden');
+  }
+}
+
+function offerMouseLeave(e){
+  if (!$(e).hasClass('active')) {
+    $(e).find('.offer-title-flipped').hide();
+    $(e).find('.offer-title-flipped').addClass('hidden');
+    $(e).find('.offer-title').show();
+    $(e).find('.offer-title').removeClass('hidden');
+  }
 }
 
 function clearResults() {
@@ -155,8 +280,8 @@ $(document).ready(function() {
     $('[data-toggle="tooltip"]').tooltip();
   }
   
-  // initialise slick
-  $('.slider').slick({
+  // initialise slick (for theme slider)
+  $('#theme-slider').slick({
     dots: false,
     infinite: true,
     focusOnSelect: true,
@@ -236,6 +361,7 @@ $('.theme').click(function() {
     $(this).find('.theme-title').removeClass('hidden');
     $('#map-headline-theme-title').text(themeTitle + ':');
     $('#offers-headline-theme-title').text(themeTitle + ':');
+    clearOffers();
     getOffers(themeId);
     populateMap();
     $('html, body').animate({ scrollTop: ($('#map-headline').offset().top - 55)}, 'slow');
@@ -281,13 +407,13 @@ $('#clear-address-input').click(function() {
   clearResults();
 });
 
-$('#geoportal-link').click(function() {
-  var transformation = proj4('EPSG:4326', 'EPSG:25833', [map.getCenter().lng, map.getCenter().lat]);
-  window.open('https://www.geoport-hro.de/?center=' + transformation[0] + ',' + transformation[1] + '&scale=2133', '_blank');
-});
-
 $('body').on('click', '.results-entry', function(e) {
   var transformation_ll = proj4('EPSG:25833', 'EPSG:4326', [$(e.target).data('x1'), $(e.target).data('y1')]);
   var transformation_ur = proj4('EPSG:25833', 'EPSG:4326', [$(e.target).data('x2'), $(e.target).data('y2')]);
   map.fitBounds([[transformation_ll[1], transformation_ll[0]], [transformation_ur[1], transformation_ur[0]]]);
+});
+
+$('#geoportal-link').click(function() {
+  var transformation = proj4('EPSG:4326', 'EPSG:25833', [map.getCenter().lng, map.getCenter().lat]);
+  window.open('https://www.geoport-hro.de/?center=' + transformation[0] + ',' + transformation[1] + '&scale=2133', '_blank');
 });

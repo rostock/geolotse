@@ -278,7 +278,7 @@ def get_tag_links(id = 1):
 
 @cache.memoize(timeout = app.config['DEFAULT_CACHE_TIMEOUT'])
 def get_theme_links(id = 1):
-  links_non_geoservice = Links.query.join(Links.themes).filter(Themes.id == id, Links.category != 'geoservice').order_by(Links.category, Links.group, Links.title).all()
+  links_non_geoservice = Links.query.join(Links.themes).filter(Themes.id == id, Links.category != 'geoservice').order_by(Links.category_order, Links.group, Links.title).all()
   links_geoservice = Links.query.join(Links.themes).filter(Themes.id == id, Links.category == 'geoservice').order_by(Links.title).all()
   return links_non_geoservice + links_geoservice
 
@@ -402,7 +402,7 @@ def offers():
     item['group'] = link.group
     item['group_order'] = link.group_order
     item['title'] = link.title
-    item['link'] = link.link
+    item['link'] = link.link if link.category != 'geoservice' else url_for('catalog', lang_code = g.current_lang if g.current_lang else app.config['BABEL_DEFAULT_LOCALE']) + '#geoservice-' + str(item['id']),
     item['public'] = link.public
     if item['public'] == True:
       item['public_label'] = gettext(u'öffentlich zugänglich')
