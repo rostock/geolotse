@@ -2,7 +2,10 @@
   {% set navbar_right = [
     ('themes', 'Themen'),
     ('catalog', 'Katalog'),
-    ('imprint', 'Impressum')
+    ('code', 'Code'),
+    ('privacy_policy', 'Datenschutz'),
+    ('imprint', 'Impressum'),
+    ('terms_of_use', 'Nutzungsbedingungen')
   ] %}
 {% else %}
   {% set navbar_right = [
@@ -48,8 +51,12 @@
         {% endif %}
         {% for url, title in navbar_right %}
           <li {% if active_page and url == active_page %}class="active"{% endif %}>
-            <a {% if active_page and url == active_page %}href="javascript:function() { return false; }" disabled="disabled"{% else %}href="{{ url_for(url, lang_code = g.current_lang) }}"{% endif %}>
-              <span class="glyphicon glyphicon-{% if url == 'catalog' %}list{% elif url == 'themes' %}map-marker{% elif url == 'imprint' %}user{% else %}question-sign{% endif %}" aria-hidden="true"></span> {{ _(title|e) }}
+            {% if url == 'code' %}
+              <a href="{{ config.REPOSITORY }}" target="_blank">
+            {% else %}
+              <a {% if active_page and url == active_page %}href="javascript:function() { return false; }" disabled="disabled"{% else %}href="{{ url_for(url, lang_code = g.current_lang) }}"{% endif %}>
+            {% endif %}
+              <span class="glyphicon glyphicon-{% if url == 'catalog' %}list{% elif url == 'themes' %}map-marker{% elif url == 'code' %}pencil{% elif url == 'privacy_policy' %}lock{% elif url == 'imprint' %}user{% elif url == 'terms_of_use' %}paperclip{% else %}question-sign{% endif %}" aria-hidden="true"></span> {{ _(title|e) }}
             </a>
           </li>
         {% endfor %}

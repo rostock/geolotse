@@ -1,7 +1,7 @@
 // globals
 
 // constants
-LANG_CODE = location.href.match(/([^\/]*)\/*$/)[1];
+BASE_URL = location.href.match(/(http.*)\/.*$/)[1];
 if ($('#defining-container').data('mobile')) {
   MOBILE = true;
 } else {
@@ -90,6 +90,30 @@ function populateMap() {
   /*markers.clearLayers();
   var marker = L.marker([defaultY, defaultX], { title: 'xyz' } ).on('click', markerClick).addTo(markers);
   map.addLayer(markers);*/
+}
+
+function getOffers(theme) {
+  $.ajax({
+    url: BASE_URL + '/offers',
+    data: {
+      theme: theme
+    },
+    dataType: 'json',
+    success: function(data) {
+      populateOffers(data.offers);
+    }
+  });
+}
+
+function populateOffers(offersData) {
+  var offers = '';
+  jQuery.each(offersData, function(index, item) {
+    //results += '<div class="results-entry" data-x1="' + item.bbox[0] + '" data-y1="' + item.bbox[1] + '" data-x2="' + item.bbox[2] + '" data-y2="' + item.bbox[3] + '">';
+    //results +=   item.label;
+    //results += '</div>';
+    offers += item.title;
+  });
+  $('#offer-slider').html(offers);
 }
 
 function clearResults() {
@@ -202,7 +226,8 @@ $(document).ready(function() {
 
 $('.theme').click(function() {
   if (!$(this).hasClass('active')) {
-    var themeTitle = $(this).data('map-theme-title');
+    var themeId = $(this).data('theme-id');
+    var themeTitle = $(this).data('theme-title');
     $('.theme').removeClass('active');
     $(this).addClass('active');
     $(this).find('.theme-title-flipped').hide();
@@ -211,6 +236,7 @@ $('.theme').click(function() {
     $(this).find('.theme-title').removeClass('hidden');
     $('#map-headline-theme-title').text(themeTitle + ':');
     $('#offers-headline-theme-title').text(themeTitle + ':');
+    getOffers(themeId);
     populateMap();
     $('html, body').animate({ scrollTop: ($('#map-headline').offset().top - 55)}, 'slow');
   }

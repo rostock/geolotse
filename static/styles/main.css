@@ -169,6 +169,7 @@ footer {
   left: 0 !important;
   right: 0 !important;
   height: 60px !important;
+  line-height: 36px !important;
   padding: 10px 0 !important;
   background-color: #006cb7 !important;
   color: #fff !important;
@@ -183,6 +184,14 @@ footer a:visited {
 
 footer a:hover {
   color: #d9d9d9 !important;
+}
+
+.glyphicon-margin-left {
+  margin-left: 10px;
+}
+
+.glyphicon-margin-right {
+  margin-right: 3px;
 }
 
 .tooltip > .tooltip-inner {

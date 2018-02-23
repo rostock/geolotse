@@ -4,7 +4,6 @@
 TITLE = u'Geolotse.HRO'
 PARENT = 'https://www.rostock.de'
 REPOSITORY = 'https://github.com/rostock/geolotse'
-CONTACT = 'geodienste@rostock.de'
 META_AUTHOR = u'Hanse- und Universitätsstadt Rostock'
 META_DESCRIPTION = u'Einstiegsmöglichkeit in die Geodateninfrastruktur der Hanse- und Universitätsstadt Rostock und Schnittstelle aller Anwendungen mit Raumbezug des Kataster-, Vermessungs- und Liegenschaftsamtes der Hanse- und Universitätsstadt Rostock'
 META_KEYWORDS = u'Geodaten,Geodienste,Karte,Kataster,Liegenschaften,Rostock,Vermessung,Verwaltung'

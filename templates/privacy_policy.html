@@ -33,5 +33,7 @@
     <h4 class="subheadline">{{ _('Sicherheit') }}</h4>
     <p>{{ _('Die Hanse- und Universitätsstadt Rostock setzt für das vorliegende Angebot technische und organisatorische Sicherheitsmaßnahmen ein, um gespeicherte und verwendete Daten gegen zufällige oder vorsätzliche Manipulation, Verlust, Zerstörung oder gegen den Zugriff unberechtigter Dritter zu schützen. Die Sicherheitsmaßnahmen werden entsprechend der technologischen Entwicklung fortlaufend verbessert.') }}</p>
   </div>
-  {% include 'footer.html' %}
+  {% if not mobile %}
+    {% include 'footer.html' %}
+  {% endif %}
 {% endblock %}

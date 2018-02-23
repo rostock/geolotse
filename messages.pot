@@ -1,62 +1,92 @@
-#: geolotse.py:318
+#: geolotse.py:327 geolotse.py:391
 msgid "API (Programmierschnittstelle)"
 msgstr ""
 
-#: geolotse.py:320
+#: geolotse.py:329 geolotse.py:393
 msgid "Anwendung"
 msgstr ""
 
-#: geolotse.py:322
+#: geolotse.py:331 geolotse.py:395
 msgid "Dokumentation"
 msgstr ""
 
-#: geolotse.py:324
+#: geolotse.py:333 geolotse.py:397
 msgid "Download"
 msgstr ""
 
-#: geolotse.py:326
+#: geolotse.py:335 geolotse.py:399
 msgid "Geodatendienst"
 msgstr ""
 
-#: geolotse.py:328
+#: geolotse.py:337
 msgid "Thema"
 msgstr ""
 
-#: geolotse.py:342 templates/catalog.html:65 templates/catalog.html:90
-#: templates/catalog.html:106 templates/catalog.html:117
-#: templates/catalog.html:136 templates/catalog.html:149
-#: templates/catalog.html:200 templates/catalog.html:208
-#: templates/catalog.html:228 templates/catalog.html:236
-#: templates/catalog.html:267 templates/catalog.html:291
+#: geolotse.py:351 geolotse.py:408 templates/catalog.html:64
+#: templates/catalog.html:87 templates/catalog.html:101
+#: templates/catalog.html:110 templates/catalog.html:127
+#: templates/catalog.html:138 templates/catalog.html:187
+#: templates/catalog.html:193 templates/catalog.html:211
+#: templates/catalog.html:217 templates/catalog.html:246
+#: templates/catalog.html:268
 msgid "öffentlich zugänglich"
 msgstr ""
 
-#: geolotse.py:344 templates/catalog.html:65 templates/catalog.html:90
-#: templates/catalog.html:106 templates/catalog.html:117
-#: templates/catalog.html:136 templates/catalog.html:149
-#: templates/catalog.html:200 templates/catalog.html:208
-#: templates/catalog.html:228 templates/catalog.html:236
-#: templates/catalog.html:267 templates/catalog.html:291
+#: geolotse.py:353 geolotse.py:410 templates/catalog.html:64
+#: templates/catalog.html:87 templates/catalog.html:101
+#: templates/catalog.html:110 templates/catalog.html:127
+#: templates/catalog.html:138 templates/catalog.html:187
+#: templates/catalog.html:193 templates/catalog.html:211
+#: templates/catalog.html:217 templates/catalog.html:246
+#: templates/catalog.html:268
 msgid "nicht öffentlich zugänglich"
 msgstr ""
 
-#: geolotse.py:358 templates/index.html:72
+#: geolotse.py:367 templates/index.html:74
 msgid "Katalog"
 msgstr ""
 
-#: geolotse.py:367 templates/index.html:66
+#: geolotse.py:376 templates/index.html:68
 msgid "Themen"
 msgstr ""
 
-#: geolotse.py:376 templates/footer.html:6
+#: geolotse.py:413 templates/catalog.html:64 templates/catalog.html:87
+#: templates/catalog.html:101 templates/catalog.html:110
+#: templates/catalog.html:127 templates/catalog.html:138
+#: templates/catalog.html:187 templates/catalog.html:193
+#: templates/catalog.html:211 templates/catalog.html:217
+#: templates/catalog.html:246 templates/catalog.html:268
+msgid "erreichbar"
+msgstr ""
+
+#: geolotse.py:413 geolotse.py:415 templates/catalog.html:64
+#: templates/catalog.html:87 templates/catalog.html:101
+#: templates/catalog.html:110 templates/catalog.html:127
+#: templates/catalog.html:138 templates/catalog.html:187
+#: templates/catalog.html:193 templates/catalog.html:211
+#: templates/catalog.html:217 templates/catalog.html:246
+#: templates/catalog.html:268
+msgid "letzte Prüfung"
+msgstr ""
+
+#: geolotse.py:415 templates/catalog.html:64 templates/catalog.html:87
+#: templates/catalog.html:101 templates/catalog.html:110
+#: templates/catalog.html:127 templates/catalog.html:138
+#: templates/catalog.html:187 templates/catalog.html:193
+#: templates/catalog.html:211 templates/catalog.html:217
+#: templates/catalog.html:246 templates/catalog.html:268
+msgid "nicht erreichbar"
+msgstr ""
+
+#: geolotse.py:430 templates/footer.html:6
 msgid "Impressum"
 msgstr ""
 
-#: geolotse.py:384 templates/footer.html:5
+#: geolotse.py:439 templates/footer.html:5
 msgid "Datenschutz"
 msgstr ""
 
-#: geolotse.py:392 templates/footer.html:8
+#: geolotse.py:448 templates/footer.html:7
 msgid "Nutzungsbedingungen"
 msgstr ""
 
@@ -92,94 +122,63 @@ msgstr ""
 msgid "Tools"
 msgstr ""
 
-#: templates/catalog.html:64 templates/catalog.html:89
-#: templates/catalog.html:105 templates/catalog.html:116
-#: templates/catalog.html:135 templates/catalog.html:148
-#: templates/catalog.html:199 templates/catalog.html:207
-#: templates/catalog.html:227 templates/catalog.html:235
-#: templates/catalog.html:266 templates/catalog.html:290
-msgid "erreichbar"
-msgstr ""
-
-#: templates/catalog.html:64 templates/catalog.html:89
-#: templates/catalog.html:105 templates/catalog.html:116
-#: templates/catalog.html:135 templates/catalog.html:148
-#: templates/catalog.html:199 templates/catalog.html:207
-#: templates/catalog.html:227 templates/catalog.html:235
-#: templates/catalog.html:266 templates/catalog.html:290
-msgid "nicht erreichbar"
-msgstr ""
-
-#: templates/catalog.html:64 templates/catalog.html:89
-#: templates/catalog.html:105 templates/catalog.html:116
-#: templates/catalog.html:135 templates/catalog.html:148
-#: templates/catalog.html:199 templates/catalog.html:207
-#: templates/catalog.html:227 templates/catalog.html:235
-#: templates/catalog.html:266 templates/catalog.html:290
-msgid "letzte Prüfung"
-msgstr ""
-
-#: templates/catalog.html:73 templates/catalog.html:125
-#: templates/catalog.html:165 templates/catalog.html:280
+#: templates/catalog.html:71 templates/catalog.html:117
+#: templates/catalog.html:153 templates/catalog.html:258
 msgid "Freitextfilter"
 msgstr ""
 
-#: templates/catalog.html:185
+#: templates/catalog.html:173
 msgid "Schlagworte/Tags/Keywords"
 msgstr ""
 
-#: templates/catalog.html:195
+#: templates/catalog.html:183
 msgid "Vorschau"
 msgstr ""
 
-#: templates/catalog.html:197
+#: templates/catalog.html:185
 msgid "Desktop"
 msgstr ""
 
-#: templates/catalog.html:205
+#: templates/catalog.html:191
 msgid "mobil"
 msgstr ""
 
-#: templates/catalog.html:217
+#: templates/catalog.html:201
 msgid "Annex-Thema"
 msgstr ""
 
-#: templates/catalog.html:220
+#: templates/catalog.html:204
 msgid "Beschreibung"
 msgstr ""
 
-#: templates/catalog.html:225
+#: templates/catalog.html:209
 msgid "Metadaten"
 msgstr ""
 
-#: templates/catalog.html:233 templates/catalog.html:264
+#: templates/catalog.html:215 templates/catalog.html:244
 msgid "Link"
 msgstr ""
 
-#: templates/catalog.html:242
+#: templates/catalog.html:222
 msgid "Datenquelle"
 msgstr ""
 
-#: templates/catalog.html:244
+#: templates/catalog.html:224
 msgid "Stand"
 msgstr ""
 
-#: templates/catalog.html:248
+#: templates/catalog.html:228
 msgid "Autor"
 msgid_plural "Autoren"
 msgstr[0] ""
 msgstr[1] ""
 
-#: templates/catalog.html:254 templates/footer.html:7 templates/imprint.html:70
+#: templates/catalog.html:234 templates/imprint.html:70
 msgid "Kontakt"
 msgstr ""
 
 #: templates/footer.html:4
 msgid "Code"
-msgstr ""
-
-#: templates/footer.html:11
-msgid "Lizenz"
 msgstr ""
 
 #: templates/imprint.html:25
@@ -349,7 +348,7 @@ msgid ""
 "und Universitätsstadt Rostock richten Sie bitte an:"
 msgstr ""
 
-#: templates/index.html:53
+#: templates/index.html:55
 msgid ""
 "Einstiegsmöglichkeit in die Geodateninfrastruktur der Hanse- und "
 "Universitätsstadt Rostock und Schnittstelle aller Anwendungen mit "
@@ -357,18 +356,18 @@ msgid ""
 "und Universitätsstadt Rostock"
 msgstr ""
 
-#: templates/index.html:57
+#: templates/index.html:59
 msgid "Suche in Themen und Katalog"
 msgstr ""
 
-#: templates/index.html:66
+#: templates/index.html:68
 msgid ""
 "Finden Sie zu einem Thema, das Sie interessiert, in Ihrer Nähe alle "
 "Angebote aus der Geodateninfrastruktur der Hanse- und Universitätsstadt "
 "Rostock."
 msgstr ""
 
-#: templates/index.html:72
+#: templates/index.html:74
 msgid ""
 "Stöbern Sie in der Geodateninfrastruktur der Hanse- und Universitätsstadt"
 " Rostock anhand übersichtlich geordneter, filterbarer Listen."
@@ -441,11 +440,65 @@ msgstr ""
 msgid "Nutzung der Inhalte der Hanse- und Universitätsstadt Rostock"
 msgstr ""
 
+#: templates/terms_of_use.html:27
+msgid "Nutzung der sonstigen Inhalte"
+msgstr ""
+
+#: templates/terms_of_use.html:28
+msgid ""
+"Das vorliegenden Angebot der Hanse- und Universitätsstadt Rostock basiert"
+" auf"
+msgstr ""
+
+#: templates/terms_of_use.html:28
+msgid ""
+"einem in Python geschriebenen Webframework. Flask ist veröffentlicht "
+"unter der freien"
+msgstr ""
+
+#: templates/terms_of_use.html:28
+msgid "Zudem wurden folgende Bibliotheken verwendet:"
+msgstr ""
+
+#: templates/terms_of_use.html:36
+msgid ""
+"Als Schriftart wird im vorliegenden Angebot PT Sans verwendet. Sie wurde "
+"von"
+msgstr ""
+
+#: templates/terms_of_use.html:36
+msgid "erstellt und ist"
+msgstr ""
+
+#: templates/terms_of_use.html:36
+msgid "hier"
+msgstr ""
+
+#: templates/terms_of_use.html:36
+msgid "veröffentlicht unter"
+msgstr ""
+
+#: templates/terms_of_use.html:36
+msgid "dieser Lizenz"
+msgstr ""
+
+#: templates/terms_of_use.html:37
+msgid "Die Piktrogramme zur Illustration der Themen sind"
+msgstr ""
+
+#: templates/terms_of_use.html:37
+msgid "entnommen, einem Icon-Fonts-Set, das unter der freien"
+msgstr ""
+
+#: templates/terms_of_use.html:37
+msgid "(OFL) veröffentlicht ist."
+msgstr ""
+
 #: templates/themes.html:45
 msgid "Welches Thema interessiert Sie?"
 msgstr ""
 
-#: templates/themes.html:77
+#: templates/themes.html:77 templates/themes.html:88
 msgid "Diese Angebote existieren zum Thema"
 msgstr ""
 
@@ -459,27 +512,27 @@ msgid ""
 " und Universitätsstadt Rostock und Umgebung"
 msgstr ""
 
-#: templates/themes.html:87
+#: templates/themes.html:91
 msgid "Karte"
 msgstr ""
 
-#: templates/themes.html:88
+#: templates/themes.html:92
 msgid "Luftbild"
 msgstr ""
 
-#: templates/themes.html:89
+#: templates/themes.html:93
 msgid "Standortbestimmung"
 msgstr ""
 
-#: templates/themes.html:94
+#: templates/themes.html:98
 msgid "Standortbestimmung fehlgeschlagen"
 msgstr ""
 
-#: templates/themes.html:97
+#: templates/themes.html:101
 msgid "Karte zentriert auf Standardposition"
 msgstr ""
 
-#: templates/themes.html:100
+#: templates/themes.html:104
 msgid "schließen"
 msgstr ""
 

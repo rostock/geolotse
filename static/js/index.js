@@ -2,7 +2,6 @@
 
 // constants
 ROWS = 20;
-LANG_CODE = location.href.match(/([^\/]*)\/*$/)[1];
 if ($('#defining-container').data('mobile')) {
   MOBILE = true;
 } else {
@@ -86,7 +85,7 @@ function search(query, start) {
   clearResults();
   clearResultsPagination();
   $.ajax({
-    url: LANG_CODE + '/search',
+    url: location.href + '/search',
     data: {
       query: query,
       start: start,

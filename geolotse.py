@@ -280,7 +280,7 @@ def get_tag_links(id = 1):
 def get_theme_links(id = 1):
   links_non_geoservice = Links.query.join(Links.themes).filter(Themes.id == id, Links.category != 'geoservice').order_by(Links.category, Links.group, Links.title).all()
   links_geoservice = Links.query.join(Links.themes).filter(Themes.id == id, Links.category == 'geoservice').order_by(Links.title).all()
-  return links_non_geoservice.union_all(links_geoservice)
+  return links_non_geoservice + links_geoservice
 
 @cache.memoize(timeout = app.config['DEFAULT_CACHE_TIMEOUT'])
 def get_themes():
@@ -383,53 +383,42 @@ def offers_without_lang_code():
 def offers():
   theme = request.args['theme']
   links = get_theme_links(theme)
-  return links
-  #query = '*' + request.args['query'].replace(' ', '* *') + '*'
-  #if 'start' in request.args and 'rows' in request.args:
-  #  start = request.args['start']
-  #  rows = request.args['rows']
-  #else:
-  #  start = 0
-  #  rows = 10
-  #results = solr.search(q = query, start = start, rows = rows, sort = 'category_order asc, title asc, group_order asc, id asc')
-  #data = []
-  #for result in results:
-  #  item = { 'id': result['id']}
-  #  item['database_id'] = result['database_id']
-  #  item['category'] = result['category']
-  #  if item['category'] == 'api':
-  #    item['category_label'] = gettext(u'API (Programmierschnittstelle)')
-  #  elif item['category'] == 'application':
-  #    item['category_label'] = gettext(u'Anwendung')
-  #  elif item['category'] == 'documentation':
-  #    item['category_label'] = gettext(u'Dokumentation')
-  #  elif item['category'] == 'download':
-  #    item['category_label'] = gettext(u'Download')
-  #  elif item['category'] == 'geoservice':
-  #    item['category_label'] = gettext(u'Geodatendienst')
-  #  elif item['category'] == 'theme':
-  #    item['category_label'] = gettext(u'Thema')
-  #  else:
-  #    item['category_label'] = result['category']
-  #  item['title'] = result['title']
-  #  if 'link' in result:
-  #    item['link'] = result['link']
-  #  elif item['category'] == 'geoservice':
-  #    item['link'] = url_for('catalog', lang_code = g.current_lang if g.current_lang else app.config['BABEL_DEFAULT_LOCALE']) + '#geoservice-' + str(result['database_id'])
-  #  elif item['category'] == 'theme':
-  #    item['link'] = url_for('themes', lang_code = g.current_lang if g.current_lang else app.config['BABEL_DEFAULT_LOCALE']) + '#theme-' + str(result['database_id'])
-  #  else:
-  #    item['link'] = ''
-  #  item['public'] = result['public']
-  #  if item['public'] == True:
-  #    item['public_label'] = gettext(u'öffentlich zugänglich')
-  #  else:
-  #    item['public_label'] = gettext(u'nicht öffentlich zugänglich')
-  #  data.append(item)
-  #return dumps({
-  #  'hits': results.hits,
-  #  'results': data
-  #})
+  data = []
+  for link in links:
+    item = { 'id': link.id}
+    item['category'] = link.category
+    if item['category'] == 'api':
+      item['category_label'] = gettext(u'API (Programmierschnittstelle)')
+    elif item['category'] == 'application':
+      item['category_label'] = gettext(u'Anwendung')
+    elif item['category'] == 'documentation':
+      item['category_label'] = gettext(u'Dokumentation')
+    elif item['category'] == 'download':
+      item['category_label'] = gettext(u'Download')
+    elif item['category'] == 'geoservice':
+      item['category_label'] = gettext(u'Geodatendienst')
+    else:
+      item['category_label'] = link.category
+    item['group'] = link.group
+    item['group_order'] = link.group_order
+    item['title'] = link.title
+    item['link'] = link.link
+    item['public'] = link.public
+    if item['public'] == True:
+      item['public_label'] = gettext(u'öffentlich zugänglich')
+    else:
+      item['public_label'] = gettext(u'nicht öffentlich zugänglich')
+    item['reachable'] = link.reachable
+    if item['reachable'] == True:
+      item['reachable_label'] = gettext(u'erreichbar') + u'–' + gettext(u'letzte Prüfung')
+    else:
+      item['reachable_label'] = gettext(u'nicht erreichbar') + u'–' + gettext(u'letzte Prüfung')
+    item['reachable_last_check'] = datetime_l10n(link.reachable_last_check, 'full')
+    item['search_title'] = link.search_title
+    data.append(item)
+  return dumps({
+    'offers': data
+  })
 
 @app.route('/imprint')
 def imprint_without_lang_code():
@@ -446,7 +435,8 @@ def privacy_policy_without_lang_code():
 
 @app.route('/<lang_code>/privacy_policy')
 def privacy_policy():
-  return render_template('privacy_policy.html', subtitle = gettext(u'Datenschutz'))
+  user_agent = parse(request.headers.get('User-Agent'))
+  return render_template('privacy_policy.html', mobile = user_agent.is_mobile, subtitle = gettext(u'Datenschutz'))
 
 @app.route('/terms_of_use')
 def terms_of_use_without_lang_code():
@@ -454,7 +444,8 @@ def terms_of_use_without_lang_code():
 
 @app.route('/<lang_code>/terms_of_use')
 def terms_of_use():
-  return render_template('terms_of_use.html', subtitle = gettext(u'Nutzungsbedingungen'))
+  user_agent = parse(request.headers.get('User-Agent'))
+  return render_template('terms_of_use.html', mobile = user_agent.is_mobile, subtitle = gettext(u'Nutzungsbedingungen'))
 
 @app.errorhandler(400)
 def error_400(error):

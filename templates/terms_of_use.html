@@ -24,6 +24,19 @@
     <h3 class="headline">{{ subtitle }}</h3>
     <h4 class="subheadline">{{ _('Nutzung der Inhalte der Hanse- und Universitätsstadt Rostock') }}</h4>
     <p>{{ _('Die von der Hanse- und Universitätsstadt Rostock angebotenen und in ihrem Eigentum befindlichen Inhalte unterliegen der gemeinfreien Lizenz') }} <a href="https://creativecommons.org/publicdomain/zero/1.0" target="_blank">Creative Commons Zero Universal 1.0 Public Domain Dedication</a> {{ _('(CC0 1.0). Damit ist alles gestattet, ohne um weitere Erlaubnis bitten zu müssen.') }}</p>
+    <h4 class="subheadline">{{ _('Nutzung der sonstigen Inhalte') }}</h4>
+    <p>{{ _('Das vorliegenden Angebot der Hanse- und Universitätsstadt Rostock basiert auf') }} <a href="http://flask.pocoo.org" target="_blank">Flask</a>, {{ _('einem in Python geschriebenen Webframework. Flask ist veröffentlicht unter der freien') }} <a rel="license" href="http://flask.pocoo.org/docs/license" target="_blank">BSD License</a>. {{ _('Zudem wurden folgende Bibliotheken verwendet:') }}
+    <ul>
+      <li><a rel="license" href="http://leafletjs.com" target="_blank">Leaflet</a></li>
+      <li><a rel="license" href="https://github.com/domoritz/leaflet-locatecontrol" target="_blank">Leaflet.Locate</a></li>
+      <li><a rel="license" href="http://proj4js.org" target="_blank">Proj4js</a></li>
+      <li><a rel="license" href="http://kenwheeler.github.io/slick" target="_blank">slick</a></li>
+    </ul>
+    </p>
+    <p>{{ _('Als Schriftart wird im vorliegenden Angebot PT Sans verwendet. Sie wurde von') }} <a href="https://www.paratype.com" target="_blank">ParaType</a> {{ _('erstellt und ist') }} <a href="https://www.paratype.com/public" target="_blank">{{ _('hier') }}</a> {{ _('veröffentlicht unter') }} <a href="https://www.paratype.com/public/pt_openlicense_eng.asp" target="_blank">{{ _('dieser Lizenz') }}</a>.</p>
+    <p>{{ _('Die Piktrogramme zur Illustration der Themen sind') }} <a href="https://fontawesome.com" target="_blank">Font Awesome</a> {{ _('entnommen, einem Icon-Fonts-Set, das unter der freien') }} <a href="https://scripts.sil.org/OFL" target="_blank">SIL Open Font License 1.1</a> {{ _('(OFL) veröffentlicht ist.') }}</p>
   </div>
-  {% include 'footer.html' %}
+  {% if not mobile %}
+    {% include 'footer.html' %}
+  {% endif %}
 {% endblock %}

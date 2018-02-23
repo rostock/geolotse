@@ -68,7 +68,7 @@
               {% endif %}
               {% if category.category == 'application' %}
                 <span class="glyphicon glyphicon-filter" aria-hidden="true"></span>
-                <input class="filter-input{% if mobile %} mobile{% endif %}" id="application-filter-input" placeholder="{{ _('Freitextfilter') }}…" type="search" />
+                <input class="form-control filter-input{% if mobile %} mobile{% endif %}" id="application-filter-input" placeholder="{{ _('Freitextfilter') }}…" type="search" />
                 <div class="panel-group" id="application-accordion">
                   {% for application_link in application_links %}
                     <div class="panel panel-info">
@@ -114,7 +114,7 @@
               {% endif %}
               {% if category.category == 'external' %}
                 <span class="glyphicon glyphicon-filter" aria-hidden="true"></span>
-                <input class="filter-input{% if mobile %} mobile{% endif %}" id="external-filter-input" placeholder="{{ _('Freitextfilter') }}…" type="search" />
+                <input class="form-control filter-input{% if mobile %} mobile{% endif %}" id="external-filter-input" placeholder="{{ _('Freitextfilter') }}…" type="search" />
                 {% for external_link in external_links %}
                   {% if external_link.id == external_link.parent_id %}
                     {% if not loop.first %}
@@ -145,12 +145,12 @@
                   <span class="glyphicon glyphicon-filter" aria-hidden="true"></span>
                   {% for geoservice_group in geoservice_groups %}
                     <label class="checkbox-inline">
-                      <input type="checkbox" class="geoservice-checkbox" id="geoservice-checkbox-{{ geoservice_group.group|lower }}" value="{{ geoservice_group.group }}" checked="checked" /> {{ geoservice_group.group }}
+                      <input type="checkbox" class="form-check-input geoservice-checkbox" id="geoservice-checkbox-{{ geoservice_group.group|lower }}" value="{{ geoservice_group.group }}" checked="checked" /> {{ geoservice_group.group }}
                     </label>
                   {% endfor %}
                 </div>
                 <span class="glyphicon glyphicon-filter" aria-hidden="true"></span>
-                <input class="filter-input{% if mobile %} mobile{% endif %}" id="geoservice-filter-input" placeholder="{{ _('Freitextfilter') }}…" type="search" />
+                <input class="form-control filter-input{% if mobile %} mobile{% endif %}" id="geoservice-filter-input" placeholder="{{ _('Freitextfilter') }}…" type="search" />
                 <div class="panel-group" id="geoservice-accordion">
                   {% for geoservice_link in geoservice_links %}
                     <div class="panel panel-info">
@@ -255,7 +255,7 @@
               {% endif %}
               {% if category.category == 'helper' %}
                 <span class="glyphicon glyphicon-filter" aria-hidden="true"></span>
-                <input class="filter-input{% if mobile %} mobile{% endif %}" id="helper-filter-input" placeholder="{{ _('Freitextfilter') }}…" type="search" />
+                <input class="form-control filter-input{% if mobile %} mobile{% endif %}" id="helper-filter-input" placeholder="{{ _('Freitextfilter') }}…" type="search" />
                 {% for helper_link in helper_links %}
                   {% if helper_link.id == helper_link.parent_id %}
                     {% if not loop.first %}
