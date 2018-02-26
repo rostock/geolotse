@@ -146,7 +146,7 @@ The database consists of four main tables:
 *   `tags` – All the tags related to the links meet here
 *   `themes` – All the themes presented in the theme view go here
 
-The other tables are used for storing the relations between the four main tables (e.g. between links and tags).
+The other tables are used for storing the relations between the four main tables (e.g. between links and tags). One of these table, `links_themes`, provides more attributes than just the ID of the respective tables (see below).
 
 ### Links (table `links`)
 
@@ -175,6 +175,17 @@ A few details on the important attributes (i.e. fields):
 Always think of the *relations between links and sublinks*, the *relations between links and tags* and the *relations between links and themes* if you insert, delete or update links, especially by a bot (e.g. a cronjob)!
 
 Both the `reachable` and `reachable_last_check` fields could be kept up-to-date by using a cronjob checking the reachability of the links.
+
+### Links and themes (table `links_themes`)
+
+A few details on the important attributes (i.e. fields):
+
+*   `top` – If this boolean field is `TRUE`, then the link is considered as one of the “top offers” for the related theme in theme view and thus its features are shown on the map once the theme is selected.
+*   `type` – The type of the link and/or its target goes in this text field. The value shall be one of `CitySDK` (for CitySDK conformal interfaces), `GeoRSS` (for GeoRSS feeds) or `WFS` (for web feature services). The information is used for showing features on the map in the theme view
+*   `feature_type` – If `type` is `WFS`, the feature type (i.e. the “layer”) goes in this text field. The information is used for showing features on the map in the theme view
+*   `geometry_type` – If `type` is `WFS`, the geometry type goes in this text field. The value shall be one of `Point`, `LineString`, `Polygon`, `MultiPoint`, `MultiLineString` or `MultiPolygon`.The information is used for showing features on the map in the theme view
+
+Only if `type` and – for `WFS` – `feature_type` and `geometry_type` additionally is/are provided, the features of the link will be shown on the map in theme view!
 
 ### Sublinks (table `sublinks`)
 

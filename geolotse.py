@@ -68,7 +68,9 @@ links_themes = db.Table(
   db.Column('link_id', db.Integer, db.ForeignKey('links.id'), primary_key = True),
   db.Column('theme_id', db.Integer, db.ForeignKey('themes.id'), primary_key = True),
   db.Column('top', db.Boolean, nullable = True),
-  db.Column('type', db.String(255), nullable = True)
+  db.Column('type', db.String(255), nullable = True),
+  db.Column('geometry_type', db.String(255), nullable = True),
+  db.Column('feature_type', db.String(255), nullable = True)
 )
 
 class Links(db.Model):
