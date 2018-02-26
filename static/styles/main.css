@@ -186,12 +186,25 @@ footer a:hover {
   color: #d9d9d9 !important;
 }
 
+.glyphicon-margin-both {
+  margin-left: 6px;
+  margin-right: 3px;
+}
+
 .glyphicon-margin-left {
   margin-left: 10px;
 }
 
 .glyphicon-margin-right {
   margin-right: 3px;
+}
+
+.green {
+  color: #00b748;
+}
+
+.red {
+  color: #d81920;
 }
 
 .tooltip > .tooltip-inner {

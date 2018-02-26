@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: sebastian.gutzeit@rostock.de\n"
-"POT-Creation-Date: 2018-02-23 11:23+0100\n"
+"POT-Creation-Date: 2018-02-26 11:11+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Sebastian Gutzeit <sebastian.gutzeit@rostock.de>\n"
 "Language: en\n"
@@ -19,31 +19,31 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.5.3\n"
 
-#: geolotse.py:327 geolotse.py:391
+#: geolotse.py:328 geolotse.py:392
 msgid "API (Programmierschnittstelle)"
 msgstr "API (Application programming interface)"
 
-#: geolotse.py:329 geolotse.py:393
+#: geolotse.py:330 geolotse.py:394
 msgid "Anwendung"
 msgstr "Application"
 
-#: geolotse.py:331 geolotse.py:395
+#: geolotse.py:332 geolotse.py:396
 msgid "Dokumentation"
 msgstr "Documentation"
 
-#: geolotse.py:333 geolotse.py:397
+#: geolotse.py:334 geolotse.py:398
 msgid "Download"
 msgstr "Download"
 
-#: geolotse.py:335 geolotse.py:399
+#: geolotse.py:336 geolotse.py:400
 msgid "Geodatendienst"
 msgstr "Geo service"
 
-#: geolotse.py:337
+#: geolotse.py:338
 msgid "Thema"
 msgstr "Theme"
 
-#: geolotse.py:351 geolotse.py:408 templates/catalog.html:64
+#: geolotse.py:352 geolotse.py:410 templates/catalog.html:64
 #: templates/catalog.html:87 templates/catalog.html:101
 #: templates/catalog.html:110 templates/catalog.html:127
 #: templates/catalog.html:138 templates/catalog.html:187
@@ -53,7 +53,7 @@ msgstr "Theme"
 msgid "öffentlich zugänglich"
 msgstr "publicly available"
 
-#: geolotse.py:353 geolotse.py:410 templates/catalog.html:64
+#: geolotse.py:354 geolotse.py:412 templates/catalog.html:64
 #: templates/catalog.html:87 templates/catalog.html:101
 #: templates/catalog.html:110 templates/catalog.html:127
 #: templates/catalog.html:138 templates/catalog.html:187
@@ -63,15 +63,19 @@ msgstr "publicly available"
 msgid "nicht öffentlich zugänglich"
 msgstr "not publicly available"
 
-#: geolotse.py:367 templates/index.html:74
+#: geolotse.py:368 templates/index.html:74
 msgid "Katalog"
 msgstr "Catalog"
 
-#: geolotse.py:376 templates/index.html:68
+#: geolotse.py:377 templates/index.html:68
 msgid "Themen"
 msgstr "Themes"
 
-#: geolotse.py:413 templates/catalog.html:64 templates/catalog.html:87
+#: geolotse.py:407 templates/catalog.html:215 templates/catalog.html:244
+msgid "Link"
+msgstr "Link"
+
+#: geolotse.py:415 templates/catalog.html:64 templates/catalog.html:87
 #: templates/catalog.html:101 templates/catalog.html:110
 #: templates/catalog.html:127 templates/catalog.html:138
 #: templates/catalog.html:187 templates/catalog.html:193
@@ -80,7 +84,7 @@ msgstr "Themes"
 msgid "erreichbar"
 msgstr "available"
 
-#: geolotse.py:413 geolotse.py:415 templates/catalog.html:64
+#: geolotse.py:415 geolotse.py:417 templates/catalog.html:64
 #: templates/catalog.html:87 templates/catalog.html:101
 #: templates/catalog.html:110 templates/catalog.html:127
 #: templates/catalog.html:138 templates/catalog.html:187
@@ -90,7 +94,7 @@ msgstr "available"
 msgid "letzte Prüfung"
 msgstr "last check"
 
-#: geolotse.py:415 templates/catalog.html:64 templates/catalog.html:87
+#: geolotse.py:417 templates/catalog.html:64 templates/catalog.html:87
 #: templates/catalog.html:101 templates/catalog.html:110
 #: templates/catalog.html:127 templates/catalog.html:138
 #: templates/catalog.html:187 templates/catalog.html:193
@@ -99,15 +103,15 @@ msgstr "last check"
 msgid "nicht erreichbar"
 msgstr "not available"
 
-#: geolotse.py:430 templates/footer.html:6
+#: geolotse.py:432 templates/footer.html:6
 msgid "Impressum"
 msgstr "Imprint"
 
-#: geolotse.py:439 templates/footer.html:5
+#: geolotse.py:441 templates/footer.html:5
 msgid "Datenschutz"
 msgstr "Privacy policy"
 
-#: geolotse.py:448 templates/footer.html:7
+#: geolotse.py:450 templates/footer.html:7
 msgid "Nutzungsbedingungen"
 msgstr "Terms of use"
 
@@ -175,10 +179,6 @@ msgstr "Description"
 #: templates/catalog.html:209
 msgid "Metadaten"
 msgstr "Metadata"
-
-#: templates/catalog.html:215 templates/catalog.html:244
-msgid "Link"
-msgstr "Link"
 
 #: templates/catalog.html:222
 msgid "Datenquelle"

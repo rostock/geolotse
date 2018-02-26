@@ -22,9 +22,10 @@
   width: 270px;
 }
 
-.offer.active,
-.theme.active {
-  background-color: #008ced;
+.offer.active {
+  background-color: #fff;
+  border: 4px solid #008ced;
+  color: #008ced;
   cursor: default;
 }
 
@@ -44,6 +45,16 @@
 .offer-icon,
 .theme-icon {
   font-size: 100px;
+  margin-top: 25px;
+}
+
+.offer-link {
+  width: 250px;
+  margin-top: 5px;
+  margin-left: 5px;
+}
+
+.offer-link.first {
   margin-top: 25px;
 }
 
@@ -116,6 +127,11 @@
   height: 250px;
   width: 250px;
   border-radius: 50%;
+}
+
+.theme.active {
+  background-color: #008ced;
+  cursor: default;
 }
 
 .theme-icon,

@@ -13,10 +13,6 @@
   font-size: 16px;
 }
 
-.green {
-  color: #00b748;
-}
-
 .header-center-block:not(.mobile) {
   width: 30%;
   margin-left: 35%;
@@ -48,10 +44,6 @@
 
 .mega-glyphicon-text.mobile {
   padding: 5px 0 10px 0;
-}
-
-.red {
-  color: #d81920;
 }
 
 .search-center-block {

@@ -113,41 +113,67 @@ function clearOffers() {
 }
 
 function populateOffers(offersData) {
-  var offers = '';
+  var application = false;
+  var offer = '';
   jQuery.each(offersData, function(index, item) {
     var title = (item.category === 'application') ? item.group : item.title;
     switch(item.category) {
       case 'api':
         categoryIcon = 'dashboard';
+        application = false;
         break;
       case 'application':
         categoryIcon = 'phone';
+        application = true;
         break;
       case 'documentation':
         categoryIcon = 'book';
+        application = false;
         break;
       case 'download':
         categoryIcon = 'download';
+        application = false;
         break;
       case 'geoservice':
         categoryIcon = 'globe';
+        application = false;
         break;
       default:
         categoryIcon = 'list';
+        application = false;
     }
-    offers += '<div>';
-    offers +=   '<div class="offer" id="offer-' + item.id + '" data-offer-id="' + item.id + '" data-offer-title="' + title + '" onclick="offerClick(this)" onmouseenter="offerMouseEnter(this)" onmouseleave="offerMouseLeave(this)">';
-    offers +=     '<span class="offer-title">';
-    offers +=       '<span class="offer-text">' + title + '</span>';
-    offers +=       '<span class="glyphicon glyphicon-' + categoryIcon + ' offer-icon"></span>';
-    offers +=     '</span>';
-    offers +=     '<span class="offer-title-flipped hidden">';
-    offers +=       '<span class="offer-text">' + item.category_label + '</span>';
-    offers +=     '</span>';
-    offers +=   '</div>';
-    offers += '</div>';
+    var reachableIcon = (item.reachable === true) ? 'ok-sign green' : 'remove-sign red';
+    var publicIcon = (item.public === true) ? 'open green' : 'close red';
+    offer += '<div>';
+    offer +=   '<div class="offer" id="offer-' + item.id + '" data-offer-id="' + item.id + '" data-offer-title="' + title + '">';
+    offer +=     '<span class="offer-title">';
+    offer +=       '<span class="offer-text">' + title + '</span>';
+    offer +=       '<span class="glyphicon glyphicon-' + categoryIcon + ' offer-icon"></span>';
+    if (application === true) {
+      for (i = 0; i < item.links.length; i++) {
+        var innerReachableIcon = (item.links[i].reachable === true) ? 'ok-sign green' : 'remove-sign red';
+        var innerPublicIcon = (item.links[i].public === true) ? 'open green' : 'close red';
+        offer +=   '<div class="offer-link' + ((i == 0) ? ' first' : '') + ' hidden">';
+        offer +=     '<a href="' + item.links[i].link + '" target="_blank">';
+        offer +=     '<span class="glyphicon glyphicon-margin-right glyphicon-' + innerReachableIcon + '"' + ((!MOBILE) ? ' aria-hidden="true" data-toggle="tooltip" data-placement="right" title="' + item.links[i].reachable_label + ': ' + item.links[i].reachable_last_check + '"' : '') + '></span><span class="glyphicon glyphicon-margin-right glyphicon-eye-' + innerPublicIcon + '"' + ((!MOBILE) ? ' aria-hidden="true" data-toggle="tooltip" data-placement="right" title="' + item.links[i].public_label + '"' : '') + '></span><span class="glyphicon glyphicon-margin-both glyphicon-link" aria-hidden="true"></span>' + item.links[i].title;
+        offer +=     '</a>';
+        offer +=   '</div>';
+      }
+    } else {
+      offer +=     '<div class="offer-link first hidden">';
+      offer +=       '<a href="' + item.link + '" target="_blank">';
+      offer +=       '<span class="glyphicon glyphicon-margin-right glyphicon-' + reachableIcon + '"' + ((!MOBILE) ? ' aria-hidden="true" data-toggle="tooltip" data-placement="right" title="' + item.reachable_label + ': ' + item.reachable_last_check + '"' : '') + '></span><span class="glyphicon glyphicon-margin-right glyphicon-eye-' + publicIcon + '"' + ((!MOBILE) ? ' aria-hidden="true" data-toggle="tooltip" data-placement="right" title="' + item.public_label + '"' : '') + '></span><span class="glyphicon glyphicon-margin-both glyphicon-link" aria-hidden="true"></span>' + item.link_label;
+      offer +=       '</a>';
+      offer +=     '</div>';
+    }
+    offer +=     '</span>';
+    offer +=     '<span class="offer-title-flipped hidden">';
+    offer +=       '<span class="offer-text">' + item.category_label + '</span>';
+    offer +=     '</span>';
+    offer +=   '</div>';
+    offer += '</div>';
   });
-  $('#offer-slider').html(offers);
+  $('#offer-slider').html(offer);
   
   // initialise slick (for offer slider)
   $('#offer-slider').slick({
@@ -159,7 +185,7 @@ function populateOffers(offersData) {
     slidesToShow: 5,
     responsive: [
       {
-        breakpoint: 1424,
+        breakpoint: 1546,
         settings: {
           dots: false,
           infinite: true,
@@ -170,7 +196,7 @@ function populateOffers(offersData) {
         }
       },
       {
-        breakpoint: 1144,
+        breakpoint: 1246,
         settings: {
           dots: false,
           infinite: true,
@@ -181,7 +207,7 @@ function populateOffers(offersData) {
         }
       },
       {
-        breakpoint: 864,
+        breakpoint: 946,
         settings: {
           dots: false,
           infinite: true,
@@ -192,7 +218,7 @@ function populateOffers(offersData) {
         }
       },
       {
-        breakpoint: 588,
+        breakpoint: 646,
         settings: {
           dots: false,
           infinite: true,
@@ -204,41 +230,6 @@ function populateOffers(offersData) {
       }
     ]
   });
-}
-
-function offerClick(e){
-  if (!$(e).hasClass('active')) {
-    var offerId = $(e).data('offer-id');
-    var offerTitle = $(e).data('offer-title');
-    $('.offer').removeClass('active');
-    $(e).addClass('active');
-    $(e).find('.offer-title-flipped').hide();
-    $(e).find('.offer-title-flipped').addClass('hidden');
-    $(e).find('.offer-title').show();
-    $(e).find('.offer-title').removeClass('hidden');
-    $('.offer-icon').show();
-    $('.offer-icon').removeClass('hidden');
-    $(e).find('.offer-icon').hide();
-    $(e).find('.offer-icon').addClass('hidden');
-  }
-}
-
-function offerMouseEnter(e){
-  if (!$(e).hasClass('active')) {
-    $(e).find('.offer-title').hide();
-    $(e).find('.offer-title').addClass('hidden');
-    $(e).find('.offer-title-flipped').show();
-    $(e).find('.offer-title-flipped').removeClass('hidden');
-  }
-}
-
-function offerMouseLeave(e){
-  if (!$(e).hasClass('active')) {
-    $(e).find('.offer-title-flipped').hide();
-    $(e).find('.offer-title-flipped').addClass('hidden');
-    $(e).find('.offer-title').show();
-    $(e).find('.offer-title').removeClass('hidden');
-  }
 }
 
 function clearResults() {
@@ -290,7 +281,7 @@ $(document).ready(function() {
     slidesToShow: 5,
     responsive: [
       {
-        breakpoint: 1424,
+        breakpoint: 1434,
         settings: {
           dots: false,
           infinite: true,
@@ -301,7 +292,7 @@ $(document).ready(function() {
         }
       },
       {
-        breakpoint: 1144,
+        breakpoint: 1154,
         settings: {
           dots: false,
           infinite: true,
@@ -312,7 +303,7 @@ $(document).ready(function() {
         }
       },
       {
-        breakpoint: 864,
+        breakpoint: 874,
         settings: {
           dots: false,
           infinite: true,
@@ -323,7 +314,7 @@ $(document).ready(function() {
         }
       },
       {
-        breakpoint: 588,
+        breakpoint: 598,
         settings: {
           dots: false,
           infinite: true,
@@ -349,7 +340,7 @@ $(document).ready(function() {
 
 // other jQuery events
 
-$('.theme').click(function() {
+$('#theme-slider').on('click', '.theme', function() {
   if (!$(this).hasClass('active')) {
     var themeId = $(this).data('theme-id');
     var themeTitle = $(this).data('theme-title');
@@ -368,23 +359,65 @@ $('.theme').click(function() {
   }
 });
 
-$('.theme').hover(
-  function() {
-    if (!$(this).hasClass('active')) {
-      $(this).find('.theme-title').hide();
-      $(this).find('.theme-title').addClass('hidden');
-      $(this).find('.theme-title-flipped').show();
-      $(this).find('.theme-title-flipped').removeClass('hidden');
+if (!MOBILE) {
+  $('.theme').hover(
+    function() {
+      if (!$(this).hasClass('active')) {
+        $(this).find('.theme-title').hide();
+        $(this).find('.theme-title').addClass('hidden');
+        $(this).find('.theme-title-flipped').show();
+        $(this).find('.theme-title-flipped').removeClass('hidden');
+      }
+    }, function() {
+      if (!$(this).hasClass('active')) {
+        $(this).find('.theme-title-flipped').hide();
+        $(this).find('.theme-title-flipped').addClass('hidden');
+        $(this).find('.theme-title').show();
+        $(this).find('.theme-title').removeClass('hidden');
+      }
     }
-  }, function() {
-    if (!$(this).hasClass('active')) {
-      $(this).find('.theme-title-flipped').hide();
-      $(this).find('.theme-title-flipped').addClass('hidden');
-      $(this).find('.theme-title').show();
-      $(this).find('.theme-title').removeClass('hidden');
-    }
+  );
+}
+
+$('#offer-slider').on('click', '.offer', function() {
+  if (!$(this).hasClass('active')) {
+    var offerId = $(this).data('offer-id');
+    var offerTitle = $(this).data('offer-title');
+    $('.offer').removeClass('active');
+    $(this).addClass('active');
+    $(this).find('.offer-title-flipped').hide();
+    $(this).find('.offer-title-flipped').addClass('hidden');
+    $(this).find('.offer-title').show();
+    $(this).find('.offer-title').removeClass('hidden');
+    $('.offer-icon').show();
+    $('.offer-icon').removeClass('hidden');
+    $('.offer-link').hide();
+    $('.offer-link').addClass('hidden');
+    $(this).find('.offer-icon').hide();
+    $(this).find('.offer-icon').addClass('hidden');
+    $(this).find('.offer-link').show();
+    $(this).find('.offer-link').removeClass('hidden');
   }
-);
+});
+
+if (!MOBILE) {
+  $('#offer-slider').on('mouseenter', '.offer', function() {
+    if (!$(this).hasClass('active')) {
+      $(this).find('.offer-title').hide();
+      $(this).find('.offer-title').addClass('hidden');
+      $(this).find('.offer-title-flipped').show();
+      $(this).find('.offer-title-flipped').removeClass('hidden');
+    }
+  });
+  $('#offer-slider').on('mouseleave', '.offer', function() {
+    if (!$(this).hasClass('active')) {
+      $(this).find('.offer-title-flipped').hide();
+      $(this).find('.offer-title-flipped').addClass('hidden');
+      $(this).find('.offer-title').show();
+      $(this).find('.offer-title').removeClass('hidden');
+    }
+  });
+}
 
 $('#address-input').keyup(function() {
   var value = $(this).val();
@@ -412,6 +445,12 @@ $('body').on('click', '.results-entry', function(e) {
   var transformation_ur = proj4('EPSG:25833', 'EPSG:4326', [$(e.target).data('x2'), $(e.target).data('y2')]);
   map.fitBounds([[transformation_ll[1], transformation_ll[0]], [transformation_ur[1], transformation_ur[0]]]);
 });
+
+if (!MOBILE) {
+  $('body').tooltip({
+    selector: '[data-toggle="tooltip"]'
+  });
+}
 
 $('#geoportal-link').click(function() {
   var transformation = proj4('EPSG:4326', 'EPSG:25833', [map.getCenter().lng, map.getCenter().lat]);

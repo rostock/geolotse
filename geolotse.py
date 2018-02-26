@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from alembic import op
-from flask import abort, Flask, g, redirect, render_template, request, url_for
+from flask import abort, Flask, g, jsonify, redirect, render_template, request, url_for
 from flask_babel import Babel, format_date, format_datetime, gettext
 from flask_cache import Cache
 from flask_compress import Compress
@@ -8,7 +8,6 @@ from flask_bootstrap import Bootstrap
 from flask_migrate import Migrate
 from flask_sqlalchemy import Model, SQLAlchemy
 from flask_sqlalchemy_cache import CachingQuery
-from json import dumps
 from pysolr import Solr
 from sqlalchemy import func
 from user_agents import parse
@@ -254,8 +253,11 @@ def get_links_groups(category = 'api'):
   return Links.query.with_entities(Links.group).filter(Links.category == category).group_by(Links.group).order_by(Links.group).all()
 
 @cache.memoize(timeout = app.config['DEFAULT_CACHE_TIMEOUT'])
-def get_parent_link_children(parent_id = 1, include_parent_link = True):
-  return Links.query.filter(Links.parent_id == parent_id).order_by(Links.group_order).all() if include_parent_link == True else Links.query.filter(Links.parent_id == parent_id, Links.id != parent_id).order_by(Links.group_order).all()
+def get_parent_link_children(parent_id = 1, search_only = False, include_parent_link = True):
+  if search_only == True:
+    return Links.query.filter(Links.parent_id == parent_id, Links.search == True).order_by(Links.group_order).all() if include_parent_link == True else Links.query.filter(Links.parent_id == parent_id, Links.id != parent_id, Links.search == True).order_by(Links.group_order).all()
+  else:
+    return Links.query.filter(Links.parent_id == parent_id).order_by(Links.group_order).all() if include_parent_link == True else Links.query.filter(Links.parent_id == parent_id, Links.id != parent_id).order_by(Links.group_order).all()
 
 @cache.memoize(timeout = app.config['DEFAULT_CACHE_TIMEOUT'])
 def get_parent_link_children_groups(parent_id = 1, include_parent_link_groups = True):
@@ -354,7 +356,7 @@ def search():
     else:
       item['public_label'] = gettext(u'nicht öffentlich zugänglich')
     data.append(item)
-  return dumps({
+  return jsonify({
     'hits': results.hits,
     'results': data
   })
@@ -405,6 +407,29 @@ def offers():
     item['group_order'] = link.group_order
     item['title'] = link.title
     item['link'] = link.link if link.category != 'geoservice' else url_for('catalog', lang_code = g.current_lang if g.current_lang else app.config['BABEL_DEFAULT_LOCALE']) + '#geoservice-' + str(item['id']),
+    item['link_label'] = gettext(u'Link'),
+    if link.category == 'application':
+      inner_links = get_parent_link_children(link.parent_id, True, True)
+      inner_data = []
+      for inner_link in inner_links:
+        inner_item = { 'id': inner_link.id}
+        inner_item['title'] = inner_link.search_title if inner_link.search_title else inner_link.group
+        inner_item['link'] = inner_link.link
+        inner_item['public'] = inner_link.public
+        if inner_item['public'] == True:
+          inner_item['public_label'] = gettext(u'öffentlich zugänglich')
+        else:
+          inner_item['public_label'] = gettext(u'nicht öffentlich zugänglich')
+        inner_item['reachable'] = inner_link.reachable
+        if inner_item['reachable'] == True:
+          inner_item['reachable_label'] = gettext(u'erreichbar') + u' – ' + gettext(u'letzte Prüfung')
+        else:
+          inner_item['reachable_label'] = gettext(u'nicht erreichbar') + u'–' + gettext(u'letzte Prüfung')
+        inner_item['reachable_last_check'] = datetime_l10n(inner_link.reachable_last_check, 'full')
+        inner_data.append(inner_item)
+      item['links'] = inner_data
+    else:
+      item['links'] = ''
     item['public'] = link.public
     if item['public'] == True:
       item['public_label'] = gettext(u'öffentlich zugänglich')
@@ -412,13 +437,13 @@ def offers():
       item['public_label'] = gettext(u'nicht öffentlich zugänglich')
     item['reachable'] = link.reachable
     if item['reachable'] == True:
-      item['reachable_label'] = gettext(u'erreichbar') + u'–' + gettext(u'letzte Prüfung')
+      item['reachable_label'] = gettext(u'erreichbar') + u' – ' + gettext(u'letzte Prüfung')
     else:
       item['reachable_label'] = gettext(u'nicht erreichbar') + u'–' + gettext(u'letzte Prüfung')
     item['reachable_last_check'] = datetime_l10n(link.reachable_last_check, 'full')
     item['search_title'] = link.search_title
     data.append(item)
-  return dumps({
+  return jsonify({
     'offers': data
   })
 

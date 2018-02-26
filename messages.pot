@@ -1,28 +1,28 @@
-#: geolotse.py:327 geolotse.py:391
+#: geolotse.py:328 geolotse.py:392
 msgid "API (Programmierschnittstelle)"
 msgstr ""
 
-#: geolotse.py:329 geolotse.py:393
+#: geolotse.py:330 geolotse.py:394
 msgid "Anwendung"
 msgstr ""
 
-#: geolotse.py:331 geolotse.py:395
+#: geolotse.py:332 geolotse.py:396
 msgid "Dokumentation"
 msgstr ""
 
-#: geolotse.py:333 geolotse.py:397
+#: geolotse.py:334 geolotse.py:398
 msgid "Download"
 msgstr ""
 
-#: geolotse.py:335 geolotse.py:399
+#: geolotse.py:336 geolotse.py:400
 msgid "Geodatendienst"
 msgstr ""
 
-#: geolotse.py:337
+#: geolotse.py:338
 msgid "Thema"
 msgstr ""
 
-#: geolotse.py:351 geolotse.py:408 templates/catalog.html:64
+#: geolotse.py:352 geolotse.py:410 templates/catalog.html:64
 #: templates/catalog.html:87 templates/catalog.html:101
 #: templates/catalog.html:110 templates/catalog.html:127
 #: templates/catalog.html:138 templates/catalog.html:187
@@ -32,7 +32,7 @@ msgstr ""
 msgid "öffentlich zugänglich"
 msgstr ""
 
-#: geolotse.py:353 geolotse.py:410 templates/catalog.html:64
+#: geolotse.py:354 geolotse.py:412 templates/catalog.html:64
 #: templates/catalog.html:87 templates/catalog.html:101
 #: templates/catalog.html:110 templates/catalog.html:127
 #: templates/catalog.html:138 templates/catalog.html:187
@@ -42,15 +42,19 @@ msgstr ""
 msgid "nicht öffentlich zugänglich"
 msgstr ""
 
-#: geolotse.py:367 templates/index.html:74
+#: geolotse.py:368 templates/index.html:74
 msgid "Katalog"
 msgstr ""
 
-#: geolotse.py:376 templates/index.html:68
+#: geolotse.py:377 templates/index.html:68
 msgid "Themen"
 msgstr ""
 
-#: geolotse.py:413 templates/catalog.html:64 templates/catalog.html:87
+#: geolotse.py:407 templates/catalog.html:215 templates/catalog.html:244
+msgid "Link"
+msgstr ""
+
+#: geolotse.py:415 templates/catalog.html:64 templates/catalog.html:87
 #: templates/catalog.html:101 templates/catalog.html:110
 #: templates/catalog.html:127 templates/catalog.html:138
 #: templates/catalog.html:187 templates/catalog.html:193
@@ -59,7 +63,7 @@ msgstr ""
 msgid "erreichbar"
 msgstr ""
 
-#: geolotse.py:413 geolotse.py:415 templates/catalog.html:64
+#: geolotse.py:415 geolotse.py:417 templates/catalog.html:64
 #: templates/catalog.html:87 templates/catalog.html:101
 #: templates/catalog.html:110 templates/catalog.html:127
 #: templates/catalog.html:138 templates/catalog.html:187
@@ -69,7 +73,7 @@ msgstr ""
 msgid "letzte Prüfung"
 msgstr ""
 
-#: geolotse.py:415 templates/catalog.html:64 templates/catalog.html:87
+#: geolotse.py:417 templates/catalog.html:64 templates/catalog.html:87
 #: templates/catalog.html:101 templates/catalog.html:110
 #: templates/catalog.html:127 templates/catalog.html:138
 #: templates/catalog.html:187 templates/catalog.html:193
@@ -78,15 +82,15 @@ msgstr ""
 msgid "nicht erreichbar"
 msgstr ""
 
-#: geolotse.py:430 templates/footer.html:6
+#: geolotse.py:432 templates/footer.html:6
 msgid "Impressum"
 msgstr ""
 
-#: geolotse.py:439 templates/footer.html:5
+#: geolotse.py:441 templates/footer.html:5
 msgid "Datenschutz"
 msgstr ""
 
-#: geolotse.py:448 templates/footer.html:7
+#: geolotse.py:450 templates/footer.html:7
 msgid "Nutzungsbedingungen"
 msgstr ""
 
@@ -153,10 +157,6 @@ msgstr ""
 
 #: templates/catalog.html:209
 msgid "Metadaten"
-msgstr ""
-
-#: templates/catalog.html:215 templates/catalog.html:244
-msgid "Link"
 msgstr ""
 
 #: templates/catalog.html:222

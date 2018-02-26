@@ -81,7 +81,7 @@
                       </div>
                       <div id="application-{{ application_link.id }}" class="panel-collapse collapse">
                         <div class="panel-body">
-                          {% for child in application_link.id|get_parent_link_children(True) %}
+                          {% for child in application_link.id|get_parent_link_children(False, True) %}
                             <div class="application-child">
                               <a href="{{ child.link }}" target="_blank">
                                 <span class="glyphicon glyphicon-margin-right glyphicon-{% if child.reachable == True %}ok-sign green{% else %}remove-sign red{% endif %}"{% if not mobile %} aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{% if child.reachable == True %}{{ _('erreichbar') }}{% else %}{{ _('nicht erreichbar') }}{% endif %} – {{ _('letzte Prüfung') }}: {{ child.reachable_last_check|datetime_l10n('full') }}"{% endif %}></span><span class="glyphicon glyphicon-margin-right glyphicon-eye-{% if child.public == True %}open green{% else %}close red{% endif %}"{% if not mobile %} aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{% if child.public == True %}{{ _('öffentlich zugänglich') }}{% else %}{{ _('nicht öffentlich zugänglich') }}{% endif %}"{% endif %}></span>{{ child.title }}
@@ -194,7 +194,7 @@
                               </a>
                             {% endif %}
                           {% endif %}
-                          {% for child in geoservice_link.id|get_parent_link_children(True) %}
+                          {% for child in geoservice_link.id|get_parent_link_children(False, True) %}
                             <div class="geoservice-child">
                               <h5 {% if link_children_tags|length == 0 %}class="first"{% endif %}><span class="glyphicon glyphicon-globe" aria-hidden="true"></span> {{ child.group }}</h5>
                               {% if 'inspire' in child.group|lower and child.inspire_annex_theme != None %}
