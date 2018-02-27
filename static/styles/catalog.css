@@ -4,6 +4,11 @@ a > small,
   margin-top: 3px;
 }
 
+span.full-width {
+  display: block;
+  width: 100%;
+}
+
 .application-logo {
   height: 20px;
 }

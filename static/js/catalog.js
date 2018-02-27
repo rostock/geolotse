@@ -92,6 +92,7 @@ $('.geoservice-checkbox').change(function() {
     $('.geoservice-group-tag').each(function() {
       if ($(this).text().search(value) > -1) {
         $(this).show();
+        $(this).removeClass('hidden');
       }
     });
   }
@@ -111,6 +112,7 @@ $('.geoservice-checkbox').change(function() {
     $('.geoservice-group-tag').each(function() {
       if ($(this).text().search(value) > -1) {
         $(this).hide();
+        $(this).addClass('hidden');
       }
     });
   }

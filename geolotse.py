@@ -50,28 +50,6 @@ solr = Solr(app.config['SOLR_URL'])
 
 
 # initialise database
-links_tags = db.Table(
-  'links_tags',
-  db.Column('link_id', db.Integer, db.ForeignKey('links.id'), primary_key = True),
-  db.Column('tag_id', db.Integer, db.ForeignKey('tags.id'), primary_key = True)
-)
-
-links_sublinks = db.Table(
-  'links_sublinks',
-  db.Column('link_id', db.Integer, db.ForeignKey('links.id'), primary_key = True),
-  db.Column('sublink_id', db.Integer, db.ForeignKey('sublinks.id'), primary_key = True)
-)
-
-links_themes = db.Table(
-  'links_themes',
-  db.Column('link_id', db.Integer, db.ForeignKey('links.id'), primary_key = True),
-  db.Column('theme_id', db.Integer, db.ForeignKey('themes.id'), primary_key = True),
-  db.Column('top', db.Boolean, nullable = True),
-  db.Column('type', db.String(255), nullable = True),
-  db.Column('geometry_type', db.String(255), nullable = True),
-  db.Column('feature_type', db.String(255), nullable = True)
-)
-
 class Links(db.Model):
   __tablename__ = 'links'
   
@@ -97,9 +75,11 @@ class Links(db.Model):
   search_title = db.Column(db.String(255), nullable = True)
   
   parent = db.relationship('Links', backref = db.backref('links', lazy = 'dynamic'), remote_side = id)
-  sublinks = db.relationship('Sublinks', secondary = links_sublinks, lazy = 'dynamic', backref = db.backref('sublinks', lazy = 'dynamic'))
-  tags = db.relationship('Tags', secondary = links_tags, lazy = 'dynamic', backref = db.backref('links', lazy = 'dynamic'))
-  themes = db.relationship('Themes', secondary = links_themes, lazy = 'dynamic', backref = db.backref('links', lazy = 'dynamic'))
+  sublinks = db.relationship('Sublinks', secondary = 'links_sublinks', lazy = 'dynamic', backref = db.backref('links', lazy = 'dynamic'))
+  tags = db.relationship('Tags', secondary = 'links_tags', lazy = 'dynamic', backref = db.backref('links', lazy = 'dynamic'))
+  themes = db.relationship('Themes', secondary = 'links_themes', lazy = 'dynamic', backref = db.backref('links', lazy = 'dynamic'))
+  
+  link_theme = db.relationship('Links_Themes', lazy = 'subquery', uselist = False)
   
   def __init__(self, parent_id, category, category_order, group, group_order, title, link, public, reachable, reachable_last_check, description, date, authorship_organisation, authorship_name, authorship_mail, inspire_annex_theme, logo, search, search_title):
     self.parent_id = parent_id
@@ -121,9 +101,6 @@ class Links(db.Model):
     self.logo = logo
     self.search = search
     self.search_title = search_title
-  
-  def __repr__(self):
-    return '<links id {}>'.format(self.id)
 
 class Sublinks(db.Model):
   __tablename__ = 'sublinks'
@@ -143,9 +120,6 @@ class Sublinks(db.Model):
     self.public = public
     self.reachable = reachable
     self.reachable_last_check = reachable_last_check
-  
-  def __repr__(self):
-    return '<sublinks id {}>'.format(self.id)
       
 class Tags(db.Model):
   __tablename__ = 'tags'
@@ -157,9 +131,6 @@ class Tags(db.Model):
   def __init__(self, title, auto):
     self.title = title
     self.auto = auto
-  
-  def __repr__(self):
-    return '<tags id {}>'.format(self.id)
       
 class Themes(db.Model):
   __tablename__ = 'themes'
@@ -173,9 +144,44 @@ class Themes(db.Model):
     self.title = title
     self.descriptive_tags = descriptive_tags
     self.icon = icon
+
+class Links_Sublinks(db.Model):
+  __tablename__ = 'links_sublinks'
   
-  def __repr__(self):
-    return '<themes id {}>'.format(self.id)
+  link_id = db.Column(db.Integer, db.ForeignKey('links.id'), primary_key = True)
+  sublink_id = db.Column(db.Integer, db.ForeignKey('sublinks.id'), primary_key = True)
+  
+  def __init__(self, link_id, sublink_id, top, type, geometry_type, feature_type):
+    self.link_id = link_id
+    self.sublink_id = sublink_id
+
+class Links_Tags(db.Model):
+  __tablename__ = 'links_tags'
+  
+  link_id = db.Column(db.Integer, db.ForeignKey('links.id'), primary_key = True)
+  tag_id = db.Column(db.Integer, db.ForeignKey('tags.id'), primary_key = True)
+  
+  def __init__(self, link_id, tag_id, top, type, geometry_type, feature_type):
+    self.link_id = link_id
+    self.tag_id = tag_id
+
+class Links_Themes(db.Model):
+  __tablename__ = 'links_themes'
+  
+  link_id = db.Column(db.Integer, db.ForeignKey('links.id'), primary_key = True)
+  theme_id = db.Column(db.Integer, db.ForeignKey('themes.id'), primary_key = True)
+  top = db.Column(db.Boolean, nullable = True)
+  type = db.Column(db.String(255), nullable = True)
+  geometry_type = db.Column(db.String(255), nullable = True)
+  feature_type = db.Column(db.String(255), nullable = True)
+  
+  def __init__(self, link_id, theme_id, top, type, geometry_type, feature_type):
+    self.link_id = link_id
+    self.theme_id = theme_id
+    self.top = top
+    self.type = type
+    self.geometry_type = geometry_type
+    self.feature_type = feature_type
 
 
 
@@ -386,63 +392,73 @@ def offers_without_lang_code():
 @app.route('/<lang_code>/offers')
 def offers():
   theme = request.args['theme']
+  if 'top' in request.args:
+    top = True
+  else:
+    top = False
   links = get_theme_links(theme)
   data = []
   for link in links:
-    item = { 'id': link.id}
-    item['category'] = link.category
-    if item['category'] == 'api':
-      item['category_label'] = gettext(u'API (Programmierschnittstelle)')
-    elif item['category'] == 'application':
-      item['category_label'] = gettext(u'Anwendung')
-    elif item['category'] == 'documentation':
-      item['category_label'] = gettext(u'Dokumentation')
-    elif item['category'] == 'download':
-      item['category_label'] = gettext(u'Download')
-    elif item['category'] == 'geoservice':
-      item['category_label'] = gettext(u'Geodatendienst')
-    else:
-      item['category_label'] = link.category
-    item['group'] = link.group
-    item['group_order'] = link.group_order
-    item['title'] = link.title
-    item['link'] = link.link if link.category != 'geoservice' else url_for('catalog', lang_code = g.current_lang if g.current_lang else app.config['BABEL_DEFAULT_LOCALE']) + '#geoservice-' + str(item['id']),
-    item['link_label'] = gettext(u'Link'),
-    if link.category == 'application':
-      inner_links = get_parent_link_children(link.parent_id, True, True)
-      inner_data = []
-      for inner_link in inner_links:
-        inner_item = { 'id': inner_link.id}
-        inner_item['title'] = inner_link.search_title if inner_link.search_title else inner_link.group
-        inner_item['link'] = inner_link.link
-        inner_item['public'] = inner_link.public
-        if inner_item['public'] == True:
-          inner_item['public_label'] = gettext(u'öffentlich zugänglich')
-        else:
-          inner_item['public_label'] = gettext(u'nicht öffentlich zugänglich')
-        inner_item['reachable'] = inner_link.reachable
-        if inner_item['reachable'] == True:
-          inner_item['reachable_label'] = gettext(u'erreichbar') + u' – ' + gettext(u'letzte Prüfung')
-        else:
-          inner_item['reachable_label'] = gettext(u'nicht erreichbar') + u'–' + gettext(u'letzte Prüfung')
-        inner_item['reachable_last_check'] = datetime_l10n(inner_link.reachable_last_check, 'full')
-        inner_data.append(inner_item)
-      item['links'] = inner_data
-    else:
-      item['links'] = ''
-    item['public'] = link.public
-    if item['public'] == True:
-      item['public_label'] = gettext(u'öffentlich zugänglich')
-    else:
-      item['public_label'] = gettext(u'nicht öffentlich zugänglich')
-    item['reachable'] = link.reachable
-    if item['reachable'] == True:
-      item['reachable_label'] = gettext(u'erreichbar') + u' – ' + gettext(u'letzte Prüfung')
-    else:
-      item['reachable_label'] = gettext(u'nicht erreichbar') + u'–' + gettext(u'letzte Prüfung')
-    item['reachable_last_check'] = datetime_l10n(link.reachable_last_check, 'full')
-    item['search_title'] = link.search_title
-    data.append(item)
+    if top == False or (top == True and link.link_theme.top == True):
+      item = { 'id': link.id}
+      item['title'] = link.title
+      item['link'] = link.link if link.category != 'geoservice' else url_for('catalog', lang_code = g.current_lang if g.current_lang else app.config['BABEL_DEFAULT_LOCALE']) + '#geoservice-' + str(item['id'])
+      item['map_link'] = link.link
+      item['category'] = link.category
+      if item['category'] == 'api':
+        item['category_label'] = gettext(u'API (Programmierschnittstelle)')
+      elif item['category'] == 'application':
+        item['category_label'] = gettext(u'Anwendung')
+      elif item['category'] == 'documentation':
+        item['category_label'] = gettext(u'Dokumentation')
+      elif item['category'] == 'download':
+        item['category_label'] = gettext(u'Download')
+      elif item['category'] == 'geoservice':
+        item['category_label'] = gettext(u'Geodatendienst')
+      else:
+        item['category_label'] = link.category
+      item['group'] = link.group
+      item['group_order'] = link.group_order
+      item['link_label'] = gettext(u'Link')
+      if link.category == 'application':
+        inner_links = get_parent_link_children(link.parent_id, True, True)
+        inner_data = []
+        for inner_link in inner_links:
+          inner_item = { 'id': inner_link.id}
+          inner_item['title'] = inner_link.search_title if inner_link.search_title else inner_link.group
+          inner_item['link'] = inner_link.link
+          inner_item['public'] = inner_link.public
+          if inner_item['public'] == True:
+            inner_item['public_label'] = gettext(u'öffentlich zugänglich')
+          else:
+            inner_item['public_label'] = gettext(u'nicht öffentlich zugänglich')
+          inner_item['reachable'] = inner_link.reachable
+          if inner_item['reachable'] == True:
+            inner_item['reachable_label'] = gettext(u'erreichbar') + u' – ' + gettext(u'letzte Prüfung')
+          else:
+            inner_item['reachable_label'] = gettext(u'nicht erreichbar') + u'–' + gettext(u'letzte Prüfung')
+          inner_item['reachable_last_check'] = datetime_l10n(inner_link.reachable_last_check, 'full')
+          inner_data.append(inner_item)
+        item['links'] = inner_data
+      else:
+        item['links'] = ''
+      item['public'] = link.public
+      if item['public'] == True:
+        item['public_label'] = gettext(u'öffentlich zugänglich')
+      else:
+        item['public_label'] = gettext(u'nicht öffentlich zugänglich')
+      item['reachable'] = link.reachable
+      if item['reachable'] == True:
+        item['reachable_label'] = gettext(u'erreichbar') + u' – ' + gettext(u'letzte Prüfung')
+      else:
+        item['reachable_label'] = gettext(u'nicht erreichbar') + u'–' + gettext(u'letzte Prüfung')
+      item['reachable_last_check'] = datetime_l10n(link.reachable_last_check, 'full')
+      item['search_title'] = link.search_title
+      item['top'] = link.link_theme.top
+      item['type'] = link.link_theme.type
+      item['feature_type'] = link.link_theme.feature_type
+      item['geometry_type'] = link.link_theme.geometry_type
+      data.append(item)
   return jsonify({
     'offers': data
   })

@@ -51,33 +51,14 @@ locationControl.addTo(map);
 map.on('locationerror', onLocationError);
 map.on('click', centerMap);
 map.setView([defaultY, defaultX], 17);
-var markers = new L.FeatureGroup();
+/* var markers = new L.FeatureGroup(); */
+var geojsonLayer = new L.GeoJSON();
 
 
 
 // functions
 
-function centerMap(e) {
-  map.setView(e.latlng,5);
-}
-
-/*function markerClick(e) {
-  if (typeof epsg != 'undefined') {
-    target_x = x_orig;
-    target_y = y_orig;
-  } else {
-    var transformation = proj4('EPSG:25833', [defaultX, defaultY]);
-    target_x = transformation[0];
-    target_y = transformation[1];
-  }
-  window.open('https://www.geoport-hro.de/?poi[point]=' + target_x + ',' + target_y + '&poi[scale]=2133', '_blank');
-}*/
-
-function onLocationError(e) {
-  $('#location-error-modal').modal();
-}
-
-function populateMap() {
+function clearMap() {
   $('#map-headline').css('color', 'inherit');
   $('#offers-headline').css('color', 'inherit');
     
@@ -87,9 +68,50 @@ function populateMap() {
   
   FIRST_THEME = false;
   
-  /*markers.clearLayers();
+  /* markers.clearLayers();
   var marker = L.marker([defaultY, defaultX], { title: 'xyz' } ).on('click', markerClick).addTo(markers);
-  map.addLayer(markers);*/
+  map.addLayer(markers); */
+}
+
+function populateMapWithOffersFeatures(offer) {
+  /*$.ajax({
+    url: BASE_URL + '/offers',
+    data: {
+      theme: theme
+    },
+    dataType: 'json',
+    success: function(data) {
+      populateMapFeatures(data.offers);
+    }
+  });*/
+}
+
+function centerMap(e) {
+  map.setView(e.latlng,5);
+}
+
+/* function markerClick(e) {
+  if (typeof epsg != 'undefined') {
+    target_x = x_orig;
+    target_y = y_orig;
+  } else {
+    var transformation = proj4('EPSG:25833', [defaultX, defaultY]);
+    target_x = transformation[0];
+    target_y = transformation[1];
+  }
+  window.open('https://www.geoport-hro.de/?poi[point]=' + target_x + ',' + target_y + '&poi[scale]=2133', '_blank');
+} */
+
+function onLocationError(e) {
+  $('#location-error-modal').modal();
+}
+
+function clearMapFeatures() {
+  geojsonLayer.clearLayers();
+}
+
+function populateMapFeatures(mapFeatures) {
+  geojsonLayer.addData(mapFeatures);
 }
 
 function getOffers(theme) {
@@ -155,14 +177,14 @@ function populateOffers(offersData) {
         var innerPublicIcon = (item.links[i].public === true) ? 'open green' : 'close red';
         offer +=   '<div class="offer-link' + ((i == 0) ? ' first' : '') + ' hidden">';
         offer +=     '<a href="' + item.links[i].link + '" target="_blank">';
-        offer +=     '<span class="glyphicon glyphicon-margin-right glyphicon-' + innerReachableIcon + '"' + ((!MOBILE) ? ' aria-hidden="true" data-toggle="tooltip" data-placement="right" title="' + item.links[i].reachable_label + ': ' + item.links[i].reachable_last_check + '"' : '') + '></span><span class="glyphicon glyphicon-margin-right glyphicon-eye-' + innerPublicIcon + '"' + ((!MOBILE) ? ' aria-hidden="true" data-toggle="tooltip" data-placement="right" title="' + item.links[i].public_label + '"' : '') + '></span><span class="glyphicon glyphicon-margin-both glyphicon-link" aria-hidden="true"></span>' + item.links[i].title;
+        offer +=     '<span class="glyphicon glyphicon-margin-right glyphicon-' + innerReachableIcon + '"' + ((!MOBILE) ? ' aria-hidden="true" data-toggle="tooltip" data-placement="right" title="' + item.links[i].reachable_label + ': ' + item.links[i].reachable_last_check + '"' : '') + '></span><span class="glyphicon glyphicon-margin-right glyphicon-eye-' + innerPublicIcon + '"' + ((!MOBILE) ? ' aria-hidden="true" data-toggle="tooltip" data-placement="right" title="' + item.links[i].public_label + '"' : '') + '></span> ' + item.links[i].title;
         offer +=     '</a>';
         offer +=   '</div>';
       }
     } else {
       offer +=     '<div class="offer-link first hidden">';
       offer +=       '<a href="' + item.link + '" target="_blank">';
-      offer +=       '<span class="glyphicon glyphicon-margin-right glyphicon-' + reachableIcon + '"' + ((!MOBILE) ? ' aria-hidden="true" data-toggle="tooltip" data-placement="right" title="' + item.reachable_label + ': ' + item.reachable_last_check + '"' : '') + '></span><span class="glyphicon glyphicon-margin-right glyphicon-eye-' + publicIcon + '"' + ((!MOBILE) ? ' aria-hidden="true" data-toggle="tooltip" data-placement="right" title="' + item.public_label + '"' : '') + '></span><span class="glyphicon glyphicon-margin-both glyphicon-link" aria-hidden="true"></span>' + item.link_label;
+      offer +=       '<span class="glyphicon glyphicon-margin-right glyphicon-' + reachableIcon + '"' + ((!MOBILE) ? ' aria-hidden="true" data-toggle="tooltip" data-placement="right" title="' + item.reachable_label + ': ' + item.reachable_last_check + '"' : '') + '></span><span class="glyphicon glyphicon-margin-right glyphicon-eye-' + publicIcon + '"' + ((!MOBILE) ? ' aria-hidden="true" data-toggle="tooltip" data-placement="right" title="' + item.public_label + '"' : '') + '></span> ' + item.link_label;
       offer +=       '</a>';
       offer +=     '</div>';
     }
@@ -172,6 +194,9 @@ function populateOffers(offersData) {
     offer +=     '</span>';
     offer +=   '</div>';
     offer += '</div>';
+    if (item.type != null && item.top) {
+      populateMapWithOffersFeatures(item);
+    }
   });
   $('#offer-slider').html(offer);
   
@@ -353,8 +378,9 @@ $('#theme-slider').on('click', '.theme', function() {
     $('#map-headline-theme-title').text(themeTitle + ':');
     $('#offers-headline-theme-title').text(themeTitle + ':');
     clearOffers();
+    clearMapFeatures();
+    clearMap();
     getOffers(themeId);
-    populateMap();
     $('html, body').animate({ scrollTop: ($('#map-headline').offset().top - 55)}, 'slow');
   }
 });
