@@ -151,7 +151,7 @@ class Links_Sublinks(db.Model):
   link_id = db.Column(db.Integer, db.ForeignKey('links.id'), primary_key = True)
   sublink_id = db.Column(db.Integer, db.ForeignKey('sublinks.id'), primary_key = True)
   
-  def __init__(self, link_id, sublink_id, top, type, geometry_type, feature_type):
+  def __init__(self, link_id, sublink_id):
     self.link_id = link_id
     self.sublink_id = sublink_id
 
@@ -161,7 +161,7 @@ class Links_Tags(db.Model):
   link_id = db.Column(db.Integer, db.ForeignKey('links.id'), primary_key = True)
   tag_id = db.Column(db.Integer, db.ForeignKey('tags.id'), primary_key = True)
   
-  def __init__(self, link_id, tag_id, top, type, geometry_type, feature_type):
+  def __init__(self, link_id, tag_id):
     self.link_id = link_id
     self.tag_id = tag_id
 
@@ -172,15 +172,13 @@ class Links_Themes(db.Model):
   theme_id = db.Column(db.Integer, db.ForeignKey('themes.id'), primary_key = True)
   top = db.Column(db.Boolean, nullable = True)
   type = db.Column(db.String(255), nullable = True)
-  geometry_type = db.Column(db.String(255), nullable = True)
   feature_type = db.Column(db.String(255), nullable = True)
   
-  def __init__(self, link_id, theme_id, top, type, geometry_type, feature_type):
+  def __init__(self, link_id, theme_id, top, type, feature_type):
     self.link_id = link_id
     self.theme_id = theme_id
     self.top = top
     self.type = type
-    self.geometry_type = geometry_type
     self.feature_type = feature_type
 
 
@@ -457,7 +455,6 @@ def offers():
       item['top'] = link.link_theme.top
       item['type'] = link.link_theme.type
       item['feature_type'] = link.link_theme.feature_type
-      item['geometry_type'] = link.link_theme.geometry_type
       data.append(item)
   return jsonify({
     'offers': data

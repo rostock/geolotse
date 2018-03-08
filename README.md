@@ -183,9 +183,8 @@ A few details on the important attributes (i.e. fields):
 *   `top` – If this boolean field is `TRUE`, then the link is considered as one of the “top offers” for the related theme in theme view and thus its features are shown on the map once the theme is selected.
 *   `type` – The type of the link and/or its target goes in this text field. The value shall be one of `CitySDK` (for CitySDK conformal interfaces), `GeoRSS` (for GeoRSS feeds) or `WFS` (for Web Feature Services). The information is used for showing features on the map in the theme view
 *   `feature_type` – If `type` is `WFS`, the name of the feature type (i.e. the “layer”) that shall be used goes in this text field. The information is used for showing features on the map in the theme view
-*   `geometry_type` – If `type` is `WFS`, the type of geometry goes in this text field. The value shall be one of `Point`, `LineString`, `Polygon`, `MultiPoint`, `MultiLineString` or `MultiPolygon`. The information is used for showing features on the map in the theme view
 
-Only if `type` and – for `WFS` – `feature_type` and `geometry_type` additionally is/are provided, the features of the link will be shown on the map in theme view!
+Only if `type` and – for `WFS` – `feature_type` additionally is/are provided, the features of the link will be shown on the map in theme view!
 
 ### Sublinks (table `sublinks`)
 

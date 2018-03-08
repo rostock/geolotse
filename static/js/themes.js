@@ -74,16 +74,27 @@ function clearMap() {
 }
 
 function populateMapWithOffersFeatures(offer) {
-  /*$.ajax({
-    url: BASE_URL + '/offers',
-    data: {
-      theme: theme
-    },
-    dataType: 'json',
-    success: function(data) {
-      populateMapFeatures(data.offers);
-    }
-  });*/
+  if (offer.type === 'WFS') {
+    var defaultWfsParameters = {
+      service: 'WFS',
+      version: '2.0.0',
+      request: 'GetFeature',
+      typeName: offer.feature_type,
+      outputFormat: 'GeoJSON',
+      srsName: 'urn:ogc:def:crs:EPSG::4326'
+    };
+    var currentWfsParameters = {
+      bbox: map.getBounds().getSouthWest().lat + ',' + map.getBounds().getSouthWest().lng + ',' + map.getBounds().getNorthEast().lat + ',' + map.getBounds().getNorthEast().lng + ',' + ',urn:ogc:def:crs:EPSG::4326'
+    };
+    var wfsParameters = L.Util.extend(defaultWfsParameters, currentWfsParameters);
+    $.ajax({
+      url: offer.map_link + L.Util.getParamString(wfsParameters),
+      dataType: 'json',
+      success: function(data) {
+        populateMapFeatures(data.features);
+      }
+    });
+  }
 }
 
 function centerMap(e) {
@@ -110,8 +121,9 @@ function clearMapFeatures() {
   geojsonLayer.clearLayers();
 }
 
-function populateMapFeatures(mapFeatures) {
-  geojsonLayer.addData(mapFeatures);
+function populateMapFeatures(features) {
+  geojsonLayer.addData(features);
+  map.addLayer(geojsonLayer);
 }
 
 function getOffers(theme) {
@@ -130,8 +142,8 @@ function getOffers(theme) {
 function clearOffers() {
   if (!FIRST_THEME) {
     $('#offer-slider').slick('unslick');
+    $('#offer-slider').html('');
   }
-  $('#offer-slider').html('');
 }
 
 function populateOffers(offersData) {
