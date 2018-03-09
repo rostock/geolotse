@@ -180,11 +180,11 @@ Both the `reachable` and `reachable_last_check` fields could be kept up-to-date 
 
 A few details on the important attributes (i.e. fields):
 
-*   `top` – If this boolean field is `TRUE`, then the link is considered as one of the “top offers” for the related theme in theme view and thus its features are shown on the map once the theme is selected.
-*   `type` – The type of the link and/or its target goes in this text field. The value shall be one of `CitySDK` (for CitySDK conformal interfaces), `GeoRSS` (for GeoRSS feeds) or `WFS` (for Web Feature Services). The information is used for showing features on the map in the theme view
-*   `feature_type` – If `type` is `WFS`, the name of the feature type (i.e. the “layer”) that shall be used goes in this text field. The information is used for showing features on the map in the theme view
+*   `top` – If this boolean field is `TRUE`, then the link is considered as one of the “top offers” for the related theme in theme view and thus its features or maps are shown on the map once the theme is selected.
+*   `type` – The type of the link and/or its target goes in this text field. The value shall be one of `CitySDK` (for CitySDK conformal interfaces), `WFS` (for Web Feature Services) or `WMS` (for Web Map Services). The information is used for showing features or maps on the map in the theme view
+*   `layer` – If `type` is `WFS` or `WMS`, the name of the feature type (`WFS`) or layer (`WMS`) that shall be used goes in this text field. The information is used for showing features or maps on the map in the theme view
 
-Only if `type` and – for `WFS` – `feature_type` additionally is/are provided, the features of the link will be shown on the map in theme view!
+Only if `type` and – for `WFS` and `WMS` – `layer` additionally is/are provided, the features or maps of the link will be shown on the map in theme view!
 
 ### Sublinks (table `sublinks`)
 

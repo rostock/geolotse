@@ -172,14 +172,14 @@ class Links_Themes(db.Model):
   theme_id = db.Column(db.Integer, db.ForeignKey('themes.id'), primary_key = True)
   top = db.Column(db.Boolean, nullable = True)
   type = db.Column(db.String(255), nullable = True)
-  feature_type = db.Column(db.String(255), nullable = True)
+  layer = db.Column(db.String(255), nullable = True)
   
-  def __init__(self, link_id, theme_id, top, type, feature_type):
+  def __init__(self, link_id, theme_id, top, type, layer):
     self.link_id = link_id
     self.theme_id = theme_id
     self.top = top
     self.type = type
-    self.feature_type = feature_type
+    self.layer = layer
 
 
 
@@ -285,6 +285,10 @@ def get_tag_links(id = 1):
   return Links.query.join(Links.tags).filter(Tags.id == id).order_by(Links.title).all()
 
 @cache.memoize(timeout = app.config['DEFAULT_CACHE_TIMEOUT'])
+def get_theme_link(theme_id = 1, link_id = 1):
+  return Links.query.join(Links.themes).filter(Themes.id == theme_id, Links.id == link_id).first()
+
+@cache.memoize(timeout = app.config['DEFAULT_CACHE_TIMEOUT'])
 def get_theme_links(id = 1):
   links_non_geoservice = Links.query.join(Links.themes).filter(Themes.id == id, Links.category != 'geoservice').order_by(Links.category_order, Links.group, Links.title).all()
   links_geoservice = Links.query.join(Links.themes).filter(Themes.id == id, Links.category == 'geoservice').order_by(Links.title).all()
@@ -381,7 +385,77 @@ def themes_without_lang_code():
 @app.route('/<lang_code>/themes')
 def themes():
   user_agent = parse(request.headers.get('User-Agent'))
-  return render_template('themes.html', mobile = user_agent.is_mobile, subtitle = gettext(u'Themen'), themes = get_themes())
+  return render_template('themes.html', mobile = user_agent.is_mobile, subtitle = gettext(u'Themen'), citysdk_api_key = app.config['CITYSDK_API_KEY'], themes = get_themes())
+
+@app.route('/offer')
+def offer_without_lang_code():
+  return redirect(url_for('offer', lang_code = g.current_lang if g.current_lang else app.config['BABEL_DEFAULT_LOCALE']))
+
+@app.route('/<lang_code>/offer')
+def offer():
+  theme = request.args['theme']
+  id = request.args['id']
+  link = get_theme_link(theme, id)
+  data = []
+  item = { 'id': link.id}
+  item['title'] = link.title
+  item['link'] = link.link if link.category != 'geoservice' else url_for('catalog', lang_code = g.current_lang if g.current_lang else app.config['BABEL_DEFAULT_LOCALE']) + '#geoservice-' + str(item['id'])
+  item['map_link'] = link.link
+  item['category'] = link.category
+  if item['category'] == 'api':
+    item['category_label'] = gettext(u'API (Programmierschnittstelle)')
+  elif item['category'] == 'application':
+    item['category_label'] = gettext(u'Anwendung')
+  elif item['category'] == 'documentation':
+    item['category_label'] = gettext(u'Dokumentation')
+  elif item['category'] == 'download':
+    item['category_label'] = gettext(u'Download')
+  elif item['category'] == 'geoservice':
+    item['category_label'] = gettext(u'Geodatendienst')
+  else:
+    item['category_label'] = link.category
+  item['group'] = link.group
+  item['group_order'] = link.group_order
+  item['link_label'] = gettext(u'Link')
+  if link.category == 'application':
+    inner_links = get_parent_link_children(link.parent_id, True, True)
+    inner_data = []
+    for inner_link in inner_links:
+      inner_item = { 'id': inner_link.id}
+      inner_item['title'] = inner_link.search_title if inner_link.search_title else inner_link.group
+      inner_item['link'] = inner_link.link
+      inner_item['public'] = inner_link.public
+      if inner_item['public'] == True:
+        inner_item['public_label'] = gettext(u'öffentlich zugänglich')
+      else:
+        inner_item['public_label'] = gettext(u'nicht öffentlich zugänglich')
+      inner_item['reachable'] = inner_link.reachable
+      if inner_item['reachable'] == True:
+        inner_item['reachable_label'] = gettext(u'erreichbar') + u' – ' + gettext(u'letzte Prüfung')
+      else:
+        inner_item['reachable_label'] = gettext(u'nicht erreichbar') + u'–' + gettext(u'letzte Prüfung')
+      inner_item['reachable_last_check'] = datetime_l10n(inner_link.reachable_last_check, 'full')
+      inner_data.append(inner_item)
+    item['links'] = inner_data
+  else:
+    item['links'] = ''
+  item['public'] = link.public
+  if item['public'] == True:
+    item['public_label'] = gettext(u'öffentlich zugänglich')
+  else:
+    item['public_label'] = gettext(u'nicht öffentlich zugänglich')
+  item['reachable'] = link.reachable
+  if item['reachable'] == True:
+    item['reachable_label'] = gettext(u'erreichbar') + u' – ' + gettext(u'letzte Prüfung')
+  else:
+    item['reachable_label'] = gettext(u'nicht erreichbar') + u'–' + gettext(u'letzte Prüfung')
+  item['reachable_last_check'] = datetime_l10n(link.reachable_last_check, 'full')
+  item['search_title'] = link.search_title
+  item['top'] = link.link_theme.top
+  item['type'] = link.link_theme.type
+  item['layer'] = link.link_theme.layer
+  data.append(item)
+  return jsonify(data)
 
 @app.route('/offers')
 def offers_without_lang_code():
@@ -454,7 +528,7 @@ def offers():
       item['search_title'] = link.search_title
       item['top'] = link.link_theme.top
       item['type'] = link.link_theme.type
-      item['feature_type'] = link.link_theme.feature_type
+      item['layer'] = link.link_theme.layer
       data.append(item)
   return jsonify({
     'offers': data

@@ -40,7 +40,7 @@
 
 {% block content %}
   {% include 'navbar.html' %}
-  <div class="container-fluid" id="defining-container" data-mobile="{{ mobile|lower }}">
+  <div class="container-fluid" id="defining-container" data-mobile="{{ mobile|lower }}" data-citysdk-api-key="{{ citysdk_api_key }}">
     <div class="row-fluid" id="theme-container">
       <{% if mobile %}h4{% else %}h3{% endif %} class="headline">{{ _('Welches Thema interessiert Sie?') }}</{% if mobile %}h4{% else %}h3{% endif %}>
       <div class="slider" id="theme-slider">
