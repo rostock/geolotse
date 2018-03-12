@@ -9,6 +9,8 @@ if ($('#defining-container').data('mobile')) {
 }
 CURRENT_THEME = 0;
 FIRST_THEME = true;
+TOP_MODE = true;
+SHOW_MAP_MODALS = true;
 MAP_BBOX_LL_LAT = -90;
 MAP_BBOX_LL_LON = -180;
 MAP_BBOX_UR_LAT = 90;
@@ -19,11 +21,20 @@ FEATURES_BBOX_UR_LAT = 90;
 FEATURES_BBOX_UR_LON = 180;
 MAP_OFFERS = [];
 CITYSDK_API_KEY = $('#defining-container').data('citysdk-api-key')
+CITYSDK_API_TARGET_LINK = $('#defining-container').data('citysdk-api-target-link')
 
 // initialise Leaflet
+// ATTENTION
+// define your local projection
 proj4.defs('EPSG:25833', '+proj=utm +zone=33 +ellps=WGS84 +towgs84=0,0,0,0,0,0,1 +units=m +no_defs');
+// END ATTENTION
+// ATTENTION
+// define your default location for initial map centering
 var defaultLat = 54.0929626081872;
 var defaultLon = 12.0980385366347;
+// END ATTENTION
+// ATTENTION
+// define both the base map and the base aerial image layer for the map
 var mapLayer = L.tileLayer('https://www.orka-mv.de/geodienste/orkamv/tiles/1.0.0/orkamv/GLOBAL_WEBMERCATOR/{z}/{x}/{y}.png', {
   minZoom: 17,
   attribution: '© Hanse- und Universitätsstadt Rostock (<a rel="license" target="_blank" href="http://creativecommons.org/licenses/by/4.0/deed.de">CC BY 4.0</a>)',
@@ -34,6 +45,7 @@ var aerialLayer = L.tileLayer('https://geo.sv.rostock.de/geodienste/luftbild_mv-
   attribution: '© <a target="_blank" href="https://www.geoportal-mv.de/portal/Geowebdienste">GeoBasis-DE/M-V</a>',
   id: 'aerialLayer'
 });
+// END ATTENTION
 var mapLayerTitle = $('#map-layer-title').data('translation');
 var aerialLayerTitle = $('#aerial-layer-title').data('translation');
 var locationControlTitle = $('#location-control-title').data('translation');
@@ -99,7 +111,11 @@ function centerMap(e) {
 }
 
 function clearMap() {
-  $('#map-headline').css('color', 'inherit');
+  $('.map-headline').css('color', 'inherit');
+  $('.map-headline').hide();
+  $('.map-headline').addClass('hidden');
+  $('#map-headline-top').show();
+  $('#map-headline-top').removeClass('hidden');
   $('#offers-headline').css('color', 'inherit');
     
   if (MOBILE && FIRST_THEME) {
@@ -111,10 +127,6 @@ function clearMap() {
   /* markers.clearLayers();
   var marker = L.marker([defaultLat, defaultLon], { title: 'xyz' } ).on('click', markerClick).addTo(markers);
   map.addLayer(markers); */
-}
-
-function locationError(e) {
-  $('#location-error-modal').modal();
 }
 
 function moveEnd(e) {
@@ -129,7 +141,14 @@ function moveEnd(e) {
     jQuery.each(MAP_OFFERS, function(index, item) {
       getOfferFeatures(item);
     });
+    var xxxx=0;
+    map.eachLayer(function(){ xxxx += 1; });
+    alert(xxxx);
   }
+}
+
+function locationError(e) {
+  $('#location-error-modal').modal();
 }
 
 /* function markerClick(e) {
@@ -162,20 +181,9 @@ function populateMapFeatures(features, type) {
         'type': 'Feature',
         'properties': {
           'service_request_id': item.service_request_id,
-          'status_notes': item.status_notes,
-          'status': item.status,
-          'service_code': item.service_code,
           'service_name': item.service_name,
           'description': item.description,
-          'agency_responsible': item.agency_responsible,
-          'service_notice': item.service_notice,
-          'requested_datetime': item.requested_datetime,
-          'updated_datetime': item.updated_datetime,
-          'expected_datetime': item.expected_datetime,
-          'address': item.address,
-          'adress_id': item.adress_id,
-          'media_url': item.media_url,
-          'zipcode': item.zipcode
+          'link': CITYSDK_API_TARGET_LINK + item.service_request_id
         },
         'geometry': {
           'type': 'Point',
@@ -259,7 +267,11 @@ function populateOffers(offersData) {
     var reachableIcon = (item.reachable === true) ? 'ok-sign green' : 'remove-sign red';
     var publicIcon = (item.public === true) ? 'open green' : 'close red';
     offer += '<div>';
-    offer +=   '<div class="offer" id="offer-' + item.id + '" data-offer-id="' + item.id + '" data-offer-title="' + title + '" data-offer-type="' + item.type + '">';
+    if (item.type) {
+      offer +=   '<div class="offer" id="offer-' + item.id + '" data-offer-id="' + item.id + '" data-offer-title="' + title + '" data-offer-type="' + item.type + '">';
+    } else {
+      offer +=   '<div class="offer" id="offer-' + item.id + '" data-offer-id="' + item.id + '" data-offer-title="' + title + '">';
+    }
     offer +=     '<span class="offer-title">';
     offer +=       '<span class="offer-text">' + title + '</span>';
     offer +=       '<span class="glyphicon glyphicon-' + categoryIcon + ' offer-icon"></span>';
@@ -353,16 +365,29 @@ function populateOffers(offersData) {
 function getOfferFeatures(offer) {
   if (offer.type === 'CitySDK') {
     $.ajax({
+      // ATTENTION
+      // cutting the last part of the URL path might not be necessary for the CitySDK endpoint you are requesting
       url: offer.map_link.match(/(http.*)\/.*$/)[1] + '/requests.json',
+      // END ATTENTION
       data: {
         api_key: CITYSDK_API_KEY,
+        // ATTENTION
+        // latitude and longitude are for sure not flipped around in the CitySDK endpoint you are requesting ;-)
         lat: map.getCenter().lng,
         long: map.getCenter().lat,
+        // END ATTENTION
         radius: map.getCenter().distanceTo(L.latLng(FEATURES_BBOX_UR_LAT, FEATURES_BBOX_UR_LON))
       },
       dataType: 'json',
       success: function(data) {
         populateMapFeatures(data, offer.type);
+      },
+      error: function() {
+        if (offer.public === false) {
+          mapOffer403Error(offer.title);
+        } else {
+          mapOfferGeneralError(offer.title);
+        }
       }
     });
   } else if (offer.type === 'WFS') {
@@ -371,7 +396,10 @@ function getOfferFeatures(offer) {
       version: '2.0.0',
       request: 'GetFeature',
       typeName: offer.layer,
+      // ATTENTION
+      // name for GeoJSON format may differ in the WFS you are requesting
       outputFormat: 'GeoJSON',
+      // END ATTENTION
       srsName: 'urn:ogc:def:crs:EPSG::4326'
     };
     var currentWfsParameters = {
@@ -385,8 +413,11 @@ function getOfferFeatures(offer) {
         populateMapFeatures(data.features, offer.type);
       },
       error: function() {
-        // TODO: siehe geolotse.md
-        alert('Features/Layer of Angebot could not in map: Wohl 403');
+        if (offer.public === false) {
+          mapOffer403Error(offer.title);
+        } else {
+          mapOfferGeneralError(offer.title);
+        }
       }
     });
   } else if (offer.type === 'WMS') {
@@ -399,6 +430,28 @@ function getOfferFeatures(offer) {
     });
     wmsLayerGroup.addLayer(wmsLayer);
     map.addLayer(wmsLayerGroup);
+  }
+}
+
+function mapOffer403Error(title) {
+  if (TOP_MODE && SHOW_MAP_MODALS) {
+    $('#map-top-403-error-modal').modal();
+    TOP_MODE = false;
+    SHOW_MAP_MODALS = false;
+  } else if (SHOW_MAP_MODALS) {
+    $('#map-offer-403-error-modal').modal();
+    SHOW_MAP_MODALS = false;
+  }
+}
+
+function mapOfferGeneralError(title) {
+  if (TOP_MODE && SHOW_MAP_MODALS) {
+    $('#map-top-general-error-modal').modal();
+    TOP_MODE = false;
+    SHOW_MAP_MODALS = false;
+  } else if (SHOW_MAP_MODALS) {
+    $('#map-offer-general-error-modal').modal();
+    SHOW_MAP_MODALS = false;
   }
 }
 
@@ -419,15 +472,25 @@ function populateResults(resultsData) {
 function search(searchtext) {
   clearResults();
   $.ajax({
+    // ATTENTION
+    // define the URL of the address search API you are requesting and the parameters used
     url: 'https://geo.sv.rostock.de/suche/server.php',
     data: {
       searchtext: searchtext
     },
+    // END ATTENTION
     dataType: 'json',
     success: function(data) {
       populateResults(data.array);
+    },
+    error: function() {
+      searchError();
     }
   });
+}
+
+function searchError(e) {
+  $('#search-error-modal').modal();
 }
 
 
@@ -520,8 +583,13 @@ $('#theme-slider').on('click', '.theme', function() {
     $(this).find('.theme-title-flipped').addClass('hidden');
     $(this).find('.theme-title').show();
     $(this).find('.theme-title').removeClass('hidden');
-    $('#map-headline-theme-title').text(themeTitle + ':');
-    $('#offers-headline-theme-title').text(themeTitle + ':');
+    $('.text-theme-title').text(themeTitle);
+    $('.map-headline').hide();
+    $('.map-headline').addClass('hidden');
+    $('#map-headline-top').show();
+    $('#map-headline-top').removeClass('hidden');
+    TOP_MODE = true;
+    SHOW_MAP_MODALS = true;
     clearOffers();
     clearMap();
     clearMapFeatures();
@@ -529,7 +597,7 @@ $('#theme-slider').on('click', '.theme', function() {
     MAP_OFFERS = [];
     getOffers(CURRENT_THEME);
     map.on('moveend', moveEnd);
-    $('html, body').animate({ scrollTop: ($('#map-headline').offset().top - 55)}, 'slow');
+    $('html, body').animate({ scrollTop: ($('#map-headline-top').offset().top - 55)}, 'slow');
   }
 });
 
@@ -571,12 +639,22 @@ $('#offer-slider').on('click', '.offer', function() {
     $(this).find('.offer-icon').addClass('hidden');
     $(this).find('.offer-link').show();
     $(this).find('.offer-link').removeClass('hidden');
+    $('.text-offer-title').text(offerTitle);
+    $('.map-headline').hide();
+    $('.map-headline').addClass('hidden');
+    TOP_MODE = false;
+    SHOW_MAP_MODALS = true;
     clearMapFeatures();
     clearMapLayers();
     MAP_OFFERS = [];
-    if ($(this).data('offer-type') === 'CitySDK' || $(this).data('offer-type') === 'WFS' || $(this).data('offer-type') === 'WMS') {
+    if ($(this).data('offer-type')) {
+      $('#map-headline-offer').show();
+      $('#map-headline-offer').removeClass('hidden');
       getOffer(CURRENT_THEME, offerId);
       map.on('moveend', moveEnd);
+    } else {
+      $('#map-headline-empty').show();
+      $('#map-headline-empty').removeClass('hidden');
     }
   }
 });

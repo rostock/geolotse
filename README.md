@@ -36,7 +36,7 @@ A landing page for organisations wanting to connect and integrate their various 
         
 1.  Edit the secret settings file 
 1.  Edit the general settings file `/usr/local/geolotse/geolotse/settings.py`
-1.  Edit the [*Leaflet*](http://leafletjs.com) related (i.e. theme view map and map search related) settings in both the *globals* and *functions* sections of file `/usr/local/geolotse/geolotse/static/js/themes.js`
+1.  Edit all code sections marked with `ATTENTION` in file `/usr/local/geolotse/geolotse/static/js/themes.js`
 1.  Edit the theme view map address search related settings in all sections of the file `/usr/local/geolotse/geolotse/static/js/themes.js`
 
 ## Initialisation

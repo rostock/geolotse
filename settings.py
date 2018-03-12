@@ -30,6 +30,9 @@ CACHE_MEMCACHED_SERVERS = ['127.0.0.1:11211']
 DEFAULT_CACHE_TIMEOUT = 43200
 VOLATILE_DATA_CACHE_TIMEOUT = 840
 
+# CitySDK api
+CITYSDK_API_TARGET_LINK = 'https://www.klarschiff-hro.de/map?request='
+
 # Solr
 SOLR_URL = 'http://127.0.0.1:8983/solr/geolotse'
 

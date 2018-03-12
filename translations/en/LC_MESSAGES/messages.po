@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: sebastian.gutzeit@rostock.de\n"
-"POT-Creation-Date: 2018-02-26 11:11+0100\n"
+"POT-Creation-Date: 2018-03-12 16:07+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Sebastian Gutzeit <sebastian.gutzeit@rostock.de>\n"
 "Language: en\n"
@@ -19,63 +19,65 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.5.3\n"
 
-#: geolotse.py:328 geolotse.py:392
+#: geolotse.py:342 geolotse.py:410 geolotse.py:488
 msgid "API (Programmierschnittstelle)"
 msgstr "API (Application programming interface)"
 
-#: geolotse.py:330 geolotse.py:394
+#: geolotse.py:344 geolotse.py:412 geolotse.py:490
 msgid "Anwendung"
 msgstr "Application"
 
-#: geolotse.py:332 geolotse.py:396
+#: geolotse.py:346 geolotse.py:414 geolotse.py:492
 msgid "Dokumentation"
 msgstr "Documentation"
 
-#: geolotse.py:334 geolotse.py:398
+#: geolotse.py:348 geolotse.py:416 geolotse.py:494
 msgid "Download"
 msgstr "Download"
 
-#: geolotse.py:336 geolotse.py:400
+#: geolotse.py:350 geolotse.py:418 geolotse.py:496
 msgid "Geodatendienst"
 msgstr "Geo service"
 
-#: geolotse.py:338
+#: geolotse.py:352
 msgid "Thema"
 msgstr "Theme"
 
-#: geolotse.py:352 geolotse.py:410 templates/catalog.html:64
-#: templates/catalog.html:87 templates/catalog.html:101
-#: templates/catalog.html:110 templates/catalog.html:127
-#: templates/catalog.html:138 templates/catalog.html:187
-#: templates/catalog.html:193 templates/catalog.html:211
-#: templates/catalog.html:217 templates/catalog.html:246
-#: templates/catalog.html:268
+#: geolotse.py:366 geolotse.py:433 geolotse.py:448 geolotse.py:511
+#: geolotse.py:526 templates/catalog.html:64 templates/catalog.html:87
+#: templates/catalog.html:101 templates/catalog.html:110
+#: templates/catalog.html:127 templates/catalog.html:138
+#: templates/catalog.html:187 templates/catalog.html:193
+#: templates/catalog.html:211 templates/catalog.html:217
+#: templates/catalog.html:246 templates/catalog.html:268
 msgid "öffentlich zugänglich"
 msgstr "publicly available"
 
-#: geolotse.py:354 geolotse.py:412 templates/catalog.html:64
-#: templates/catalog.html:87 templates/catalog.html:101
-#: templates/catalog.html:110 templates/catalog.html:127
-#: templates/catalog.html:138 templates/catalog.html:187
-#: templates/catalog.html:193 templates/catalog.html:211
-#: templates/catalog.html:217 templates/catalog.html:246
-#: templates/catalog.html:268
+#: geolotse.py:368 geolotse.py:435 geolotse.py:450 geolotse.py:513
+#: geolotse.py:528 templates/catalog.html:64 templates/catalog.html:87
+#: templates/catalog.html:101 templates/catalog.html:110
+#: templates/catalog.html:127 templates/catalog.html:138
+#: templates/catalog.html:187 templates/catalog.html:193
+#: templates/catalog.html:211 templates/catalog.html:217
+#: templates/catalog.html:246 templates/catalog.html:268
 msgid "nicht öffentlich zugänglich"
 msgstr "not publicly available"
 
-#: geolotse.py:368 templates/index.html:74
+#: geolotse.py:382 templates/index.html:74
 msgid "Katalog"
 msgstr "Catalog"
 
-#: geolotse.py:377 templates/index.html:68
+#: geolotse.py:391 templates/index.html:68
 msgid "Themen"
 msgstr "Themes"
 
-#: geolotse.py:407 templates/catalog.html:215 templates/catalog.html:244
+#: geolotse.py:423 geolotse.py:501 templates/catalog.html:215
+#: templates/catalog.html:244
 msgid "Link"
 msgstr "Link"
 
-#: geolotse.py:415 templates/catalog.html:64 templates/catalog.html:87
+#: geolotse.py:438 geolotse.py:453 geolotse.py:516 geolotse.py:531
+#: templates/catalog.html:64 templates/catalog.html:87
 #: templates/catalog.html:101 templates/catalog.html:110
 #: templates/catalog.html:127 templates/catalog.html:138
 #: templates/catalog.html:187 templates/catalog.html:193
@@ -84,17 +86,19 @@ msgstr "Link"
 msgid "erreichbar"
 msgstr "available"
 
-#: geolotse.py:415 geolotse.py:417 templates/catalog.html:64
-#: templates/catalog.html:87 templates/catalog.html:101
-#: templates/catalog.html:110 templates/catalog.html:127
-#: templates/catalog.html:138 templates/catalog.html:187
-#: templates/catalog.html:193 templates/catalog.html:211
-#: templates/catalog.html:217 templates/catalog.html:246
-#: templates/catalog.html:268
+#: geolotse.py:438 geolotse.py:440 geolotse.py:453 geolotse.py:455
+#: geolotse.py:516 geolotse.py:518 geolotse.py:531 geolotse.py:533
+#: templates/catalog.html:64 templates/catalog.html:87
+#: templates/catalog.html:101 templates/catalog.html:110
+#: templates/catalog.html:127 templates/catalog.html:138
+#: templates/catalog.html:187 templates/catalog.html:193
+#: templates/catalog.html:211 templates/catalog.html:217
+#: templates/catalog.html:246 templates/catalog.html:268
 msgid "letzte Prüfung"
 msgstr "last check"
 
-#: geolotse.py:417 templates/catalog.html:64 templates/catalog.html:87
+#: geolotse.py:440 geolotse.py:455 geolotse.py:518 geolotse.py:533
+#: templates/catalog.html:64 templates/catalog.html:87
 #: templates/catalog.html:101 templates/catalog.html:110
 #: templates/catalog.html:127 templates/catalog.html:138
 #: templates/catalog.html:187 templates/catalog.html:193
@@ -103,15 +107,15 @@ msgstr "last check"
 msgid "nicht erreichbar"
 msgstr "not available"
 
-#: geolotse.py:432 templates/footer.html:6
+#: geolotse.py:551 templates/footer.html:6
 msgid "Impressum"
 msgstr "Imprint"
 
-#: geolotse.py:441 templates/footer.html:5
+#: geolotse.py:560 templates/footer.html:5
 msgid "Datenschutz"
 msgstr "Privacy policy"
 
-#: geolotse.py:450 templates/footer.html:7
+#: geolotse.py:569 templates/footer.html:7
 msgid "Nutzungsbedingungen"
 msgstr "Terms of use"
 
@@ -574,15 +578,39 @@ msgstr "(OFL)."
 msgid "Welches Thema interessiert Sie?"
 msgstr "Choose your topic of interest!"
 
-#: templates/themes.html:77 templates/themes.html:88
-msgid "Diese Angebote existieren zum Thema"
-msgstr "See what information we offer relating to"
+#: templates/themes.html:77
+msgid "Die Karte zeigt Objekte aus den Top-Angeboten zum Thema "
+msgstr "The map shows objects of the top offers relating to"
+
+#: templates/themes.html:77
+msgid ""
+"Wählen Sie unten ein konkretes Angebot aus, um nur dessen Objekte auf der"
+" Karte anzuzeigen."
+msgstr "Choose an offer below to exclusively show its objects on the map."
+
+#: templates/themes.html:78
+msgid "Die Karte zeigt Objekte aus dem Angebot "
+msgstr "The map shows objects of the offer"
+
+#: templates/themes.html:78 templates/themes.html:79
+msgid " zum Thema "
+msgstr " relating to "
 
 #: templates/themes.html:79
+msgid "Es werden keine Objekte zum Angebot "
+msgstr "No objects of the offer"
+
+#: templates/themes.html:79
+msgid ""
+"auf der Karte angezeigt, da es sich hierbei nicht um ein für die "
+"Kartenanzeige geeignetes Angebot handelt."
+msgstr "are shown on the map since the offer is not suitable for that functionality."
+
+#: templates/themes.html:81
 msgid "Adressensuche"
 msgstr "Address search"
 
-#: templates/themes.html:84
+#: templates/themes.html:86
 msgid ""
 "Kartensituation in Geoport.HRO öffnen, dem Portal für Geodaten der Hanse-"
 " und Universitätsstadt Rostock und Umgebung"
@@ -590,26 +618,80 @@ msgstr ""
 "Open this map situation in Geoport.HRO, the geodata portal of the "
 "municipality of Rostock"
 
-#: templates/themes.html:91
+#: templates/themes.html:90
+msgid "Diese Angebote existieren zum Thema"
+msgstr "See what information we offer relating to"
+
+#: templates/themes.html:93
 msgid "Karte"
 msgstr "Map"
 
-#: templates/themes.html:92
+#: templates/themes.html:94
 msgid "Luftbild"
 msgstr "Aerial image"
 
-#: templates/themes.html:93
+#: templates/themes.html:95
 msgid "Standortbestimmung"
 msgstr "Geolocation"
 
-#: templates/themes.html:98
+#: templates/themes.html:100
 msgid "Standortbestimmung fehlgeschlagen"
 msgstr "Geolocation error"
 
-#: templates/themes.html:101
+#: templates/themes.html:103
 msgid "Karte zentriert auf Standardposition"
 msgstr "Map center is set to default location"
 
-#: templates/themes.html:104
+#: templates/themes.html:106 templates/themes.html:121
+#: templates/themes.html:136 templates/themes.html:151
+#: templates/themes.html:166 templates/themes.html:181
 msgid "schließen"
 msgstr "close"
+
+#: templates/themes.html:115 templates/themes.html:130
+msgid "Kartenfehler zu Top-Angeboten aus"
+msgstr "Map error concerning top offers relating to"
+
+#: templates/themes.html:118
+msgid "Sie dürfen auf mindestens eines der Top-Angebote des Themas"
+msgstr "You must not access at least one of the top offers relating to"
+
+#: templates/themes.html:118
+msgid ""
+" leider nicht zugreifen. Daher werden keine Objekte dieses/dieser "
+"Angebots/Angebote auf der Karte angezeigt."
+msgstr ". Thus, the map will not show any objects of this/these offer(s)."
+
+#: templates/themes.html:133
+msgid "Es können keine Objekte mindestens eines der Top-Angebote des Themas"
+msgstr "No objects of at least one of the top offers relating to"
+
+#: templates/themes.html:133 templates/themes.html:163
+msgid "auf der Karte angezeigt werden."
+msgstr "can be shown on the map."
+
+#: templates/themes.html:145 templates/themes.html:160
+msgid "Kartenfehler zu"
+msgstr "Map error relating to"
+
+#: templates/themes.html:148
+msgid "Sie dürfen auf dieses Angebot des Themas"
+msgstr "You must not access this offer relating to"
+
+#: templates/themes.html:148
+msgid ""
+" leider nicht zugreifen. Daher werden keine Objekte dieses Angebots auf "
+"der Karte angezeigt."
+msgstr ". Thus, the map will not show any objects of this offer."
+
+#: templates/themes.html:163
+msgid "Es können keine Objekte dieses Angebots des Themas"
+msgstr "No objects of this offer relating to"
+
+#: templates/themes.html:175
+msgid "Fehler bei Adressensuche"
+msgstr "Address search error"
+
+#: templates/themes.html:178
+msgid "Adressensuche zur Zeit nicht nutzbar"
+msgstr "Address search currently not available"

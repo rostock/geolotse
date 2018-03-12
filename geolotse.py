@@ -318,7 +318,10 @@ def index():
 
 @app.route('/search')
 def search_without_lang_code():
-  return redirect(url_for('search', lang_code = g.current_lang if g.current_lang else app.config['BABEL_DEFAULT_LOCALE']))
+  if 'start' in request.args and 'rows' in request.args:
+    return redirect(url_for('search', query = request.args['query'], start = request.args['start'], rows = request.args['rows'], lang_code = g.current_lang if g.current_lang else app.config['BABEL_DEFAULT_LOCALE']))
+  else:
+    return redirect(url_for('search', query = request.args['query'], lang_code = g.current_lang if g.current_lang else app.config['BABEL_DEFAULT_LOCALE']))
 
 @app.route('/<lang_code>/search')
 def search():
@@ -385,11 +388,11 @@ def themes_without_lang_code():
 @app.route('/<lang_code>/themes')
 def themes():
   user_agent = parse(request.headers.get('User-Agent'))
-  return render_template('themes.html', mobile = user_agent.is_mobile, subtitle = gettext(u'Themen'), citysdk_api_key = app.config['CITYSDK_API_KEY'], themes = get_themes())
+  return render_template('themes.html', mobile = user_agent.is_mobile, subtitle = gettext(u'Themen'), citysdk_api_key = app.config['CITYSDK_API_KEY'], citysdk_api_target_link = app.config['CITYSDK_API_TARGET_LINK'], themes = get_themes())
 
 @app.route('/offer')
 def offer_without_lang_code():
-  return redirect(url_for('offer', lang_code = g.current_lang if g.current_lang else app.config['BABEL_DEFAULT_LOCALE']))
+  return redirect(url_for('offer', theme = request.args['theme'], id = request.args['id'], lang_code = g.current_lang if g.current_lang else app.config['BABEL_DEFAULT_LOCALE']))
 
 @app.route('/<lang_code>/offer')
 def offer():
@@ -397,69 +400,73 @@ def offer():
   id = request.args['id']
   link = get_theme_link(theme, id)
   data = []
-  item = { 'id': link.id}
-  item['title'] = link.title
-  item['link'] = link.link if link.category != 'geoservice' else url_for('catalog', lang_code = g.current_lang if g.current_lang else app.config['BABEL_DEFAULT_LOCALE']) + '#geoservice-' + str(item['id'])
-  item['map_link'] = link.link
-  item['category'] = link.category
-  if item['category'] == 'api':
-    item['category_label'] = gettext(u'API (Programmierschnittstelle)')
-  elif item['category'] == 'application':
-    item['category_label'] = gettext(u'Anwendung')
-  elif item['category'] == 'documentation':
-    item['category_label'] = gettext(u'Dokumentation')
-  elif item['category'] == 'download':
-    item['category_label'] = gettext(u'Download')
-  elif item['category'] == 'geoservice':
-    item['category_label'] = gettext(u'Geodatendienst')
-  else:
-    item['category_label'] = link.category
-  item['group'] = link.group
-  item['group_order'] = link.group_order
-  item['link_label'] = gettext(u'Link')
-  if link.category == 'application':
-    inner_links = get_parent_link_children(link.parent_id, True, True)
-    inner_data = []
-    for inner_link in inner_links:
-      inner_item = { 'id': inner_link.id}
-      inner_item['title'] = inner_link.search_title if inner_link.search_title else inner_link.group
-      inner_item['link'] = inner_link.link
-      inner_item['public'] = inner_link.public
-      if inner_item['public'] == True:
-        inner_item['public_label'] = gettext(u'öffentlich zugänglich')
-      else:
-        inner_item['public_label'] = gettext(u'nicht öffentlich zugänglich')
-      inner_item['reachable'] = inner_link.reachable
-      if inner_item['reachable'] == True:
-        inner_item['reachable_label'] = gettext(u'erreichbar') + u' – ' + gettext(u'letzte Prüfung')
-      else:
-        inner_item['reachable_label'] = gettext(u'nicht erreichbar') + u'–' + gettext(u'letzte Prüfung')
-      inner_item['reachable_last_check'] = datetime_l10n(inner_link.reachable_last_check, 'full')
-      inner_data.append(inner_item)
-    item['links'] = inner_data
-  else:
-    item['links'] = ''
-  item['public'] = link.public
-  if item['public'] == True:
-    item['public_label'] = gettext(u'öffentlich zugänglich')
-  else:
-    item['public_label'] = gettext(u'nicht öffentlich zugänglich')
-  item['reachable'] = link.reachable
-  if item['reachable'] == True:
-    item['reachable_label'] = gettext(u'erreichbar') + u' – ' + gettext(u'letzte Prüfung')
-  else:
-    item['reachable_label'] = gettext(u'nicht erreichbar') + u'–' + gettext(u'letzte Prüfung')
-  item['reachable_last_check'] = datetime_l10n(link.reachable_last_check, 'full')
-  item['search_title'] = link.search_title
-  item['top'] = link.link_theme.top
-  item['type'] = link.link_theme.type
-  item['layer'] = link.link_theme.layer
-  data.append(item)
+  if link:
+    item = { 'id': link.id}
+    item['title'] = link.title
+    item['link'] = link.link if link.category != 'geoservice' else url_for('catalog', lang_code = g.current_lang if g.current_lang else app.config['BABEL_DEFAULT_LOCALE']) + '#geoservice-' + str(item['id'])
+    item['map_link'] = link.link
+    item['category'] = link.category
+    if item['category'] == 'api':
+      item['category_label'] = gettext(u'API (Programmierschnittstelle)')
+    elif item['category'] == 'application':
+      item['category_label'] = gettext(u'Anwendung')
+    elif item['category'] == 'documentation':
+      item['category_label'] = gettext(u'Dokumentation')
+    elif item['category'] == 'download':
+      item['category_label'] = gettext(u'Download')
+    elif item['category'] == 'geoservice':
+      item['category_label'] = gettext(u'Geodatendienst')
+    else:
+      item['category_label'] = link.category
+    item['group'] = link.group
+    item['group_order'] = link.group_order
+    item['link_label'] = gettext(u'Link')
+    if link.category == 'application':
+      inner_links = get_parent_link_children(link.parent_id, True, True)
+      inner_data = []
+      for inner_link in inner_links:
+        inner_item = { 'id': inner_link.id}
+        inner_item['title'] = inner_link.search_title if inner_link.search_title else inner_link.group
+        inner_item['link'] = inner_link.link
+        inner_item['public'] = inner_link.public
+        if inner_item['public'] == True:
+          inner_item['public_label'] = gettext(u'öffentlich zugänglich')
+        else:
+          inner_item['public_label'] = gettext(u'nicht öffentlich zugänglich')
+        inner_item['reachable'] = inner_link.reachable
+        if inner_item['reachable'] == True:
+          inner_item['reachable_label'] = gettext(u'erreichbar') + u' – ' + gettext(u'letzte Prüfung')
+        else:
+          inner_item['reachable_label'] = gettext(u'nicht erreichbar') + u'–' + gettext(u'letzte Prüfung')
+        inner_item['reachable_last_check'] = datetime_l10n(inner_link.reachable_last_check, 'full')
+        inner_data.append(inner_item)
+      item['links'] = inner_data
+    else:
+      item['links'] = ''
+    item['public'] = link.public
+    if item['public'] == True:
+      item['public_label'] = gettext(u'öffentlich zugänglich')
+    else:
+      item['public_label'] = gettext(u'nicht öffentlich zugänglich')
+    item['reachable'] = link.reachable
+    if item['reachable'] == True:
+      item['reachable_label'] = gettext(u'erreichbar') + u' – ' + gettext(u'letzte Prüfung')
+    else:
+      item['reachable_label'] = gettext(u'nicht erreichbar') + u'–' + gettext(u'letzte Prüfung')
+    item['reachable_last_check'] = datetime_l10n(link.reachable_last_check, 'full')
+    item['search_title'] = link.search_title
+    item['top'] = link.link_theme.top
+    item['type'] = link.link_theme.type
+    item['layer'] = link.link_theme.layer
+    data.append(item)
   return jsonify(data)
 
 @app.route('/offers')
 def offers_without_lang_code():
-  return redirect(url_for('offers', lang_code = g.current_lang if g.current_lang else app.config['BABEL_DEFAULT_LOCALE']))
+  if 'top' in request.args:
+    return redirect(url_for('offers', theme = request.args['theme'], top = '', lang_code = g.current_lang if g.current_lang else app.config['BABEL_DEFAULT_LOCALE']))
+  else:
+    return redirect(url_for('offers', theme = request.args['theme'], lang_code = g.current_lang if g.current_lang else app.config['BABEL_DEFAULT_LOCALE']))
 
 @app.route('/<lang_code>/offers')
 def offers():

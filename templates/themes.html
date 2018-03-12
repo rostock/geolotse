@@ -40,7 +40,7 @@
 
 {% block content %}
   {% include 'navbar.html' %}
-  <div class="container-fluid" id="defining-container" data-mobile="{{ mobile|lower }}" data-citysdk-api-key="{{ citysdk_api_key }}">
+  <div class="container-fluid" id="defining-container" data-mobile="{{ mobile|lower }}" data-citysdk-api-key="{{ citysdk_api_key }}" data-citysdk-api-target-link="{{ citysdk_api_target_link }}">
     <div class="row-fluid" id="theme-container">
       <{% if mobile %}h4{% else %}h3{% endif %} class="headline">{{ _('Welches Thema interessiert Sie?') }}</{% if mobile %}h4{% else %}h3{% endif %}>
       <div class="slider" id="theme-slider">
@@ -74,7 +74,9 @@
       </div>
     </div>
     <div class="row-fluid" id="map-container">
-      <{% if mobile %}h4{% else %}h3{% endif %} class="headline" id="map-headline">{{ _('Diese Angebote existieren zum Thema') }} <span id="map-headline-theme-title"></span></{% if mobile %}h4{% else %}h3{% endif %}>
+      <h4 class="map-headline" id="map-headline-top">{{ _('Die Karte zeigt Objekte aus den Top-Angeboten zum Thema ') }} <span class="text-theme-title"></span>. {{ _('Wählen Sie unten ein konkretes Angebot aus, um nur dessen Objekte auf der Karte anzuzeigen.') }}</h4>
+      <h4 class="map-headline hidden" id="map-headline-offer">{{ _('Die Karte zeigt Objekte aus dem Angebot ') }} <span class="text-offer-title"></span> {{ _(' zum Thema ') }} <span class="text-theme-title"></span>.</h4>
+      <h4 class="map-headline hidden" id="map-headline-empty">{{ _('Es werden keine Objekte zum Angebot ') }} <span class="text-offer-title"></span> {{ _(' zum Thema ') }} <span class="text-theme-title"></span> {{ _('auf der Karte angezeigt, da es sich hierbei nicht um ein für die Kartenanzeige geeignetes Angebot handelt.') }}</h4>
       <span class="glyphicon glyphicon-search" id="icon-address-input" aria-hidden="true"></span>
       <input class="form-control{% if mobile %} mobile{% endif %}" id="address-input" placeholder="{{ _('Adressensuche') }}…" type="search" />
       <span id="clear-address-input" class="glyphicon glyphicon-remove-circle"></span>
@@ -85,7 +87,7 @@
       </div>
     </div>
     <div class="row-fluid" id="offer-container">
-      <{% if mobile %}h4{% else %}h3{% endif %} class="headline" id="offers-headline">{{ _('Diese Angebote existieren zum Thema') }} <span id="offers-headline-theme-title"></span></{% if mobile %}h4{% else %}h3{% endif %}>
+      <{% if mobile %}h4{% else %}h3{% endif %} class="headline" id="offers-headline">{{ _('Diese Angebote existieren zum Thema') }} <span class="text-theme-title"></span>:</{% if mobile %}h4{% else %}h3{% endif %}>
       <div class="slider" id="offer-slider"></div>
     </div>
     <div class="translation hidden" id="map-layer-title" data-translation="{{ _('Karte') }}"></div>
@@ -99,6 +101,81 @@
           </div>
           <div class="modal-body">
             <p>{{ _('Karte zentriert auf Standardposition') }}</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">{{ _('schließen') }}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="map-top-403-error-modal" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">{{ _('Kartenfehler zu Top-Angeboten aus') }} <span class="text-theme-title"></span></h4>
+          </div>
+          <div class="modal-body">
+            <p>{{ _('Sie dürfen auf mindestens eines der Top-Angebote des Themas') }} <span class="text-theme-title"></span>{{ _(' leider nicht zugreifen. Daher werden keine Objekte dieses/dieser Angebots/Angebote auf der Karte angezeigt.') }}</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">{{ _('schließen') }}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="map-top-general-error-modal" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">{{ _('Kartenfehler zu Top-Angeboten aus') }} <span class="text-theme-title"></span></h4>
+          </div>
+          <div class="modal-body">
+            <p>{{ _('Es können keine Objekte mindestens eines der Top-Angebote des Themas') }} <span class="text-theme-title"></span> {{ _('auf der Karte angezeigt werden.') }}</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">{{ _('schließen') }}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="map-offer-403-error-modal" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">{{ _('Kartenfehler zu') }} <span class="text-offer-title"></span></h4>
+          </div>
+          <div class="modal-body">
+            <p>{{ _('Sie dürfen auf dieses Angebot des Themas') }} <span class="text-theme-title"></span>{{ _(' leider nicht zugreifen. Daher werden keine Objekte dieses Angebots auf der Karte angezeigt.') }}</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">{{ _('schließen') }}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="map-offer-general-error-modal" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">{{ _('Kartenfehler zu') }} <span class="text-offer-title"></span></h4>
+          </div>
+          <div class="modal-body">
+            <p>{{ _('Es können keine Objekte dieses Angebots des Themas') }} <span class="text-theme-title"></span> {{ _('auf der Karte angezeigt werden.') }}</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">{{ _('schließen') }}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="search-error-modal" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">{{ _('Fehler bei Adressensuche') }}</h4>
+          </div>
+          <div class="modal-body">
+            <p>{{ _('Adressensuche zur Zeit nicht nutzbar') }}</p>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">{{ _('schließen') }}</button>
