@@ -60,12 +60,12 @@ L.control.layers(baseMaps).addTo(map);
 var locationControl = L.control.locate({
   drawCircle: false,
   drawMarker: false,
+  flyTo: true,
   locateOptions: {
-    watch: true,
     enableHighAccuracy: true
   },
   onLocationError: false,
-  setView: 'always',
+  setView: 'untilPan',
   strings: {
     title: locationControlTitle
   }
@@ -141,9 +141,6 @@ function moveEnd(e) {
     jQuery.each(MAP_OFFERS, function(index, item) {
       getOfferFeatures(item);
     });
-    var xxxx=0;
-    map.eachLayer(function(){ xxxx += 1; });
-    alert(xxxx);
   }
 }
 
