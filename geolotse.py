@@ -388,7 +388,7 @@ def themes_without_lang_code():
 @app.route('/<lang_code>/themes')
 def themes():
   user_agent = parse(request.headers.get('User-Agent'))
-  return render_template('themes.html', mobile = user_agent.is_mobile, subtitle = gettext(u'Themen'), citysdk_api_key = app.config['CITYSDK_API_KEY'], citysdk_api_target_link = app.config['CITYSDK_API_TARGET_LINK'], themes = get_themes())
+  return render_template('themes.html', mobile = user_agent.is_mobile, subtitle = gettext(u'Themen'), citysdk_api_key = app.config['CITYSDK_API_KEY'], citysdk_api_target_name = app.config['CITYSDK_API_TARGET_NAME'], citysdk_api_target_link = app.config['CITYSDK_API_TARGET_LINK'], themes = get_themes())
 
 @app.route('/offer')
 def offer_without_lang_code():

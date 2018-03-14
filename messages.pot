@@ -557,64 +557,73 @@ msgid "Standortbestimmung"
 msgstr ""
 
 #: templates/themes.html:100
-msgid "Standortbestimmung fehlgeschlagen"
+msgid "Attribute zu Objekt aus"
 msgstr ""
 
-#: templates/themes.html:103
-msgid "Karte zentriert auf Standardposition"
+#: templates/themes.html:100
+msgid "zum Angebot"
 msgstr ""
 
 #: templates/themes.html:106 templates/themes.html:121
 #: templates/themes.html:136 templates/themes.html:151
 #: templates/themes.html:166 templates/themes.html:181
+#: templates/themes.html:196
 msgid "schließen"
 msgstr ""
 
-#: templates/themes.html:115 templates/themes.html:130
+#: templates/themes.html:115
+msgid "Standortbestimmung fehlgeschlagen"
+msgstr ""
+
+#: templates/themes.html:118
+msgid "Karte zentriert auf Standardposition"
+msgstr ""
+
+#: templates/themes.html:130 templates/themes.html:145
 msgid "Kartenfehler zu Top-Angeboten aus"
 msgstr ""
 
-#: templates/themes.html:118
+#: templates/themes.html:133
 msgid "Sie dürfen auf mindestens eines der Top-Angebote des Themas"
 msgstr ""
 
-#: templates/themes.html:118
+#: templates/themes.html:133
 msgid ""
 " leider nicht zugreifen. Daher werden keine Objekte dieses/dieser "
 "Angebots/Angebote auf der Karte angezeigt."
 msgstr ""
 
-#: templates/themes.html:133
+#: templates/themes.html:148
 msgid "Es können keine Objekte mindestens eines der Top-Angebote des Themas"
 msgstr ""
 
-#: templates/themes.html:133 templates/themes.html:163
+#: templates/themes.html:148 templates/themes.html:178
 msgid "auf der Karte angezeigt werden."
 msgstr ""
 
-#: templates/themes.html:145 templates/themes.html:160
+#: templates/themes.html:160 templates/themes.html:175
 msgid "Kartenfehler zu"
 msgstr ""
 
-#: templates/themes.html:148
+#: templates/themes.html:163
 msgid "Sie dürfen auf dieses Angebot des Themas"
 msgstr ""
 
-#: templates/themes.html:148
+#: templates/themes.html:163
 msgid ""
 " leider nicht zugreifen. Daher werden keine Objekte dieses Angebots auf "
 "der Karte angezeigt."
 msgstr ""
 
-#: templates/themes.html:163
+#: templates/themes.html:178
 msgid "Es können keine Objekte dieses Angebots des Themas"
 msgstr ""
 
-#: templates/themes.html:175
+#: templates/themes.html:190
 msgid "Fehler bei Adressensuche"
 msgstr ""
 
-#: templates/themes.html:178
+#: templates/themes.html:193
 msgid "Adressensuche zur Zeit nicht nutzbar"
 msgstr ""
 

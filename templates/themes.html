@@ -40,7 +40,7 @@
 
 {% block content %}
   {% include 'navbar.html' %}
-  <div class="container-fluid" id="defining-container" data-mobile="{{ mobile|lower }}" data-citysdk-api-key="{{ citysdk_api_key }}" data-citysdk-api-target-link="{{ citysdk_api_target_link }}">
+  <div class="container-fluid" id="defining-container" data-mobile="{{ mobile|lower }}" data-citysdk-api-key="{{ citysdk_api_key }}" data-citysdk-api-target-name="{{ citysdk_api_target_name }}" data-citysdk-api-target-link="{{ citysdk_api_target_link }}">
     <div class="row-fluid" id="theme-container">
       <{% if mobile %}h4{% else %}h3{% endif %} class="headline">{{ _('Welches Thema interessiert Sie?') }}</{% if mobile %}h4{% else %}h3{% endif %}>
       <div class="slider" id="theme-slider">
@@ -93,6 +93,21 @@
     <div class="translation hidden" id="map-layer-title" data-translation="{{ _('Karte') }}"></div>
     <div class="translation hidden" id="aerial-layer-title" data-translation="{{ _('Luftbild') }}"></div>
     <div class="translation hidden" id="location-control-title" data-translation="{{ _('Standortbestimmung') }}"></div>
+    <div id="attributes-modal" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">{{ _('Attribute zu Objekt aus') }} <span id="attributes-modal-text-offer-type"></span> {{ _('zum Angebot') }} <span id="attributes-modal-text-offer-title" class="text-offer-title"></span></h4>
+          </div>
+          <div id="attributes-modal-body" class="modal-body">
+            <p>xxx</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">{{ _('schließen') }}</button>
+          </div>
+        </div>
+      </div>
+    </div>
     <div id="location-error-modal" class="modal fade" role="dialog">
       <div class="modal-dialog">
         <div class="modal-content">

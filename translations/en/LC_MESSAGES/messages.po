@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: sebastian.gutzeit@rostock.de\n"
-"POT-Creation-Date: 2018-03-12 16:07+0100\n"
+"POT-Creation-Date: 2018-03-14 17:01+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Sebastian Gutzeit <sebastian.gutzeit@rostock.de>\n"
 "Language: en\n"
@@ -414,7 +414,7 @@ msgid ""
 "Angebote aus der Geodateninfrastruktur der Hanse- und Universitätsstadt "
 "Rostock."
 msgstr ""
-"Find all information near you relating to your topic of interest provided"
+"Find all information near you related to your topic of interest provided"
 " through the spatial data infrastructure of the municipality of Rostock."
 
 #: templates/index.html:74
@@ -580,7 +580,7 @@ msgstr "Choose your topic of interest!"
 
 #: templates/themes.html:77
 msgid "Die Karte zeigt Objekte aus den Top-Angeboten zum Thema "
-msgstr "The map shows objects of the top offers relating to"
+msgstr "The map shows objects of the top offers related to"
 
 #: templates/themes.html:77
 msgid ""
@@ -594,7 +594,7 @@ msgstr "The map shows objects of the offer"
 
 #: templates/themes.html:78 templates/themes.html:79
 msgid " zum Thema "
-msgstr " relating to "
+msgstr " related to "
 
 #: templates/themes.html:79
 msgid "Es werden keine Objekte zum Angebot "
@@ -604,7 +604,9 @@ msgstr "No objects of the offer"
 msgid ""
 "auf der Karte angezeigt, da es sich hierbei nicht um ein für die "
 "Kartenanzeige geeignetes Angebot handelt."
-msgstr "are shown on the map since the offer is not suitable for that functionality."
+msgstr ""
+"are shown on the map since the offer is not suitable for that "
+"functionality."
 
 #: templates/themes.html:81
 msgid "Adressensuche"
@@ -620,7 +622,7 @@ msgstr ""
 
 #: templates/themes.html:90
 msgid "Diese Angebote existieren zum Thema"
-msgstr "See what information we offer relating to"
+msgstr "See what information we offer related to"
 
 #: templates/themes.html:93
 msgid "Karte"
@@ -635,63 +637,72 @@ msgid "Standortbestimmung"
 msgstr "Geolocation"
 
 #: templates/themes.html:100
-msgid "Standortbestimmung fehlgeschlagen"
-msgstr "Geolocation error"
+msgid "Attribute zu Objekt aus"
+msgstr "Attributes of object from"
 
-#: templates/themes.html:103
-msgid "Karte zentriert auf Standardposition"
-msgstr "Map center is set to default location"
+#: templates/themes.html:100
+msgid "zum Angebot"
+msgstr "of the offer"
 
 #: templates/themes.html:106 templates/themes.html:121
 #: templates/themes.html:136 templates/themes.html:151
 #: templates/themes.html:166 templates/themes.html:181
+#: templates/themes.html:196
 msgid "schließen"
 msgstr "close"
 
-#: templates/themes.html:115 templates/themes.html:130
+#: templates/themes.html:115
+msgid "Standortbestimmung fehlgeschlagen"
+msgstr "Geolocation error"
+
+#: templates/themes.html:118
+msgid "Karte zentriert auf Standardposition"
+msgstr "Map center is set to default location"
+
+#: templates/themes.html:130 templates/themes.html:145
 msgid "Kartenfehler zu Top-Angeboten aus"
-msgstr "Map error concerning top offers relating to"
+msgstr "Map error concerning top offers related to"
 
-#: templates/themes.html:118
+#: templates/themes.html:133
 msgid "Sie dürfen auf mindestens eines der Top-Angebote des Themas"
-msgstr "You must not access at least one of the top offers relating to"
+msgstr "You must not access at least one of the top offers related to"
 
-#: templates/themes.html:118
+#: templates/themes.html:133
 msgid ""
 " leider nicht zugreifen. Daher werden keine Objekte dieses/dieser "
 "Angebots/Angebote auf der Karte angezeigt."
 msgstr ". Thus, the map will not show any objects of this/these offer(s)."
 
-#: templates/themes.html:133
+#: templates/themes.html:148
 msgid "Es können keine Objekte mindestens eines der Top-Angebote des Themas"
-msgstr "No objects of at least one of the top offers relating to"
+msgstr "No objects of at least one of the top offers related to"
 
-#: templates/themes.html:133 templates/themes.html:163
+#: templates/themes.html:148 templates/themes.html:178
 msgid "auf der Karte angezeigt werden."
 msgstr "can be shown on the map."
 
-#: templates/themes.html:145 templates/themes.html:160
+#: templates/themes.html:160 templates/themes.html:175
 msgid "Kartenfehler zu"
-msgstr "Map error relating to"
+msgstr "Map error related to"
 
-#: templates/themes.html:148
+#: templates/themes.html:163
 msgid "Sie dürfen auf dieses Angebot des Themas"
-msgstr "You must not access this offer relating to"
+msgstr "You must not access this offer related to"
 
-#: templates/themes.html:148
+#: templates/themes.html:163
 msgid ""
 " leider nicht zugreifen. Daher werden keine Objekte dieses Angebots auf "
 "der Karte angezeigt."
 msgstr ". Thus, the map will not show any objects of this offer."
 
-#: templates/themes.html:163
+#: templates/themes.html:178
 msgid "Es können keine Objekte dieses Angebots des Themas"
-msgstr "No objects of this offer relating to"
+msgstr "No objects of this offer related to"
 
-#: templates/themes.html:175
+#: templates/themes.html:190
 msgid "Fehler bei Adressensuche"
 msgstr "Address search error"
 
-#: templates/themes.html:178
+#: templates/themes.html:193
 msgid "Adressensuche zur Zeit nicht nutzbar"
 msgstr "Address search currently not available"

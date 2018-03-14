@@ -1,3 +1,10 @@
+.attributes-modal-italic,
+.popup-italic,
+.text-theme-title,
+.text-offer-title {
+  font-style: italic;
+}
+
 .headline{
   margin-bottom: 30px;
   text-align: center;
@@ -82,6 +89,10 @@
   top: 60px;
 }
 
+.popup-section {
+  margin-top: 10px;
+}
+
 .results-entry {
   margin-bottom: 3px;
   cursor: pointer;
@@ -128,11 +139,6 @@
   margin-left: 5%;
 }
 
-.text-theme-title,
-.text-offer-title {
-  font-style: italic;
-}
-
 .theme {
   height: 250px;
   width: 250px;
@@ -165,6 +171,17 @@
   width: 200px;
 }
 
+#attributes-modal-link,
+#geoportal-link {
+  cursor: pointer;
+  color: #337ab7;
+}
+
+#attributes-modal-link:hover,
+#geoportal-link:hover{
+  color: #777;
+}
+
 #clear-address-input {
   right: 25px;
   cursor: pointer;
@@ -173,12 +190,6 @@
 #geoportal-link {
   font-size: 16px;
   text-align: center;
-  cursor: pointer;
-  color: #337ab7;
-}
-
-#geoportal-link:hover{
-  color: #777;
 }
 
 #icon-address-input {

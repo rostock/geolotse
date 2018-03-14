@@ -31,6 +31,7 @@ DEFAULT_CACHE_TIMEOUT = 43200
 VOLATILE_DATA_CACHE_TIMEOUT = 840
 
 # CitySDK api
+CITYSDK_API_TARGET_NAME = 'Klarschiff.HRO'
 CITYSDK_API_TARGET_LINK = 'https://www.klarschiff-hro.de/map?request='
 
 # Solr

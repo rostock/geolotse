@@ -20,8 +20,10 @@ FEATURES_BBOX_LL_LON = -180;
 FEATURES_BBOX_UR_LAT = 90;
 FEATURES_BBOX_UR_LON = 180;
 MAP_OFFERS = [];
-CITYSDK_API_KEY = $('#defining-container').data('citysdk-api-key')
-CITYSDK_API_TARGET_LINK = $('#defining-container').data('citysdk-api-target-link')
+CITYSDK_API_KEY = $('#defining-container').data('citysdk-api-key');
+CITYSDK_API_TARGET_NAME = $('#defining-container').data('citysdk-api-target-name');
+CITYSDK_API_TARGET_LINK = $('#defining-container').data('citysdk-api-target-link');
+ATTRIBUTES_MODAL_BODY = '';
 
 // initialise Leaflet
 // ATTENTION
@@ -75,16 +77,17 @@ map.on('locationerror', locationError);
 map.on('click', centerMap);
 map.setView([defaultLat, defaultLon], 17);
 calculateBbox();
-/* var markers = new L.FeatureGroup(); */
-var geojsonLayer = new L.GeoJSON();
-var wmsLayerGroup = new L.layerGroup();
+var geojsonLayer = new L.GeoJSON(null, {
+  onEachFeature: onEachMapFeature
+});
+var wmsLayerGroup = new L.LayerGroup();
 
 
 
 // functions
 
-function mapOffersPusher(offer) {
-  MAP_OFFERS.push(offer);
+function mapOffersPusher(offer, offerIndex) {
+  MAP_OFFERS.push([offer, offerIndex]);
 }
 
 function calculateBbox() {
@@ -123,10 +126,6 @@ function clearMap() {
   }
   
   FIRST_THEME = false;
-  
-  /* markers.clearLayers();
-  var marker = L.marker([defaultLat, defaultLon], { title: 'xyz' } ).on('click', markerClick).addTo(markers);
-  map.addLayer(markers); */
 }
 
 function moveEnd(e) {
@@ -139,7 +138,7 @@ function moveEnd(e) {
     clearMapFeatures();
     clearMapLayers();
     jQuery.each(MAP_OFFERS, function(index, item) {
-      getOfferFeatures(item);
+      getOfferFeatures(item[0], item[1]);
     });
   }
 }
@@ -148,17 +147,80 @@ function locationError(e) {
   $('#location-error-modal').modal();
 }
 
-/* function markerClick(e) {
-  if (typeof epsg != 'undefined') {
-    target_x = x_orig;
-    target_y = y_orig;
-  } else {
-    var transformation = proj4('EPSG:25833', [defaultLon, defaultLat]);
-    target_x = transformation[0];
-    target_y = transformation[1];
+function onEachMapFeature(feature, layer) {
+  var html = '';
+  if (feature.properties.meta_type === 'CitySDK') {
+    html += '<div>';
+    html +=   'Objekt ' + feature.properties.id + ' aus ' + feature.properties.meta_type + ' zum Angebot <span class="popup-italic">' + feature.properties.meta_title + '</span> (' + CITYSDK_API_TARGET_NAME + '-Meldung #' + feature.properties.id + ')';
+    html += '</div>';
+    html += '<div class="popup-section">';
+    html +=   '<ul>';
+    html +=     '<li>';
+    html +=       'Kategorie: <span class="popup-italic">' + feature.properties.category + '</span>';
+    html +=     '</li>';
+    html +=     '<li>';
+    html +=       'Beschreibung: <span class="popup-italic">' + feature.properties.description + '</span>';
+    html +=     '</li>';
+    html +=   '</ul>';
+    html += '</div>';
+    html += '<div class="popup-section">';
+    html +=   '<a href="' + feature.properties.link + '" target="_blank">';
+    html +=     '<span class="glyphicon glyphicon-margin-right glyphicon-link" aria-hidden="true"></span>';
+    html +=     'Link zur Meldung in ' + CITYSDK_API_TARGET_NAME;
+    html +=   '</a';
+    html += '</div>';
+  } else if (feature.properties.meta_type === 'WFS') {
+    var id = '';
+    // ATTENTION
+    // you should adopt this block to the various possible names of ID attributes of all the WFS you are requesting
+    if (feature.properties.uuid) {
+      id = feature.properties.uuid;
+    } else if (feature.properties.gml_id) {
+      id = feature.properties.gml_id;
+    } else if (feature.properties.ogc_fid) {
+      id = feature.properties.ogc_fid;
+    } else if (feature.properties.gid) {
+      id = feature.properties.gid;
+    } else if (feature.properties.id) {
+      id = feature.properties.id;
+    } else if (feature.properties.brw_id) {
+      id = feature.properties.brw_id;
+    } else if (feature.properties.nummer) {
+      id = feature.properties.nummer;
+    }
+    // END ATTENTION
+    html += '<div>';
+    html +=   'Objekt ' + id + ' aus ' + feature.properties.meta_type + ' zum Angebot <span class="popup-italic">' + feature.properties.meta_title + '</span>';
+    html += '</div>';
+    html += '<div class="popup-section">';
+    html +=   '<ul>';
+    var index = 0;
+    jQuery.each(feature.properties, function(key, value) {
+      if (index < 5) {
+        html += '<li>';
+        html +=   key + ': <span class="popup-italic">' + value + '</span>';
+        html += '</li>';
+      }
+      index++;
+    });
+    html +=   '</ul>';
+    html += '</div>';
+    ATTRIBUTES_MODAL_BODY =  '<p>';
+    jQuery.each(feature.properties, function(key, value) {
+      ATTRIBUTES_MODAL_BODY += '<li>';
+      ATTRIBUTES_MODAL_BODY +=   key + ': <span class="attributes-modal-italic">' + value + '</span>';
+      ATTRIBUTES_MODAL_BODY += '</li>';
+    });
+    ATTRIBUTES_MODAL_BODY +=  '</p>';
+    html += '<div id="attributes-modal-link" class="popup-section" onclick="attributesModal(\'' + feature.properties.meta_type + '\', \'' + feature.properties.meta_title + '\')">';
+    html +=   'alle Attribute dieses Objekts anzeigen…';
+    html += '</div>';
   }
-  window.open('https://www.geoport-hro.de/?poi[point]=' + target_x + ',' + target_y + '&poi[scale]=2133', '_blank');
-} */
+  layer.bindPopup(html);
+  layer.on('click', function (e) {
+    $('#offer-slider').slick('slickGoTo', feature.properties.meta_index);
+  });
+}
 
 function clearMapFeatures() {
   geojsonLayer.clearLayers();
@@ -168,8 +230,8 @@ function clearMapLayers() {
   wmsLayerGroup.clearLayers();
 }
 
-function populateMapFeatures(features, type) {
-  if (type === 'CitySDK') {
+function populateMapFeatures(features, offerType, offerTitle, offerIndex) {
+  if (offerType === 'CitySDK') {
     var geojson = {};
     geojson['type'] = 'FeatureCollection';
     geojson['features'] = [];
@@ -177,8 +239,11 @@ function populateMapFeatures(features, type) {
       var feature = {
         'type': 'Feature',
         'properties': {
-          'service_request_id': item.service_request_id,
-          'service_name': item.service_name,
+          'meta_type': offerType,
+          'meta_title': offerTitle,
+          'meta_index': offerIndex,
+          'id': item.service_request_id,
+          'category': item.service_name,
           'description': item.description,
           'link': CITYSDK_API_TARGET_LINK + item.service_request_id
         },
@@ -190,23 +255,28 @@ function populateMapFeatures(features, type) {
       geojson['features'].push(feature);
     });
     geojsonLayer.addData(geojson);
-  } else if (type === 'WFS') {
+  } else if (offerType === 'WFS') {
+    jQuery.each(features, function(index, item) {
+      item.properties['meta_type'] = offerType;
+      item.properties['meta_title'] = offerTitle;
+      item.properties['meta_index'] = offerIndex;
+    });
     geojsonLayer.addData(features);
   }
   map.addLayer(geojsonLayer);
 }
 
-function getOffer(theme, id) {
+function getOffer(theme, offerId, offerIndex) {
   $.ajax({
     url: BASE_URL + '/offer',
     data: {
       theme: theme,
-      id: id
+      id: offerId
     },
     dataType: 'json',
     success: function(data) {
-      mapOffersPusher(data[0]);
-      getOfferFeatures(data[0]);
+      mapOffersPusher(data[0], offerIndex);
+      getOfferFeatures(data[0], offerIndex);
     }
   });
 }
@@ -296,8 +366,8 @@ function populateOffers(offersData) {
     offer +=   '</div>';
     offer += '</div>';
     if (item.type != null && item.top) {
-      mapOffersPusher(item);
-      getOfferFeatures(item);
+      mapOffersPusher(item, index);
+      getOfferFeatures(item, index);
     }
   });
   $('#offer-slider').html(offer);
@@ -359,7 +429,7 @@ function populateOffers(offersData) {
   });
 }
 
-function getOfferFeatures(offer) {
+function getOfferFeatures(offer, offerIndex) {
   if (offer.type === 'CitySDK') {
     $.ajax({
       // ATTENTION
@@ -377,7 +447,7 @@ function getOfferFeatures(offer) {
       },
       dataType: 'json',
       success: function(data) {
-        populateMapFeatures(data, offer.type);
+        populateMapFeatures(data, offer.type, offer.title, offerIndex);
       },
       error: function() {
         if (offer.public === false) {
@@ -407,7 +477,7 @@ function getOfferFeatures(offer) {
       url: offer.map_link + L.Util.getParamString(wfsParameters),
       dataType: 'json',
       success: function(data) {
-        populateMapFeatures(data.features, offer.type);
+        populateMapFeatures(data.features, offer.type, offer.title, offerIndex);
       },
       error: function() {
         if (offer.public === false) {
@@ -424,6 +494,13 @@ function getOfferFeatures(offer) {
       format: 'image/png',
       transparent: true,
       version: '1.3.0'
+    });
+    wmsLayer.on('tileerror', function() {
+      if (offer.public === false) {
+        mapOffer403Error(offer.title);
+      } else {
+        mapOfferGeneralError(offer.title);
+      }
     });
     wmsLayerGroup.addLayer(wmsLayer);
     map.addLayer(wmsLayerGroup);
@@ -450,6 +527,13 @@ function mapOfferGeneralError(title) {
     $('#map-offer-general-error-modal').modal();
     SHOW_MAP_MODALS = false;
   }
+}
+
+function attributesModal(type, title) {
+  $('#attributes-modal-text-offer-type').text(type);
+  $('#attributes-modal-text-offer-title').text(title);
+  $('#attributes-modal-body').html(ATTRIBUTES_MODAL_BODY);
+  $('#attributes-modal').modal();
 }
 
 function clearResults() {
@@ -585,16 +669,17 @@ $('#theme-slider').on('click', '.theme', function() {
     $('.map-headline').addClass('hidden');
     $('#map-headline-top').show();
     $('#map-headline-top').removeClass('hidden');
-    TOP_MODE = true;
-    SHOW_MAP_MODALS = true;
-    clearOffers();
-    clearMap();
-    clearMapFeatures();
-    clearMapLayers();
-    MAP_OFFERS = [];
-    getOffers(CURRENT_THEME);
-    map.on('moveend', moveEnd);
-    $('html, body').animate({ scrollTop: ($('#map-headline-top').offset().top - 55)}, 'slow');
+    $('html, body').animate({ scrollTop: ($('#map-headline-top').offset().top - 55)}, 'slow', function() {
+      TOP_MODE = true;
+      SHOW_MAP_MODALS = true;
+      clearOffers();
+      clearMap();
+      clearMapFeatures();
+      clearMapLayers();
+      MAP_OFFERS = [];
+      getOffers(CURRENT_THEME);
+      map.on('moveend', moveEnd);
+    });
   }
 });
 
@@ -620,6 +705,7 @@ if (!MOBILE) {
 
 $('#offer-slider').on('click', '.offer', function() {
   if (!$(this).hasClass('active')) {
+    var offerIndex = $(this).parent().data('slick-index');
     var offerId = $(this).data('offer-id');
     var offerTitle = $(this).data('offer-title');
     $('.offer').removeClass('active');
@@ -647,7 +733,7 @@ $('#offer-slider').on('click', '.offer', function() {
     if ($(this).data('offer-type')) {
       $('#map-headline-offer').show();
       $('#map-headline-offer').removeClass('hidden');
-      getOffer(CURRENT_THEME, offerId);
+      getOffer(CURRENT_THEME, offerId, offerIndex);
       map.on('moveend', moveEnd);
     } else {
       $('#map-headline-empty').show();
