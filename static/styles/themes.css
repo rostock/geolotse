@@ -31,8 +31,9 @@
 }
 
 .offer {
-  height: 270px;
-  width: 270px;
+  height: 260px;
+  width: 260px;
+  border-radius: 5%;
 }
 
 .offer.active {
@@ -51,7 +52,7 @@
 .offer-icon,
 .offer-text {
   width: 250px;
-  margin-left: 10px;
+  margin-left: 5px;
 }
 
 .offer-icon,
@@ -63,7 +64,6 @@
 .offer-link {
   width: 250px;
   margin-top: 5px;
-  margin-left: 5px;
 }
 
 .offer-link.first {

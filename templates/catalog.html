@@ -23,12 +23,13 @@
 {% endblock %}
 
 {% block local_scripts %}
+  <script>MOBILE = {{ mobile|lower }}</script>
   <script type="application/javascript" src="{{ url_for('static', filename='js/catalog.js') }}"></script>
 {% endblock %}
 
 {% block content %}
   {% include 'navbar.html' %}
-  <div class="container-fluid" id="defining-container" data-mobile="{{ mobile|lower }}">
+  <div class="container-fluid">
     <div class="panel-group" id="accordion">
       {% for category in categories %}
         <div class="panel panel-info">

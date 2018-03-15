@@ -388,7 +388,23 @@ def themes_without_lang_code():
 @app.route('/<lang_code>/themes')
 def themes():
   user_agent = parse(request.headers.get('User-Agent'))
-  return render_template('themes.html', mobile = user_agent.is_mobile, subtitle = gettext(u'Themen'), citysdk_api_key = app.config['CITYSDK_API_KEY'], citysdk_api_target_name = app.config['CITYSDK_API_TARGET_NAME'], citysdk_api_target_link = app.config['CITYSDK_API_TARGET_LINK'], themes = get_themes())
+  translations = {
+    'advice': gettext(u'-Meldung'),
+    'aerial': gettext(u'Luftbild'),
+    'all_attributes': gettext(u'alle Attribute dieses Objekts anzeigen'),
+    'attribute': gettext(u'Attribut'),
+    'category': gettext(u'Kategorie'),
+    'citysdk_link': gettext(u'Link zur Meldung in'),
+    'description': gettext(u'Beschreibung'),
+    'link': gettext(u'Link zum'),
+    'location_control': gettext(u'Standortbestimmung'),
+    'map': gettext(u'Karte'),
+    'object': gettext(u'Objekt'),
+    'of': gettext(u'aus'),
+    'offer': gettext(u'zum Angebot'),
+    'value': gettext(u'Wert')
+  }  
+  return render_template('themes.html', mobile = user_agent.is_mobile, subtitle = gettext(u'Themen'), citysdk_api_key = app.config['CITYSDK_API_KEY'], citysdk_api_target_name = app.config['CITYSDK_API_TARGET_NAME'], citysdk_api_target_link = app.config['CITYSDK_API_TARGET_LINK'], themes = get_themes(), translations = translations)
 
 @app.route('/offer')
 def offer_without_lang_code():

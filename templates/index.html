@@ -35,6 +35,7 @@
 {% block scripts %}
   {{super()}}
   {% block local_scripts %}
+    <script>MOBILE = {{ mobile|lower }}</script>
     <script type="application/javascript" src="{{url_for('static', filename='js/index.js')}}"></script>
   {% endblock %}
 {% endblock %}
@@ -43,7 +44,7 @@
 
 {% block content %}
   {% include 'navbar.html' %}
-  <div class="container-fluid" id="defining-container" data-mobile="{{ mobile|lower }}">
+  <div class="container-fluid">
     <div class="row-fluid text-center header-center-block{% if mobile %} mobile{% endif %}">
       {% if not mobile %}
         <img class="image image-left" src="{{ url_for('static', filename='images/child.svg') }}" />

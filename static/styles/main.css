@@ -78,6 +78,15 @@ h5,
   font-weight: bold !important;
 }
 
+td,
+th {
+  padding-right: 10px;
+}
+
+th {
+  font-weight: bold;
+}
+
 nav a,
 nav a:focus,
 nav a:visited ,

@@ -1,19 +1,8 @@
-// globals
-
-// constants
-if ($('#defining-container').data('mobile')) {
-  MOBILE = true;
-} else {
-  MOBILE = false;
-}
-
-
-
 // jQuery document ready event
 
 $(document).ready(function() {
   
-  // enable Bootstraﬂ tooltips
+  // enable Bootstra√ü tooltips
   if (!MOBILE) {
     $('[data-toggle="tooltip"]').tooltip();
   }

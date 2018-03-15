@@ -1,12 +1,5 @@
-// globals
-
-// constants
+// global constants
 ROWS = 20;
-if ($('#defining-container').data('mobile')) {
-  MOBILE = true;
-} else {
-  MOBILE = false;
-}
 
 
 

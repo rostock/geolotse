@@ -1,12 +1,5 @@
-// globals
-
-// constants
+// global constants
 BASE_URL = location.href.match(/(http.*)\/.*$/)[1];
-if ($('#defining-container').data('mobile')) {
-  MOBILE = true;
-} else {
-  MOBILE = false;
-}
 CURRENT_THEME = 0;
 FIRST_THEME = true;
 TOP_MODE = true;
@@ -20,10 +13,9 @@ FEATURES_BBOX_LL_LON = -180;
 FEATURES_BBOX_UR_LAT = 90;
 FEATURES_BBOX_UR_LON = 180;
 MAP_OFFERS = [];
-CITYSDK_API_KEY = $('#defining-container').data('citysdk-api-key');
-CITYSDK_API_TARGET_NAME = $('#defining-container').data('citysdk-api-target-name');
-CITYSDK_API_TARGET_LINK = $('#defining-container').data('citysdk-api-target-link');
-ATTRIBUTES_MODAL_BODY = '';
+ATTRIBUTES_MODAL_TBODY = '';
+
+
 
 // initialise Leaflet
 // ATTENTION
@@ -48,12 +40,9 @@ var aerialLayer = L.tileLayer('https://geo.sv.rostock.de/geodienste/luftbild_mv-
   id: 'aerialLayer'
 });
 // END ATTENTION
-var mapLayerTitle = $('#map-layer-title').data('translation');
-var aerialLayerTitle = $('#aerial-layer-title').data('translation');
-var locationControlTitle = $('#location-control-title').data('translation');
 var baseMaps = {};
-baseMaps[mapLayerTitle] = mapLayer;
-baseMaps[aerialLayerTitle] = aerialLayer;
+baseMaps[TRANSLATIONS.map] = mapLayer;
+baseMaps[TRANSLATIONS.aerial] = aerialLayer;
 var map;
 map = L.map('map', {
   layers: [mapLayer]
@@ -69,7 +58,7 @@ var locationControl = L.control.locate({
   onLocationError: false,
   setView: 'untilPan',
   strings: {
-    title: locationControlTitle
+    title: TRANSLATIONS.location_control
   }
 });
 locationControl.addTo(map);
@@ -151,22 +140,22 @@ function onEachMapFeature(feature, layer) {
   var html = '';
   if (feature.properties.meta_type === 'CitySDK') {
     html += '<div>';
-    html +=   'Objekt ' + feature.properties.id + ' aus ' + feature.properties.meta_type + ' zum Angebot <span class="popup-italic">' + feature.properties.meta_title + '</span> (' + CITYSDK_API_TARGET_NAME + '-Meldung #' + feature.properties.id + ')';
+    html +=   TRANSLATIONS.object + ' ' + feature.properties.id + ' ' + TRANSLATIONS.of + ' ' + feature.properties.meta_type + ' ' + TRANSLATIONS.offer + ' <span class="popup-italic">' + feature.properties.meta_title + '</span> (' + CITYSDK_API_TARGET_NAME + TRANSLATIONS.advice + ' #' + feature.properties.id + ')';
     html += '</div>';
     html += '<div class="popup-section">';
     html +=   '<ul>';
     html +=     '<li>';
-    html +=       'Kategorie: <span class="popup-italic">' + feature.properties.category + '</span>';
+    html +=       TRANSLATIONS.category + ': <span class="popup-italic">' + feature.properties.category + '</span>';
     html +=     '</li>';
     html +=     '<li>';
-    html +=       'Beschreibung: <span class="popup-italic">' + feature.properties.description + '</span>';
+    html +=       TRANSLATIONS.description + ': <span class="popup-italic">' + feature.properties.description + '</span>';
     html +=     '</li>';
     html +=   '</ul>';
     html += '</div>';
     html += '<div class="popup-section">';
     html +=   '<a href="' + feature.properties.link + '" target="_blank">';
     html +=     '<span class="glyphicon glyphicon-margin-right glyphicon-link" aria-hidden="true"></span>';
-    html +=     'Link zur Meldung in ' + CITYSDK_API_TARGET_NAME;
+    html +=     TRANSLATIONS.citysdk_link + ' ' + CITYSDK_API_TARGET_NAME;
     html +=   '</a';
     html += '</div>';
   } else if (feature.properties.meta_type === 'WFS') {
@@ -190,35 +179,67 @@ function onEachMapFeature(feature, layer) {
     }
     // END ATTENTION
     html += '<div>';
-    html +=   'Objekt ' + id + ' aus ' + feature.properties.meta_type + ' zum Angebot <span class="popup-italic">' + feature.properties.meta_title + '</span>';
+    html +=   TRANSLATIONS.object + ' ' + id + ' ' + TRANSLATIONS.of + ' ' + feature.properties.meta_type + ' ' + TRANSLATIONS.offer + ' <span class="popup-italic">' + feature.properties.meta_title + '</span>';
     html += '</div>';
     html += '<div class="popup-section">';
-    html +=   '<ul>';
+    html +=   '<table>';
+    html +=     '<thead>';
+    html +=       '<tr>';
+    html +=         '<th>' + TRANSLATIONS.attribute + '</th>';
+    html +=         '<th>' + TRANSLATIONS.value + '</th>';
+    html +=       '</tr>';
+    html +=     '</thead>';
+    html +=     '<tbody>';
     var index = 0;
     jQuery.each(feature.properties, function(key, value) {
-      if (index < 5) {
-        html += '<li>';
-        html +=   key + ': <span class="popup-italic">' + value + '</span>';
-        html += '</li>';
+      if (index < 4) {
+        html +=   '<tr>';
+        html +=     '<td>' + key + '</td>';
+        html +=     '<td>' + value + '</td>';
+        html +=   '</tr>';
+      } else if (index = 4) {
+        html +=   '<tr>';
+        html +=     '<td>…</td>';
+        html +=     '<td>…</td>';
+        html +=   '</tr>';
+        return false;
       }
       index++;
     });
-    html +=   '</ul>';
+    html +=     '</tbody>';
+    html +=   '</table>';
     html += '</div>';
-    ATTRIBUTES_MODAL_BODY =  '<p>';
-    jQuery.each(feature.properties, function(key, value) {
-      ATTRIBUTES_MODAL_BODY += '<li>';
-      ATTRIBUTES_MODAL_BODY +=   key + ': <span class="attributes-modal-italic">' + value + '</span>';
-      ATTRIBUTES_MODAL_BODY += '</li>';
-    });
-    ATTRIBUTES_MODAL_BODY +=  '</p>';
-    html += '<div id="attributes-modal-link" class="popup-section" onclick="attributesModal(\'' + feature.properties.meta_type + '\', \'' + feature.properties.meta_title + '\')">';
-    html +=   'alle Attribute dieses Objekts anzeigen…';
+    html += '<div id="attributes-modal-link" class="popup-section" onclick="attributesModal(\'' + id + '\', \'' + feature.properties.meta_type + '\', \'' + feature.properties.meta_title + '\')">';
+    html +=   TRANSLATIONS.all_attributes + '…';
+    html += '</div>';
+    html += '<div class="popup-section">';
+    html +=   '<a href="' + feature.properties.meta_link + '" target="_blank">';
+    html +=     '<span class="glyphicon glyphicon-margin-right glyphicon-link" aria-hidden="true"></span>';
+    html +=     TRANSLATIONS.link + ' ' + feature.properties.meta_type;
+    html +=   '</a';
     html += '</div>';
   }
   layer.bindPopup(html);
   layer.on('click', function (e) {
-    $('#offer-slider').slick('slickGoTo', feature.properties.meta_index);
+    ATTRIBUTES_MODAL_TBODY =    '<thead>';
+    ATTRIBUTES_MODAL_TBODY +=     '<tr>';
+    ATTRIBUTES_MODAL_TBODY +=       '<th>' + TRANSLATIONS.attribute + '</th>';
+    ATTRIBUTES_MODAL_TBODY +=       '<th>' + TRANSLATIONS.value + '</th>';
+    ATTRIBUTES_MODAL_TBODY +=     '</tr>';
+    ATTRIBUTES_MODAL_TBODY +=   '</thead>';
+    ATTRIBUTES_MODAL_TBODY +=   '<tbody>';
+    jQuery.each(feature.properties, function(key, value) {
+      if (key.indexOf('meta_') === -1 && value !== '' && value !== null) {
+        ATTRIBUTES_MODAL_TBODY += '<tr>';
+        ATTRIBUTES_MODAL_TBODY +=   '<td>' + key + '</td>';
+        ATTRIBUTES_MODAL_TBODY +=   '<td>' + value + '</td>';
+        ATTRIBUTES_MODAL_TBODY += '</tr>';
+      }
+    });
+    ATTRIBUTES_MODAL_TBODY +=   '</tbody>';
+    if (!MOBILE) {
+      $('#offer-slider').slick('slickGoTo', feature.properties.meta_index);
+    }
   });
 }
 
@@ -230,7 +251,7 @@ function clearMapLayers() {
   wmsLayerGroup.clearLayers();
 }
 
-function populateMapFeatures(features, offerType, offerTitle, offerIndex) {
+function populateMapFeatures(features, offerType, offerTitle, offerIndex, wfsLink) {
   if (offerType === 'CitySDK') {
     var geojson = {};
     geojson['type'] = 'FeatureCollection';
@@ -260,6 +281,7 @@ function populateMapFeatures(features, offerType, offerTitle, offerIndex) {
       item.properties['meta_type'] = offerType;
       item.properties['meta_title'] = offerTitle;
       item.properties['meta_index'] = offerIndex;
+      item.properties['meta_link'] = wfsLink;
     });
     geojsonLayer.addData(features);
   }
@@ -477,7 +499,7 @@ function getOfferFeatures(offer, offerIndex) {
       url: offer.map_link + L.Util.getParamString(wfsParameters),
       dataType: 'json',
       success: function(data) {
-        populateMapFeatures(data.features, offer.type, offer.title, offerIndex);
+        populateMapFeatures(data.features, offer.type, offer.title, offerIndex, offer.map_link);
       },
       error: function() {
         if (offer.public === false) {
@@ -529,10 +551,11 @@ function mapOfferGeneralError(title) {
   }
 }
 
-function attributesModal(type, title) {
-  $('#attributes-modal-text-offer-type').text(type);
-  $('#attributes-modal-text-offer-title').text(title);
-  $('#attributes-modal-body').html(ATTRIBUTES_MODAL_BODY);
+function attributesModal(object, type, title) {
+  $('.attributes-modal-text-offer-object').text(object);
+  $('.attributes-modal-text-offer-type').text(type);
+  $('.attributes-modal-text-offer-title').text(title);
+  $('#attributes-modal table').html(ATTRIBUTES_MODAL_TBODY);
   $('#attributes-modal').modal();
 }
 

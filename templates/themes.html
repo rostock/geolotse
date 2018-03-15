@@ -35,12 +35,17 @@
   <script type="application/javascript" src="{{ url_for('static', filename='js/externals/leaflet/leaflet.js') }}"></script>
   <script type="application/javascript" src="{{ url_for('static', filename='js/externals/proj4js/proj4.js') }}"></script>
   <script type="application/javascript" src="{{ url_for('static', filename='js/externals/leaflet-locatecontrol/L.Control.Locate.min.js') }}"></script>
+  <script>CITYSDK_API_KEY = '{{ citysdk_api_key }}'</script>
+  <script>CITYSDK_API_TARGET_NAME = '{{ citysdk_api_target_name }}'</script>
+  <script>CITYSDK_API_TARGET_LINK = '{{ citysdk_api_target_link }}'</script>
+  <script>MOBILE = {{ mobile|lower }}</script>
+  <script>TRANSLATIONS = {{ translations | tojson }}</script>
   <script type="application/javascript" src="{{ url_for('static', filename='js/themes.js') }}"></script>
 {% endblock %}
 
 {% block content %}
   {% include 'navbar.html' %}
-  <div class="container-fluid" id="defining-container" data-mobile="{{ mobile|lower }}" data-citysdk-api-key="{{ citysdk_api_key }}" data-citysdk-api-target-name="{{ citysdk_api_target_name }}" data-citysdk-api-target-link="{{ citysdk_api_target_link }}">
+  <div class="container-fluid">
     <div class="row-fluid" id="theme-container">
       <{% if mobile %}h4{% else %}h3{% endif %} class="headline">{{ _('Welches Thema interessiert Sie?') }}</{% if mobile %}h4{% else %}h3{% endif %}>
       <div class="slider" id="theme-slider">
@@ -90,17 +95,16 @@
       <{% if mobile %}h4{% else %}h3{% endif %} class="headline" id="offers-headline">{{ _('Diese Angebote existieren zum Thema') }} <span class="text-theme-title"></span>:</{% if mobile %}h4{% else %}h3{% endif %}>
       <div class="slider" id="offer-slider"></div>
     </div>
-    <div class="translation hidden" id="map-layer-title" data-translation="{{ _('Karte') }}"></div>
-    <div class="translation hidden" id="aerial-layer-title" data-translation="{{ _('Luftbild') }}"></div>
-    <div class="translation hidden" id="location-control-title" data-translation="{{ _('Standortbestimmung') }}"></div>
     <div id="attributes-modal" class="modal fade" role="dialog">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h4 class="modal-title">{{ _('Attribute zu Objekt aus') }} <span id="attributes-modal-text-offer-type"></span> {{ _('zum Angebot') }} <span id="attributes-modal-text-offer-title" class="text-offer-title"></span></h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">{{ _('Attribute zu Objekt') }} <span class="attributes-modal-text-offer-object"></span> {{ _('aus') }} <span class="attributes-modal-text-offer-type"></span> {{ _('zum Angebot') }} <span class="attributes-modal-text-offer-title text-offer-title"></span></h4>
           </div>
-          <div id="attributes-modal-body" class="modal-body">
-            <p>xxx</p>
+          <div class="modal-body">
+            <table>
+            </table>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">{{ _('schließen') }}</button>
@@ -112,6 +116,7 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <h4 class="modal-title">{{ _('Standortbestimmung fehlgeschlagen') }}</h4>
           </div>
           <div class="modal-body">
@@ -127,6 +132,7 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <h4 class="modal-title">{{ _('Kartenfehler zu Top-Angeboten aus') }} <span class="text-theme-title"></span></h4>
           </div>
           <div class="modal-body">
@@ -142,6 +148,7 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <h4 class="modal-title">{{ _('Kartenfehler zu Top-Angeboten aus') }} <span class="text-theme-title"></span></h4>
           </div>
           <div class="modal-body">
@@ -157,6 +164,7 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <h4 class="modal-title">{{ _('Kartenfehler zu') }} <span class="text-offer-title"></span></h4>
           </div>
           <div class="modal-body">
@@ -172,6 +180,7 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <h4 class="modal-title">{{ _('Kartenfehler zu') }} <span class="text-offer-title"></span></h4>
           </div>
           <div class="modal-body">
@@ -187,6 +196,7 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <h4 class="modal-title">{{ _('Fehler bei Adressensuche') }}</h4>
           </div>
           <div class="modal-body">
