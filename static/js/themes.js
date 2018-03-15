@@ -140,7 +140,7 @@ function onEachMapFeature(feature, layer) {
   var html = '';
   if (feature.properties.meta_type === 'CitySDK') {
     html += '<div>';
-    html +=   TRANSLATIONS.object + ' ' + feature.properties.id + ' ' + TRANSLATIONS.of + ' ' + feature.properties.meta_type + ' ' + TRANSLATIONS.offer + ' <span class="popup-italic">' + feature.properties.meta_title + '</span> (' + CITYSDK_API_TARGET_NAME + TRANSLATIONS.advice + ' #' + feature.properties.id + ')';
+    html +=   TRANSLATIONS.object + ' <span class="popup-italic">' + feature.properties.id + '</span> ' + TRANSLATIONS.of + ' ' + feature.properties.meta_type + ' ' + TRANSLATIONS.offer + ' <span class="popup-italic">' + feature.properties.meta_title + '</span> (' + CITYSDK_API_TARGET_NAME + TRANSLATIONS.advice + ' ' + feature.properties.id + ')';
     html += '</div>';
     html += '<div class="popup-section">';
     html +=   '<ul>';
@@ -179,7 +179,7 @@ function onEachMapFeature(feature, layer) {
     }
     // END ATTENTION
     html += '<div>';
-    html +=   TRANSLATIONS.object + ' ' + id + ' ' + TRANSLATIONS.of + ' ' + feature.properties.meta_type + ' ' + TRANSLATIONS.offer + ' <span class="popup-italic">' + feature.properties.meta_title + '</span>';
+    html +=   TRANSLATIONS.object + ' <span class="popup-italic">' + id + '</span> ' + TRANSLATIONS.of + ' ' + feature.properties.meta_type + ' (' + TRANSLATIONS.layer + ' <span class="popup-italic">' + feature.properties.meta_featuretype + ')</span> ' + TRANSLATIONS.offer + ' <span class="popup-italic">' + feature.properties.meta_title + '</span>';
     html += '</div>';
     html += '<div class="popup-section">';
     html +=   '<table>';
@@ -209,7 +209,7 @@ function onEachMapFeature(feature, layer) {
     html +=     '</tbody>';
     html +=   '</table>';
     html += '</div>';
-    html += '<div id="attributes-modal-link" class="popup-section" onclick="attributesModal(\'' + id + '\', \'' + feature.properties.meta_type + '\', \'' + feature.properties.meta_title + '\')">';
+    html += '<div id="attributes-modal-link" class="popup-section" onclick="attributesModal(\'' + id + '\', \'' + feature.properties.meta_type + '\', \'' + feature.properties.meta_title + '\', \'' + feature.properties.meta_featuretype + '\')">';
     html +=   TRANSLATIONS.all_attributes + '…';
     html += '</div>';
     html += '<div class="popup-section">';
@@ -251,7 +251,7 @@ function clearMapLayers() {
   wmsLayerGroup.clearLayers();
 }
 
-function populateMapFeatures(features, offerType, offerTitle, offerIndex, wfsLink) {
+function populateMapFeatures(features, offerType, offerTitle, offerIndex, wfsLink, wfsFeatureType) {
   if (offerType === 'CitySDK') {
     var geojson = {};
     geojson['type'] = 'FeatureCollection';
@@ -280,6 +280,7 @@ function populateMapFeatures(features, offerType, offerTitle, offerIndex, wfsLin
     jQuery.each(features, function(index, item) {
       item.properties['meta_type'] = offerType;
       item.properties['meta_title'] = offerTitle;
+      item.properties['meta_featuretype'] = wfsFeatureType;
       item.properties['meta_index'] = offerIndex;
       item.properties['meta_link'] = wfsLink;
     });
@@ -398,8 +399,6 @@ function populateOffers(offersData) {
   $('#offer-slider').slick({
     dots: false,
     infinite: true,
-    focusOnSelect: true,
-    focusOnChange: true,
     slidesToScroll: 5,
     slidesToShow: 5,
     responsive: [
@@ -408,8 +407,6 @@ function populateOffers(offersData) {
         settings: {
           dots: false,
           infinite: true,
-          focusOnSelect: true,
-          focusOnChange: true,
           slidesToScroll: 4,
           slidesToShow: 4
         }
@@ -419,8 +416,6 @@ function populateOffers(offersData) {
         settings: {
           dots: false,
           infinite: true,
-          focusOnSelect: true,
-          focusOnChange: true,
           slidesToScroll: 3,
           slidesToShow: 3
         }
@@ -430,8 +425,6 @@ function populateOffers(offersData) {
         settings: {
           dots: false,
           infinite: true,
-          focusOnSelect: true,
-          focusOnChange: true,
           slidesToScroll: 2,
           slidesToShow: 2
         }
@@ -441,8 +434,6 @@ function populateOffers(offersData) {
         settings: {
           dots: false,
           infinite: true,
-          focusOnSelect: true,
-          focusOnChange: true,
           slidesToScroll: 1,
           slidesToShow: 1
         }
@@ -499,7 +490,7 @@ function getOfferFeatures(offer, offerIndex) {
       url: offer.map_link + L.Util.getParamString(wfsParameters),
       dataType: 'json',
       success: function(data) {
-        populateMapFeatures(data.features, offer.type, offer.title, offerIndex, offer.map_link);
+        populateMapFeatures(data.features, offer.type, offer.title, offerIndex, offer.map_link, offer.layer);
       },
       error: function() {
         if (offer.public === false) {
@@ -551,10 +542,11 @@ function mapOfferGeneralError(title) {
   }
 }
 
-function attributesModal(object, type, title) {
+function attributesModal(object, type, title, featuretype) {
   $('.attributes-modal-text-offer-object').text(object);
   $('.attributes-modal-text-offer-type').text(type);
   $('.attributes-modal-text-offer-title').text(title);
+  $('.attributes-modal-text-offer-featuretype').text(featuretype);
   $('#attributes-modal table').html(ATTRIBUTES_MODAL_TBODY);
   $('#attributes-modal').modal();
 }
@@ -612,8 +604,6 @@ $(document).ready(function() {
   $('#theme-slider').slick({
     dots: false,
     infinite: true,
-    focusOnSelect: true,
-    focusOnChange: true,
     slidesToScroll: 5,
     slidesToShow: 5,
     responsive: [
@@ -622,8 +612,6 @@ $(document).ready(function() {
         settings: {
           dots: false,
           infinite: true,
-          focusOnSelect: true,
-          focusOnChange: true,
           slidesToScroll: 4,
           slidesToShow: 4
         }
@@ -633,8 +621,6 @@ $(document).ready(function() {
         settings: {
           dots: false,
           infinite: true,
-          focusOnSelect: true,
-          focusOnChange: true,
           slidesToScroll: 3,
           slidesToShow: 3
         }
@@ -644,8 +630,6 @@ $(document).ready(function() {
         settings: {
           dots: false,
           infinite: true,
-          focusOnSelect: true,
-          focusOnChange: true,
           slidesToScroll: 2,
           slidesToShow: 2
         }
@@ -655,8 +639,6 @@ $(document).ready(function() {
         settings: {
           dots: false,
           infinite: true,
-          focusOnSelect: true,
-          focusOnChange: true,
           slidesToScroll: 1,
           slidesToShow: 1
         }
