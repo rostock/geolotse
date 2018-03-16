@@ -603,6 +603,7 @@ $(document).ready(function() {
   // initialise slick (for theme slider)
   $('#theme-slider').slick({
     dots: false,
+    focusOnSelect: true,
     infinite: true,
     slidesToScroll: 5,
     slidesToShow: 5,
@@ -611,6 +612,7 @@ $(document).ready(function() {
         breakpoint: 1434,
         settings: {
           dots: false,
+          focusOnSelect: true,
           infinite: true,
           slidesToScroll: 4,
           slidesToShow: 4
@@ -620,6 +622,7 @@ $(document).ready(function() {
         breakpoint: 1154,
         settings: {
           dots: false,
+          focusOnSelect: true,
           infinite: true,
           slidesToScroll: 3,
           slidesToShow: 3
@@ -629,6 +632,7 @@ $(document).ready(function() {
         breakpoint: 874,
         settings: {
           dots: false,
+          focusOnSelect: true,
           infinite: true,
           slidesToScroll: 2,
           slidesToShow: 2
@@ -638,6 +642,7 @@ $(document).ready(function() {
         breakpoint: 598,
         settings: {
           dots: false,
+          focusOnSelect: true,
           infinite: true,
           slidesToScroll: 1,
           slidesToShow: 1

@@ -288,8 +288,8 @@ def get_theme_link(theme_id = 1, link_id = 1):
 
 @cache.memoize(timeout = app.config['DEFAULT_CACHE_TIMEOUT'])
 def get_theme_links(id = 1):
-  links_non_geoservice = Links.query.join(Links.themes).add_columns(Links.id, Links.title, Links_Themes.top, Links_Themes.type).filter(Links.id == Links_Themes.link_id, Links_Themes.theme_id == id, Themes.id == id, Links.category != 'geoservice').order_by(Links.category_order, Links.group, Links.title).all()
-  links_geoservice = Links.query.join(Links.themes).add_columns(Links.id, Links.title, Links_Themes.top, Links_Themes.type).filter(Links.id == Links_Themes.link_id, Links_Themes.theme_id == id, Themes.id == id, Links.category == 'geoservice').order_by(Links.title).all()
+  links_non_geoservice = Links.query.join(Links.themes).add_columns(Links.id, Links.title, Links.link, Links.category, Links.group, Links.group_order, Links.parent_id, Links.public, Links.reachable, Links.reachable_last_check, Links.search_title, Links_Themes.top, Links_Themes.type, Links_Themes.layer).filter(Links.id == Links_Themes.link_id, Links_Themes.theme_id == id, Themes.id == id, Links.category != 'geoservice').order_by(Links.category_order, Links.group, Links.title).all()
+  links_geoservice = Links.query.join(Links.themes).add_columns(Links.id, Links.title, Links.link, Links.category, Links.group, Links.group_order, Links.parent_id, Links.public, Links.reachable, Links.reachable_last_check, Links.search_title, Links_Themes.top, Links_Themes.type, Links_Themes.layer).filter(Links.id == Links_Themes.link_id, Links_Themes.theme_id == id, Themes.id == id, Links.category == 'geoservice').order_by(Links.title).all()
   return links_non_geoservice + links_geoservice
 
 @cache.memoize(timeout = app.config['DEFAULT_CACHE_TIMEOUT'])
@@ -496,61 +496,61 @@ def offers():
     if top == False or (top == True and link.top == True):
       item = { 'id': link.id}
       item['title'] = link.title
-      #item['link'] = link.link if link.category != 'geoservice' else url_for('catalog', lang_code = g.current_lang if g.current_lang else app.config['BABEL_DEFAULT_LOCALE']) + '#geoservice-' + str(item['id'])
-      #item['map_link'] = link.link
-      #item['category'] = link.category
-      #if item['category'] == 'api':
-      #  item['category_label'] = gettext(u'API (Programmierschnittstelle)')
-      #elif item['category'] == 'application':
-      #  item['category_label'] = gettext(u'Anwendung')
-      #elif item['category'] == 'documentation':
-      #  item['category_label'] = gettext(u'Dokumentation')
-      #elif item['category'] == 'download':
-      #  item['category_label'] = gettext(u'Download')
-      #elif item['category'] == 'geoservice':
-      #  item['category_label'] = gettext(u'Geodatendienst')
-      #else:
-      #  item['category_label'] = link.category
-      #item['group'] = link.group
-      #item['group_order'] = link.group_order
-      #item['link_label'] = gettext(u'Link')
-      #if link.category == 'application':
-      #  inner_links = get_parent_link_children(link.parent_id, True, True)
-      #  inner_data = []
-      #  for inner_link in inner_links:
-      #    inner_item = { 'id': inner_link.id}
-      #    inner_item['title'] = inner_link.search_title if inner_link.search_title else inner_link.group
-      #    inner_item['link'] = inner_link.link
-      #    inner_item['public'] = inner_link.public
-      #    if inner_item['public'] == True:
-      #      inner_item['public_label'] = gettext(u'öffentlich zugänglich')
-      #    else:
-      #      inner_item['public_label'] = gettext(u'nicht öffentlich zugänglich')
-      #    inner_item['reachable'] = inner_link.reachable
-      #    if inner_item['reachable'] == True:
-      #      inner_item['reachable_label'] = gettext(u'erreichbar') + u' – ' + gettext(u'letzte Prüfung')
-      #    else:
-      #      inner_item['reachable_label'] = gettext(u'nicht erreichbar') + u'–' + gettext(u'letzte Prüfung')
-      #    inner_item['reachable_last_check'] = datetime_l10n(inner_link.reachable_last_check, 'full')
-      #    inner_data.append(inner_item)
-      #  item['links'] = inner_data
-      #else:
-      #  item['links'] = ''
-      #item['public'] = link.public
-      #if item['public'] == True:
-      #  item['public_label'] = gettext(u'öffentlich zugänglich')
-      #else:
-      #  item['public_label'] = gettext(u'nicht öffentlich zugänglich')
-      #item['reachable'] = link.reachable
-      #if item['reachable'] == True:
-      #  item['reachable_label'] = gettext(u'erreichbar') + u' – ' + gettext(u'letzte Prüfung')
-      #else:
-      #  item['reachable_label'] = gettext(u'nicht erreichbar') + u'–' + gettext(u'letzte Prüfung')
-      #item['reachable_last_check'] = datetime_l10n(link.reachable_last_check, 'full')
-      #item['search_title'] = link.search_title
+      item['link'] = link.link if link.category != 'geoservice' else url_for('catalog', lang_code = g.current_lang if g.current_lang else app.config['BABEL_DEFAULT_LOCALE']) + '#geoservice-' + str(item['id'])
+      item['map_link'] = link.link
+      item['category'] = link.category
+      if item['category'] == 'api':
+        item['category_label'] = gettext(u'API (Programmierschnittstelle)')
+      elif item['category'] == 'application':
+        item['category_label'] = gettext(u'Anwendung')
+      elif item['category'] == 'documentation':
+        item['category_label'] = gettext(u'Dokumentation')
+      elif item['category'] == 'download':
+        item['category_label'] = gettext(u'Download')
+      elif item['category'] == 'geoservice':
+        item['category_label'] = gettext(u'Geodatendienst')
+      else:
+        item['category_label'] = link.category
+      item['group'] = link.group
+      item['group_order'] = link.group_order
+      item['link_label'] = gettext(u'Link')
+      if link.category == 'application':
+        inner_links = get_parent_link_children(link.parent_id, True, True)
+        inner_data = []
+        for inner_link in inner_links:
+          inner_item = { 'id': inner_link.id}
+          inner_item['title'] = inner_link.search_title if inner_link.search_title else inner_link.group
+          inner_item['link'] = inner_link.link
+          inner_item['public'] = inner_link.public
+          if inner_item['public'] == True:
+            inner_item['public_label'] = gettext(u'öffentlich zugänglich')
+          else:
+            inner_item['public_label'] = gettext(u'nicht öffentlich zugänglich')
+          inner_item['reachable'] = inner_link.reachable
+          if inner_item['reachable'] == True:
+            inner_item['reachable_label'] = gettext(u'erreichbar') + u' – ' + gettext(u'letzte Prüfung')
+          else:
+            inner_item['reachable_label'] = gettext(u'nicht erreichbar') + u'–' + gettext(u'letzte Prüfung')
+          inner_item['reachable_last_check'] = datetime_l10n(inner_link.reachable_last_check, 'full')
+          inner_data.append(inner_item)
+        item['links'] = inner_data
+      else:
+        item['links'] = ''
+      item['public'] = link.public
+      if item['public'] == True:
+        item['public_label'] = gettext(u'öffentlich zugänglich')
+      else:
+        item['public_label'] = gettext(u'nicht öffentlich zugänglich')
+      item['reachable'] = link.reachable
+      if item['reachable'] == True:
+        item['reachable_label'] = gettext(u'erreichbar') + u' – ' + gettext(u'letzte Prüfung')
+      else:
+        item['reachable_label'] = gettext(u'nicht erreichbar') + u'–' + gettext(u'letzte Prüfung')
+      item['reachable_last_check'] = datetime_l10n(link.reachable_last_check, 'full')
+      item['search_title'] = link.search_title
       item['top'] = link.top
       item['type'] = link.type
-      #item['layer'] = link.layer
+      item['layer'] = link.layer
       data.append(item)
   return jsonify({
     'offers': data
