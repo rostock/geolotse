@@ -377,7 +377,15 @@ def catalog_without_lang_code():
 @app.route('/<lang_code>/catalog')
 def catalog():
   user_agent = parse(request.headers.get('User-Agent'))
-  return render_template('catalog.html', mobile = user_agent.is_mobile, subtitle = gettext(u'Katalog'), categories = get_links_categories(), api_links = get_parent_links('api', False), application_links = get_parent_links('application', True), documentation_links = get_parent_links('documentation', False), download_links = get_parent_links('download', False), external_links = get_links('external', True), form_links = get_links('form', True), geoservice_groups = get_links_groups('geoservice'), geoservice_links = get_parent_links('geoservice', False), helper_links = get_links('helper', True))
+  return render_template('catalog.html', mobile = user_agent.is_mobile, subtitle = gettext(u'Katalog'), categories = get_links_categories(), api_links = get_parent_links('api', False), application_links = get_parent_links('application', True), documentation_links = get_parent_links('documentation', False), download_links = get_parent_links('download', False), external_links = get_links('external', True), form_links = get_links('form', True), geoservice_groups = get_links_groups('geoservice'), helper_links = get_links('helper', True))
+
+@app.route('/geoservices')
+def geoservices_without_lang_code():
+  return redirect(url_for('geoservices', lang_code = g.current_lang if g.current_lang else app.config['BABEL_DEFAULT_LOCALE']))
+
+@app.route('/<lang_code>/geoservices')
+def geoservices():
+  return render_template('geoservices.html', geoservice_links = get_parent_links('geoservice', False))
 
 @app.route('/themes')
 def themes_without_lang_code():

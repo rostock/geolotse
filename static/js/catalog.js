@@ -1,8 +1,27 @@
+// global constants
+BASE_URL = location.href.match(/(http.*)\/.*$/)[1];
+
+
+
 // jQuery document ready event
 
 $(document).ready(function() {
   
-  // enable Bootstraß tooltips
+  $('#loading-modal').modal('show');
+  
+  // load geoservices
+  $.ajax({
+    url: BASE_URL + '/geoservices',
+    success: function(response) {
+      $('#geoservice-accordion').html(response);
+      $('#loading-modal').modal('hide');
+    },
+    error: function() {
+      $('#loading-modal').modal('hide');
+    }
+  });
+  
+  // enable Bootstrap tooltips
   if (!MOBILE) {
     $('[data-toggle="tooltip"]').tooltip();
   }

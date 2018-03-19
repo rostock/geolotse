@@ -19,7 +19,7 @@
 {% endblock %}
 
 {% block scripts %}
-  {{super()}}
+  {{ super() }}
 {% endblock %}
 
 {% block local_scripts %}
@@ -277,6 +277,20 @@
           </div>
         </div>
       {% endfor %}
+    </div>
+    <div id="loading-modal" class="modal fade" role="dialog" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">{{ _('Bitte warten') }}…</h4>
+          </div>
+          <div class="modal-body">
+            <div class="progress progress-striped active modal-progress">
+              <div class="progress-bar modal-progress-bar"></div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
   {% if not mobile %}

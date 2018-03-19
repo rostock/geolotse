@@ -215,3 +215,16 @@ footer a:hover {
 .tooltip.right > .tooltip-arrow {
   border-right-color: #006cb7 !important;
 }
+
+.modal-progress {
+  margin-bottom: 0 !important;
+}
+
+.modal-progress-bar {
+  width: 100% !important;
+}
+
+#loading-modal {
+  padding-top: 15% !important;
+  overflow-y: visible !important;
+}

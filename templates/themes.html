@@ -3,7 +3,7 @@
 {% set active_page = 'themes' %}
 
 {% block styles %}
-  {{super()}}
+  {{ super() }}
 {% endblock %}
 
 {% block external_styles %}
@@ -27,14 +27,17 @@
 {% endblock %}
 
 {% block scripts %}
-  {{super()}}
+  {{ super() }}
 {% endblock %}
 
-{% block local_scripts %}
+{% block external_scripts %}
   <script type="application/javascript" src="{{ url_for('static', filename='js/externals/slick/slick.min.js') }}"></script>
   <script type="application/javascript" src="{{ url_for('static', filename='js/externals/leaflet/leaflet.js') }}"></script>
   <script type="application/javascript" src="{{ url_for('static', filename='js/externals/proj4js/proj4.js') }}"></script>
   <script type="application/javascript" src="{{ url_for('static', filename='js/externals/leaflet-locatecontrol/L.Control.Locate.min.js') }}"></script>
+{% endblock %}
+
+{% block local_scripts %}
   <script>CITYSDK_API_KEY = '{{ citysdk_api_key }}'</script>
   <script>CITYSDK_API_TARGET_NAME = '{{ citysdk_api_target_name }}'</script>
   <script>CITYSDK_API_TARGET_LINK = '{{ citysdk_api_target_link }}'</script>
@@ -95,7 +98,7 @@
       <{% if mobile %}h4{% else %}h3{% endif %} class="headline" id="offers-headline">{{ _('Diese Angebote existieren zum Thema') }} <span class="text-theme-title"></span>:</{% if mobile %}h4{% else %}h3{% endif %}>
       <div class="slider" id="offer-slider"></div>
     </div>
-    <div id="attributes-modal" class="modal fade" role="dialog">
+    <div id="attributes-modal" class="modal fade" role="dialog" tabindex="-1">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -112,7 +115,7 @@
         </div>
       </div>
     </div>
-    <div id="location-error-modal" class="modal fade" role="dialog">
+    <div id="location-error-modal" class="modal fade" role="dialog" tabindex="-1">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -128,7 +131,7 @@
         </div>
       </div>
     </div>
-    <div id="map-top-403-error-modal" class="modal fade" role="dialog">
+    <div id="map-top-403-error-modal" class="modal fade" role="dialog" tabindex="-1">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -144,7 +147,7 @@
         </div>
       </div>
     </div>
-    <div id="map-top-general-error-modal" class="modal fade" role="dialog">
+    <div id="map-top-general-error-modal" class="modal fade" role="dialog" tabindex="-1">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -160,7 +163,7 @@
         </div>
       </div>
     </div>
-    <div id="map-offer-403-error-modal" class="modal fade" role="dialog">
+    <div id="map-offer-403-error-modal" class="modal fade" role="dialog" tabindex="-1">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -176,7 +179,7 @@
         </div>
       </div>
     </div>
-    <div id="map-offer-general-error-modal" class="modal fade" role="dialog">
+    <div id="map-offer-general-error-modal" class="modal fade" role="dialog" tabindex="-1">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -192,7 +195,7 @@
         </div>
       </div>
     </div>
-    <div id="search-error-modal" class="modal fade" role="dialog">
+    <div id="search-error-modal" class="modal fade" role="dialog" tabindex="-1">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -204,6 +207,20 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">{{ _('schließen') }}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="loading-modal" class="modal fade" role="dialog" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">{{ _('Bitte warten') }}…</h4>
+          </div>
+          <div class="modal-body">
+            <div class="progress progress-striped active modal-progress">
+              <div class="progress-bar modal-progress-bar"></div>
+            </div>
           </div>
         </div>
       </div>

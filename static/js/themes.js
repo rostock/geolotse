@@ -444,6 +444,7 @@ function populateOffers(offersData) {
 
 function getOfferFeatures(offer, offerIndex) {
   if (offer.type === 'CitySDK') {
+    $('#loading-modal').modal('show');
     $.ajax({
       // ATTENTION
       // cutting the last part of the URL path might not be necessary for the CitySDK endpoint you are requesting
@@ -461,8 +462,10 @@ function getOfferFeatures(offer, offerIndex) {
       dataType: 'json',
       success: function(data) {
         populateMapFeatures(data, offer.type, offer.title, offerIndex);
+        $('#loading-modal').modal('hide');
       },
       error: function() {
+        $('#loading-modal').modal('hide');
         if (offer.public === false) {
           mapOffer403Error(offer.title);
         } else {
@@ -471,6 +474,7 @@ function getOfferFeatures(offer, offerIndex) {
       }
     });
   } else if (offer.type === 'WFS') {
+    $('#loading-modal').modal('show');
     var defaultWfsParameters = {
       service: 'WFS',
       version: '2.0.0',
@@ -491,8 +495,10 @@ function getOfferFeatures(offer, offerIndex) {
       dataType: 'json',
       success: function(data) {
         populateMapFeatures(data.features, offer.type, offer.title, offerIndex, offer.map_link, offer.layer);
+        $('#loading-modal').modal('hide');
       },
       error: function() {
+        $('#loading-modal').modal('hide');
         if (offer.public === false) {
           mapOffer403Error(offer.title);
         } else {

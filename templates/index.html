@@ -33,7 +33,9 @@
 {% endblock %}
 
 {% block scripts %}
-  {{super()}}
+  {{ super() }}
+  {% block external_scripts %}
+  {% endblock %}
   {% block local_scripts %}
     <script>MOBILE = {{ mobile|lower }}</script>
     <script type="application/javascript" src="{{url_for('static', filename='js/index.js')}}"></script>
