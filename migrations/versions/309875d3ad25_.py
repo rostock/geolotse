@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 238b0d2909c8
+Revision ID: 309875d3ad25
 Revises: 
-Create Date: 2018-02-16 14:39:23.852379
+Create Date: 2018-03-19 15:52:07.358797
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '238b0d2909c8'
+revision = '309875d3ad25'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -66,7 +66,8 @@ def upgrade():
     op.create_table('themes',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('title', sa.String(length=255), nullable=False),
-    sa.Column('stars', sa.SmallInteger(), nullable=False),
+    sa.Column('descriptive_tags', sa.ARRAY(sa.String(length=255)), nullable=True),
+    sa.Column('icon', sa.String(length=255), nullable=True),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('title')
     )
@@ -87,6 +88,9 @@ def upgrade():
     op.create_table('links_themes',
     sa.Column('link_id', sa.Integer(), nullable=False),
     sa.Column('theme_id', sa.Integer(), nullable=False),
+    sa.Column('top', sa.Boolean(), nullable=True),
+    sa.Column('type', sa.String(length=255), nullable=True),
+    sa.Column('layer', sa.String(length=255), nullable=True),
     sa.ForeignKeyConstraint(['link_id'], ['links.id'], ),
     sa.ForeignKeyConstraint(['theme_id'], ['themes.id'], ),
     sa.PrimaryKeyConstraint('link_id', 'theme_id')
