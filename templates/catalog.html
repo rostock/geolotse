@@ -70,6 +70,7 @@
               {% if category.category == 'application' %}
                 <span class="glyphicon glyphicon-filter" aria-hidden="true"></span>
                 <input class="form-control filter-input{% if mobile %} mobile{% endif %}" id="application-filter-input" placeholder="{{ _('Freitextfilter') }}…" type="search" />
+                <span id="clear-application-filter-input" class="clear-filter-input glyphicon glyphicon-remove-circle"></span>
                 <div class="panel-group" id="application-accordion">
                   {% for application_link in application_links %}
                     <div class="panel panel-info">
@@ -116,6 +117,7 @@
               {% if category.category == 'external' %}
                 <span class="glyphicon glyphicon-filter" aria-hidden="true"></span>
                 <input class="form-control filter-input{% if mobile %} mobile{% endif %}" id="external-filter-input" placeholder="{{ _('Freitextfilter') }}…" type="search" />
+                <span id="clear-external-filter-input" class="clear-filter-input glyphicon glyphicon-remove-circle"></span>
                 {% for external_link in external_links %}
                   {% if external_link.id == external_link.parent_id %}
                     {% if not loop.first %}
@@ -152,6 +154,7 @@
                 </div>
                 <span class="glyphicon glyphicon-filter" aria-hidden="true"></span>
                 <input class="form-control filter-input{% if mobile %} mobile{% endif %}" id="geoservice-filter-input" placeholder="{{ _('Freitextfilter') }}…" type="search" />
+                <span id="clear-geoservice-filter-input" class="clear-filter-input glyphicon glyphicon-remove-circle"></span>
                 <div class="panel-group" id="geoservice-accordion">
                   {% for geoservice_link in geoservice_links %}
                     <div class="panel panel-info">
@@ -257,6 +260,7 @@
               {% if category.category == 'helper' %}
                 <span class="glyphicon glyphicon-filter" aria-hidden="true"></span>
                 <input class="form-control filter-input{% if mobile %} mobile{% endif %}" id="helper-filter-input" placeholder="{{ _('Freitextfilter') }}…" type="search" />
+                <span id="clear-helper-filter-input" class="clear-filter-input glyphicon glyphicon-remove-circle"></span>
                 {% for helper_link in helper_links %}
                   {% if helper_link.id == helper_link.parent_id %}
                     {% if not loop.first %}

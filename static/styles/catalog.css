@@ -21,9 +21,18 @@ span.full-width {
   padding-bottom: 3px;
 }
 
+.clear-filter-input {
+  right: 25px;
+  cursor: pointer;
+}
+
 .filter-input {
   display: inline;
   margin-bottom: 20px;
+}
+
+.filter-input::-ms-clear {
+  display: none;
 }
 
 .filter-input:not(.mobile) {

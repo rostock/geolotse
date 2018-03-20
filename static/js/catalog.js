@@ -49,16 +49,17 @@ $('#application-filter-input').keyup(function() {
   var value = $(this).val().toLowerCase();
   $('#application-accordion > div').each(function() {
     if ($(this).text().toLowerCase().search(value) > -1) {
-      $(this).removeClass('hidden-by-filter-input');
-      if (!$(this).hasClass('hidden-by-checkbox')) {
-        $(this).show();
-      }
+      $(this).show();
     } else {
-      $(this).addClass('hidden-by-filter-input');
-      if (!$(this).hasClass('hidden-by-checkbox')) {
-        $(this).hide();
-      }
+      $(this).hide();
     }
+  });
+});
+
+$('#clear-application-filter-input').click(function() {
+  $('#application-filter-input').val('');
+  $('#application-accordion > div').each(function() {
+    $(this).show();
   });
 });
 
@@ -73,14 +74,10 @@ $('#external-filter-input').keyup(function() {
   });
 });
 
-$('#form-filter-input').keyup(function() {
-  var value = $(this).val().toLowerCase();
-  $('.form-list-group > a').each(function() {
-    if ($(this).text().toLowerCase().search(value) > -1) {
-      $(this).show();
-    } else {
-      $(this).hide();
-    }
+$('#clear-external-filter-input').click(function() {
+  $('#external-filter-input').val('');
+  $('.external-list-group > a').each(function() {
+    $(this).show();
   });
 });
 
@@ -143,6 +140,16 @@ $('#geoservice-filter-input').keyup(function() {
   });
 });
 
+$('#clear-geoservice-filter-input').click(function() {
+  $('#geoservice-filter-input').val('');
+  $('#geoservice-accordion > div').each(function() {
+    $(this).removeClass('hidden-by-filter-input');
+      if (!$(this).hasClass('hidden-by-checkbox')) {
+        $(this).show();
+      }
+  });
+});
+
 $('#helper-filter-input').keyup(function() {
   var value = $(this).val().toLowerCase();
   $('.helper-list-group > a').each(function() {
@@ -151,5 +158,12 @@ $('#helper-filter-input').keyup(function() {
     } else {
       $(this).hide();
     }
+  });
+});
+
+$('#clear-helper-filter-input').click(function() {
+  $('#helper-filter-input').val('');
+  $('.helper-list-group > a').each(function() {
+    $(this).show();
   });
 });
