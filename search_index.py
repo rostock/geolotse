@@ -35,8 +35,15 @@ for link in links:
         for group in groups:
           group.group not in group_list and group_list.append(group.group)
         group_list = tuple(group_list)
+      category_order = 5
     else:
       group_list = ''
+      if link.category == 'api':
+        category_order = 2
+      elif link.category == 'documentation':
+        category_order = 6
+      elif link.category == 'download':
+        category_order = 3
     solr.add([
       {
         'id': index_counter,
@@ -46,7 +53,7 @@ for link in links:
         'title': link.title,
         'link': link.link if link.category != 'geoservice' else '',
         'public': link.public,
-        'category_order': link.category_order,
+        'category_order': category_order if category_order else link.category_order,
         'group_order': link.group_order
       }
     ])
@@ -111,7 +118,7 @@ for theme in themes:
       'title': theme.title,
       'link': '',
       'public': True,
-      'category_order': 0,
+      'category_order': 4,
       'group_order': 0
     }
   ])

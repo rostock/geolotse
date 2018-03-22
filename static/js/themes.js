@@ -1,6 +1,6 @@
 // global constants
-BASE_URL = location.href.match(/(http.*)\/.*$/)[1];
 CURRENT_THEME = 0;
+CURRENT_THEME_TITLE = '';
 FIRST_THEME = true;
 TOP_MODE = true;
 SHOW_MAP_MODALS = true;
@@ -140,7 +140,10 @@ function onEachMapFeature(feature, layer) {
   var html = '';
   if (feature.properties.meta_type === 'CitySDK') {
     html += '<div>';
-    html +=   TRANSLATIONS.object + ' <span class="popup-italic">' + feature.properties.id + '</span> ' + TRANSLATIONS.of + ' ' + feature.properties.meta_type + ' ' + TRANSLATIONS.offer + ' <span class="popup-italic">' + feature.properties.meta_title + '</span> (' + CITYSDK_API_TARGET_NAME + TRANSLATIONS.advice + ' ' + feature.properties.id + ')';
+    html +=   TRANSLATIONS.object + ' <span class="popup-italic">' + feature.properties.meta_title + '</span> ' + TRANSLATIONS.theme + ' <span class="popup-italic">' + CURRENT_THEME_TITLE + '</span>';
+    html += '</div>';
+    html += '<div class="popup-section">';
+    html +=   CITYSDK_API_TARGET_NAME + TRANSLATIONS.advice + ' ' + feature.properties.id;
     html += '</div>';
     html += '<div class="popup-section">';
     html +=   '<ul>';
@@ -179,7 +182,10 @@ function onEachMapFeature(feature, layer) {
     }
     // END ATTENTION
     html += '<div>';
-    html +=   TRANSLATIONS.object + ' <span class="popup-italic">' + id + '</span> ' + TRANSLATIONS.of + ' ' + feature.properties.meta_type + ' (' + TRANSLATIONS.layer + ' <span class="popup-italic">' + feature.properties.meta_featuretype + ')</span> ' + TRANSLATIONS.offer + ' <span class="popup-italic">' + feature.properties.meta_title + '</span>';
+    html +=   TRANSLATIONS.object + ' <span class="popup-italic">' + feature.properties.meta_title + '</span> ' + TRANSLATIONS.theme + ' <span class="popup-italic">' + CURRENT_THEME_TITLE + '</span>';
+    html += '</div>';
+    html += '<div class="popup-section">';
+    html +=   feature.properties.meta_type + ' ' + TRANSLATIONS.layer + ' <span class="popup-italic">' + feature.properties.meta_featuretype + '</span>';
     html += '</div>';
     html += '<div class="popup-section">';
     html +=   '<table>';
@@ -209,7 +215,7 @@ function onEachMapFeature(feature, layer) {
     html +=     '</tbody>';
     html +=   '</table>';
     html += '</div>';
-    html += '<div id="attributes-modal-link" class="popup-section" onclick="attributesModal(\'' + id + '\', \'' + feature.properties.meta_type + '\', \'' + feature.properties.meta_title + '\', \'' + feature.properties.meta_featuretype + '\')">';
+    html += '<div id="attributes-modal-link" class="popup-section" onclick="attributesModal(\'' + id + '\', \'' + feature.properties.meta_title + '\', \'' + CURRENT_THEME_TITLE + '\', \'' + feature.properties.meta_type + '\', \'' + feature.properties.meta_featuretype + '\')">';
     html +=   TRANSLATIONS.all_attributes + '…';
     html += '</div>';
     html += '<div class="popup-section">';
@@ -280,7 +286,7 @@ function populateMapFeatures(features, offerType, offerTitle, offerIndex, wfsLin
     jQuery.each(features, function(index, item) {
       item.properties['meta_type'] = offerType;
       item.properties['meta_title'] = offerTitle;
-      item.properties['meta_featuretype'] = wfsFeatureType;
+      item.properties['meta_featuretype'] = wfsFeatureType.split(':')[1];
       item.properties['meta_index'] = offerIndex;
       item.properties['meta_link'] = wfsLink;
     });
@@ -291,7 +297,7 @@ function populateMapFeatures(features, offerType, offerTitle, offerIndex, wfsLin
 
 function getOffer(theme, offerId, offerIndex) {
   $.ajax({
-    url: BASE_URL + '/offer',
+    url: URL_BASE + '/offer',
     data: {
       theme: theme,
       id: offerId
@@ -306,7 +312,7 @@ function getOffer(theme, offerId, offerIndex) {
 
 function getOffers(theme) {
   $.ajax({
-    url: BASE_URL + '/offers',
+    url: URL_BASE + '/offers',
     data: {
       theme: theme
     },
@@ -363,7 +369,12 @@ function populateOffers(offersData) {
       offer +=   '<div class="offer" id="offer-' + item.id + '" data-offer-id="' + item.id + '" data-offer-title="' + title + '">';
     }
     offer +=     '<span class="offer-title">';
-    offer +=       '<span class="offer-text">' + title + '</span>';
+    offer +=       '<span class="offer-text">';
+    if (item.logo != null) {
+      offer +=       '<img src="' + URL_LOGOS + item.logo + '" class="offer-logo hidden">';
+    }
+    offer +=         title;
+    offer +=       '</span>';
     offer +=       '<span class="glyphicon glyphicon-' + categoryIcon + ' offer-icon"></span>';
     if (application === true) {
       for (i = 0; i < item.links.length; i++) {
@@ -548,10 +559,10 @@ function mapOfferGeneralError(title) {
   }
 }
 
-function attributesModal(object, type, title, featuretype) {
-  $('.attributes-modal-text-offer-object').text(object);
-  $('.attributes-modal-text-offer-type').text(type);
+function attributesModal(object, title, theme, type, featuretype) {
   $('.attributes-modal-text-offer-title').text(title);
+  $('.attributes-modal-text-offer-theme').text(theme);
+  $('.attributes-modal-text-offer-type').text(type);
   $('.attributes-modal-text-offer-featuretype').text(featuretype);
   $('#attributes-modal table').html(ATTRIBUTES_MODAL_TBODY);
   $('#attributes-modal').modal();
@@ -661,7 +672,7 @@ $(document).ready(function() {
   if (window.location.hash) {
     var anchor = window.location.hash;
     if ($(anchor).length && anchor.indexOf('theme-') !== -1) {
-      $(anchor).trigger('click');
+      $(anchor).click();
     }
   }
 });
@@ -673,19 +684,19 @@ $(document).ready(function() {
 $('#theme-slider').on('click', '.theme', function() {
   if (!$(this).hasClass('active')) {
     CURRENT_THEME = $(this).data('theme-id');
-    var themeTitle = $(this).data('theme-title');
+    CURRENT_THEME_TITLE = $(this).data('theme-title');
     $('.theme').removeClass('active');
     $(this).addClass('active');
     $(this).find('.theme-title-flipped').hide();
     $(this).find('.theme-title-flipped').addClass('hidden');
     $(this).find('.theme-title').show();
     $(this).find('.theme-title').removeClass('hidden');
-    $('.text-theme-title').text(themeTitle);
+    $('.text-theme-title').text(CURRENT_THEME_TITLE);
     $('.map-headline').hide();
     $('.map-headline').addClass('hidden');
     $('#map-headline-top').show();
     $('#map-headline-top').removeClass('hidden');
-    $('html, body').animate({ scrollTop: ($('#map-headline-top').offset().top - 55)}, 'slow', function() {
+    //$('html, body').animate({ scrollTop: ($('#map-headline-top').offset().top - 40)}, 'slow', function() {
       TOP_MODE = true;
       SHOW_MAP_MODALS = true;
       clearOffers();
@@ -695,7 +706,7 @@ $('#theme-slider').on('click', '.theme', function() {
       MAP_OFFERS = [];
       getOffers(CURRENT_THEME);
       map.on('moveend', moveEnd);
-    });
+    //});
   }
 });
 
@@ -732,10 +743,14 @@ $('#offer-slider').on('click', '.offer', function() {
     $(this).find('.offer-title').removeClass('hidden');
     $('.offer-icon').show();
     $('.offer-icon').removeClass('hidden');
+    $('.offer-logo').hide();
+    $('.offer-logo').addClass('hidden');
     $('.offer-link').hide();
     $('.offer-link').addClass('hidden');
     $(this).find('.offer-icon').hide();
     $(this).find('.offer-icon').addClass('hidden');
+    $(this).find('.offer-logo').show();
+    $(this).find('.offer-logo').removeClass('hidden');
     $(this).find('.offer-link').show();
     $(this).find('.offer-link').removeClass('hidden');
     $('.text-offer-title').text(offerTitle);

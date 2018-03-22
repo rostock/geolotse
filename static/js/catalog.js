@@ -1,32 +1,6 @@
-// global constants
-BASE_URL = location.href.match(/(http.*)\/.*$/)[1];
+// functions
 
-
-
-// jQuery document ready event
-
-$(document).ready(function() {
-  
-  $('#loading-modal').modal('show');
-  
-  // load geoservices
-  $.ajax({
-    url: BASE_URL + '/geoservices',
-    success: function(response) {
-      $('#geoservice-accordion').html(response);
-      $('#loading-modal').modal('hide');
-    },
-    error: function() {
-      $('#loading-modal').modal('hide');
-    }
-  });
-  
-  // enable Bootstrap tooltips
-  if (!MOBILE) {
-    $('[data-toggle="tooltip"]').tooltip();
-  }
-  
-  // process URL fragment identifier
+function processUrlFragmentIdentifier() {
   if (window.location.hash) {
     var anchor = window.location.hash;
     if ($(anchor).length && anchor.indexOf('geoservice-') !== -1) {
@@ -38,6 +12,34 @@ $(document).ready(function() {
     } else if ($(anchor).length) {
       $(anchor).collapse('toggle');
     }
+  }
+}
+
+
+
+// jQuery document ready event
+
+$(document).ready(function() {
+  
+  $('#loading-modal').modal('show');
+  
+  // load geoservices
+  $.ajax({
+    url: URL_BASE + '/geoservices',
+    success: function(response) {
+      $('#geoservice-accordion').html(response);
+      $('#loading-modal').modal('hide');
+      processUrlFragmentIdentifier();
+    },
+    error: function() {
+      $('#loading-modal').modal('hide');
+      processUrlFragmentIdentifier();
+    }
+  });
+  
+  // enable Bootstrap tooltips
+  if (!MOBILE) {
+    $('[data-toggle="tooltip"]').tooltip();
   }
 });
 

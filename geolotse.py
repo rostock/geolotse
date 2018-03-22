@@ -242,7 +242,7 @@ def clear_cache():
 def get_link_sublink(id = 1, target = 'geoportal'):
   return Sublinks.query.join(Links.sublinks).filter(Links.id == id, Sublinks.target == target).first()
 
-@cache.memoize(timeout = app.config['DEFAULT_CACHE_TIMEOUT'])
+@cache.memoize(timeout = app.config['VOLATILE_DATA_CACHE_TIMEOUT'])
 def get_links(category = 'api', group_order = False):
   return Links.query.filter(Links.category == category).order_by(Links.group, Links.group_order, Links.title).all() if group_order == True else Links.query.filter(Links.category == category).order_by(Links.title).all()
 
@@ -254,7 +254,7 @@ def get_links_categories():
 def get_links_groups(category = 'api'):
   return Links.query.with_entities(Links.group).filter(Links.category == category).group_by(Links.group).order_by(Links.group).all()
 
-@cache.memoize(timeout = app.config['DEFAULT_CACHE_TIMEOUT'])
+@cache.memoize(timeout = app.config['VOLATILE_DATA_CACHE_TIMEOUT'])
 def get_parent_link_children(parent_id = 1, search_only = False, include_parent_link = True):
   if search_only == True:
     return Links.query.filter(Links.parent_id == parent_id, Links.search == True).order_by(Links.group_order).all() if include_parent_link == True else Links.query.filter(Links.parent_id == parent_id, Links.id != parent_id, Links.search == True).order_by(Links.group_order).all()
@@ -274,7 +274,7 @@ def get_parent_link_children_tags(parent_id = 1, include_parent_link_tags = True
   list.sort()
   return tuple(list)
 
-@cache.memoize(timeout = app.config['DEFAULT_CACHE_TIMEOUT'])
+@cache.memoize(timeout = app.config['VOLATILE_DATA_CACHE_TIMEOUT'])
 def get_parent_links(category = 'api', group_order = False):
   return Links.query.filter(Links.category == category, Links.id == Links.parent_id).order_by(Links.group, Links.title).all() if group_order == True else Links.query.filter(Links.category == category, Links.id == Links.parent_id).order_by(Links.title).all()
 
@@ -282,11 +282,11 @@ def get_parent_links(category = 'api', group_order = False):
 def get_tag_links(id = 1):
   return Links.query.join(Links.tags).filter(Tags.id == id).order_by(Links.title).all()
 
-@cache.memoize(timeout = app.config['DEFAULT_CACHE_TIMEOUT'])
+@cache.memoize(timeout = app.config['VOLATILE_DATA_CACHE_TIMEOUT'])
 def get_theme_link(theme_id = 1, link_id = 1):
   return Links.query.join(Links.themes).add_columns(Links.id, Links.parent_id, Links.category, Links.category_order, Links.group, Links.group_order, Links.title, Links.link, Links.public, Links.reachable, Links.reachable_last_check, Links.description, Links.date, Links.authorship_organisation, Links.authorship_name, Links.authorship_mail, Links.inspire_annex_theme, Links.logo, Links.search, Links.search_title, Links_Themes.top, Links_Themes.type, Links_Themes.layer).filter(Links.id == link_id, Links.id == Links_Themes.link_id, Links_Themes.theme_id == theme_id, Themes.id == theme_id).first()
 
-@cache.memoize(timeout = app.config['DEFAULT_CACHE_TIMEOUT'])
+@cache.memoize(timeout = app.config['VOLATILE_DATA_CACHE_TIMEOUT'])
 def get_theme_links(id = 1):
   links_non_geoservice = Links.query.join(Links.themes).add_columns(Links.id, Links.parent_id, Links.category, Links.category_order, Links.group, Links.group_order, Links.title, Links.link, Links.public, Links.reachable, Links.reachable_last_check, Links.description, Links.date, Links.authorship_organisation, Links.authorship_name, Links.authorship_mail, Links.inspire_annex_theme, Links.logo, Links.search, Links.search_title, Links_Themes.top, Links_Themes.type, Links_Themes.layer).filter(Links.id == Links_Themes.link_id, Links_Themes.theme_id == id, Themes.id == id, Links.category != 'geoservice').order_by(Links.category_order, Links.group, Links.title).all()
   links_geoservice = Links.query.join(Links.themes).add_columns(Links.id, Links.parent_id, Links.category, Links.category_order, Links.group, Links.group_order, Links.title, Links.link, Links.public, Links.reachable, Links.reachable_last_check, Links.description, Links.date, Links.authorship_organisation, Links.authorship_name, Links.authorship_mail, Links.inspire_annex_theme, Links.logo, Links.search, Links.search_title, Links_Themes.top, Links_Themes.type, Links_Themes.layer).filter(Links.id == Links_Themes.link_id, Links_Themes.theme_id == id, Themes.id == id, Links.category == 'geoservice').order_by(Links.title).all()
@@ -377,7 +377,7 @@ def catalog_without_lang_code():
 @app.route('/<lang_code>/catalog')
 def catalog():
   user_agent = parse(request.headers.get('User-Agent'))
-  return render_template('catalog.html', mobile = user_agent.is_mobile, subtitle = gettext(u'Katalog'), categories = get_links_categories(), api_links = get_parent_links('api', False), application_links = get_parent_links('application', True), documentation_links = get_parent_links('documentation', False), download_links = get_parent_links('download', False), external_links = get_links('external', True), form_links = get_links('form', True), geoservice_groups = get_links_groups('geoservice'), helper_links = get_links('helper', True))
+  return render_template('catalog.html', mobile = user_agent.is_mobile, subtitle = gettext(u'Katalog'), categories = get_links_categories(), api_links = get_parent_links('api', False), application_links = get_parent_links('application', True), documentation_links = get_parent_links('documentation', False), download_links = get_parent_links('download', False), external_links = get_links('external', True), form_links = get_links('form', True), geoservice_groups = get_links_groups('geoservice'), helper_links = get_links('helper', True), url_base = url_for('index', lang_code = g.current_lang if g.current_lang else app.config['BABEL_DEFAULT_LOCALE']))
 
 @app.route('/geoservices')
 def geoservices_without_lang_code():
@@ -404,14 +404,13 @@ def themes():
     'description': gettext(u'Beschreibung'),
     'link': gettext(u'Link zum'),
     'location_control': gettext(u'Standortbestimmung'),
-    'layer': gettext(u'Feature-Type'),
+    'layer': gettext(u'mit aktivem Feature-Typ'),
     'map': gettext(u'Karte'),
-    'object': gettext(u'Objekt'),
-    'of': gettext(u'aus'),
-    'offer': gettext(u'zum Angebot'),
+    'object': gettext(u'Objekt aus Angebot'),
+    'theme': gettext(u'zum Thema'),
     'value': gettext(u'Wert')
   }  
-  return render_template('themes.html', mobile = user_agent.is_mobile, subtitle = gettext(u'Themen'), citysdk_api_key = app.config['CITYSDK_API_KEY'], citysdk_api_target_name = app.config['CITYSDK_API_TARGET_NAME'], citysdk_api_target_link = app.config['CITYSDK_API_TARGET_LINK'], themes = get_themes(), translations = translations)
+  return render_template('themes.html', mobile = user_agent.is_mobile, subtitle = gettext(u'Themen'), citysdk_api_key = app.config['CITYSDK_API_KEY'], citysdk_api_target_name = app.config['CITYSDK_API_TARGET_NAME'], citysdk_api_target_link = app.config['CITYSDK_API_TARGET_LINK'], themes = get_themes(), translations = translations, url_base = url_for('index', lang_code = g.current_lang if g.current_lang else app.config['BABEL_DEFAULT_LOCALE']), url_logos = url_for('static', filename='images/logos/'))
 
 @app.route('/offer')
 def offer_without_lang_code():
@@ -478,6 +477,7 @@ def offer():
       item['reachable_label'] = gettext(u'nicht erreichbar') + u'–' + gettext(u'letzte Prüfung')
     item['reachable_last_check'] = datetime_l10n(link.reachable_last_check, 'full')
     item['search_title'] = link.search_title
+    item['logo'] = link.logo
     item['top'] = link.top
     item['type'] = link.type
     item['layer'] = link.layer
@@ -556,6 +556,7 @@ def offers():
         item['reachable_label'] = gettext(u'nicht erreichbar') + u'–' + gettext(u'letzte Prüfung')
       item['reachable_last_check'] = datetime_l10n(link.reachable_last_check, 'full')
       item['search_title'] = link.search_title
+      item['logo'] = link.logo
       item['top'] = link.top
       item['type'] = link.type
       item['layer'] = link.layer

@@ -42,7 +42,9 @@
   <script>CITYSDK_API_TARGET_NAME = '{{ citysdk_api_target_name }}'</script>
   <script>CITYSDK_API_TARGET_LINK = '{{ citysdk_api_target_link }}'</script>
   <script>MOBILE = {{ mobile|lower }}</script>
-  <script>TRANSLATIONS = {{ translations | tojson }}</script>
+  <script>TRANSLATIONS = {{ translations|tojson }}</script>
+  <script>URL_BASE = '{{ url_base }}'</script>
+  <script>URL_LOGOS = '{{ url_logos }}'</script>
   <script type="application/javascript" src="{{ url_for('static', filename='js/themes.js') }}"></script>
 {% endblock %}
 
@@ -81,10 +83,14 @@
         {% endfor %}
       </div>
     </div>
+    <div class="row-fluid" id="offer-container">
+      <{% if mobile %}h4{% else %}h3{% endif %} class="headline" id="offers-headline">{{ _('Diese Angebote existieren zum Thema') }} <span class="text-theme-title"></span>:</{% if mobile %}h4{% else %}h3{% endif %}>
+      <div class="slider" id="offer-slider"></div>
+    </div>
     <div class="row-fluid" id="map-container">
-      <h4 class="map-headline" id="map-headline-top">{{ _('Die Karte zeigt Objekte aus den Top-Angeboten zum Thema ') }} <span class="text-theme-title"></span>. {{ _('Wählen Sie unten ein konkretes Angebot aus, um nur dessen Objekte auf der Karte anzuzeigen.') }}</h4>
-      <h4 class="map-headline hidden" id="map-headline-offer">{{ _('Die Karte zeigt Objekte aus dem Angebot ') }} <span class="text-offer-title"></span> {{ _(' zum Thema ') }} <span class="text-theme-title"></span>.</h4>
-      <h4 class="map-headline hidden" id="map-headline-empty">{{ _('Es werden keine Objekte zum Angebot ') }} <span class="text-offer-title"></span> {{ _(' zum Thema ') }} <span class="text-theme-title"></span> {{ _('auf der Karte angezeigt, da es sich hierbei nicht um ein für die Kartenanzeige geeignetes Angebot handelt.') }}</h4>
+      <h4 class="headline map-headline" id="map-headline-top">{{ _('Die Karte zeigt Objekte aus den Top-Angeboten zum Thema ') }} <span class="text-theme-title"></span>. {{ _('Wählen Sie oben ein konkretes Angebot aus, um nur dessen Objekte auf der Karte anzuzeigen.') }}</h4>
+      <h4 class="headline map-headline hidden" id="map-headline-offer">{{ _('Die Karte zeigt Objekte aus dem Angebot ') }} <span class="text-offer-title"></span> {{ _(' zum Thema ') }} <span class="text-theme-title"></span>.</h4>
+      <h4 class="headline map-headline hidden" id="map-headline-empty">{{ _('Es werden keine Objekte zum Angebot ') }} <span class="text-offer-title"></span> {{ _(' zum Thema ') }} <span class="text-theme-title"></span> {{ _('auf der Karte angezeigt, da es sich hierbei nicht um ein für die Kartenanzeige geeignetes Angebot handelt.') }}</h4>
       <span class="glyphicon glyphicon-search" id="icon-address-input" aria-hidden="true"></span>
       <input class="form-control{% if mobile %} mobile{% endif %}" id="address-input" placeholder="{{ _('Adressensuche') }}…" type="search" />
       <span id="clear-address-input" class="glyphicon glyphicon-remove-circle"></span>
@@ -94,16 +100,13 @@
         <span class="glyphicon glyphicon-link" aria-hidden="true"></span> {{ _('Kartensituation in Geoport.HRO öffnen, dem Portal für Geodaten der Hanse- und Universitätsstadt Rostock und Umgebung') }}
       </div>
     </div>
-    <div class="row-fluid" id="offer-container">
-      <{% if mobile %}h4{% else %}h3{% endif %} class="headline" id="offers-headline">{{ _('Diese Angebote existieren zum Thema') }} <span class="text-theme-title"></span>:</{% if mobile %}h4{% else %}h3{% endif %}>
-      <div class="slider" id="offer-slider"></div>
-    </div>
     <div id="attributes-modal" class="modal fade" role="dialog" tabindex="-1">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title">{{ _('Attribute zu Objekt') }} <span class="attributes-modal-text-offer-object"></span> {{ _('aus') }} <span class="attributes-modal-text-offer-type"></span> ({{ _('Feature-Type') }} <span class="attributes-modal-text-offer-featuretype"></span>) {{ _('zum Angebot') }} <span class="attributes-modal-text-offer-title"></span></h4>
+            <h4 class="modal-title">{{ _('Objekt aus Angebot') }} <span class="attributes-modal-text-offer-title"></span> {{ _('zum Thema') }} <span class="attributes-modal-text-offer-theme"></span></h4>
+            <h5><span class="attributes-modal-text-offer-type"></span> {{ _('mit aktivem Feature-Typ') }} <span class="attributes-modal-text-offer-featuretype"></span></h5>
           </div>
           <div class="modal-body">
             <table>

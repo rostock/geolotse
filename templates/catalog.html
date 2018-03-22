@@ -24,6 +24,7 @@
 
 {% block local_scripts %}
   <script>MOBILE = {{ mobile|lower }}</script>
+  <script>URL_BASE = '{{ url_base }}'</script>
   <script type="application/javascript" src="{{ url_for('static', filename='js/catalog.js') }}"></script>
 {% endblock %}
 
@@ -77,7 +78,7 @@
                       <div class="panel-heading">
                         <h4 class="panel-title">
                           <a class="accordion-link" data-toggle="collapse" href="#application-{{ application_link.id }}">
-                            <span class="full-width">{% if application_link.logo != None %}<img src="{{ url_for('static', filename='images/logos/') }}{{ application_link.logo }}" class="application-logo" /> {% endif %}{{ application_link.group }}</span>
+                            <span class="full-width">{% if application_link.logo != None %}<img src="{{ url_for('static', filename='images/logos/') }}{{ application_link.logo }}" class="application-logo" /> {% else %}<span class="glyphicon glyphicon-phone" aria-hidden="true"></span> {% endif %}{{ application_link.group }}</span>
                           </a>
                         </h4>
                       </div>
