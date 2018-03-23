@@ -140,9 +140,6 @@ function onEachMapFeature(feature, layer) {
   var html = '';
   if (feature.properties.meta_type === 'CitySDK') {
     html += '<div>';
-    html +=   TRANSLATIONS.object + ' <span class="popup-italic">' + feature.properties.meta_title + '</span> ' + TRANSLATIONS.theme + ' <span class="popup-italic">' + CURRENT_THEME_TITLE + '</span>';
-    html += '</div>';
-    html += '<div class="popup-section">';
     html +=   CITYSDK_API_TARGET_NAME + TRANSLATIONS.advice + ' ' + feature.properties.id;
     html += '</div>';
     html += '<div class="popup-section">';
@@ -154,6 +151,9 @@ function onEachMapFeature(feature, layer) {
     html +=       TRANSLATIONS.description + ': <span class="popup-italic">' + feature.properties.description + '</span>';
     html +=     '</li>';
     html +=   '</ul>';
+    html += '</div>';
+    html += '<div class="popup-section">';
+    html +=   TRANSLATIONS.object + ' <span class="popup-italic">' + feature.properties.meta_title + '</span> ' + TRANSLATIONS.theme + ' <span class="popup-italic">' + CURRENT_THEME_TITLE + '</span>';
     html += '</div>';
     html += '<div class="popup-section">';
     html +=   '<a href="' + feature.properties.link + '" target="_blank">';
@@ -408,7 +408,7 @@ function populateOffers(offersData) {
   
   // initialise slick (for offer slider)
   $('#offer-slider').slick({
-    dots: false,
+    dots: !MOBILE ? true : false,
     infinite: true,
     slidesToScroll: 5,
     slidesToShow: 5,
@@ -416,7 +416,7 @@ function populateOffers(offersData) {
       {
         breakpoint: 1546,
         settings: {
-          dots: false,
+          dots: !MOBILE ? true : false,
           infinite: true,
           slidesToScroll: 4,
           slidesToShow: 4
@@ -425,7 +425,7 @@ function populateOffers(offersData) {
       {
         breakpoint: 1246,
         settings: {
-          dots: false,
+          dots: !MOBILE ? true : false,
           infinite: true,
           slidesToScroll: 3,
           slidesToShow: 3
@@ -434,7 +434,7 @@ function populateOffers(offersData) {
       {
         breakpoint: 946,
         settings: {
-          dots: false,
+          dots: !MOBILE ? true : false,
           infinite: true,
           slidesToScroll: 2,
           slidesToShow: 2
@@ -443,7 +443,7 @@ function populateOffers(offersData) {
       {
         breakpoint: 646,
         settings: {
-          dots: false,
+          dots: !MOBILE ? true : false,
           infinite: true,
           slidesToScroll: 1,
           slidesToShow: 1
@@ -619,7 +619,7 @@ $(document).ready(function() {
   
   // initialise slick (for theme slider)
   $('#theme-slider').slick({
-    dots: false,
+    dots: !MOBILE ? true : false,
     focusOnSelect: true,
     infinite: true,
     slidesToScroll: 5,
@@ -628,7 +628,7 @@ $(document).ready(function() {
       {
         breakpoint: 1434,
         settings: {
-          dots: false,
+          dots: !MOBILE ? true : false,
           focusOnSelect: true,
           infinite: true,
           slidesToScroll: 4,
@@ -638,7 +638,7 @@ $(document).ready(function() {
       {
         breakpoint: 1154,
         settings: {
-          dots: false,
+          dots: !MOBILE ? true : false,
           focusOnSelect: true,
           infinite: true,
           slidesToScroll: 3,
@@ -648,7 +648,7 @@ $(document).ready(function() {
       {
         breakpoint: 874,
         settings: {
-          dots: false,
+          dots: !MOBILE ? true : false,
           focusOnSelect: true,
           infinite: true,
           slidesToScroll: 2,
@@ -658,7 +658,7 @@ $(document).ready(function() {
       {
         breakpoint: 598,
         settings: {
-          dots: false,
+          dots: !MOBILE ? true : false,
           focusOnSelect: true,
           infinite: true,
           slidesToScroll: 1,
@@ -696,7 +696,7 @@ $('#theme-slider').on('click', '.theme', function() {
     $('.map-headline').addClass('hidden');
     $('#map-headline-top').show();
     $('#map-headline-top').removeClass('hidden');
-    //$('html, body').animate({ scrollTop: ($('#map-headline-top').offset().top - 40)}, 'slow', function() {
+    $('html, body').animate({ scrollTop: ($('#offers-headline').offset().top - 60)}, 'slow', function() {
       TOP_MODE = true;
       SHOW_MAP_MODALS = true;
       clearOffers();
@@ -706,7 +706,7 @@ $('#theme-slider').on('click', '.theme', function() {
       MAP_OFFERS = [];
       getOffers(CURRENT_THEME);
       map.on('moveend', moveEnd);
-    //});
+    });
   }
 });
 

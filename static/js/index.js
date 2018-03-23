@@ -38,7 +38,11 @@ function populateResults(resultsData) {
     var publicIcon = (item.public === true) ? 'open green' : 'close red';
     results += '<div class="results-entry">';
     results +=   '<a href="' + item.link + '" target="_blank">';
-    results +=     '<span class="glyphicon glyphicon-margin-right glyphicon-' + categoryIcon + '"' + ((!MOBILE) ? ' aria-hidden="true" data-toggle="tooltip" data-placement="right" title="' + item.category_label + '"' : '') + '></span><span class="glyphicon glyphicon-margin-right glyphicon-eye-' + publicIcon + '"' + ((!MOBILE) ? ' aria-hidden="true" data-toggle="tooltip" data-placement="right" title="' + item.public_label + '"' : '') + '></span> ' + item.title;
+    if (item.catalog === true) {
+      results +=   '<span class="glyphicon glyphicon-margin-right glyphicon-list"' + ((!MOBILE) ? ' aria-hidden="true" data-toggle="tooltip" data-placement="right" title="' + TRANSLATIONS.catalog + '"' : '') + '></span><span class="glyphicon glyphicon-margin-right glyphicon-' + categoryIcon + '"' + ((!MOBILE) ? ' aria-hidden="true" data-toggle="tooltip" data-placement="right" title="' + item.category_label + '"' : '') + '></span><span class="glyphicon glyphicon-margin-right glyphicon-eye-' + publicIcon + '"' + ((!MOBILE) ? ' aria-hidden="true" data-toggle="tooltip" data-placement="right" title="' + item.public_label + '"' : '') + '></span> ' + item.title;
+    } else {
+      results +=   '<span class="glyphicon glyphicon-margin-right glyphicon-' + categoryIcon + '"' + ((!MOBILE) ? ' aria-hidden="true" data-toggle="tooltip" data-placement="right" title="' + item.category_label + '"' : '') + '></span><span class="glyphicon glyphicon-margin-right glyphicon-eye-' + publicIcon + '"' + ((!MOBILE) ? ' aria-hidden="true" data-toggle="tooltip" data-placement="right" title="' + item.public_label + '"' : '') + '></span> ' + item.title;
+    }
     results +=   '</a>';
     results += '</div>';
   });

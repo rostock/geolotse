@@ -36,6 +36,7 @@ for link in links:
           group.group not in group_list and group_list.append(group.group)
         group_list = tuple(group_list)
       category_order = 5
+      group_order = 1
     else:
       group_list = ''
       if link.category == 'api':
@@ -53,8 +54,8 @@ for link in links:
         'title': link.title,
         'link': link.link if link.category != 'geoservice' else '',
         'public': link.public,
-        'category_order': category_order if category_order else link.category_order,
-        'group_order': link.group_order
+        'category_order': category_order if 'category_order' in locals() else link.category_order,
+        'group_order': group_order if 'group_order' in locals() else link.group_order
       }
     ])
   else:

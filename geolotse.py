@@ -312,7 +312,10 @@ def index_without_lang_code():
 @app.route('/<lang_code>')
 def index():
   user_agent = parse(request.headers.get('User-Agent'))
-  return render_template('index.html', mobile = user_agent.is_mobile)
+  translations = {
+    'catalog': gettext(u'Kataloginhalt')
+  }  
+  return render_template('index.html', mobile = user_agent.is_mobile, translations = translations)
 
 @app.route('/search')
 def search_without_lang_code():
@@ -330,7 +333,7 @@ def search():
   else:
     start = 0
     rows = 10
-  results = solr.search(q = query, start = start, rows = rows, sort = 'category_order asc, title asc, group_order asc, id asc')
+  results = solr.search(q = query, start = start, rows = rows, sort = 'category_order asc, group_order asc, title asc, id asc')
   data = []
   for result in results:
     item = { 'id': result['id']}
@@ -338,18 +341,25 @@ def search():
     item['category'] = result['category']
     if item['category'] == 'api':
       item['category_label'] = gettext(u'API (Programmierschnittstelle)')
+      item['catalog'] = True
     elif item['category'] == 'application':
       item['category_label'] = gettext(u'Anwendung')
+      item['catalog'] = True
     elif item['category'] == 'documentation':
       item['category_label'] = gettext(u'Dokumentation')
+      item['catalog'] = True
     elif item['category'] == 'download':
       item['category_label'] = gettext(u'Download')
+      item['catalog'] = True
     elif item['category'] == 'geoservice':
       item['category_label'] = gettext(u'Geodatendienst')
+      item['catalog'] = True
     elif item['category'] == 'theme':
       item['category_label'] = gettext(u'Thema')
+      item['catalog'] = False
     else:
       item['category_label'] = result['category']
+      item['catalog'] = False
     item['title'] = result['title']
     if 'link' in result:
       item['link'] = result['link']

@@ -84,13 +84,13 @@
       </div>
     </div>
     <div class="row-fluid" id="offer-container">
-      <{% if mobile %}h4{% else %}h3{% endif %} class="headline" id="offers-headline">{{ _('Diese Angebote existieren zum Thema') }} <span class="text-theme-title"></span>:</{% if mobile %}h4{% else %}h3{% endif %}>
+      <{% if mobile %}h4{% else %}h3{% endif %} class="headline{% if mobile %} mobile{% endif %}" id="offers-headline">{{ _('Angebote zum gewählten Thema') }}:</{% if mobile %}h4{% else %}h3{% endif %}>
       <div class="slider" id="offer-slider"></div>
     </div>
-    <div class="row-fluid" id="map-container">
-      <h4 class="headline map-headline" id="map-headline-top">{{ _('Die Karte zeigt Objekte aus den Top-Angeboten zum Thema ') }} <span class="text-theme-title"></span>. {{ _('Wählen Sie oben ein konkretes Angebot aus, um nur dessen Objekte auf der Karte anzuzeigen.') }}</h4>
-      <h4 class="headline map-headline hidden" id="map-headline-offer">{{ _('Die Karte zeigt Objekte aus dem Angebot ') }} <span class="text-offer-title"></span> {{ _(' zum Thema ') }} <span class="text-theme-title"></span>.</h4>
-      <h4 class="headline map-headline hidden" id="map-headline-empty">{{ _('Es werden keine Objekte zum Angebot ') }} <span class="text-offer-title"></span> {{ _(' zum Thema ') }} <span class="text-theme-title"></span> {{ _('auf der Karte angezeigt, da es sich hierbei nicht um ein für die Kartenanzeige geeignetes Angebot handelt.') }}</h4>
+    <div class="row-fluid{% if mobile %} mobile{% endif %}" id="map-container">
+      <h4 class="headline map-headline" id="map-headline-top">{{ _('Karte zeigt Objekte aus Top-Angeboten zum gewählten Thema') }}:</h4>
+      <h4 class="headline map-headline hidden" id="map-headline-offer">{{ _('Karte zeigt Objekte aus gewähltem Angebot') }}:</h4>
+      <h4 class="headline map-headline hidden" id="map-headline-empty">{{ _('Keine Objekte aus gewähltem Angebot auf Karte, da Angebot nicht für Kartenanzeige geeignet') }}</h4>
       <span class="glyphicon glyphicon-search" id="icon-address-input" aria-hidden="true"></span>
       <input class="form-control{% if mobile %} mobile{% endif %}" id="address-input" placeholder="{{ _('Adressensuche') }}…" type="search" />
       <span id="clear-address-input" class="glyphicon glyphicon-remove-circle"></span>

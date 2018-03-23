@@ -38,21 +38,21 @@
             <h4 class="panel-title">
               <a class="accordion-link" data-toggle="collapse" data-parent="#accordion" href="#{{ category.category }}">
                 {% if category.category == 'api' %}
-                  <span class="glyphicon glyphicon-dashboard" aria-hidden="true"></span> {{ _('API (Programmierschnittstellen)') }}
+                  <span class="glyphicon glyphicon-dashboard"{% if not mobile %} aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{{ _('Links zu Programmteilen, die von Softwaresystemen anderen Programmen zur Anbindung an die Systeme zur Verfügung gestellt werden') }}"{% endif %}></span> {{ _('API (Programmierschnittstellen)') }}
                 {% elif category.category == 'application' %}
-                  <span class="glyphicon glyphicon-phone" aria-hidden="true"></span> {{ _('Anwendungen') }}
+                  <span class="glyphicon glyphicon-phone"{% if not mobile %} aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{{ _('Hauptanwendungen, häufig mit mehreren Links in die einzelnen Anwenungsbestandteile oder Unteranwendungen') }}"{% endif %}></span> {{ _('Anwendungen') }}
                 {% elif category.category == 'documentation' %}
-                  <span class="glyphicon glyphicon-book" aria-hidden="true"></span> {{ _('Dokumentationen') }}
+                  <span class="glyphicon glyphicon-book"{% if not mobile %} aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{{ _('Links zu Dokumentationen') }}"{% endif %}></span> {{ _('Dokumentationen') }}
                 {% elif category.category == 'download' %}
-                  <span class="glyphicon glyphicon-download" aria-hidden="true"></span> {{ _('Downloads') }}
+                  <span class="glyphicon glyphicon-download"{% if not mobile %} aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{{ _('Links zu Downloadportalen und -sammlungen') }}"{% endif %}></span> {{ _('Downloads') }}
                 {% elif category.category == 'external' %}
-                  <span class="glyphicon glyphicon-link" aria-hidden="true"></span> {{ _('externe Links') }}
+                  <span class="glyphicon glyphicon-link"{% if not mobile %} aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{{ _('Links auf externe Websites') }}"{% endif %}></span> {{ _('externe Links') }}
                 {% elif category.category == 'form' %}
-                  <span class="glyphicon glyphicon-inbox" aria-hidden="true"></span> {{ _('Formulare') }}
+                  <span class="glyphicon glyphicon-inbox"{% if not mobile %} aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{{ _('Links auf Formulare') }}"{% endif %}></span> {{ _('Formulare') }}
                 {% elif category.category == 'geoservice' %}
-                  <span class="glyphicon glyphicon-globe" aria-hidden="true"></span> {{ _('Geodatendienste') }}
+                  <span class="glyphicon glyphicon-globe"{% if not mobile %} aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{{ _('Geodatendienste (WMS, WFS etc.), jeweils mit ausführlichen Informationen versehen (Beschreibung, Metadaten etc.)') }}"{% endif %}></span> {{ _('Geodatendienste') }}
                 {% elif category.category == 'helper' %}
-                  <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> {{ _('Tools') }}
+                  <span class="glyphicon glyphicon-wrench"{% if not mobile %} aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{{ _('Links zu kleineren und Hilfsanwendungen') }}"{% endif %}></span> {{ _('Tools') }}
                 {% endif %}
               </a>
             </h4>

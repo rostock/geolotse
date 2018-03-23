@@ -210,6 +210,7 @@ footer a:hover {
   padding: 10px !important;
   background-color: #006cb7 !important;
   text-align: left !important;
+  max-width: 1000px;
 }
 
 .tooltip.right > .tooltip-arrow {
