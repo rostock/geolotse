@@ -169,3 +169,9 @@ $('#clear-helper-filter-input').click(function() {
     $(this).show();
   });
 });
+
+if (!MOBILE) {
+  $('body').tooltip({
+    selector: '[data-toggle="tooltip"]'
+  });
+}
