@@ -52,53 +52,72 @@
   {% include 'navbar.html' %}
   <div class="container-fluid">
     <div class="row-fluid" id="theme-container">
-      <{% if mobile %}h4{% else %}h3{% endif %} class="headline">{{ _('Welches Thema interessiert Sie?') }}</{% if mobile %}h4{% else %}h3{% endif %}>
-      <div class="slider" id="theme-slider">
-        {% for theme in themes %}
-          <div>
-            <div class="theme" id="theme-{{ theme.id }}" data-theme-id="{{ theme.id }}" data-theme-title="{{ theme.title }}">
-              <span class="theme-title">
-                <span class="theme-text">{{ theme.title }}</span>
-                {% if theme.icon != None %}
-                  <i class="fas fa-{{ theme.icon }} theme-icon"></i>
-                {% endif %}
-              </span>
-              <span class="theme-title-flipped hidden {% if theme.descriptive_tags != None %}full{% else %}light{% endif %}">
-                {% if theme.descriptive_tags != None %}
-                  {% for descriptive_tag in theme.descriptive_tags %}
-                    <span class="theme-text">{{ descriptive_tag }}</span>
-                    {% if loop.last %}
-                      <span class="theme-text">…</span>
+      {% if not mobile %}<div class="panel panel-primary">{% endif %}
+        {% if not mobile %}<div class="panel-heading">{% endif %}
+          <{% if mobile %}h4{% else %}h3{% endif %} class="headline">{{ _('Welches Thema interessiert Sie?') }}</{% if mobile %}h4{% else %}h3{% endif %}>
+        {% if not mobile %}</div>{% endif %}
+        {% if not mobile %}<div class="panel-body">{% endif %}
+          <div class="slider" id="theme-slider">
+            {% for theme in themes %}
+              <div>
+                <div class="theme" id="theme-{{ theme.id }}" data-theme-id="{{ theme.id }}" data-theme-title="{{ theme.title }}">
+                  <span class="theme-title">
+                    <span class="theme-text">{{ theme.title }}</span>
+                    {% if theme.icon != None %}
+                      <i class="fas fa-{{ theme.icon }} theme-icon"></i>
                     {% endif %}
-                  {% endfor %}
-                {% else %}
-                  <span class="theme-text">{{ theme.title }}</span>
-                  {% if theme.icon != None %}
-                    <i class="fas fa-{{ theme.icon }} theme-icon"></i>
-                  {% endif %}
-                {% endif %}
-              </span>
-            </div>
+                  </span>
+                  <span class="theme-title-flipped hidden {% if theme.descriptive_tags != None %}full{% else %}light{% endif %}">
+                    {% if theme.descriptive_tags != None %}
+                      {% for descriptive_tag in theme.descriptive_tags %}
+                        <span class="theme-text">{{ descriptive_tag }}</span>
+                        {% if loop.last %}
+                          <span class="theme-text">…</span>
+                        {% endif %}
+                      {% endfor %}
+                    {% else %}
+                      <span class="theme-text">{{ theme.title }}</span>
+                      {% if theme.icon != None %}
+                        <i class="fas fa-{{ theme.icon }} theme-icon"></i>
+                      {% endif %}
+                    {% endif %}
+                  </span>
+                </div>
+              </div>
+            {% endfor %}
           </div>
-        {% endfor %}
-      </div>
+        {% if not mobile %}</div>{% endif %}
+      {% if not mobile %}</div>{% endif %}
     </div>
-    <div class="row-fluid" id="offer-container">
-      <{% if mobile %}h4{% else %}h3{% endif %} class="headline{% if mobile %} mobile{% endif %}" id="offers-headline">{{ _('Angebote zum gewählten Thema') }}:</{% if mobile %}h4{% else %}h3{% endif %}>
-      <div class="slider" id="offer-slider"></div>
+    <div class="row-fluid hidden" id="offers-container">
+      {% if not mobile %}<div class="panel panel-info">{% endif %}
+        {% if not mobile %}<div class="panel-heading">{% endif %}
+          <{% if mobile %}h4{% else %}h3{% endif %} class="headline{% if mobile %} mobile{% endif %}" id="offers-headline">{{ _('Angebote zum gewählten Thema') }}:</{% if mobile %}h4{% else %}h3{% endif %}>
+        {% if not mobile %}</div>{% endif %}
+        {% if not mobile %}<div class="panel-body">{% endif %}
+          <div class="slider" id="offer-slider"></div>
+        {% if not mobile %}</div>{% endif %}
+      {% if not mobile %}</div>{% endif %}
     </div>
-    <div class="row-fluid{% if mobile %} mobile{% endif %}" id="map-container">
-      <h4 class="headline map-headline" id="map-headline-top">{{ _('Karte zeigt Objekte aus Top-Angeboten zum gewählten Thema') }}:</h4>
-      <h4 class="headline map-headline hidden" id="map-headline-offer">{{ _('Karte zeigt Objekte aus gewähltem Angebot') }}:</h4>
-      <h4 class="headline map-headline hidden" id="map-headline-empty">{{ _('Keine Objekte aus gewähltem Angebot auf Karte, da Angebot nicht für Kartenanzeige geeignet') }}</h4>
-      <span class="glyphicon glyphicon-search" id="icon-address-input" aria-hidden="true"></span>
-      <input class="form-control{% if mobile %} mobile{% endif %}" id="address-input" placeholder="{{ _('Adressensuche') }}…" type="search" />
-      <span id="clear-address-input" class="glyphicon glyphicon-remove-circle"></span>
-      <div id="results"></div>
-      <div id="map"{% if mobile %} class="mobile"{% endif %}></div>
-      <div id="geoportal-link">
-        <span class="glyphicon glyphicon-link" aria-hidden="true"></span> {{ _('Kartensituation in Geoport.HRO öffnen, dem Portal für Geodaten der Hanse- und Universitätsstadt Rostock und Umgebung') }}
-      </div>
+    <div class="row-fluid" id="map-container">
+      {% if not mobile %}<div class="panel panel-default">{% endif %}
+        {% if not mobile %}<div class="panel-heading">{% endif %}
+          <{% if mobile %}h4{% else %}h3{% endif %} class="headline map-headline" id="map-headline-initial">{{ _('Karte') }}:</{% if mobile %}h4{% else %}h3{% endif %}>
+          <{% if mobile %}h4{% else %}h3{% endif %} class="headline map-headline hidden" id="map-headline-top">{{ _('Karte mit Objekten aus Top-Angeboten') }}<span class="glyphicon glyphicon-margin-right glyphicon-asterisk yellow" aria-hidden="true"></span>{{ _('zum gewählten Thema') }}:</{% if mobile %}h4{% else %}h3{% endif %}>
+          <{% if mobile %}h4{% else %}h3{% endif %} class="headline map-headline hidden" id="map-headline-offer">{{ _('Karte mit Objekten aus gewähltem Angebot') }}:</{% if mobile %}h4{% else %}h3{% endif %}>
+          <{% if mobile %}h4{% else %}h3{% endif %} class="headline map-headline hidden" id="map-headline-empty">{{ _('Karte ohne Objekte, da gewähltes Angebot nicht für Kartenanzeige geeignet') }}:</{% if mobile %}h4{% else %}h3{% endif %}>
+        </div>
+        {% if not mobile %}<div class="panel-body">{% endif %}
+          <span class="glyphicon glyphicon-search" id="icon-address-input" aria-hidden="true"></span>
+          <input class="form-control{% if mobile %} mobile{% endif %}" id="address-input" placeholder="{{ _('Adressensuche') }}…" type="search" />
+          <span id="clear-address-input" class="glyphicon glyphicon-remove-circle"></span>
+          <div id="results"></div>
+          <div id="map"{% if mobile %} class="mobile"{% endif %}></div>
+          <div id="geoportal-link">
+            <span class="glyphicon glyphicon-link" aria-hidden="true"></span> {{ _('Kartensituation in Geoport.HRO öffnen, dem Portal für Geodaten der Hanse- und Universitätsstadt Rostock und Umgebung') }}
+          </div>
+        {% if not mobile %}</div>{% endif %}
+      {% if not mobile %}</div>{% endif %}
     </div>
     <div id="attributes-modal" class="modal fade" role="dialog" tabindex="-1">
       <div class="modal-dialog">
