@@ -710,7 +710,6 @@ $('#theme-slider').on('click', '.theme', function() {
     $(this).find('.theme-title').show();
     $(this).find('.theme-title').removeClass('hidden');
     $('.text-theme-title').text(CURRENT_THEME_TITLE);
-    //$('html, body').animate({ scrollTop: ($('#offers-container').offset().top - 60)}, 'slow', function() {
     TOP_MODE = true;
     SHOW_MAP_MODALS = true;
     clearOffers();
@@ -721,9 +720,8 @@ $('#theme-slider').on('click', '.theme', function() {
     getOffers(CURRENT_THEME);
     map.on('moveend', moveEnd);
     setTimeout( function() {
-      $(document).scrollTop($('#offers-container').offset().top - (MOBILE ? 50 : 60));
+      $(document).scrollTop($('#offers-container').offset().top - 60);
     }, 1000);
-    //});
   }
 });
 
