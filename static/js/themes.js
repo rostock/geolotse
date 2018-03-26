@@ -721,7 +721,7 @@ $('#theme-slider').on('click', '.theme', function() {
     getOffers(CURRENT_THEME);
     map.on('moveend', moveEnd);
     setTimeout( function() {
-      $(document).scrollTop($('#offers-container').offset().top - (MOBILE ? 30 : 60));
+      $(document).scrollTop($('#offers-container').offset().top - (MOBILE ? 50 : 60));
     }, 1000);
     //});
   }
