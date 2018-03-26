@@ -640,7 +640,7 @@ $(document).ready(function() {
     slidesToShow: 5,
     responsive: [
       {
-        breakpoint: 1434,
+        breakpoint: 1546,
         settings: {
           dots: !MOBILE ? true : false,
           focusOnSelect: true,
@@ -650,7 +650,7 @@ $(document).ready(function() {
         }
       },
       {
-        breakpoint: 1154,
+        breakpoint: 1246,
         settings: {
           dots: !MOBILE ? true : false,
           focusOnSelect: true,
@@ -660,7 +660,7 @@ $(document).ready(function() {
         }
       },
       {
-        breakpoint: 874,
+        breakpoint: 946,
         settings: {
           dots: !MOBILE ? true : false,
           focusOnSelect: true,
@@ -670,7 +670,7 @@ $(document).ready(function() {
         }
       },
       {
-        breakpoint: 598,
+        breakpoint: 646,
         settings: {
           dots: !MOBILE ? true : false,
           focusOnSelect: true,
@@ -711,15 +711,18 @@ $('#theme-slider').on('click', '.theme', function() {
     $(this).find('.theme-title').removeClass('hidden');
     $('.text-theme-title').text(CURRENT_THEME_TITLE);
     //$('html, body').animate({ scrollTop: ($('#offers-container').offset().top - 60)}, 'slow', function() {
-      TOP_MODE = true;
-      SHOW_MAP_MODALS = true;
-      clearOffers();
-      clearMap();
-      clearMapFeatures();
-      clearMapLayers();
-      MAP_OFFERS = [];
-      getOffers(CURRENT_THEME);
-      map.on('moveend', moveEnd);
+    TOP_MODE = true;
+    SHOW_MAP_MODALS = true;
+    clearOffers();
+    clearMap();
+    clearMapFeatures();
+    clearMapLayers();
+    MAP_OFFERS = [];
+    getOffers(CURRENT_THEME);
+    map.on('moveend', moveEnd);
+    setTimeout( function() {
+      $(document).scrollTop($('#offers-container').offset().top - (MOBILE ? 30 : 60));
+    }, 1000);
     //});
   }
 });

@@ -8,7 +8,7 @@ function processUrlFragmentIdentifier() {
       $('#geoservice').attr('aria-expanded', 'true');
       $(anchor).addClass('in');
       $(anchor).attr('aria-expanded', 'true');
-      $(document).scrollTop($(anchor).offset().top - 125);
+      $(document).scrollTop($(anchor).offset().top - (MOBILE ? 100 : 130));
     } else if ($(anchor).length) {
       $(anchor).collapse('toggle');
     }

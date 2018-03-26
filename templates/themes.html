@@ -54,7 +54,7 @@
     <div class="row-fluid" id="theme-container">
       {% if not mobile %}<div class="panel panel-primary">{% endif %}
         {% if not mobile %}<div class="panel-heading">{% endif %}
-          <{% if mobile %}h4{% else %}h3{% endif %} class="headline">{{ _('Welches Thema interessiert Sie?') }}</{% if mobile %}h4{% else %}h3{% endif %}>
+          <{% if mobile %}h4{% else %}h3{% endif %} class="headline{% if mobile %} mobile{% endif %}">{{ _('Welches Thema interessiert Sie?') }}</{% if mobile %}h4{% else %}h3{% endif %}>
         {% if not mobile %}</div>{% endif %}
         {% if not mobile %}<div class="panel-body">{% endif %}
           <div class="slider" id="theme-slider">
