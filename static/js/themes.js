@@ -389,7 +389,7 @@ function populateOffers(offersData) {
       for (i = 0; i < item.links.length; i++) {
         var innerReachableIcon = (item.links[i].reachable === true) ? 'ok-sign green' : 'remove-sign red';
         var innerPublicIcon = (item.links[i].public === true) ? 'open green' : 'close red';
-        offer +=   '<div class="offer-link' + ((i == 0) ? ' first' : '') + ' hidden">';
+        offer +=   '<div class="offer-link application-link' + ((i == 0) ? ' first' : '') + ' hidden">';
         offer +=     '<a href="' + item.links[i].link + '" target="_blank">';
         offer +=     '<span class="glyphicon glyphicon-margin-right glyphicon-' + innerReachableIcon + '"' + ((!MOBILE) ? ' aria-hidden="true" data-toggle="tooltip" data-placement="right" title="' + item.links[i].reachable_label + ': ' + item.links[i].reachable_last_check + '"' : '') + '></span><span class="glyphicon glyphicon-margin-right glyphicon-eye-' + innerPublicIcon + '"' + ((!MOBILE) ? ' aria-hidden="true" data-toggle="tooltip" data-placement="right" title="' + item.links[i].public_label + '"' : '') + '></span> ' + item.links[i].title;
         offer +=     '</a>';
