@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: sebastian.gutzeit@rostock.de\n"
-"POT-Creation-Date: 2018-05-09 10:19+0200\n"
+"POT-Creation-Date: 2018-05-09 10:54+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Sebastian Gutzeit <sebastian.gutzeit@rostock.de>\n"
 "Language: en\n"
@@ -330,11 +330,12 @@ msgid "Herausgeberin"
 msgstr "Publisher"
 
 #: templates/imprint.html:30 templates/imprint.html:42
-#: templates/imprint.html:53
+#: templates/imprint.html:53 templates/privacy_policy.html:38
 msgid "Hanse- und Universitätsstadt Rostock"
 msgstr "Municipality of Rostock"
 
 #: templates/imprint.html:31 templates/imprint.html:43
+#: templates/privacy_policy.html:39
 msgid "Büro des Oberbürgermeisters"
 msgstr "Office of the Mayor"
 
@@ -603,15 +604,9 @@ msgstr ""
 "precautions are being improved continuously according to technological "
 "progress."
 
-#: templates/privacy_policy.html:38
-msgid ""
-"Jedermann kann sich an die behördliche Datenschutzbeauftragte der Hanse- "
-"und Universitätsstadt Rostock wenden, wenn er der Ansicht ist, in seinen "
-"Rechten in Bezug auf den Datenschutz verletzt worden zu sein:"
-msgstr ""
-"Everybody may contact the data privacy official of the municipality "
-"of Rostock if she or he considers that she or he has been impinged upon "
-"her or his rights in terms of data privacy laws:"
+#: templates/privacy_policy.html:40
+msgid "Behördlicher Datenschutz"
+msgstr "Data Security Officer"
 
 #: templates/terms_of_use.html:28
 msgid "Nutzung der Inhalte der Hanse- und Universitätsstadt Rostock"

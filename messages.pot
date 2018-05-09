@@ -305,11 +305,12 @@ msgid "Herausgeberin"
 msgstr ""
 
 #: templates/imprint.html:30 templates/imprint.html:42
-#: templates/imprint.html:53
+#: templates/imprint.html:53 templates/privacy_policy.html:38
 msgid "Hanse- und Universitätsstadt Rostock"
 msgstr ""
 
 #: templates/imprint.html:31 templates/imprint.html:43
+#: templates/privacy_policy.html:39
 msgid "Büro des Oberbürgermeisters"
 msgstr ""
 
@@ -541,11 +542,8 @@ msgid ""
 "technologischen Entwicklung fortlaufend verbessert."
 msgstr ""
 
-#: templates/privacy_policy.html:38
-msgid ""
-"Jedermann kann sich an die behördliche Datenschutzbeauftragte der Hanse- "
-"und Universitätsstadt Rostock wenden, wenn er der Ansicht ist, in seinen "
-"Rechten in Bezug auf den Datenschutz verletzt worden zu sein:"
+#: templates/privacy_policy.html:40
+msgid "Behördlicher Datenschutz"
 msgstr ""
 
 #: templates/terms_of_use.html:28
