@@ -2,6 +2,8 @@
 
 # application
 TITLE = u'Geolotse.HRO'
+CONTACT = 'geodienste@rostock.de'
+CONTACT_PRIVACY = 'datenschutz@rostock.de'
 PARENT = 'https://www.rostock.de'
 REPOSITORY = 'https://github.com/rostock/geolotse'
 META_AUTHOR = u'Hanse- und Universitätsstadt Rostock'
