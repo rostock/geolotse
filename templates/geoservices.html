@@ -64,7 +64,7 @@
             </a>
           </div>
         {% endfor %}
-        {% if geoservice_link.date != None or geoservice_link.authorship_organisation != None or geoservice_link.authorship_name != None or geoservice_link.authorship_mail != None or geoservice_link.data_link != None %}
+        {% if geoservice_link.date != None or geoservice_link.authorship_organisation != None or geoservice_link.authorship_name != None or geoservice_link.authorship_mail != None %}
           <h5><span class="glyphicon glyphicon-home" aria-hidden="true"></span> {{ _('Datenquelle') }}</h5>
           {% if geoservice_link.date != None %}
             <span class="full-width"><span class="glyphicon glyphicon-time" aria-hidden="true"></span> {{ _('Stand') }}</span>
