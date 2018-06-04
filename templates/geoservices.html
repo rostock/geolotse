@@ -49,14 +49,12 @@
             {% endif %}
             <span class="full-width"><span class="glyphicon glyphicon-comment" aria-hidden="true"></span> {{ _('Beschreibung') }}</span>
             <span class="full-width">{{ child.description }}</span>
-            {% if 'inspire' in child.group|lower %}
-              {% set metadata_sublink = child.id|get_link_sublink('metadata') %}
-              {% if metadata_sublink != None %}
-                <span class="full-width"><span class="glyphicon glyphicon-paperclip" aria-hidden="true"></span> {{ _('Metadaten') }}</span>
-                <a href="{{ metadata_sublink.link }}" target="_blank">
-                  <span class="glyphicon glyphicon-margin-right glyphicon-{% if metadata_sublink.reachable == True %}ok-sign green{% else %}remove-sign red{% endif %}"{% if not mobile %} aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{% if metadata_sublink.reachable == True %}{{ _('erreichbar') }}{% else %}{{ _('nicht erreichbar') }}{% endif %} – {{ _('letzte Prüfung') }}: {{ metadata_sublink.reachable_last_check|datetime_l10n('full') }}"{% endif %}></span><span class="glyphicon glyphicon-margin-right glyphicon-eye-{% if metadata_sublink.public == True %}open green{% else %}close red{% endif %}"{% if not mobile %} aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{% if metadata_sublink.public == True %}{{ _('öffentlich zugänglich') }}{% else %}{{ _('nicht öffentlich zugänglich') }}{% endif %}"{% endif %}></span>{{ metadata_sublink.title }}
-                </a>
-              {% endif %}
+            {% set metadata_sublink = child.id|get_link_sublink('metadata') %}
+            {% if metadata_sublink != None %}
+              <span class="full-width"><span class="glyphicon glyphicon-paperclip" aria-hidden="true"></span> {{ _('Metadaten') }}</span>
+              <a href="{{ metadata_sublink.link }}" target="_blank">
+                <span class="glyphicon glyphicon-margin-right glyphicon-{% if metadata_sublink.reachable == True %}ok-sign green{% else %}remove-sign red{% endif %}"{% if not mobile %} aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{% if metadata_sublink.reachable == True %}{{ _('erreichbar') }}{% else %}{{ _('nicht erreichbar') }}{% endif %} – {{ _('letzte Prüfung') }}: {{ metadata_sublink.reachable_last_check|datetime_l10n('full') }}"{% endif %}></span><span class="glyphicon glyphicon-margin-right glyphicon-eye-{% if metadata_sublink.public == True %}open green{% else %}close red{% endif %}"{% if not mobile %} aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{% if metadata_sublink.public == True %}{{ _('öffentlich zugänglich') }}{% else %}{{ _('nicht öffentlich zugänglich') }}{% endif %}"{% endif %}></span>{{ metadata_sublink.title }}
+              </a>
             {% endif %}
             <span class="full-width"><span class="glyphicon glyphicon-link" aria-hidden="true"></span> {{ _('Link') }}</span>
             <a href="{{ child.link }}" target="_blank">
