@@ -35,6 +35,9 @@ VOLATILE_DATA_CACHE_TIMEOUT = 900
 CITYSDK_API_TARGET_NAME = 'Klarschiff.HRO'
 CITYSDK_API_TARGET_LINK = 'https://www.klarschiff-hro.de/map?request='
 
+# address search api
+ADDRESS_SEARCH_API_URL = 'http://172.30.3.154:8080/query?'
+
 # Solr
 SOLR_URL = 'http://127.0.0.1:8983/solr/geolotse'
 

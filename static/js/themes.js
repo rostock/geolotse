@@ -589,8 +589,24 @@ function clearResults() {
 function populateResults(resultsData) {
   var results = '';
   jQuery.each(resultsData, function(index, item) {
-    results += '<div class="results-entry" data-x1="' + item.bbox[0] + '" data-y1="' + item.bbox[1] + '" data-x2="' + item.bbox[2] + '" data-y2="' + item.bbox[3] + '">';
-    results +=   item.label;
+    var title = item.properties._title_.substring(item.properties._title_.lastIndexOf(', ') + 2);
+    var geometry = item.geometry;
+    if (geometry.type === 'Point') {
+      var x1 = geometry.coordinates[0];
+      var y1 = geometry.coordinates[1];
+      var x2 = geometry.coordinates[0];
+      var y2 = geometry.coordinates[1];
+    } else {
+      var x1 = geometry.coordinates[0][1][0];
+      var y1 = geometry.coordinates[0][0][1];
+      var x2 = geometry.coordinates[0][0][0];
+      var y2 = geometry.coordinates[0][2][1];
+    }
+    results += '<div class="results-entry" data-x1="' + x1 + '" data-y1="' + y1 + '" data-x2="' + x2 + '" data-y2="' + y2 + '">';
+    if (item.properties._collection_ === 'gemeindeteile')
+      results +=  title;
+    else
+      results +=  title + ' <small>(' + item.properties.abkuerzung + ')</small>';
     results += '</div>';
   });
   $('#results').html(results);
@@ -599,16 +615,13 @@ function populateResults(resultsData) {
 function search(searchtext) {
   clearResults();
   $.ajax({
-    // ATTENTION
-    // define the URL of the address search API you are requesting and the parameters used
-    url: 'https://geo.sv.rostock.de/suche/server.php',
+    url: URL_BASE + '/addresssearch',
     data: {
-      searchtext: searchtext
+      query: searchtext
     },
-    // END ATTENTION
     dataType: 'json',
     success: function(data) {
-      populateResults(data.array);
+      populateResults(data.features);
     },
     error: function() {
       searchError();
@@ -837,9 +850,7 @@ $('#clear-address-input').click(function() {
 });
 
 $('body').on('click', '.results-entry', function(e) {
-  var transformation_ll = proj4('EPSG:25833', 'EPSG:4326', [$(e.target).data('x1'), $(e.target).data('y1')]);
-  var transformation_ur = proj4('EPSG:25833', 'EPSG:4326', [$(e.target).data('x2'), $(e.target).data('y2')]);
-  map.fitBounds([[transformation_ll[1], transformation_ll[0]], [transformation_ur[1], transformation_ur[0]]]);
+  map.fitBounds([[$(e.target).data('y1'), $(e.target).data('x1')], [$(e.target).data('y2'), $(e.target).data('x2')]]);
 });
 
 if (!MOBILE) {

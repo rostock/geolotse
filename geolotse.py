@@ -11,6 +11,7 @@ from flask_sqlalchemy_cache import CachingQuery
 from pysolr import Solr
 from sqlalchemy import func
 from user_agents import parse
+import requests
 
 
 
@@ -316,6 +317,26 @@ def index():
     'catalog': gettext(u'Kataloginhalt')
   }  
   return render_template('index.html', mobile = user_agent.is_mobile, translations = translations)
+
+@app.route('/addresssearch')
+def addresssearch_without_lang_code():
+  return redirect(url_for('addresssearch', query = request.args['query'], lang_code = g.current_lang if g.current_lang else app.config['BABEL_DEFAULT_LOCALE']))
+
+@app.route('/<lang_code>/addresssearch')
+def addresssearch():
+  addresssearch_url = app.config['ADDRESS_SEARCH_API_URL']
+  addresssearch_key = app.config['ADDRESS_SEARCH_API_KEY']
+  # ATTENTION
+  # define the parameters used in the address search API you are requesting
+  addresssearch_type = 'search'
+  addresssearch_class = 'address'
+  addresssearch_query = 'rostock ' + request.args['query']
+  addresssearch_out_epsg = '4326'
+  addresssearch_shape = 'bbox'
+  addresssearch_limit = '5'
+  response = requests.get(addresssearch_url + 'key=' + addresssearch_key + '&type=' + addresssearch_type + '&class=' + addresssearch_class + '&query=' + addresssearch_query + '&out_epsg=' + addresssearch_out_epsg + '&shape=' + addresssearch_shape + '&limit=' + addresssearch_limit)
+  # END ATTENTION
+  return jsonify(response.json())
 
 @app.route('/search')
 def search_without_lang_code():
