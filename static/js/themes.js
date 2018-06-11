@@ -202,17 +202,19 @@ function onEachMapFeature(feature, layer) {
     html +=     '<tbody>';
     var index = 0;
     jQuery.each(feature.properties, function(key, value) {
-      if (index < 4) {
-        html +=   '<tr>';
-        html +=     '<td>' + key + '</td>';
-        html +=     '<td>' + value + '</td>';
-        html +=   '</tr>';
-      } else if (index = 4) {
-        html +=   '<tr>';
-        html +=     '<td>…</td>';
-        html +=     '<td>…</td>';
-        html +=   '</tr>';
-        return false;
+      if (key.indexOf('meta_') === -1 && value !== '' && value !== null) {
+        if (index < 4) {
+          html +=   '<tr>';
+          html +=     '<td>' + key + '</td>';
+          html +=     '<td>' + value + '</td>';
+          html +=   '</tr>';
+        } else if (index = 4) {
+          html +=   '<tr>';
+          html +=     '<td>…</td>';
+          html +=     '<td>…</td>';
+          html +=   '</tr>';
+          return false;
+        }
       }
       index++;
     });

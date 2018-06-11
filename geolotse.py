@@ -11,7 +11,7 @@ from flask_sqlalchemy_cache import CachingQuery
 from pysolr import Solr
 from sqlalchemy import func
 from user_agents import parse
-import requests
+import icu, requests
 
 
 
@@ -272,7 +272,8 @@ def get_parent_link_children_tags(parent_id = 1, include_parent_link_tags = True
   tags = Tags.query.join(Links.tags).filter(Links.parent_id == parent_id).all() if include_parent_link_tags == True else Tags.query.join(Links.tags).filter(Links.parent_id == parent_id, Links.id != parent_id).all()
   for tag in tags:
     tag.title not in list and list.append(tag.title)
-  list.sort()
+  collator = icu.Collator.createInstance(icu.Locale('de_DE.UTF-8'))
+  list.sort(key = collator.getSortKey)
   return tuple(list)
 
 @cache.memoize(timeout = app.config['VOLATILE_DATA_CACHE_TIMEOUT'])
