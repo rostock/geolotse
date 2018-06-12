@@ -605,7 +605,7 @@ function populateResults(resultsData) {
       var y2 = geometry.coordinates[0][2][1];
     }
     results += '<div class="results-entry" data-x1="' + x1 + '" data-y1="' + y1 + '" data-x2="' + x2 + '" data-y2="' + y2 + '">';
-    if (item.properties._collection_ === 'gemeindeteile')
+    if (item.properties.objektgruppe === 'Gemeindeteil')
       results +=  title;
     else
       results +=  title + ' <small>(' + item.properties.abkuerzung + ')</small>';
