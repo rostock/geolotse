@@ -129,7 +129,6 @@ function moveEnd(e) {
   calculateBbox();
   if (oldFeaturesBboxLlLat != FEATURES_BBOX_LL_LAT || oldFeaturesBboxLlLon != FEATURES_BBOX_LL_LON || oldFeaturesBboxUrLat != FEATURES_BBOX_UR_LAT || oldFeaturesBboxUrLon != FEATURES_BBOX_UR_LON) {
     clearMapFeatures();
-    clearMapLayers();
     jQuery.each(MAP_OFFERS, function(index, item) {
       getOfferFeatures(item[0], item[1]);
     });
@@ -539,7 +538,8 @@ function getOfferFeatures(offer, offerIndex) {
       layers: offer.layer,
       format: 'image/png',
       transparent: true,
-      version: '1.3.0'
+      version: '1.3.0',
+      zIndex: 1000
     });
     wmsLayer.on('tileerror', function() {
       if (offer.public === false) {
