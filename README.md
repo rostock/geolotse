@@ -6,6 +6,7 @@ A landing page for organisations wanting to connect and integrate their various 
 
 *   [*Python*](https://www.python.org)
 *   [*Virtualenv*](https://virtualenv.pypa.io)
+*   [*pip*](http://pip.pypa.io)
 *   [*Apache Solr*](https://lucene.apache.org/solr)
 *   [*PostgreSQL*](https://www.postgresql.org)
 *   [*Memcached*](https://memcached.org)
