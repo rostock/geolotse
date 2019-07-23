@@ -253,7 +253,7 @@ def get_links_categories():
 
 @cache.memoize(timeout = app.config['DEFAULT_CACHE_TIMEOUT'])
 def get_links_groups(category = 'api'):
-  return Links.query.with_entities(Links.group).filter(Links.category == category).group_by(Links.group).order_by(Links.group).all()
+  return Links.query.with_entities(Links.group, func.count(Links.group).label('group_count')).filter(Links.category == category).group_by(Links.group).order_by(Links.group).all()
 
 @cache.memoize(timeout = app.config['VOLATILE_DATA_CACHE_TIMEOUT'])
 def get_parent_link_children(parent_id = 1, search_only = False, include_parent_link = True):

@@ -78,7 +78,7 @@
                       <div class="panel-heading">
                         <h4 class="panel-title">
                           <a class="accordion-link" data-toggle="collapse" href="#application-{{ application_link.id }}">
-                            <span class="full-width">{% if application_link.logo != None %}<img src="{{ url_for('static', filename='images/logos/') }}{{ application_link.logo }}" class="application-logo" /> {% else %}<span class="glyphicon glyphicon-phone" aria-hidden="true"></span> {% endif %}{{ application_link.group }}</span>
+                            <span class="full-width">{% if application_link.logo != None %}<img src="{{ url_for('static', filename='images/logos/') }}{{ application_link.logo }}" class="application-logo" />{% else %}<span class="glyphicon glyphicon-phone" aria-hidden="true"></span>{% endif %} {{ application_link.group }}</span>
                           </a>
                         </h4>
                       </div>
@@ -149,7 +149,7 @@
                   <span class="glyphicon glyphicon-filter" aria-hidden="true"></span>
                   {% for geoservice_group in geoservice_groups %}
                     <label class="checkbox-inline">
-                      <input type="checkbox" class="form-check-input geoservice-checkbox" id="geoservice-checkbox-{{ geoservice_group.group|lower }}" value="{{ geoservice_group.group }}" checked="checked" /> {{ geoservice_group.group }}
+                      <input type="checkbox" class="form-check-input geoservice-checkbox" id="geoservice-checkbox-{{ geoservice_group.group|lower }}" value="{{ geoservice_group.group }}" checked="checked" /> {{ geoservice_group.group }} <small>({{ geoservice_group.group_count }})</small>
                     </label>
                   {% endfor %}
                 </div>
