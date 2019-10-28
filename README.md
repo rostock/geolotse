@@ -4,18 +4,19 @@ A landing page for organisations wanting to connect and integrate their various 
 
 ## Requirements
 
-*   [*Python*](https://www.python.org)
-*   [*Virtualenv*](https://virtualenv.pypa.io)
-*   [*pip*](http://pip.pypa.io)
-*   [*Apache Solr*](https://lucene.apache.org/solr)
-*   [*PostgreSQL*](https://www.postgresql.org)
-*   [*Memcached*](https://memcached.org)
+* [*Python*](https://www.python.org) (v3.x)
+* [*Virtualenv*](https://virtualenv.pypa.io) (for *Python* 3)
+* [*pip*](http://pip.pypa.io) (for *Python* 3)
+* [*Apache Solr*](https://lucene.apache.org/solr)
+* [*ICU (International Components for Unicode)*](http://site.icu-project.org) (i.e. *icu-devtools*)
+* [*PostgreSQL*](https://www.postgresql.org)
+* [*Memcached*](https://memcached.org)
 
 ## Installation
 
 1.  Create a new virtual *Python* environment, for example:
 
-        virtualenv /usr/local/geolotse/virtualenv
+        virtualenv -p python3 /usr/local/geolotse/virtualenv
         
 1.  Clone the project:
 
@@ -58,9 +59,9 @@ A landing page for organisations wanting to connect and integrate their various 
         deactivate
 
 1.  Fill the databse with data, either by applying the `examples/database_pgsql.sql` as a starting point and/or for testing or by filling the database from scratch with your own data – the section on the [database structure](#database-structure) below might be helpful in either case
-1.  Create a new empty *Apache Solr* core:
+1.  Create a new empty *Apache Solr* core (as the *Apache Solr* user, usually `solr`):
 
-        /path/to/solr/bin/solr create -c geolotse
+        sudo -H -u solr /path/to/solr/bin/solr create -c geolotse
 
 1.  Open file `/path/to/solr/home/geolotse/conf/solrconfig.xml` and remove below elements:
 
@@ -71,13 +72,13 @@ A landing page for organisations wanting to connect and integrate their various 
 
         <schemaFactory class="ClassicIndexSchemaFactory"/>
 
-1.  Remove `managed-schema` file from the new *Apache Solr* core directory:
+1.  Remove `managed-schema` file from the new *Apache Solr* core directory (as the *Apache Solr* user, usually `solr`):
 
-        rm /path/to/solr/home/geolotse/conf/managed-schema
+        sudo -H -u solr rm /path/to/solr/home/geolotse/conf/managed-schema
 
-1.  Copy the search schema to the new *Apache Solr* core directory:
+1.  Copy the search schema to the new *Apache Solr* core directory (as the *Apache Solr* user, usually `solr`):
 
-        cp /usr/local/geolotse/geolotse/solr/schema.xml /path/to/solr/home/geolotse/conf
+        sudo -H -u solr cp /usr/local/geolotse/geolotse/solr/schema.xml /path/to/solr/home/geolotse/conf
         
 1.  Make sure that both the user and the group of the search schema `/path/to/solr/home/geolotse/conf/schema.xml` match the user and the group of the other files within the new *Apache Solr* core directory (i.e. the *Apache Solr* user and its group, usually `solr` and `daemon`)
 1.  Activate the virtual *Python* environment:
@@ -107,9 +108,9 @@ If you want to deploy geolotse with [*Apache HTTP Server*](https://httpd.apache.
 
         from geolotse import app as application
 
-1.  Open your *Apache HTTP Server* configuration file and insert something like this:
+1.  Open your *Apache HTTP Server* configuration file and insert something like this (in this example, the virtual *Python* environment uses a *Python* v3.6 interpreter):
     
-        WSGIDaemonProcess    geolotse processes=4 threads=128 python-path=/usr/local/geolotse/geolotse:/usr/local/geolotse/virtualenv/lib/python2.7/site-packages
+        WSGIDaemonProcess    geolotse processes=2 threads=128 python-path=/usr/local/geolotse/geolotse:/usr/local/geolotse/virtualenv/lib/python3.6/site-packages
         WSGIProcessGroup     geolotse
         WSGIScriptAlias      /geolotse /usr/local/geolotse/geolotse/geolotse.wsgi process-group=geolotse
         

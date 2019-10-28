@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from geolotse import app, Links, Themes, Tags
 from flask_sqlalchemy import SQLAlchemy
 from pysolr import Solr
@@ -48,7 +47,7 @@ for link in links:
     solr.add([
       {
         'id': index_counter,
-        '_text_': unicode(group_list) + link.title + link.link + description + unicode(tag_list),
+        '_text_': str(group_list) + link.title + link.link + description + str(tag_list),
         'database_id': link.id,
         'category': link.category,
         'title': link.title,
@@ -70,7 +69,7 @@ for link in links:
       solr.add([
         {
           'id': index_counter,
-          '_text_': title + link.link + description + unicode(tag_list),
+          '_text_': title + link.link + description + str(tag_list),
           'database_id': link.id,
           'category': link.category,
           'title': title,
@@ -113,7 +112,7 @@ for theme in themes:
   solr.add([
     {
       'id': index_counter,
-      '_text_': theme.title + unicode(descriptive_tag_list) + unicode(link_list) + unicode(tag_list),
+      '_text_': theme.title + str(descriptive_tag_list) + str(link_list) + str(tag_list),
       'database_id': theme.id,
       'category': 'theme',
       'title': theme.title,

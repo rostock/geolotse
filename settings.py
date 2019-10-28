@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 # application
 TITLE = u'Geolotse.HRO'
 CONTACT = 'geodienste@rostock.de'

@@ -1,13 +1,12 @@
-# -*- coding: utf-8 -*-
 from alembic import op
 from flask import abort, Flask, g, jsonify, redirect, render_template, request, url_for
 from flask_babel import Babel, format_date, format_datetime, gettext
-from flask_cache import Cache
+from flask_caching import Cache
 from flask_compress import Compress
 from flask_bootstrap import Bootstrap
 from flask_migrate import Migrate
 from flask_sqlalchemy import Model, SQLAlchemy
-from flask_sqlalchemy_cache import CachingQuery
+from flask_sqlalchemy_caching import CachingQuery
 from pysolr import Solr
 from sqlalchemy import func
 from user_agents import parse
@@ -335,7 +334,7 @@ def addresssearch():
   addresssearch_out_epsg = '4326'
   addresssearch_shape = 'bbox'
   addresssearch_limit = '5'
-  response = requests.get(addresssearch_url + 'key=' + addresssearch_key + '&type=' + addresssearch_type + '&class=' + addresssearch_class + '&query=' + addresssearch_query + '&out_epsg=' + addresssearch_out_epsg + '&shape=' + addresssearch_shape + '&limit=' + addresssearch_limit)
+  response = requests.get(addresssearch_url + 'key=' + addresssearch_key + '&type=' + addresssearch_type + '&class=' + addresssearch_class + '&query=' + addresssearch_query + '&out_epsg=' + addresssearch_out_epsg + '&shape=' + addresssearch_shape + '&limit=' + addresssearch_limit, timeout = 3)
   # END ATTENTION
   return jsonify(response.json())
 

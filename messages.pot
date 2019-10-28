@@ -1,176 +1,160 @@
-#: geolotse.py:316
+#: geolotse.py:317
 msgid "Kataloginhalt"
 msgstr ""
 
-#: geolotse.py:343 geolotse.py:442 geolotse.py:521
+#: geolotse.py:364 geolotse.py:463 geolotse.py:542
 msgid "API (Programmierschnittstelle)"
 msgstr ""
 
-#: geolotse.py:346 geolotse.py:444 geolotse.py:523
+#: geolotse.py:367 geolotse.py:465 geolotse.py:544
 msgid "Anwendung"
 msgstr ""
 
-#: geolotse.py:349 geolotse.py:446 geolotse.py:525
+#: geolotse.py:370 geolotse.py:467 geolotse.py:546
 msgid "Dokumentation"
 msgstr ""
 
-#: geolotse.py:352 geolotse.py:448 geolotse.py:527
+#: geolotse.py:373 geolotse.py:469 geolotse.py:548
 msgid "Download"
 msgstr ""
 
-#: geolotse.py:355 geolotse.py:450 geolotse.py:529
+#: geolotse.py:376 geolotse.py:471 geolotse.py:550
 msgid "Geodatendienst"
 msgstr ""
 
-#: geolotse.py:358
+#: geolotse.py:379
 msgid "Thema"
 msgstr ""
 
-#: geolotse.py:374 geolotse.py:465 geolotse.py:480 geolotse.py:544
-#: geolotse.py:559 templates/catalog.html:66 templates/catalog.html:90
+#: geolotse.py:395 geolotse.py:486 geolotse.py:501 geolotse.py:565
+#: geolotse.py:580 templates/catalog.html:66 templates/catalog.html:90
 #: templates/catalog.html:104 templates/catalog.html:113
 #: templates/catalog.html:131 templates/catalog.html:142
-#: templates/catalog.html:192 templates/catalog.html:198
-#: templates/catalog.html:216 templates/catalog.html:222
-#: templates/catalog.html:251 templates/catalog.html:274
-#: templates/geoservices.html:33 templates/geoservices.html:39
-#: templates/geoservices.html:57 templates/geoservices.html:63
-#: templates/geoservices.html:92
+#: templates/catalog.html:174 templates/geoservices.html:33
+#: templates/geoservices.html:39 templates/geoservices.html:56
+#: templates/geoservices.html:61 templates/geoservices.html:90
 msgid "öffentlich zugänglich"
 msgstr ""
 
-#: geolotse.py:376 geolotse.py:467 geolotse.py:482 geolotse.py:546
-#: geolotse.py:561 templates/catalog.html:66 templates/catalog.html:90
+#: geolotse.py:397 geolotse.py:488 geolotse.py:503 geolotse.py:567
+#: geolotse.py:582 templates/catalog.html:66 templates/catalog.html:90
 #: templates/catalog.html:104 templates/catalog.html:113
 #: templates/catalog.html:131 templates/catalog.html:142
-#: templates/catalog.html:192 templates/catalog.html:198
-#: templates/catalog.html:216 templates/catalog.html:222
-#: templates/catalog.html:251 templates/catalog.html:274
-#: templates/geoservices.html:33 templates/geoservices.html:39
-#: templates/geoservices.html:57 templates/geoservices.html:63
-#: templates/geoservices.html:92
+#: templates/catalog.html:174 templates/geoservices.html:33
+#: templates/geoservices.html:39 templates/geoservices.html:56
+#: templates/geoservices.html:61 templates/geoservices.html:90
 msgid "nicht öffentlich zugänglich"
 msgstr ""
 
-#: geolotse.py:390 templates/index.html:80
+#: geolotse.py:411 templates/index.html:80
 msgid "Katalog"
 msgstr ""
 
-#: geolotse.py:408
+#: geolotse.py:429
 msgid "-Meldung"
 msgstr ""
 
-#: geolotse.py:409
+#: geolotse.py:430
 msgid "Luftbild"
 msgstr ""
 
-#: geolotse.py:410
+#: geolotse.py:431
 msgid "alle Attribute dieses Objekts anzeigen"
 msgstr ""
 
-#: geolotse.py:411
+#: geolotse.py:432
 msgid "Attribut"
 msgstr ""
 
-#: geolotse.py:412
+#: geolotse.py:433
 msgid "Kategorie"
 msgstr ""
 
-#: geolotse.py:413
+#: geolotse.py:434
 msgid "Link zur Meldung in"
 msgstr ""
 
-#: geolotse.py:414 templates/catalog.html:209 templates/geoservices.html:50
+#: geolotse.py:435 templates/geoservices.html:50
 msgid "Beschreibung"
 msgstr ""
 
-#: geolotse.py:415
+#: geolotse.py:436
 msgid "Link zum"
 msgstr ""
 
-#: geolotse.py:416
+#: geolotse.py:437
 msgid "Standortbestimmung"
 msgstr ""
 
-#: geolotse.py:417 templates/themes.html:128
+#: geolotse.py:438 templates/themes.html:128
 msgid "mit aktivem Feature-Typ"
 msgstr ""
 
-#: geolotse.py:418 templates/themes.html:105
+#: geolotse.py:439 templates/themes.html:105
 msgid "Karte"
 msgstr ""
 
-#: geolotse.py:419 templates/themes.html:127
+#: geolotse.py:440 templates/themes.html:127
 msgid "Objekt aus Angebot"
 msgstr ""
 
-#: geolotse.py:420 templates/themes.html:127
+#: geolotse.py:441 templates/themes.html:127
 msgid "zum Thema"
 msgstr ""
 
-#: geolotse.py:421
+#: geolotse.py:442
 msgid "Wert"
 msgstr ""
 
-#: geolotse.py:423 templates/index.html:74
+#: geolotse.py:444 templates/index.html:74
 msgid "Themen"
 msgstr ""
 
-#: geolotse.py:455 geolotse.py:534 templates/catalog.html:220
-#: templates/catalog.html:249 templates/geoservices.html:61
-#: templates/geoservices.html:90
+#: geolotse.py:476 geolotse.py:555 templates/geoservices.html:59
+#: templates/geoservices.html:88
 msgid "Link"
 msgstr ""
 
-#: geolotse.py:470 geolotse.py:485 geolotse.py:549 geolotse.py:564
+#: geolotse.py:491 geolotse.py:506 geolotse.py:570 geolotse.py:585
 #: templates/catalog.html:66 templates/catalog.html:90
 #: templates/catalog.html:104 templates/catalog.html:113
 #: templates/catalog.html:131 templates/catalog.html:142
-#: templates/catalog.html:192 templates/catalog.html:198
-#: templates/catalog.html:216 templates/catalog.html:222
-#: templates/catalog.html:251 templates/catalog.html:274
-#: templates/geoservices.html:33 templates/geoservices.html:39
-#: templates/geoservices.html:57 templates/geoservices.html:63
-#: templates/geoservices.html:92
+#: templates/catalog.html:174 templates/geoservices.html:33
+#: templates/geoservices.html:39 templates/geoservices.html:56
+#: templates/geoservices.html:61 templates/geoservices.html:90
 msgid "erreichbar"
 msgstr ""
 
-#: geolotse.py:470 geolotse.py:472 geolotse.py:485 geolotse.py:487
-#: geolotse.py:549 geolotse.py:551 geolotse.py:564 geolotse.py:566
+#: geolotse.py:491 geolotse.py:493 geolotse.py:506 geolotse.py:508
+#: geolotse.py:570 geolotse.py:572 geolotse.py:585 geolotse.py:587
 #: templates/catalog.html:66 templates/catalog.html:90
 #: templates/catalog.html:104 templates/catalog.html:113
 #: templates/catalog.html:131 templates/catalog.html:142
-#: templates/catalog.html:192 templates/catalog.html:198
-#: templates/catalog.html:216 templates/catalog.html:222
-#: templates/catalog.html:251 templates/catalog.html:274
-#: templates/geoservices.html:33 templates/geoservices.html:39
-#: templates/geoservices.html:57 templates/geoservices.html:63
-#: templates/geoservices.html:92
+#: templates/catalog.html:174 templates/geoservices.html:33
+#: templates/geoservices.html:39 templates/geoservices.html:56
+#: templates/geoservices.html:61 templates/geoservices.html:90
 msgid "letzte Prüfung"
 msgstr ""
 
-#: geolotse.py:472 geolotse.py:487 geolotse.py:551 geolotse.py:566
+#: geolotse.py:493 geolotse.py:508 geolotse.py:572 geolotse.py:587
 #: templates/catalog.html:66 templates/catalog.html:90
 #: templates/catalog.html:104 templates/catalog.html:113
 #: templates/catalog.html:131 templates/catalog.html:142
-#: templates/catalog.html:192 templates/catalog.html:198
-#: templates/catalog.html:216 templates/catalog.html:222
-#: templates/catalog.html:251 templates/catalog.html:274
-#: templates/geoservices.html:33 templates/geoservices.html:39
-#: templates/geoservices.html:57 templates/geoservices.html:63
-#: templates/geoservices.html:92
+#: templates/catalog.html:174 templates/geoservices.html:33
+#: templates/geoservices.html:39 templates/geoservices.html:56
+#: templates/geoservices.html:61 templates/geoservices.html:90
 msgid "nicht erreichbar"
 msgstr ""
 
-#: geolotse.py:585 templates/footer.html:6
+#: geolotse.py:606 templates/footer.html:6
 msgid "Impressum"
 msgstr ""
 
-#: geolotse.py:594 templates/footer.html:5
+#: geolotse.py:615 templates/footer.html:5
 msgid "Datenschutz"
 msgstr ""
 
-#: geolotse.py:603 templates/footer.html:7
+#: geolotse.py:624 templates/footer.html:7
 msgid "Nutzungsbedingungen"
 msgstr ""
 
@@ -245,59 +229,59 @@ msgid "Tools"
 msgstr ""
 
 #: templates/catalog.html:73 templates/catalog.html:120
-#: templates/catalog.html:157 templates/catalog.html:263
+#: templates/catalog.html:157 templates/catalog.html:163
 msgid "Freitextfilter"
 msgstr ""
 
-#: templates/catalog.html:178 templates/geoservices.html:19
-msgid "Schlagworte/Tags/Keywords"
-msgstr ""
-
-#: templates/catalog.html:188 templates/geoservices.html:29
-msgid "Vorschau"
-msgstr ""
-
-#: templates/catalog.html:190 templates/geoservices.html:31
-msgid "Desktop"
-msgstr ""
-
-#: templates/catalog.html:196 templates/geoservices.html:37
-msgid "mobil"
-msgstr ""
-
-#: templates/catalog.html:206 templates/geoservices.html:47
-msgid "Annex-Thema"
-msgstr ""
-
-#: templates/catalog.html:214 templates/geoservices.html:55
-msgid "Metadaten"
-msgstr ""
-
-#: templates/catalog.html:227 templates/geoservices.html:68
-msgid "Datenquelle"
-msgstr ""
-
-#: templates/catalog.html:229 templates/geoservices.html:70
-msgid "Stand"
-msgstr ""
-
-#: templates/catalog.html:233 templates/geoservices.html:74
-msgid "Autor"
-msgid_plural "Autoren"
-msgstr[0] ""
-msgstr[1] ""
-
-#: templates/catalog.html:239 templates/geoservices.html:80
-#: templates/imprint.html:73 templates/privacy_policy.html:36
-msgid "Kontakt"
-msgstr ""
-
-#: templates/catalog.html:290
+#: templates/catalog.html:190
 msgid "Bitte warten, Kataloginhalte werden geladen"
 msgstr ""
 
 #: templates/footer.html:4
 msgid "Code"
+msgstr ""
+
+#: templates/geoservices.html:19
+msgid "Schlagworte/Tags/Keywords"
+msgstr ""
+
+#: templates/geoservices.html:29
+msgid "Vorschau"
+msgstr ""
+
+#: templates/geoservices.html:31
+msgid "Desktop"
+msgstr ""
+
+#: templates/geoservices.html:37
+msgid "mobil"
+msgstr ""
+
+#: templates/geoservices.html:47
+msgid "Annex-Thema"
+msgstr ""
+
+#: templates/geoservices.html:54
+msgid "Metadaten"
+msgstr ""
+
+#: templates/geoservices.html:66
+msgid "Datenquelle"
+msgstr ""
+
+#: templates/geoservices.html:68
+msgid "Stand"
+msgstr ""
+
+#: templates/geoservices.html:72
+msgid "Autor"
+msgid_plural "Autoren"
+msgstr[0] ""
+msgstr[1] ""
+
+#: templates/geoservices.html:78 templates/imprint.html:73
+#: templates/privacy_policy.html:36
+msgid "Kontakt"
 msgstr ""
 
 #: templates/imprint.html:28
