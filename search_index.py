@@ -6,7 +6,7 @@ from pysolr import Solr
 
 # initialise Solr, clear search index and initialise index counter
 solr = Solr(app.config['SOLR_URL'])
-solr.delete(q = '*:*')
+solr.delete(q = '*:*', commit = True)
 index_counter = 0
 
 
@@ -56,7 +56,7 @@ for link in links:
         'category_order': category_order if 'category_order' in locals() else link.category_order,
         'group_order': group_order if 'group_order' in locals() else link.group_order
       }
-    ])
+    ], commit = True)
   else:
     add = False
     if not link.search_title:
@@ -78,7 +78,7 @@ for link in links:
           'category_order': link.category_order,
           'group_order': link.group_order
         }
-      ])
+      ], commit = True)
     
 
 
@@ -121,4 +121,9 @@ for theme in themes:
       'category_order': 4,
       'group_order': 0
     }
-  ])
+  ], commit = True)
+
+
+
+# optimize search index
+solr.optimize(commit = True)
