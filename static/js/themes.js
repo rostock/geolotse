@@ -608,7 +608,7 @@ function populateResults(resultsData) {
     if (item.properties.objektgruppe === 'Gemeindeteil')
       results +=  title;
     else
-      results +=  title + ' <small>(' + item.properties.abkuerzung + ')</small>';
+      results +=  title + ' <small>(' + item.properties.gemeindeteil_abkuerzung + ')</small>';
     results += '</div>';
   });
   $('#results').html(results);
