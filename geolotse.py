@@ -382,7 +382,7 @@ def search():
       item['category_label'] = result['category']
       item['catalog'] = False
     item['title'] = result['title']
-    if 'link' in result:
+    if 'link' in result and result['link']:
       item['link'] = result['link']
     elif item['category'] == 'geoservice':
       item['link'] = url_for('catalog', lang_code = g.current_lang if g.current_lang else app.config['BABEL_DEFAULT_LOCALE']) + '#geoservice-' + str(result['database_id'])
