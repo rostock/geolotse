@@ -28,7 +28,7 @@
         {% if geoportal_sublink != None or geoportal_mobile_sublink != None %}
           <h5><span class="glyphicon glyphicon-picture" aria-hidden="true"></span> {{ _('Vorschau') }}</h5>
           {% if geoportal_sublink != None %}
-            <span class="full-width"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> {{ _('Desktop') }}</span>
+            <span class="full-width"><span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span> {{ _('Desktop') }}</span>
             <a href="{{ geoportal_sublink.link }}" target="_blank">
               <span class="glyphicon glyphicon-margin-right glyphicon-{% if geoportal_sublink.reachable == True %}ok-sign green{% else %}remove-sign red{% endif %}"{% if not mobile %} aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{% if geoportal_sublink.reachable == True %}{{ _('erreichbar') }}{% else %}{{ _('nicht erreichbar') }}{% endif %} – {{ _('letzte Prüfung') }}: {{ geoportal_sublink.reachable_last_check|datetime_l10n('full') }}"{% endif %}></span><span class="glyphicon glyphicon-margin-right glyphicon-eye-{% if geoportal_sublink.public == True %}open green{% else %}close red{% endif %}"{% if not mobile %} aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{% if geoportal_sublink.public == True %}{{ _('öffentlich zugänglich') }}{% else %}{{ _('nicht öffentlich zugänglich') }}{% endif %}"{% endif %}></span>{{ geoportal_sublink.title }}
             </a>
