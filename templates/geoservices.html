@@ -43,9 +43,9 @@
         {% for child in geoservice_link.id|get_parent_link_children(False, True) %}
           <div class="geoservice-child">
             <h5 {% if link_children_tags|length == 0 %}class="first"{% endif %}><span class="glyphicon glyphicon-globe" aria-hidden="true"></span> {{ child.group }}</h5>
-            {% if 'inspire' in child.group|lower and child.inspire_annex_theme != None %}
-              <span class="full-width"><span class="glyphicon glyphicon-flag" aria-hidden="true"></span> {{ _('Annex-Thema') }}</span>
-              <span class="full-width">{{ child.inspire_annex_theme }}</span>
+            {% if 'inspire' in child.group|lower and child.inspire_annex != None and child.inspire_short != None and child.inspire_theme_de != None and child.inspire_theme_en != None and child.inspire_link != None %}
+              <span class="full-width"><span class="glyphicon glyphicon-flag" aria-hidden="true"></span> {{ _('Thema') }}</span>
+              <span class="full-width">Annex {{ child.inspire_annex|int_to_roman }} – <a href="{{ child.inspire_link }}" target="_blank">{% if g.current_lang == 'de' %}{{child.inspire_theme_de}}{% else %}{{child.inspire_theme_en}}{% endif %} ({{ child.inspire_short }})</a></span>
             {% endif %}
             <span class="full-width"><span class="glyphicon glyphicon-comment" aria-hidden="true"></span> {{ _('Beschreibung') }}</span>
             <span class="full-width">{{ child.description }}</span>

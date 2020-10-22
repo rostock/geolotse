@@ -69,17 +69,17 @@ class Links(db.Model):
   authorship_organisation = db.Column(db.ARRAY(db.String(255)), nullable = True)
   authorship_name = db.Column(db.ARRAY(db.String(255)), nullable = True)
   authorship_mail = db.Column(db.ARRAY(db.String(255)), nullable = True)
-  inspire_annex_theme = db.Column(db.String(255), nullable = True)
   logo = db.Column(db.String(255), nullable = True)
   search = db.Column(db.Boolean, nullable = False)
   search_title = db.Column(db.String(255), nullable = True)
   
   parent = db.relationship('Links', backref = db.backref('links', lazy = 'dynamic'), remote_side = id)
+  inspire = db.relationship('Inspire', secondary = 'links_inspire', lazy = 'dynamic', backref = db.backref('links', lazy = 'dynamic'))
   sublinks = db.relationship('Sublinks', secondary = 'links_sublinks', lazy = 'dynamic', backref = db.backref('links', lazy = 'dynamic'))
   tags = db.relationship('Tags', secondary = 'links_tags', lazy = 'dynamic', backref = db.backref('links', lazy = 'dynamic'))
   themes = db.relationship('Themes', secondary = 'links_themes', lazy = 'dynamic', backref = db.backref('links', lazy = 'dynamic'))
   
-  def __init__(self, parent_id, category, category_order, group, group_order, title, link, public, reachable, reachable_last_check, description, date, authorship_organisation, authorship_name, authorship_mail, inspire_annex_theme, logo, search, search_title):
+  def __init__(self, parent_id, category, category_order, group, group_order, title, link, public, reachable, reachable_last_check, description, date, authorship_organisation, authorship_name, authorship_mail, logo, search, search_title):
     self.parent_id = parent_id
     self.category = category
     self.category_order = category_order
@@ -95,10 +95,28 @@ class Links(db.Model):
     self.authorship_organisation = authorship_organisation
     self.authorship_name = authorship_name
     self.authorship_mail = authorship_mail
-    self.inspire_annex_theme = inspire_annex_theme
     self.logo = logo
     self.search = search
     self.search_title = search_title
+
+
+class Inspire(db.Model):
+  __tablename__ = 'inspire'
+  
+  id = db.Column(db.Integer, primary_key = True)
+  annex = db.Column(db.SmallInteger, nullable = False, index = True)
+  short = db.Column(db.String(2), nullable = False)
+  theme_de = db.Column(db.String(255), nullable = False)
+  theme_en = db.Column(db.String(255), nullable = False)
+  link = db.Column(db.String(255), nullable = False)
+  
+  def __init__(self, annex, short, theme_de, theme_en, link):
+    self.annex = annex
+    self.short = short
+    self.theme_de = theme_de
+    self.theme_en = theme_en
+    self.link = link
+
 
 class Sublinks(db.Model):
   __tablename__ = 'sublinks'
@@ -106,7 +124,7 @@ class Sublinks(db.Model):
   id = db.Column(db.Integer, primary_key = True)
   target = db.Column(db.String(255), nullable = False, index = True)
   title = db.Column(db.String(255), nullable = False)
-  link = db.Column(db.String, nullable = False)
+  link = db.Column(db.String(255), nullable = False)
   public = db.Column(db.Boolean, nullable = False)
   reachable = db.Column(db.Boolean, nullable = False)
   reachable_last_check = db.Column(db.DateTime(timezone = True), nullable = False)
@@ -118,7 +136,8 @@ class Sublinks(db.Model):
     self.public = public
     self.reachable = reachable
     self.reachable_last_check = reachable_last_check
-      
+
+
 class Tags(db.Model):
   __tablename__ = 'tags'
   
@@ -129,7 +148,8 @@ class Tags(db.Model):
   def __init__(self, title, auto):
     self.title = title
     self.auto = auto
-      
+
+
 class Themes(db.Model):
   __tablename__ = 'themes'
   
@@ -143,6 +163,18 @@ class Themes(db.Model):
     self.descriptive_tags = descriptive_tags
     self.icon = icon
 
+
+class Links_Inspire(db.Model):
+  __tablename__ = 'links_inspire'
+  
+  link_id = db.Column(db.Integer, db.ForeignKey('links.id'), primary_key = True)
+  inspire_id = db.Column(db.Integer, db.ForeignKey('inspire.id'), primary_key = True)
+  
+  def __init__(self, link_id, inspire_id):
+    self.link_id = link_id
+    self.inspire_id = inspire_id
+
+
 class Links_Sublinks(db.Model):
   __tablename__ = 'links_sublinks'
   
@@ -153,6 +185,7 @@ class Links_Sublinks(db.Model):
     self.link_id = link_id
     self.sublink_id = sublink_id
 
+
 class Links_Tags(db.Model):
   __tablename__ = 'links_tags'
   
@@ -162,6 +195,7 @@ class Links_Tags(db.Model):
   def __init__(self, link_id, tag_id):
     self.link_id = link_id
     self.tag_id = tag_id
+
 
 class Links_Themes(db.Model):
   __tablename__ = 'links_themes'
@@ -259,7 +293,7 @@ def get_parent_link_children(parent_id = 1, search_only = False, include_parent_
   if search_only == True:
     return Links.query.filter(Links.parent_id == parent_id, Links.search == True).order_by(Links.group_order).all() if include_parent_link == True else Links.query.filter(Links.parent_id == parent_id, Links.id != parent_id, Links.search == True).order_by(Links.group_order).all()
   else:
-    return Links.query.filter(Links.parent_id == parent_id).order_by(Links.group_order).all() if include_parent_link == True else Links.query.filter(Links.parent_id == parent_id, Links.id != parent_id).order_by(Links.group_order).all()
+    return Links.query.join(Links.inspire).add_columns(Links.id, Links.parent_id, Links.category, Links.category_order, Links.group, Links.group_order, Links.title, Links.link, Links.public, Links.reachable, Links.reachable_last_check, Links.description, Links.date, Links.authorship_organisation, Links.authorship_name, Links.authorship_mail, Links.logo, Links.search, Links.search_title, Inspire.annex.label('inspire_annex'), Inspire.short.label('inspire_short'), Inspire.theme_de.label('inspire_theme_de'), Inspire.theme_en.label('inspire_theme_en'), Inspire.link.label('inspire_link')).filter(Links.parent_id == parent_id, Links.id == Links_Inspire.link_id, Links_Inspire.inspire_id == Inspire.id).order_by(Links.group_order).all() if include_parent_link == True else Links.query.join(Links.inspire).add_columns(Links.id, Links.parent_id, Links.category, Links.category_order, Links.group, Links.group_order, Links.title, Links.link, Links.public, Links.reachable, Links.reachable_last_check, Links.description, Links.date, Links.authorship_organisation, Links.authorship_name, Links.authorship_mail, Links.logo, Links.search, Links.search_title, Inspire.annex.label('inspire_annex'), Inspire.short.label('inspire_short'), Inspire.theme_de.label('inspire_theme_de'), Inspire.theme_en.label('inspire_theme_en'), Inspire.link.label('inspire_link')).filter(Links.parent_id == parent_id, Links.id != parent_id, Links.id == Links_Inspire.link_id, Links_Inspire.inspire_id == Inspire.id).order_by(Links.group_order).all()
 
 @cache.memoize(timeout = app.config['DEFAULT_CACHE_TIMEOUT'])
 def get_parent_link_children_groups(parent_id = 1, include_parent_link_groups = True):
@@ -285,12 +319,12 @@ def get_tag_links(id = 1):
 
 @cache.memoize(timeout = app.config['VOLATILE_DATA_CACHE_TIMEOUT'])
 def get_theme_link(theme_id = 1, link_id = 1):
-  return Links.query.join(Links.themes).add_columns(Links.id, Links.parent_id, Links.category, Links.category_order, Links.group, Links.group_order, Links.title, Links.link, Links.public, Links.reachable, Links.reachable_last_check, Links.description, Links.date, Links.authorship_organisation, Links.authorship_name, Links.authorship_mail, Links.inspire_annex_theme, Links.logo, Links.search, Links.search_title, Links_Themes.top, Links_Themes.type, Links_Themes.layer).filter(Links.id == link_id, Links.id == Links_Themes.link_id, Links_Themes.theme_id == theme_id, Themes.id == theme_id).first()
+  return Links.query.join(Links.themes).add_columns(Links.id, Links.parent_id, Links.category, Links.category_order, Links.group, Links.group_order, Links.title, Links.link, Links.public, Links.reachable, Links.reachable_last_check, Links.description, Links.date, Links.authorship_organisation, Links.authorship_name, Links.authorship_mail, Links.logo, Links.search, Links.search_title, Links_Themes.top, Links_Themes.type, Links_Themes.layer).filter(Links.id == link_id, Links.id == Links_Themes.link_id, Links_Themes.theme_id == theme_id, Themes.id == theme_id).first()
 
 @cache.memoize(timeout = app.config['VOLATILE_DATA_CACHE_TIMEOUT'])
 def get_theme_links(id = 1):
-  links_non_geoservice = Links.query.join(Links.themes).add_columns(Links.id, Links.parent_id, Links.category, Links.category_order, Links.group, Links.group_order, Links.title, Links.link, Links.public, Links.reachable, Links.reachable_last_check, Links.description, Links.date, Links.authorship_organisation, Links.authorship_name, Links.authorship_mail, Links.inspire_annex_theme, Links.logo, Links.search, Links.search_title, Links_Themes.top, Links_Themes.type, Links_Themes.layer).filter(Links.id == Links_Themes.link_id, Links_Themes.theme_id == id, Themes.id == id, Links.category != 'geoservice').order_by(Links.category_order, Links.group, Links.title).all()
-  links_geoservice = Links.query.join(Links.themes).add_columns(Links.id, Links.parent_id, Links.category, Links.category_order, Links.group, Links.group_order, Links.title, Links.link, Links.public, Links.reachable, Links.reachable_last_check, Links.description, Links.date, Links.authorship_organisation, Links.authorship_name, Links.authorship_mail, Links.inspire_annex_theme, Links.logo, Links.search, Links.search_title, Links_Themes.top, Links_Themes.type, Links_Themes.layer).filter(Links.id == Links_Themes.link_id, Links_Themes.theme_id == id, Themes.id == id, Links.category == 'geoservice').order_by(Links.title).all()
+  links_non_geoservice = Links.query.join(Links.themes).add_columns(Links.id, Links.parent_id, Links.category, Links.category_order, Links.group, Links.group_order, Links.title, Links.link, Links.public, Links.reachable, Links.reachable_last_check, Links.description, Links.date, Links.authorship_organisation, Links.authorship_name, Links.authorship_mail, Links.logo, Links.search, Links.search_title, Links_Themes.top, Links_Themes.type, Links_Themes.layer).filter(Links.id == Links_Themes.link_id, Links_Themes.theme_id == id, Themes.id == id, Links.category != 'geoservice').order_by(Links.category_order, Links.group, Links.title).all()
+  links_geoservice = Links.query.join(Links.themes).add_columns(Links.id, Links.parent_id, Links.category, Links.category_order, Links.group, Links.group_order, Links.title, Links.link, Links.public, Links.reachable, Links.reachable_last_check, Links.description, Links.date, Links.authorship_organisation, Links.authorship_name, Links.authorship_mail, Links.logo, Links.search, Links.search_title, Links_Themes.top, Links_Themes.type, Links_Themes.layer).filter(Links.id == Links_Themes.link_id, Links_Themes.theme_id == id, Themes.id == id, Links.category == 'geoservice').order_by(Links.title).all()
   return links_non_geoservice + links_geoservice
 
 @cache.memoize(timeout = app.config['DEFAULT_CACHE_TIMEOUT'])
@@ -302,6 +336,21 @@ app.jinja_env.filters['get_parent_link_children'] = get_parent_link_children
 app.jinja_env.filters['get_parent_link_children_groups'] = get_parent_link_children_groups
 app.jinja_env.filters['get_parent_link_children_tags'] = get_parent_link_children_tags
 app.jinja_env.filters['get_tag_links'] = get_tag_links
+
+
+
+# other custom functions
+def int_to_roman(input):
+  ints = (1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1)
+  nums = ('M', 'CM', 'D', 'CD', 'C', 'XC', 'L', 'XL', 'X', 'IX', 'V', 'IV', 'I')
+  result = []
+  for i in range(len(ints)):
+    count = int(input / ints[i])
+    result.append(nums[i] * count)
+    input -= ints[i] * count
+  return ''.join(result)
+
+app.jinja_env.filters['int_to_roman'] = int_to_roman
 
 
 

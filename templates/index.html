@@ -57,7 +57,7 @@
     </div>
     <div class="row-fluid text-center center-block{% if mobile %} mobile{% endif %}">
       <p>{{ _('Einstieg in die Geodateninfrastruktur') }}</p>
-      <p>{{ _('und Schnittstelle aller Anwendungen mit Raumbezug') }}</p>
+      <p>{{ _('sowie Schnittstelle aller Anwendungen mit Raumbezug') }}</p>
       <p>{{ _('der Hanse- und Universitätsstadt Rostock') }}</p>
     </div>
     <div class="row-fluid text-center search-center-block{% if mobile %} mobile{% endif %}">
@@ -77,7 +77,7 @@
       {% if not mobile %}<div class="col-md-6">{% endif %}
         <a href="{{ url_for('catalog', lang_code = g.current_lang) }}">
           <span class="glyphicon mega-glyphicon glyphicon-list" aria-hidden="true"></span>
-          <p class="mega-glyphicon-text{% if not mobile %} text-justify{% else %} mobile{% endif %}"><span class="bold">{{ _('Katalog') }}</span> – {{ _('Stöbern Sie in der Geodateninfrastruktur der Hanse- und Universitätsstadt Rostock anhand übersichtlich geordneter, filterbarer Listen.') }}</p>
+          <p class="mega-glyphicon-text{% if not mobile %} text-justify{% else %} mobile{% endif %}"><span class="bold">{{ _('Katalog') }}</span> – {{ _('Stöbern Sie in der Geodateninfrastruktur (inklusive INSPIRE) der Hanse- und Universitätsstadt Rostock anhand übersichtlich geordneter, filterbarer Listen.') }}</p>
         </a>
       {% if not mobile %}</div>{% endif %}
     </div>

@@ -1,33 +1,33 @@
-#: geolotse.py:317
+#: geolotse.py:351
 msgid "Kataloginhalt"
 msgstr ""
 
-#: geolotse.py:364 geolotse.py:463 geolotse.py:542
+#: geolotse.py:398 geolotse.py:497 geolotse.py:576
 msgid "API (Programmierschnittstelle)"
 msgstr ""
 
-#: geolotse.py:367 geolotse.py:465 geolotse.py:544
+#: geolotse.py:401 geolotse.py:499 geolotse.py:578
 msgid "Anwendung"
 msgstr ""
 
-#: geolotse.py:370 geolotse.py:467 geolotse.py:546
+#: geolotse.py:404 geolotse.py:501 geolotse.py:580
 msgid "Dokumentation"
 msgstr ""
 
-#: geolotse.py:373 geolotse.py:469 geolotse.py:548
+#: geolotse.py:407 geolotse.py:503 geolotse.py:582
 msgid "Download"
 msgstr ""
 
-#: geolotse.py:376 geolotse.py:471 geolotse.py:550
+#: geolotse.py:410 geolotse.py:505 geolotse.py:584
 msgid "Geodatendienst"
 msgstr ""
 
-#: geolotse.py:379
+#: geolotse.py:413 templates/geoservices.html:47
 msgid "Thema"
 msgstr ""
 
-#: geolotse.py:395 geolotse.py:486 geolotse.py:501 geolotse.py:565
-#: geolotse.py:580 templates/catalog.html:66 templates/catalog.html:90
+#: geolotse.py:429 geolotse.py:520 geolotse.py:535 geolotse.py:599
+#: geolotse.py:614 templates/catalog.html:66 templates/catalog.html:90
 #: templates/catalog.html:104 templates/catalog.html:113
 #: templates/catalog.html:131 templates/catalog.html:142
 #: templates/catalog.html:174 templates/geoservices.html:33
@@ -36,8 +36,8 @@ msgstr ""
 msgid "öffentlich zugänglich"
 msgstr ""
 
-#: geolotse.py:397 geolotse.py:488 geolotse.py:503 geolotse.py:567
-#: geolotse.py:582 templates/catalog.html:66 templates/catalog.html:90
+#: geolotse.py:431 geolotse.py:522 geolotse.py:537 geolotse.py:601
+#: geolotse.py:616 templates/catalog.html:66 templates/catalog.html:90
 #: templates/catalog.html:104 templates/catalog.html:113
 #: templates/catalog.html:131 templates/catalog.html:142
 #: templates/catalog.html:174 templates/geoservices.html:33
@@ -46,76 +46,76 @@ msgstr ""
 msgid "nicht öffentlich zugänglich"
 msgstr ""
 
-#: geolotse.py:411 templates/index.html:80
+#: geolotse.py:445 templates/index.html:80
 msgid "Katalog"
 msgstr ""
 
-#: geolotse.py:429
+#: geolotse.py:463
 msgid "-Meldung"
 msgstr ""
 
-#: geolotse.py:430
+#: geolotse.py:464
 msgid "Luftbild"
 msgstr ""
 
-#: geolotse.py:431
+#: geolotse.py:465
 msgid "alle Attribute dieses Objekts anzeigen"
 msgstr ""
 
-#: geolotse.py:432
+#: geolotse.py:466
 msgid "Attribut"
 msgstr ""
 
-#: geolotse.py:433
+#: geolotse.py:467
 msgid "Kategorie"
 msgstr ""
 
-#: geolotse.py:434
+#: geolotse.py:468
 msgid "Link zur Meldung in"
 msgstr ""
 
-#: geolotse.py:435 templates/geoservices.html:50
+#: geolotse.py:469 templates/geoservices.html:50
 msgid "Beschreibung"
 msgstr ""
 
-#: geolotse.py:436
+#: geolotse.py:470
 msgid "Link zum"
 msgstr ""
 
-#: geolotse.py:437
+#: geolotse.py:471
 msgid "Standortbestimmung"
 msgstr ""
 
-#: geolotse.py:438 templates/themes.html:128
+#: geolotse.py:472 templates/themes.html:128
 msgid "mit aktivem Feature-Typ"
 msgstr ""
 
-#: geolotse.py:439 templates/themes.html:105
+#: geolotse.py:473 templates/themes.html:105
 msgid "Karte"
 msgstr ""
 
-#: geolotse.py:440 templates/themes.html:127
+#: geolotse.py:474 templates/themes.html:127
 msgid "Objekt aus Angebot"
 msgstr ""
 
-#: geolotse.py:441 templates/themes.html:127
+#: geolotse.py:475 templates/themes.html:127
 msgid "zum Thema"
 msgstr ""
 
-#: geolotse.py:442
+#: geolotse.py:476
 msgid "Wert"
 msgstr ""
 
-#: geolotse.py:444 templates/index.html:74
+#: geolotse.py:478 templates/index.html:74
 msgid "Themen"
 msgstr ""
 
-#: geolotse.py:476 geolotse.py:555 templates/geoservices.html:59
+#: geolotse.py:510 geolotse.py:589 templates/geoservices.html:59
 #: templates/geoservices.html:88
 msgid "Link"
 msgstr ""
 
-#: geolotse.py:491 geolotse.py:506 geolotse.py:570 geolotse.py:585
+#: geolotse.py:525 geolotse.py:540 geolotse.py:604 geolotse.py:619
 #: templates/catalog.html:66 templates/catalog.html:90
 #: templates/catalog.html:104 templates/catalog.html:113
 #: templates/catalog.html:131 templates/catalog.html:142
@@ -125,8 +125,8 @@ msgstr ""
 msgid "erreichbar"
 msgstr ""
 
-#: geolotse.py:491 geolotse.py:493 geolotse.py:506 geolotse.py:508
-#: geolotse.py:570 geolotse.py:572 geolotse.py:585 geolotse.py:587
+#: geolotse.py:525 geolotse.py:527 geolotse.py:540 geolotse.py:542
+#: geolotse.py:604 geolotse.py:606 geolotse.py:619 geolotse.py:621
 #: templates/catalog.html:66 templates/catalog.html:90
 #: templates/catalog.html:104 templates/catalog.html:113
 #: templates/catalog.html:131 templates/catalog.html:142
@@ -136,7 +136,7 @@ msgstr ""
 msgid "letzte Prüfung"
 msgstr ""
 
-#: geolotse.py:493 geolotse.py:508 geolotse.py:572 geolotse.py:587
+#: geolotse.py:527 geolotse.py:542 geolotse.py:606 geolotse.py:621
 #: templates/catalog.html:66 templates/catalog.html:90
 #: templates/catalog.html:104 templates/catalog.html:113
 #: templates/catalog.html:131 templates/catalog.html:142
@@ -146,15 +146,15 @@ msgstr ""
 msgid "nicht erreichbar"
 msgstr ""
 
-#: geolotse.py:606 templates/footer.html:6
+#: geolotse.py:640 templates/footer.html:6
 msgid "Impressum"
 msgstr ""
 
-#: geolotse.py:615 templates/footer.html:5
+#: geolotse.py:649 templates/footer.html:5
 msgid "Datenschutz"
 msgstr ""
 
-#: geolotse.py:624 templates/footer.html:7
+#: geolotse.py:658 templates/footer.html:7
 msgid "Nutzungsbedingungen"
 msgstr ""
 
@@ -255,10 +255,6 @@ msgstr ""
 
 #: templates/geoservices.html:37
 msgid "mobil"
-msgstr ""
-
-#: templates/geoservices.html:47
-msgid "Annex-Thema"
 msgstr ""
 
 #: templates/geoservices.html:54
@@ -457,7 +453,7 @@ msgid "Einstieg in die Geodateninfrastruktur"
 msgstr ""
 
 #: templates/index.html:60
-msgid "und Schnittstelle aller Anwendungen mit Raumbezug"
+msgid "sowie Schnittstelle aller Anwendungen mit Raumbezug"
 msgstr ""
 
 #: templates/index.html:61
@@ -476,8 +472,9 @@ msgstr ""
 
 #: templates/index.html:80
 msgid ""
-"Stöbern Sie in der Geodateninfrastruktur der Hanse- und Universitätsstadt"
-" Rostock anhand übersichtlich geordneter, filterbarer Listen."
+"Stöbern Sie in der Geodateninfrastruktur (inklusive INSPIRE) der Hanse- "
+"und Universitätsstadt Rostock anhand übersichtlich geordneter, "
+"filterbarer Listen."
 msgstr ""
 
 #: templates/privacy_policy.html:28

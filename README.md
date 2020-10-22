@@ -144,6 +144,7 @@ If you want to deploy geolotse with [*Apache HTTP Server*](https://httpd.apache.
 The database consists of four main tables:
 
 *   `links` – All the links listed in the catalog view, shown as search results and/or used by themes are stored here
+*   `inspire` – All the [*INSPIRE*](https://inspire.ec.europa.eu) stuff related to the links goes here
 *   `sublinks` – All the sublinks related to the links are stored here
 *   `tags` – All the tags related to the links meet here
 *   `themes` – All the themes presented in the theme view go here
@@ -156,9 +157,9 @@ A few details on the important attributes (i.e. fields):
 
 *   `parent_id` – This integer field is mandatory since some logic within the code is based on it. The decision which link within a `category` and/or `group` is considered as the `parent` has to be made wisely and the results differ within a categories and/or groups: play around and find out yourself or check the `examples/database_pgsql.sql` for many examples. Always put an existing `id` in here since the value is checked within a foreign key constraint
 *   `category` – This text field is mandatory since some logic within the code is based on it. The value shall be one of `api` (for API, i.e. application programming interfaces), `application` (for applications), `documentation` (for documentations, i.e. documentation websites), `download` (for downloads, i.e. download portals), `external` (for external links), `form` (for forms), `geoservice` (for geo services) or `helper` (for helpers, i.e. tools)
-*   `category_order` – This integer field is mandatory since it determines the order of link categories in the catalog view and thus some logic within the code is based on it. Always use the same value for all links of one `category`, e.g. if the applications should appear first in the catalog view, all the application links have to have the `category_order` value `1`
-*   `group` – This text field is mandatory since some logic within the code is based on it. The value depends from the `category`: for applications, external links and helpers (i.e. tools), the value is considered as the parent title; for geo services, the value is considered as the service type (e.g. WMS, WFS, INSPIRE View Service, WMTS etc.); for API (i.e. application programming interfaces), documentations (i.e. documentation websites), downloads (i.e. download portals) and forms, the value has no relevance and shall be set to the `category` value
-*   `group_order` – This text field is mandatory since some logic within the code is based on it. The value depends from the `category`: for applications, external links and helpers (i.e. tools), the value determines the order of the link within its `group`, i.e. `1` for the first link, `2` for the second and so on; for geo services, the value determines the order of service types in the catalog view (always use the same value for all geo service links of one `group` (i.e. service type), e.g. if the geo service links of the service type WMS should appear first in the catalog view, all the geo service links of the service type WMS have to have the `group_order` value `1`); for API (i.e. application programming interfaces), documentations (i.e. documentation websites), downloads (i.e. download portals) and forms, the value has no relevance and shall be set to `1`
+*   `category_order` – This small integer field is mandatory since it determines the order of link categories in the catalog view and thus some logic within the code is based on it. Always use the same value for all links of one `category`, e.g. if the applications should appear first in the catalog view, all the application links have to have the `category_order` value `1`
+*   `group` – This text field is mandatory since some logic within the code is based on it. The value depends from the `category`: for applications, external links and helpers (i.e. tools), the value is considered as the parent title; for geo services, the value is considered as the service type (e.g. INSPIRE Download Service, WMS, WFS, INSPIRE View Service, WMTS etc.); for API (i.e. application programming interfaces), documentations (i.e. documentation websites), downloads (i.e. download portals) and forms, the value has no relevance and shall be set to the `category` value
+*   `group_order` – This small integer field is mandatory since some logic within the code is based on it. The value depends from the `category`: for applications, external links and helpers (i.e. tools), the value determines the order of the link within its `group`, i.e. `1` for the first link, `2` for the second and so on; for geo services, the value determines the order of service types in the catalog view (always use the same value for all geo service links of one `group` (i.e. service type), e.g. if the geo service links of the service type WMS should appear first in the catalog view, all the geo service links of the service type WMS have to have the `group_order` value `1`); for API (i.e. application programming interfaces), documentations (i.e. documentation websites), downloads (i.e. download portals) and forms, the value has no relevance and shall be set to `1`
 *   `title` – This text field is mandatory since every link needs a title, i.e. a name – but not necessarily an unique one
 *   `link` – This text field is mandatory since this *is* the link itself
 *   `public` – The value `FALSE` in this boolean field means *“This link is not publicly available.”*, the value `TRUE` however means *“This link is publicly available.”*. The field is mandatory since some logic within the code is based on it
@@ -169,7 +170,6 @@ A few details on the important attributes (i.e. fields):
 *   `authorship_organisation` – The organisation(s) of the author(s) of the link and/or its target go(es) in this text array field. The order has to be the same as in the `authorship_name` and `authorship_mail` fields since all these three fields are evaluated together in the code. The information is used in the catalog view
 *   `authorship_name` – The name(s) of the author(s) of the link and/or its target go(es) in this text array field. The order has to be the same as in the `authorship_organisation` and `authorship_mail` fields since all these three fields are evaluated together in the code. The information is used in the catalog view
 *   `authorship_mail` – The email address(es) of the author(s) of the link and/or its target go(es) in this text array field. The order has to be the same as in the `authorship_organisation` and `authorship_name` fields since all these three fields are evaluated together in the code. The information is used in the catalog view
-*   `inspire_annex_theme` – The [*INSPIRE*](https://inspire.ec.europa.eu) annex theme of the link and/or its target is stored in this text field. The information is used in the catalog view
 *   `logo` – If you want a link categorised as `application` and with `parent_id` equalling `id` to be equipped with a logo in the catalog view, its file name (*with* extension) has to go in this text field. Put the logo file itself in the `static/images/logos` folder. Logo information for links with other categories than `application` is not evaluated
 *   `search` – The value `FALSE` in this boolean field means *“This link is considered as a search result and thus included in the search index.”*, the value `TRUE` however means *“This link is not considered as a search result and thus not included in the search index.”*. The field is mandatory since some logic within the code is based on it
 *   `search_title` – If you want a link categorised as `application` to have a different title than the value of `group` in the search result list, the title hat to go in this text field
@@ -187,6 +187,18 @@ A few details on the important attributes (i.e. fields):
 *   `layer` – If `type` is `WFS` or `WMS`, the name of the feature type (`WFS`) or layer (`WMS`) that shall be used goes in this text field. The information is used for showing features or maps on the map in the theme view
 
 Only if `type` and – for `WFS` and `WMS` – `layer` additionally is/are provided, the features or maps of the link will be shown on the map in theme view!
+
+### INSPIRE (table `inspire`)
+
+A few details on the important attributes (i.e. fields):
+
+*   `annex` – This small integer field is mandatory since it determines the annex of the *INSPIRE* theme (i.e. `1`, `2` or `3`)
+*   `short` – The two (upper case) characters abbreviation of the *INSPIRE* theme (e.g. `US` for `Utility and governmental services`) goes in this mandatory text field
+*   `theme_de` – This text field is mandatory and contains the *INSPIRE* theme in German (e.g. `Schutzgebiete`)
+*   `theme_en` – This text field is mandatory and contains the *INSPIRE* theme in English (e.g. `Utility and governmental services`)
+*   `link` – This text field is mandatory and contains the link to the *INSPIRE* theme (e.g. `https://inspire.ec.europa.eu/theme/us` for `Utility and governmental services`)
+
+Always think of the *relations between links and tags* if you insert, delete or update tags, especially by a bot (e.g. a cronjob)!
 
 ### Sublinks (table `sublinks`)
 
