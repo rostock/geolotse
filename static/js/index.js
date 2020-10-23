@@ -29,6 +29,9 @@ function populateResults(resultsData) {
       case 'geoservice':
         categoryIcon = 'globe';
         break;
+      case 'inspire':
+        categoryIcon = 'flag';
+        break;
       case 'theme':
         categoryIcon = 'map-marker';
         break;

@@ -1,4 +1,4 @@
-from geolotse import app, Links, Themes, Tags
+from geolotse import app, Inspire, Links, Themes, Tags
 from flask_sqlalchemy import SQLAlchemy
 from pysolr import Solr
 
@@ -79,7 +79,22 @@ for link in links:
           'group_order': link.group_order
         }
       ], commit = True)
-    
+inspire_themes = Inspire.query.join(Links.inspire).with_entities(Inspire.id, Inspire.annex, Inspire.theme_de, Inspire.theme_en, Links.category_order).group_by(Inspire.id, Inspire.annex, Inspire.theme_de, Inspire.theme_en, Links.category_order).all()
+for inspire_theme in inspire_themes:
+  index_counter += 1
+  solr.add([
+    {
+      'id': index_counter,
+      '_text_': inspire_theme.theme_de + inspire_theme.theme_en,
+      'database_id': inspire_theme.id,
+      'category': 'inspire',
+      'title': inspire_theme.theme_de,
+      'link': '',
+      'public': True,
+      'category_order': inspire_theme.category_order,
+      'group_order': inspire_theme.annex
+    }
+  ], commit = True)
 
 
 

@@ -53,6 +53,8 @@
                   <span class="glyphicon glyphicon-globe"{% if not mobile %} aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{{ _('Geodatendienste (WMS, WFS etc.), jeweils mit ausführlichen Informationen versehen (Beschreibung, Metadaten etc.)') }}"{% endif %}></span> {{ _('Geodatendienste') }}
                 {% elif category.category == 'helper' %}
                   <span class="glyphicon glyphicon-wrench"{% if not mobile %} aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{{ _('Links zu kleineren und Hilfsanwendungen') }}"{% endif %}></span> {{ _('Tools') }}
+                {% elif category.category == 'inspire' %}
+                  <span class="glyphicon glyphicon-flag"{% if not mobile %} aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{{ _('INSPIRE-Dienste (INSPIRE Download Services, INSPIRE View Services etc.), geordnet nach Themen') }}"{% endif %}></span> INSPIRE
                 {% endif %}
               </a>
             </h4>
@@ -177,6 +179,81 @@
                     </div>
                   {% endif %}
                 {% endfor %}
+              {% endif %}
+              {% if category.category == 'inspire' %}
+                <span class="glyphicon glyphicon-filter" aria-hidden="true"></span>
+                <input class="form-control filter-input{% if mobile %} mobile{% endif %}" id="inspire-filter-input" placeholder="{{ _('Freitextfilter') }}…" type="search" />
+                <span id="clear-inspire-filter-input" class="clear-filter-input glyphicon glyphicon-remove-circle"></span>
+                <div class="panel-group" id="inspire-accordion">
+                  {% for inspire_theme in inspire_themes %}
+                    <div class="panel panel-info inspire-theme-panel">
+                      <div class="panel-heading">
+                        <h4 class="panel-title">
+                          <a class="accordion-link" data-toggle="collapse" href="#inspire-theme-{{ inspire_theme.id }}">
+                            Annex {{ inspire_theme.annex|int_to_roman }} – {% if g.current_lang == 'de' %}{{ inspire_theme.theme_de }}{% else %}{{ inspire_theme.theme_en }}{% endif %} ({{ inspire_theme.short }})
+                          </a>
+                        </h4>
+                      </div>
+                      <div id="inspire-theme-{{ inspire_theme.id }}" class="panel-collapse collapse">
+                        <div class="panel-body">
+                          <div class="panel-group" id="inspire-theme-{{ inspire_theme.id }}-accordion">
+                            {% for link in inspire_theme.id|get_inspire_theme_links() %}
+                              <div class="panel panel-info inspire-service-panel">
+                                <div class="panel-heading">
+                                  <h4 class="panel-title">
+                                    <a class="accordion-link" data-toggle="collapse" href="#inspire-service-{{ link.parent_id }}">
+                                      <span class="full-width">{{ link.title }}</span>
+                                      <small>
+                                        {% for group in link.parent_id|get_inspire_theme_link_children_groups() %}
+                                          <span class="full-width link-group-tag">{{ group.group }}</span>
+                                        {% endfor %}
+                                      </small>
+                                    </a>
+                                  </h4>
+                                </div>
+                                <div id="inspire-service-{{ link.parent_id }}" class="panel-collapse collapse">
+                                  <div class="panel-body">
+                                    {% set tags = link.parent_id|get_inspire_theme_link_children_tags() %}
+                                    {% if tags|length > 0 %}
+                                      <h5 class="first"><span class="glyphicon glyphicon-tag" aria-hidden="true"></span> {{ _('Schlagworte/Tags/Keywords') }}</h5>
+                                      <span class="full-width">
+                                        {% for tag in tags %}
+                                            {{ tag }}{% if not loop.last %} •{% endif %}
+                                        {% endfor %}
+                                      </span>
+                                    {% endif %}
+                                    {% for child in link.parent_id|get_inspire_theme_link_links() %}
+                                      <div class="inspire-child">
+                                        <h5 {% if tags|length == 0 %}class="first"{% endif %}><span class="glyphicon glyphicon-globe" aria-hidden="true"></span> {{ child.group }}</h5>
+                                        <span class="full-width"><span class="glyphicon glyphicon-flag" aria-hidden="true"></span> {{ _('Thema') }}</span>
+                                        <span class="full-width">Annex {{ child.inspire_annex|int_to_roman }} – <a href="{{ child.inspire_link }}" target="_blank">{% if g.current_lang == 'de' %}{{ child.inspire_theme_de }}{% else %}{{ child.inspire_theme_en }}{% endif %} ({{ child.inspire_short }})</a></span>
+                                        <span class="full-width"><span class="glyphicon glyphicon-comment" aria-hidden="true"></span> {{ _('Beschreibung') }}</span>
+                                        <span class="full-width">{{ child.description }}</span>
+                                        {% set metadata_sublink = child.id|get_link_sublink('metadata') %}
+                                        {% if metadata_sublink != None %}
+                                          <span class="full-width"><span class="glyphicon glyphicon-paperclip" aria-hidden="true"></span> {{ _('Metadaten') }}</span>
+                                          <a href="{{ metadata_sublink.link }}" target="_blank">
+                                            <span class="glyphicon glyphicon-margin-right glyphicon-{% if metadata_sublink.reachable == True %}ok-sign green{% else %}remove-sign red{% endif %}"{% if not mobile %} aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{% if metadata_sublink.reachable == True %}{{ _('erreichbar') }}{% else %}{{ _('nicht erreichbar') }}{% endif %} – {{ _('letzte Prüfung') }}: {{ metadata_sublink.reachable_last_check|datetime_l10n('full') }}"{% endif %}></span><span class="glyphicon glyphicon-margin-right glyphicon-eye-{% if metadata_sublink.public == True %}open green{% else %}close red{% endif %}"{% if not mobile %} aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{% if metadata_sublink.public == True %}{{ _('öffentlich zugänglich') }}{% else %}{{ _('nicht öffentlich zugänglich') }}{% endif %}"{% endif %}></span>{{ metadata_sublink.title }}
+                                          </a>
+                                        {% endif %}
+                                        <span class="full-width"><span class="glyphicon glyphicon-link" aria-hidden="true"></span> {{ _('Link') }}</span>
+                                        <strong>
+                                          <a href="{{ child.link }}" target="_blank">
+                                            <span class="glyphicon glyphicon-margin-right glyphicon-{% if child.reachable == True %}ok-sign green{% else %}remove-sign red{% endif %}"{% if not mobile %} aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{% if child.reachable == True %}{{ _('erreichbar') }}{% else %}{{ _('nicht erreichbar') }}{% endif %} – {{ _('letzte Prüfung') }}: {{ child.reachable_last_check|datetime_l10n('full') }}"{% endif %}></span><span class="glyphicon glyphicon-margin-right glyphicon-eye-{% if child.public == True %}open green{% else %}close red{% endif %}"{% if not mobile %} aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{% if child.public == True %}{{ _('öffentlich zugänglich') }}{% else %}{{ _('nicht öffentlich zugänglich') }}{% endif %}"{% endif %}></span>{{ child.link }}
+                                          </a>
+                                        </strong>
+                                      </div>
+                                    {% endfor %}
+                                  </div>
+                                </div>
+                              </div>
+                            {% endfor %}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  {% endfor %}
+                </div>
               {% endif %}
             </div>
           </div>

@@ -48,12 +48,14 @@ span.full-width {
 }
 
 .panel-body > h5,
-.geoservice-child > h5 {
+.geoservice-child > h5,
+.inspire-child > h5 {
   margin-top: 25px;
 }
 
 .panel-body > h5.first,
-.geoservice-child > h5.first {
+.geoservice-child > h5.first,
+.inspire-child > h5.first {
   margin-top: 0;
 }
 
@@ -62,6 +64,7 @@ span.full-width {
 }
 
 #application-accordion h4 > a,
-#geoservice-accordion h4 > a {
+#geoservice-accordion h4 > a,
+#inspire-accordion h4 > a {
   font-weight: normal;
 }

@@ -3,14 +3,30 @@
 function processUrlFragmentIdentifier() {
   if (window.location.hash) {
     var anchor = window.location.hash;
-    if ($(anchor).length && anchor.indexOf('geoservice-') !== -1) {
-      $('#geoservice').addClass('in');
-      $('#geoservice').attr('aria-expanded', 'true');
-      $(anchor).addClass('in');
-      $(anchor).attr('aria-expanded', 'true');
-      $(document).scrollTop($(anchor).offset().top - (MOBILE ? 145 : 130));
-    } else if ($(anchor).length) {
-      $(anchor).collapse('toggle');
+    if ($(anchor).length) {
+      if (anchor.indexOf('geoservice-') !== -1) {
+        $('#geoservice').addClass('in');
+        $('#geoservice').attr('aria-expanded', 'true');
+        $(anchor).addClass('in');
+        $(anchor).attr('aria-expanded', 'true');
+        $(document).scrollTop($(anchor).offset().top - (MOBILE ? 145 : 130));
+      } else if (anchor.indexOf('inspire-theme-') !== -1) {
+        $('#inspire').addClass('in');
+        $('#inspire').attr('aria-expanded', 'true');
+        $(anchor).addClass('in');
+        $(anchor).attr('aria-expanded', 'true');
+        $(document).scrollTop($(anchor).offset().top - (MOBILE ? 145 : 130));
+      } else if (anchor.indexOf('inspire-service-') !== -1) {
+        $('#inspire').addClass('in');
+        $('#inspire').attr('aria-expanded', 'true');
+        $(anchor).parent().parent().parent().parent().addClass('in');
+        $(anchor).parent().parent().parent().parent().attr('aria-expanded', 'true');
+        $(anchor).addClass('in');
+        $(anchor).attr('aria-expanded', 'true');
+        $(document).scrollTop($(anchor).offset().top - (MOBILE ? 145 : 130));
+      } else {
+        $(anchor).collapse('toggle');
+      }
     }
   }
 }
@@ -166,6 +182,34 @@ $('#helper-filter-input').keyup(function() {
 $('#clear-helper-filter-input').click(function() {
   $('#helper-filter-input').val('');
   $('.helper-list-group > a').each(function() {
+    $(this).show();
+  });
+});
+
+$('#inspire-filter-input').keyup(function() {
+  var value = $(this).val().toLowerCase();
+  $('#inspire-accordion .inspire-theme-panel').each(function() {
+    if ($(this).text().toLowerCase().search(value) > -1) {
+      $(this).show();
+      $(this).find('.inspire-service-panel').each(function() {
+        if ($(this).text().toLowerCase().search(value) > -1) {
+          $(this).show();
+        } else {
+          $(this).hide();
+        }
+      });
+    } else {
+      $(this).hide();
+    }
+  });
+});
+
+$('#clear-inspire-filter-input').click(function() {
+  $('#inspire-filter-input').val('');
+  $('#inspire-accordion .inspire-service-panel').each(function() {
+    $(this).show();
+  });
+  $('#inspire-accordion .inspire-theme-panel').each(function() {
     $(this).show();
   });
 });

@@ -8,7 +8,7 @@ from flask_migrate import Migrate
 from flask_sqlalchemy import Model, SQLAlchemy
 from flask_sqlalchemy_caching import CachingQuery
 from pysolr import Solr
-from sqlalchemy import func
+from sqlalchemy import and_, case, func, not_
 from user_agents import parse
 import icu, requests
 
@@ -54,7 +54,7 @@ class Links(db.Model):
   __tablename__ = 'links'
   
   id = db.Column(db.Integer, primary_key = True)
-  parent_id = db.Column(db.Integer, db.ForeignKey('links.id'), nullable = False)
+  parent_id = db.Column(db.Integer, db.ForeignKey('links.id'), nullable = False, index = True)
   category = db.Column(db.String(255), nullable = False, index = True)
   category_order = db.Column(db.SmallInteger, nullable = False, index = True)
   group = db.Column(db.String(255), nullable = False, index = True)
@@ -70,7 +70,7 @@ class Links(db.Model):
   authorship_name = db.Column(db.ARRAY(db.String(255)), nullable = True)
   authorship_mail = db.Column(db.ARRAY(db.String(255)), nullable = True)
   logo = db.Column(db.String(255), nullable = True)
-  search = db.Column(db.Boolean, nullable = False)
+  search = db.Column(db.Boolean, nullable = False, index = True)
   search_title = db.Column(db.String(255), nullable = True)
   
   parent = db.relationship('Links', backref = db.backref('links', lazy = 'dynamic'), remote_side = id)
@@ -105,9 +105,9 @@ class Inspire(db.Model):
   
   id = db.Column(db.Integer, primary_key = True)
   annex = db.Column(db.SmallInteger, nullable = False, index = True)
-  short = db.Column(db.String(2), nullable = False)
-  theme_de = db.Column(db.String(255), nullable = False)
-  theme_en = db.Column(db.String(255), nullable = False)
+  short = db.Column(db.String(2), nullable = False, index = True)
+  theme_de = db.Column(db.String(255), nullable = False, index = True)
+  theme_en = db.Column(db.String(255), nullable = False, index = True)
   link = db.Column(db.String(255), nullable = False)
   
   def __init__(self, annex, short, theme_de, theme_en, link):
@@ -202,7 +202,7 @@ class Links_Themes(db.Model):
   
   link_id = db.Column(db.Integer, db.ForeignKey('links.id'), primary_key = True)
   theme_id = db.Column(db.Integer, db.ForeignKey('themes.id'), primary_key = True)
-  top = db.Column(db.Boolean, nullable = True)
+  top = db.Column(db.Boolean, nullable = True, index = True)
   type = db.Column(db.String(255), nullable = True)
   layer = db.Column(db.String(255), nullable = True)
   
@@ -273,6 +273,32 @@ def clear_cache():
 
 # database functions
 @cache.memoize(timeout = app.config['DEFAULT_CACHE_TIMEOUT'])
+def get_inspire_themes():
+  return Inspire.query.join(Links.inspire).with_entities(Inspire.id, Inspire.annex, Inspire.short, Inspire.theme_de, Inspire.theme_en).group_by(Inspire.id, Inspire.annex, Inspire.short, Inspire.theme_de, Inspire.theme_en).order_by(Inspire.annex, Inspire.short).all()
+
+@cache.memoize(timeout = app.config['VOLATILE_DATA_CACHE_TIMEOUT'])
+def get_inspire_theme_links(inspire_theme_id = 1):
+  return Links.query.join(Links.inspire).with_entities(Links.parent_id, Links.title).filter(Inspire.id == inspire_theme_id).group_by(Links.parent_id, Links.title).order_by(Links.title).all()
+
+@cache.memoize(timeout = app.config['DEFAULT_CACHE_TIMEOUT'])
+def get_inspire_theme_link_children_groups(inspire_theme_link_parent_id = 1):
+  return Links.query.filter(Links.parent_id == inspire_theme_link_parent_id, Links.group.like('INSPIRE%')).order_by(Links.group).all()
+
+@cache.memoize(timeout = app.config['DEFAULT_CACHE_TIMEOUT'])
+def get_inspire_theme_link_children_tags(inspire_theme_link_parent_id = 1):
+  list = []
+  tags = Tags.query.join(Links.tags).filter(Links.parent_id == inspire_theme_link_parent_id).all()
+  for tag in tags:
+    tag.title not in list and list.append(tag.title)
+  collator = icu.Collator.createInstance(icu.Locale('de_DE.UTF-8'))
+  list.sort(key = collator.getSortKey)
+  return tuple(list)
+
+@cache.memoize(timeout = app.config['VOLATILE_DATA_CACHE_TIMEOUT'])
+def get_inspire_theme_link_links(inspire_theme_link_parent_id = 1):
+  return Links.query.join(Links.inspire).add_columns(Links.id, Links.parent_id, Links.category, Links.category_order, Links.group, Links.group_order, Links.title, Links.link, Links.public, Links.reachable, Links.reachable_last_check, Links.description, Links.date, Links.authorship_organisation, Links.authorship_name, Links.authorship_mail, Links.logo, Links.search, Links.search_title, Inspire.annex.label('inspire_annex'), Inspire.short.label('inspire_short'), Inspire.theme_de.label('inspire_theme_de'), Inspire.theme_en.label('inspire_theme_en'), Inspire.link.label('inspire_link')).filter(Links.parent_id == inspire_theme_link_parent_id, Links.group.like('INSPIRE%')).order_by(Links.group_order).all()
+
+@cache.memoize(timeout = app.config['DEFAULT_CACHE_TIMEOUT'])
 def get_link_sublink(id = 1, target = 'geoportal'):
   return Sublinks.query.join(Links.sublinks).filter(Links.id == id, Sublinks.target == target).first()
 
@@ -282,7 +308,8 @@ def get_links(category = 'api', group_order = False):
 
 @cache.memoize(timeout = app.config['DEFAULT_CACHE_TIMEOUT'])
 def get_links_categories():
-  return Links.query.with_entities(Links.category).group_by(Links.category, Links.category_order).order_by(Links.category_order).all()
+  case_expression = case([(and_(Links.category == 'geoservice', Links.group.like('INSPIRE%')), 'inspire'), (and_(Links.category == 'geoservice', not_(Links.group.like('INSPIRE%'))), 'geoservice')], else_ = Links.category)
+  return Links.query.with_entities(case_expression.label('category'), Links.category_order).group_by(case_expression, Links.category_order).order_by(Links.category_order).all()
 
 @cache.memoize(timeout = app.config['DEFAULT_CACHE_TIMEOUT'])
 def get_links_groups(category = 'api'):
@@ -331,6 +358,10 @@ def get_theme_links(id = 1):
 def get_themes():
   return Themes.query.order_by(func.random()).all()
 
+app.jinja_env.filters['get_inspire_theme_links'] = get_inspire_theme_links
+app.jinja_env.filters['get_inspire_theme_link_children_groups'] = get_inspire_theme_link_children_groups
+app.jinja_env.filters['get_inspire_theme_link_children_tags'] = get_inspire_theme_link_children_tags
+app.jinja_env.filters['get_inspire_theme_link_links'] = get_inspire_theme_link_links
 app.jinja_env.filters['get_link_sublink'] = get_link_sublink
 app.jinja_env.filters['get_parent_link_children'] = get_parent_link_children
 app.jinja_env.filters['get_parent_link_children_groups'] = get_parent_link_children_groups
@@ -424,6 +455,9 @@ def search():
     elif item['category'] == 'geoservice':
       item['category_label'] = gettext(u'Geodatendienst')
       item['catalog'] = True
+    elif item['category'] == 'inspire':
+      item['category_label'] = gettext(u'INSPIRE')
+      item['catalog'] = True
     elif item['category'] == 'theme':
       item['category_label'] = gettext(u'Thema')
       item['catalog'] = False
@@ -435,6 +469,8 @@ def search():
       item['link'] = result['link']
     elif item['category'] == 'geoservice':
       item['link'] = url_for('catalog', lang_code = g.current_lang if g.current_lang else app.config['BABEL_DEFAULT_LOCALE']) + '#geoservice-' + str(result['database_id'])
+    elif item['category'] == 'inspire':
+      item['link'] = url_for('catalog', lang_code = g.current_lang if g.current_lang else app.config['BABEL_DEFAULT_LOCALE']) + '#inspire-theme-' + str(result['database_id'])
     elif item['category'] == 'theme':
       item['link'] = url_for('themes', lang_code = g.current_lang if g.current_lang else app.config['BABEL_DEFAULT_LOCALE']) + '#theme-' + str(result['database_id'])
     else:
@@ -457,7 +493,7 @@ def catalog_without_lang_code():
 @app.route('/<lang_code>/catalog')
 def catalog():
   user_agent = parse(request.headers.get('User-Agent'))
-  return render_template('catalog.html', mobile = user_agent.is_mobile, subtitle = gettext(u'Katalog'), categories = get_links_categories(), api_links = get_parent_links('api', False), application_links = get_parent_links('application', True), documentation_links = get_parent_links('documentation', False), download_links = get_parent_links('download', False), external_links = get_links('external', True), form_links = get_links('form', True), geoservice_groups = get_links_groups('geoservice'), helper_links = get_links('helper', True), url_base = url_for('index', lang_code = g.current_lang if g.current_lang else app.config['BABEL_DEFAULT_LOCALE']))
+  return render_template('catalog.html', mobile = user_agent.is_mobile, subtitle = gettext(u'Katalog'), categories = get_links_categories(), api_links = get_parent_links('api', False), application_links = get_parent_links('application', True), documentation_links = get_parent_links('documentation', False), download_links = get_parent_links('download', False), external_links = get_links('external', True), form_links = get_links('form', True), geoservice_groups = get_links_groups('geoservice'), helper_links = get_links('helper', True), inspire_themes = get_inspire_themes(), url_base = url_for('index', lang_code = g.current_lang if g.current_lang else app.config['BABEL_DEFAULT_LOCALE']))
 
 @app.route('/geoservices')
 def geoservices_without_lang_code():
