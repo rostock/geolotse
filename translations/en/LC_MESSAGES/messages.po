@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: sebastian.gutzeit@rostock.de\n"
-"POT-Creation-Date: 2020-10-23 14:31+0200\n"
+"POT-Creation-Date: 2020-11-09 10:02+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Sebastian Gutzeit <sebastian.gutzeit@rostock.de>\n"
 "Language: en\n"
@@ -19,36 +19,40 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.8.0\n"
 
-#: geolotse.py:397
+#: geolotse.py:384
 msgid "Kataloginhalt"
 msgstr "Catalog content"
 
-#: geolotse.py:444 geolotse.py:543 geolotse.py:622
+#: geolotse.py:431 geolotse.py:535 geolotse.py:602
 msgid "API (Programmierschnittstelle)"
 msgstr "API (Application programming interface)"
 
-#: geolotse.py:447 geolotse.py:545 geolotse.py:624
+#: geolotse.py:434 geolotse.py:537 geolotse.py:604
 msgid "Anwendung"
 msgstr "Application"
 
-#: geolotse.py:450 geolotse.py:547 geolotse.py:626
+#: geolotse.py:437 geolotse.py:539 geolotse.py:606
 msgid "Dokumentation"
 msgstr "Documentation"
 
-#: geolotse.py:453 geolotse.py:549 geolotse.py:628
+#: geolotse.py:440 geolotse.py:541 geolotse.py:608
 msgid "Download"
 msgstr "Download"
 
-#: geolotse.py:456 geolotse.py:551 geolotse.py:630
+#: geolotse.py:443 geolotse.py:543 geolotse.py:610
 msgid "Geodatendienst"
 msgstr "Geo service"
 
-#: geolotse.py:459 templates/catalog.html:228 templates/geoservices.html:47
+#: geolotse.py:446
+msgid "INSPIRE"
+msgstr ""
+
+#: geolotse.py:449 templates/catalog.html:228 templates/geoservices.html:47
 msgid "Thema"
 msgstr "Theme"
 
-#: geolotse.py:475 geolotse.py:566 geolotse.py:581 geolotse.py:645
-#: geolotse.py:660 templates/catalog.html:68 templates/catalog.html:92
+#: geolotse.py:467 geolotse.py:558 geolotse.py:567 geolotse.py:625
+#: geolotse.py:634 templates/catalog.html:68 templates/catalog.html:92
 #: templates/catalog.html:106 templates/catalog.html:115
 #: templates/catalog.html:133 templates/catalog.html:144
 #: templates/catalog.html:176 templates/catalog.html:236
@@ -58,8 +62,8 @@ msgstr "Theme"
 msgid "öffentlich zugänglich"
 msgstr "publicly available"
 
-#: geolotse.py:477 geolotse.py:568 geolotse.py:583 geolotse.py:647
-#: geolotse.py:662 templates/catalog.html:68 templates/catalog.html:92
+#: geolotse.py:469 geolotse.py:560 geolotse.py:569 geolotse.py:627
+#: geolotse.py:636 templates/catalog.html:68 templates/catalog.html:92
 #: templates/catalog.html:106 templates/catalog.html:115
 #: templates/catalog.html:133 templates/catalog.html:144
 #: templates/catalog.html:176 templates/catalog.html:236
@@ -69,118 +73,84 @@ msgstr "publicly available"
 msgid "nicht öffentlich zugänglich"
 msgstr "not publicly available"
 
-#: geolotse.py:491 templates/index.html:80
+#: geolotse.py:483 templates/index.html:80
 msgid "Katalog"
 msgstr "Catalog"
 
-#: geolotse.py:509
+#: geolotse.py:501
 msgid "-Meldung"
 msgstr " advice"
 
-#: geolotse.py:510
+#: geolotse.py:502
 msgid "Luftbild"
 msgstr "Aerial image"
 
-#: geolotse.py:511
+#: geolotse.py:503
 msgid "alle Attribute dieses Objekts anzeigen"
 msgstr "show all of this objects’ attributes"
 
-#: geolotse.py:512
+#: geolotse.py:504
 msgid "Attribut"
 msgstr "Attribute"
 
-#: geolotse.py:513
+#: geolotse.py:505
 msgid "Kategorie"
 msgstr "Category"
 
-#: geolotse.py:514
+#: geolotse.py:506
 msgid "Link zur Meldung in"
 msgstr "Link to advice in"
 
-#: geolotse.py:515 templates/catalog.html:230 templates/geoservices.html:50
+#: geolotse.py:507 templates/catalog.html:230 templates/geoservices.html:50
 msgid "Beschreibung"
 msgstr "Description"
 
-#: geolotse.py:516
+#: geolotse.py:508
 msgid "Link zum"
 msgstr "Link to"
 
-#: geolotse.py:517
+#: geolotse.py:509
 msgid "Standortbestimmung"
 msgstr "Geolocation"
 
-#: geolotse.py:518 templates/themes.html:128
+#: geolotse.py:510 templates/themes.html:128
 msgid "mit aktivem Feature-Typ"
 msgstr "with active feature type"
 
-#: geolotse.py:519 templates/themes.html:105
+#: geolotse.py:511 templates/themes.html:105
 msgid "Karte"
 msgstr "Map"
 
-#: geolotse.py:520 templates/themes.html:127
+#: geolotse.py:512 templates/themes.html:127
 msgid "Objekt aus Angebot"
 msgstr "Object of the offer"
 
-#: geolotse.py:521 templates/themes.html:127
+#: geolotse.py:513 templates/themes.html:127
 msgid "zum Thema"
 msgstr "related to"
 
-#: geolotse.py:522
+#: geolotse.py:514
 msgid "Wert"
 msgstr "Value"
 
-#: geolotse.py:524 templates/index.html:74
+#: geolotse.py:516 templates/index.html:74
 msgid "Themen"
 msgstr "Themes"
 
-#: geolotse.py:556 geolotse.py:635 templates/catalog.html:239
+#: geolotse.py:548 geolotse.py:615 templates/catalog.html:239
 #: templates/geoservices.html:59 templates/geoservices.html:90
 msgid "Link"
 msgstr "Link"
 
-#: geolotse.py:571 geolotse.py:586 geolotse.py:650 geolotse.py:665
-#: templates/catalog.html:68 templates/catalog.html:92
-#: templates/catalog.html:106 templates/catalog.html:115
-#: templates/catalog.html:133 templates/catalog.html:144
-#: templates/catalog.html:176 templates/catalog.html:236
-#: templates/catalog.html:242 templates/geoservices.html:33
-#: templates/geoservices.html:39 templates/geoservices.html:56
-#: templates/geoservices.html:62 templates/geoservices.html:93
-msgid "erreichbar"
-msgstr "available"
-
-#: geolotse.py:571 geolotse.py:573 geolotse.py:586 geolotse.py:588
-#: geolotse.py:650 geolotse.py:652 geolotse.py:665 geolotse.py:667
-#: templates/catalog.html:68 templates/catalog.html:92
-#: templates/catalog.html:106 templates/catalog.html:115
-#: templates/catalog.html:133 templates/catalog.html:144
-#: templates/catalog.html:176 templates/catalog.html:236
-#: templates/catalog.html:242 templates/geoservices.html:33
-#: templates/geoservices.html:39 templates/geoservices.html:56
-#: templates/geoservices.html:62 templates/geoservices.html:93
-msgid "letzte Prüfung"
-msgstr "last check"
-
-#: geolotse.py:573 geolotse.py:588 geolotse.py:652 geolotse.py:667
-#: templates/catalog.html:68 templates/catalog.html:92
-#: templates/catalog.html:106 templates/catalog.html:115
-#: templates/catalog.html:133 templates/catalog.html:144
-#: templates/catalog.html:176 templates/catalog.html:236
-#: templates/catalog.html:242 templates/geoservices.html:33
-#: templates/geoservices.html:39 templates/geoservices.html:56
-#: templates/geoservices.html:62 templates/geoservices.html:93
-msgid "nicht erreichbar"
-msgstr "not available"
-
-#: geolotse.py:686 templates/footer.html:6
+#: geolotse.py:654 templates/footer.html:6
 msgid "Impressum"
 msgstr "Imprint"
 
-#: geolotse.py:695 templates/footer.html:5
+#: geolotse.py:663 templates/footer.html:5
 msgid "Datenschutz"
 msgstr "Privacy policy"
 
-#: geolotse.py:704 templates/footer.html:7
+#: geolotse.py:672 templates/footer.html:7
 msgid "Nutzungsbedingungen"
 msgstr "Terms of use"
 
@@ -262,8 +232,9 @@ msgstr "Helpers"
 msgid ""
 "INSPIRE-Dienste (INSPIRE Download Services, INSPIRE View Services etc.), "
 "geordnet nach Themen"
-msgstr "INSPIRE services (INSPIRE Download Services, INSPIRE View Services etc.), "
-"ordered by themes"
+msgstr ""
+"INSPIRE services (INSPIRE Download Services, INSPIRE View Services etc.),"
+" ordered by themes"
 
 #: templates/catalog.html:75 templates/catalog.html:122
 #: templates/catalog.html:159 templates/catalog.html:165
@@ -766,4 +737,3 @@ msgstr "Address search currently not available"
 #: templates/themes.html:240
 msgid "Bitte warten, Karte wird aktualisiert"
 msgstr "Please wait while map is refreshing"
-

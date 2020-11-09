@@ -30,13 +30,13 @@
           {% if geoportal_sublink != None %}
             <span class="full-width"><span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span> {{ _('Desktop') }}</span>
             <a href="{{ geoportal_sublink.link }}" target="_blank">
-              <span class="glyphicon glyphicon-margin-right glyphicon-{% if geoportal_sublink.reachable == True %}ok-sign green{% else %}remove-sign red{% endif %}"{% if not mobile %} aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{% if geoportal_sublink.reachable == True %}{{ _('erreichbar') }}{% else %}{{ _('nicht erreichbar') }}{% endif %} – {{ _('letzte Prüfung') }}: {{ geoportal_sublink.reachable_last_check|datetime_l10n('full') }}"{% endif %}></span><span class="glyphicon glyphicon-margin-right glyphicon-eye-{% if geoportal_sublink.public == True %}open green{% else %}close red{% endif %}"{% if not mobile %} aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{% if geoportal_sublink.public == True %}{{ _('öffentlich zugänglich') }}{% else %}{{ _('nicht öffentlich zugänglich') }}{% endif %}"{% endif %}></span>{{ geoportal_sublink.title }}
+              <span class="glyphicon glyphicon-margin-right glyphicon-eye-{% if geoportal_sublink.public == True %}open green{% else %}close red{% endif %}"{% if not mobile %} aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{% if geoportal_sublink.public == True %}{{ _('öffentlich zugänglich') }}{% else %}{{ _('nicht öffentlich zugänglich') }}{% endif %}"{% endif %}></span>{{ geoportal_sublink.title }}
             </a>
           {% endif %}
           {% if geoportal_mobile_sublink != None %}
             <span class="full-width"><span class="glyphicon glyphicon-phone" aria-hidden="true"></span> {{ _('mobil') }}</span>
             <a href="{{ geoportal_mobile_sublink.link }}" target="_blank">
-              <span class="glyphicon glyphicon-margin-right glyphicon-{% if geoportal_mobile_sublink.reachable == True %}ok-sign green{% else %}remove-sign red{% endif %}"{% if not mobile %} aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{% if geoportal_mobile_sublink.reachable == True %}{{ _('erreichbar') }}{% else %}{{ _('nicht erreichbar') }}{% endif %} – {{ _('letzte Prüfung') }}: {{ geoportal_mobile_sublink.reachable_last_check|datetime_l10n('full') }}"{% endif %}></span><span class="glyphicon glyphicon-margin-right glyphicon-eye-{% if geoportal_mobile_sublink.public == True %}open green{% else %}close red{% endif %}"{% if not mobile %} aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{% if geoportal_mobile_sublink.public == True %}{{ _('öffentlich zugänglich') }}{% else %}{{ _('nicht öffentlich zugänglich') }}{% endif %}"{% endif %}></span>{{ geoportal_mobile_sublink.title }}
+              <span class="glyphicon glyphicon-margin-right glyphicon-eye-{% if geoportal_mobile_sublink.public == True %}open green{% else %}close red{% endif %}"{% if not mobile %} aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{% if geoportal_mobile_sublink.public == True %}{{ _('öffentlich zugänglich') }}{% else %}{{ _('nicht öffentlich zugänglich') }}{% endif %}"{% endif %}></span>{{ geoportal_mobile_sublink.title }}
             </a>
           {% endif %}
         {% endif %}
@@ -53,13 +53,13 @@
             {% if metadata_sublink != None %}
               <span class="full-width"><span class="glyphicon glyphicon-paperclip" aria-hidden="true"></span> {{ _('Metadaten') }}</span>
               <a href="{{ metadata_sublink.link }}" target="_blank">
-                <span class="glyphicon glyphicon-margin-right glyphicon-{% if metadata_sublink.reachable == True %}ok-sign green{% else %}remove-sign red{% endif %}"{% if not mobile %} aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{% if metadata_sublink.reachable == True %}{{ _('erreichbar') }}{% else %}{{ _('nicht erreichbar') }}{% endif %} – {{ _('letzte Prüfung') }}: {{ metadata_sublink.reachable_last_check|datetime_l10n('full') }}"{% endif %}></span><span class="glyphicon glyphicon-margin-right glyphicon-eye-{% if metadata_sublink.public == True %}open green{% else %}close red{% endif %}"{% if not mobile %} aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{% if metadata_sublink.public == True %}{{ _('öffentlich zugänglich') }}{% else %}{{ _('nicht öffentlich zugänglich') }}{% endif %}"{% endif %}></span>{{ metadata_sublink.title }}
+                <span class="glyphicon glyphicon-margin-right glyphicon-eye-{% if metadata_sublink.public == True %}open green{% else %}close red{% endif %}"{% if not mobile %} aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{% if metadata_sublink.public == True %}{{ _('öffentlich zugänglich') }}{% else %}{{ _('nicht öffentlich zugänglich') }}{% endif %}"{% endif %}></span>{{ metadata_sublink.title }}
               </a>
             {% endif %}
             <span class="full-width"><span class="glyphicon glyphicon-link" aria-hidden="true"></span> {{ _('Link') }}</span>
             <strong>
               <a href="{{ child.link }}" target="_blank">
-                <span class="glyphicon glyphicon-margin-right glyphicon-{% if child.reachable == True %}ok-sign green{% else %}remove-sign red{% endif %}"{% if not mobile %} aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{% if child.reachable == True %}{{ _('erreichbar') }}{% else %}{{ _('nicht erreichbar') }}{% endif %} – {{ _('letzte Prüfung') }}: {{ child.reachable_last_check|datetime_l10n('full') }}"{% endif %}></span><span class="glyphicon glyphicon-margin-right glyphicon-eye-{% if child.public == True %}open green{% else %}close red{% endif %}"{% if not mobile %} aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{% if child.public == True %}{{ _('öffentlich zugänglich') }}{% else %}{{ _('nicht öffentlich zugänglich') }}{% endif %}"{% endif %}></span>{{ child.link }}
+                <span class="glyphicon glyphicon-margin-right glyphicon-eye-{% if child.public == True %}open green{% else %}close red{% endif %}"{% if not mobile %} aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{% if child.public == True %}{{ _('öffentlich zugänglich') }}{% else %}{{ _('nicht öffentlich zugänglich') }}{% endif %}"{% endif %}></span>{{ child.link }}
               </a>
             </strong>
           </div>
@@ -90,7 +90,7 @@
             <span class="full-width"><span class="glyphicon glyphicon-link" aria-hidden="true"></span> {{ _('Link') }}</span>
             <strong>
               <a href="{{ opendata_sublink.link }}" target="_blank">
-                <span class="glyphicon glyphicon-margin-right glyphicon-{% if opendata_sublink.reachable == True %}ok-sign green{% else %}remove-sign red{% endif %}"{% if not mobile %} aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{% if opendata_sublink.reachable == True %}{{ _('erreichbar') }}{% else %}{{ _('nicht erreichbar') }}{% endif %} – {{ _('letzte Prüfung') }}: {{ opendata_sublink.reachable_last_check|datetime_l10n('full') }}"{% endif %}></span><span class="glyphicon glyphicon-margin-right glyphicon-eye-{% if opendata_sublink.public == True %}open green{% else %}close red{% endif %}"{% if not mobile %} aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{% if opendata_sublink.public == True %}{{ _('öffentlich zugänglich') }}{% else %}{{ _('nicht öffentlich zugänglich') }}{% endif %}"{% endif %}></span>{{ opendata_sublink.title }}
+                <span class="glyphicon glyphicon-margin-right glyphicon-eye-{% if opendata_sublink.public == True %}open green{% else %}close red{% endif %}"{% if not mobile %} aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{% if opendata_sublink.public == True %}{{ _('öffentlich zugänglich') }}{% else %}{{ _('nicht öffentlich zugänglich') }}{% endif %}"{% endif %}></span>{{ opendata_sublink.title }}
               </a>
             </strong>
           {% endif %}

@@ -62,8 +62,6 @@ class Links(db.Model):
   title = db.Column(db.String(255), nullable = False, index = True)
   link = db.Column(db.String(255), nullable = False, index = True)
   public = db.Column(db.Boolean, nullable = False)
-  reachable = db.Column(db.Boolean, nullable = False)
-  reachable_last_check = db.Column(db.DateTime(timezone = True), nullable = False)
   description = db.Column(db.Text, nullable = True)
   date = db.Column(db.Date, nullable = True)
   authorship_organisation = db.Column(db.ARRAY(db.String(255)), nullable = True)
@@ -79,7 +77,7 @@ class Links(db.Model):
   tags = db.relationship('Tags', secondary = 'links_tags', lazy = 'dynamic', backref = db.backref('links', lazy = 'dynamic'))
   themes = db.relationship('Themes', secondary = 'links_themes', lazy = 'dynamic', backref = db.backref('links', lazy = 'dynamic'))
   
-  def __init__(self, parent_id, category, category_order, group, group_order, title, link, public, reachable, reachable_last_check, description, date, authorship_organisation, authorship_name, authorship_mail, logo, search, search_title):
+  def __init__(self, parent_id, category, category_order, group, group_order, title, link, public, description, date, authorship_organisation, authorship_name, authorship_mail, logo, search, search_title):
     self.parent_id = parent_id
     self.category = category
     self.category_order = category_order
@@ -88,8 +86,6 @@ class Links(db.Model):
     self.title = title
     self.link = link
     self.public = public
-    self.reachable = reachable
-    self.reachable_last_check = reachable_last_check
     self.description = description
     self.date = date
     self.authorship_organisation = authorship_organisation
@@ -126,16 +122,12 @@ class Sublinks(db.Model):
   title = db.Column(db.String(255), nullable = False)
   link = db.Column(db.String(255), nullable = False)
   public = db.Column(db.Boolean, nullable = False)
-  reachable = db.Column(db.Boolean, nullable = False)
-  reachable_last_check = db.Column(db.DateTime(timezone = True), nullable = False)
   
-  def __init__(self, target, title, link, public, reachable, reachable_last_check):
+  def __init__(self, target, title, link, public):
     self.target = target
     self.title = title
     self.link = link
     self.public = public
-    self.reachable = reachable
-    self.reachable_last_check = reachable_last_check
 
 
 class Tags(db.Model):
@@ -294,17 +286,17 @@ def get_inspire_theme_link_children_tags(inspire_theme_link_parent_id = 1):
   list.sort(key = collator.getSortKey)
   return tuple(list)
 
-@cache.memoize(timeout = app.config['VOLATILE_DATA_CACHE_TIMEOUT'])
+@cache.memoize(timeout = app.config['DEFAULT_CACHE_TIMEOUT'])
 def get_inspire_theme_link_links(inspire_theme_link_parent_id = 1):
-  return Links.query.join(Links.inspire).with_entities(Links.id, Links.group, Links.group_order, Links.link, Links.public, Links.reachable, Links.reachable_last_check, Links.description, Inspire.annex.label('inspire_annex'), Inspire.short.label('inspire_short'), Inspire.theme_de.label('inspire_theme_de'), Inspire.theme_en.label('inspire_theme_en'), Inspire.link.label('inspire_link')).filter(Links.parent_id == inspire_theme_link_parent_id, Links.group.like('INSPIRE%')).order_by(Links.group_order).all()
+  return Links.query.join(Links.inspire).with_entities(Links.id, Links.group, Links.group_order, Links.link, Links.public, Links.description, Inspire.annex.label('inspire_annex'), Inspire.short.label('inspire_short'), Inspire.theme_de.label('inspire_theme_de'), Inspire.theme_en.label('inspire_theme_en'), Inspire.link.label('inspire_link')).filter(Links.parent_id == inspire_theme_link_parent_id, Links.group.like('INSPIRE%')).order_by(Links.group_order).all()
 
 @cache.memoize(timeout = app.config['DEFAULT_CACHE_TIMEOUT'])
 def get_link_sublink(id = 1, target = 'geoportal'):
-  return Sublinks.query.join(Links.sublinks).with_entities(Sublinks.title, Sublinks.link, Sublinks.public, Sublinks.reachable, Sublinks.reachable_last_check).filter(Links.id == id, Sublinks.target == target).first()
+  return Sublinks.query.join(Links.sublinks).with_entities(Sublinks.title, Sublinks.link, Sublinks.public).filter(Links.id == id, Sublinks.target == target).first()
 
-@cache.memoize(timeout = app.config['VOLATILE_DATA_CACHE_TIMEOUT'])
+@cache.memoize(timeout = app.config['DEFAULT_CACHE_TIMEOUT'])
 def get_links(category = 'api', group_order = False):
-  return Links.query.filter(Links.category == category).with_entities(Links.id, Links.parent_id, Links.group, Links.group_order, Links.title, Links.link, Links.public, Links.reachable, Links.reachable_last_check, Links.description).order_by(Links.group, Links.group_order, Links.title).all() if group_order == True else Links.query.filter(Links.category == category).with_entities(Links.id, Links.parent_id, Links.group, Links.group_order, Links.title, Links.link, Links.public, Links.reachable, Links.reachable_last_check, Links.description).order_by(Links.title).all()
+  return Links.query.filter(Links.category == category).with_entities(Links.id, Links.parent_id, Links.group, Links.group_order, Links.title, Links.link, Links.public, Links.description).order_by(Links.group, Links.group_order, Links.title).all() if group_order == True else Links.query.filter(Links.category == category).with_entities(Links.id, Links.parent_id, Links.group, Links.group_order, Links.title, Links.link, Links.public, Links.description).order_by(Links.title).all()
 
 @cache.memoize(timeout = app.config['DEFAULT_CACHE_TIMEOUT'])
 def get_links_categories():
@@ -315,12 +307,12 @@ def get_links_categories():
 def get_links_groups(category = 'api'):
   return Links.query.with_entities(Links.group, func.count(Links.group).label('group_count')).filter(Links.category == category).group_by(Links.group).order_by(Links.group).all()
 
-@cache.memoize(timeout = app.config['VOLATILE_DATA_CACHE_TIMEOUT'])
+@cache.memoize(timeout = app.config['DEFAULT_CACHE_TIMEOUT'])
 def get_parent_link_children(parent_id = 1, search_only = False, include_parent_link = True):
   if search_only == True:
-    return Links.query.with_entities(Links.id, Links.group, Links.group_order, Links.link, Links.public, Links.reachable, Links.reachable_last_check, Links.search_title).filter(Links.parent_id == parent_id, Links.search == True).order_by(Links.group_order).all() if include_parent_link == True else Links.query.with_entities(Links.id, Links.group, Links.group_order, Links.link, Links.public, Links.reachable, Links.reachable_last_check, Links.search_title).filter(Links.parent_id == parent_id, Links.id != parent_id, Links.search == True).order_by(Links.group_order).all()
+    return Links.query.with_entities(Links.id, Links.group, Links.group_order, Links.link, Links.public, Links.search_title).filter(Links.parent_id == parent_id, Links.search == True).order_by(Links.group_order).all() if include_parent_link == True else Links.query.with_entities(Links.id, Links.group, Links.group_order, Links.link, Links.public, Links.search_title).filter(Links.parent_id == parent_id, Links.id != parent_id, Links.search == True).order_by(Links.group_order).all()
   else:
-    return Links.query.join(Links.inspire, isouter = True).with_entities(Links.id, Links.group, Links.group_order, Links.title, Links.link, Links.public, Links.reachable, Links.reachable_last_check, Links.description, Inspire.annex.label('inspire_annex'), Inspire.short.label('inspire_short'), Inspire.theme_de.label('inspire_theme_de'), Inspire.theme_en.label('inspire_theme_en'), Inspire.link.label('inspire_link')).filter(Links.parent_id == parent_id).order_by(Links.group_order).all() if include_parent_link == True else Links.query.join(Links.inspire, isouter = True).with_entities(Links.id, Links.group, Links.group_order, Links.title, Links.link, Links.public, Links.reachable, Links.reachable_last_check, Links.description, Inspire.annex.label('inspire_annex'), Inspire.short.label('inspire_short'), Inspire.theme_de.label('inspire_theme_de'), Inspire.theme_en.label('inspire_theme_en'), Inspire.link.label('inspire_link')).filter(Links.parent_id == parent_id, Links.id != parent_id).order_by(Links.group_order).all()
+    return Links.query.join(Links.inspire, isouter = True).with_entities(Links.id, Links.group, Links.group_order, Links.title, Links.link, Links.public, Links.description, Inspire.annex.label('inspire_annex'), Inspire.short.label('inspire_short'), Inspire.theme_de.label('inspire_theme_de'), Inspire.theme_en.label('inspire_theme_en'), Inspire.link.label('inspire_link')).filter(Links.parent_id == parent_id).order_by(Links.group_order).all() if include_parent_link == True else Links.query.join(Links.inspire, isouter = True).with_entities(Links.id, Links.group, Links.group_order, Links.title, Links.link, Links.public, Links.description, Inspire.annex.label('inspire_annex'), Inspire.short.label('inspire_short'), Inspire.theme_de.label('inspire_theme_de'), Inspire.theme_en.label('inspire_theme_en'), Inspire.link.label('inspire_link')).filter(Links.parent_id == parent_id, Links.id != parent_id).order_by(Links.group_order).all()
 
 @cache.memoize(timeout = app.config['DEFAULT_CACHE_TIMEOUT'])
 def get_parent_link_children_groups(parent_id = 1, include_parent_link_groups = True):
@@ -336,18 +328,18 @@ def get_parent_link_children_tags(parent_id = 1, include_parent_link_tags = True
   list.sort(key = collator.getSortKey)
   return tuple(list)
 
-@cache.memoize(timeout = app.config['VOLATILE_DATA_CACHE_TIMEOUT'])
+@cache.memoize(timeout = app.config['DEFAULT_CACHE_TIMEOUT'])
 def get_parent_links(category = 'api', group_order = False):
-  return Links.query.with_entities(Links.id, Links.group, Links.group_order, Links.title, Links.link, Links.public, Links.reachable, Links.reachable_last_check, Links.date, Links.authorship_organisation, Links.authorship_name, Links.authorship_mail, Links.logo).filter(Links.category == category, Links.id == Links.parent_id).order_by(Links.group, Links.title).all() if group_order == True else Links.query.with_entities(Links.id, Links.group, Links.group_order, Links.title, Links.link, Links.public, Links.reachable, Links.reachable_last_check, Links.date, Links.authorship_organisation, Links.authorship_name, Links.authorship_mail, Links.logo).filter(Links.category == category, Links.id == Links.parent_id).order_by(Links.title).all()
+  return Links.query.with_entities(Links.id, Links.group, Links.group_order, Links.title, Links.link, Links.public, Links.date, Links.authorship_organisation, Links.authorship_name, Links.authorship_mail, Links.logo).filter(Links.category == category, Links.id == Links.parent_id).order_by(Links.group, Links.title).all() if group_order == True else Links.query.with_entities(Links.id, Links.group, Links.group_order, Links.title, Links.link, Links.public, Links.date, Links.authorship_organisation, Links.authorship_name, Links.authorship_mail, Links.logo).filter(Links.category == category, Links.id == Links.parent_id).order_by(Links.title).all()
 
-@cache.memoize(timeout = app.config['VOLATILE_DATA_CACHE_TIMEOUT'])
+@cache.memoize(timeout = app.config['DEFAULT_CACHE_TIMEOUT'])
 def get_theme_link(theme_id = 1, link_id = 1):
-  return Links.query.join(Links.themes).with_entities(Links.id, Links.parent_id, Links.category, Links.category_order, Links.group, Links.group_order, Links.title, Links.link, Links.public, Links.reachable, Links.reachable_last_check, Links.description, Links.date, Links.authorship_organisation, Links.authorship_name, Links.authorship_mail, Links.logo, Links.search, Links.search_title, Links_Themes.top, Links_Themes.type, Links_Themes.layer).filter(Links.id == link_id, Links.id == Links_Themes.link_id, Links_Themes.theme_id == theme_id, Themes.id == theme_id).first()
+  return Links.query.join(Links.themes).with_entities(Links.id, Links.parent_id, Links.category, Links.category_order, Links.group, Links.group_order, Links.title, Links.link, Links.public, Links.description, Links.date, Links.authorship_organisation, Links.authorship_name, Links.authorship_mail, Links.logo, Links.search, Links.search_title, Links_Themes.top, Links_Themes.type, Links_Themes.layer).filter(Links.id == link_id, Links.id == Links_Themes.link_id, Links_Themes.theme_id == theme_id, Themes.id == theme_id).first()
 
-@cache.memoize(timeout = app.config['VOLATILE_DATA_CACHE_TIMEOUT'])
+@cache.memoize(timeout = app.config['DEFAULT_CACHE_TIMEOUT'])
 def get_theme_links(id = 1):
-  links_non_geoservice = Links.query.join(Links.themes).with_entities(Links.id, Links.parent_id, Links.category, Links.category_order, Links.group, Links.group_order, Links.title, Links.link, Links.public, Links.reachable, Links.reachable_last_check, Links.description, Links.date, Links.authorship_organisation, Links.authorship_name, Links.authorship_mail, Links.logo, Links.search, Links.search_title, Links_Themes.top, Links_Themes.type, Links_Themes.layer).filter(Links.id == Links_Themes.link_id, Links_Themes.theme_id == id, Themes.id == id, Links.category != 'geoservice').order_by(Links.category_order, Links.group, Links.title).all()
-  links_geoservice = Links.query.join(Links.themes).with_entities(Links.id, Links.parent_id, Links.category, Links.category_order, Links.group, Links.group_order, Links.title, Links.link, Links.public, Links.reachable, Links.reachable_last_check, Links.description, Links.date, Links.authorship_organisation, Links.authorship_name, Links.authorship_mail, Links.logo, Links.search, Links.search_title, Links_Themes.top, Links_Themes.type, Links_Themes.layer).filter(Links.id == Links_Themes.link_id, Links_Themes.theme_id == id, Themes.id == id, Links.category == 'geoservice').order_by(Links.title).all()
+  links_non_geoservice = Links.query.join(Links.themes).with_entities(Links.id, Links.parent_id, Links.category, Links.category_order, Links.group, Links.group_order, Links.title, Links.link, Links.public, Links.description, Links.date, Links.authorship_organisation, Links.authorship_name, Links.authorship_mail, Links.logo, Links.search, Links.search_title, Links_Themes.top, Links_Themes.type, Links_Themes.layer).filter(Links.id == Links_Themes.link_id, Links_Themes.theme_id == id, Themes.id == id, Links.category != 'geoservice').order_by(Links.category_order, Links.group, Links.title).all()
+  links_geoservice = Links.query.join(Links.themes).with_entities(Links.id, Links.parent_id, Links.category, Links.category_order, Links.group, Links.group_order, Links.title, Links.link, Links.public, Links.description, Links.date, Links.authorship_organisation, Links.authorship_name, Links.authorship_mail, Links.logo, Links.search, Links.search_title, Links_Themes.top, Links_Themes.type, Links_Themes.layer).filter(Links.id == Links_Themes.link_id, Links_Themes.theme_id == id, Themes.id == id, Links.category == 'geoservice').order_by(Links.title).all()
   return links_non_geoservice + links_geoservice
 
 @cache.memoize(timeout = app.config['DEFAULT_CACHE_TIMEOUT'])
@@ -566,12 +558,6 @@ def offer():
           inner_item['public_label'] = gettext(u'öffentlich zugänglich')
         else:
           inner_item['public_label'] = gettext(u'nicht öffentlich zugänglich')
-        inner_item['reachable'] = inner_link.reachable
-        if inner_item['reachable'] == True:
-          inner_item['reachable_label'] = gettext(u'erreichbar') + u' – ' + gettext(u'letzte Prüfung')
-        else:
-          inner_item['reachable_label'] = gettext(u'nicht erreichbar') + u'–' + gettext(u'letzte Prüfung')
-        inner_item['reachable_last_check'] = datetime_l10n(inner_link.reachable_last_check, 'full')
         inner_data.append(inner_item)
       item['links'] = inner_data
     else:
@@ -581,12 +567,6 @@ def offer():
       item['public_label'] = gettext(u'öffentlich zugänglich')
     else:
       item['public_label'] = gettext(u'nicht öffentlich zugänglich')
-    item['reachable'] = link.reachable
-    if item['reachable'] == True:
-      item['reachable_label'] = gettext(u'erreichbar') + u' – ' + gettext(u'letzte Prüfung')
-    else:
-      item['reachable_label'] = gettext(u'nicht erreichbar') + u'–' + gettext(u'letzte Prüfung')
-    item['reachable_last_check'] = datetime_l10n(link.reachable_last_check, 'full')
     item['search_title'] = link.search_title
     item['logo'] = link.logo
     item['top'] = link.top
@@ -645,12 +625,6 @@ def offers():
             inner_item['public_label'] = gettext(u'öffentlich zugänglich')
           else:
             inner_item['public_label'] = gettext(u'nicht öffentlich zugänglich')
-          inner_item['reachable'] = inner_link.reachable
-          if inner_item['reachable'] == True:
-            inner_item['reachable_label'] = gettext(u'erreichbar') + u' – ' + gettext(u'letzte Prüfung')
-          else:
-            inner_item['reachable_label'] = gettext(u'nicht erreichbar') + u'–' + gettext(u'letzte Prüfung')
-          inner_item['reachable_last_check'] = datetime_l10n(inner_link.reachable_last_check, 'full')
           inner_data.append(inner_item)
         item['links'] = inner_data
       else:
@@ -660,12 +634,6 @@ def offers():
         item['public_label'] = gettext(u'öffentlich zugänglich')
       else:
         item['public_label'] = gettext(u'nicht öffentlich zugänglich')
-      item['reachable'] = link.reachable
-      if item['reachable'] == True:
-        item['reachable_label'] = gettext(u'erreichbar') + u' – ' + gettext(u'letzte Prüfung')
-      else:
-        item['reachable_label'] = gettext(u'nicht erreichbar') + u'–' + gettext(u'letzte Prüfung')
-      item['reachable_last_check'] = datetime_l10n(link.reachable_last_check, 'full')
       item['search_title'] = link.search_title
       item['logo'] = link.logo
       item['top'] = link.top

@@ -163,8 +163,6 @@ A few details on the important attributes (i.e. fields):
 *   `title` – This text field is mandatory since every link needs a title, i.e. a name – but not necessarily an unique one
 *   `link` – This text field is mandatory since this *is* the link itself
 *   `public` – The value `FALSE` in this boolean field means *“This link is not publicly available.”*, the value `TRUE` however means *“This link is publicly available.”*. The field is mandatory since some logic within the code is based on it
-*   `reachable` – The value `FALSE` in this boolean field means *“This link is currently not reachable.”*, the value `TRUE` however means *“This link is currently reachable.”*. The field is mandatory since some logic within the code is based on it
-*   `reachable_last_check` – The value of this timestamp field represents the timestamp of the last reachability check of the link. The field is mandatory since some logic within the code is based on it
 *   `description` – The description of the link and/or its target goes in this text field. The information is used in the catalog view
 *   `date` – The date the link and/or its target was last updated is stored in this date field. The information is used in the catalog view
 *   `authorship_organisation` – The organisation(s) of the author(s) of the link and/or its target go(es) in this text array field. The order has to be the same as in the `authorship_name` and `authorship_mail` fields since all these three fields are evaluated together in the code. The information is used in the catalog view
@@ -175,8 +173,6 @@ A few details on the important attributes (i.e. fields):
 *   `search_title` – If you want a link categorised as `application` to have a different title than the value of `group` in the search result list, the title hat to go in this text field
 
 Always think of the *relations between links and sublinks*, the *relations between links and tags* and the *relations between links and themes* if you insert, delete or update links, especially by a bot (e.g. a cronjob)!
-
-Both the `reachable` and `reachable_last_check` fields could be kept up-to-date by using a cronjob checking the reachability of the links.
 
 ### Links and themes (table `links_themes`)
 
@@ -208,12 +204,8 @@ A few details on the important attributes (i.e. fields):
 *   `title` – This text field is mandatory since every sublink needs a title, i.e. a name – but not necessarily an unique one
 *   `link` – This text field is mandatory since this *is* the sublink itself
 *   `public` – The value `FALSE` in this boolean field means *“This sublink is not publicly available.”*, the value `TRUE` however means *“This sublink is publicly available.”*. The field is mandatory since some logic within the code is based on it
-*   `reachable` – The value `FALSE` in this boolean field means *“This sublink is currently not reachable.”*, the value `TRUE` however means *“This sublink is currently reachable.”*. The field is mandatory since some logic within the code is based on it
-*   `reachable_last_check` – The value of this timestamp field represents the timestamp of the last reachability check of the sublink. The field is mandatory since some logic within the code is based on it
 
 Always think of the *relations between links and sublinks* if you insert, delete or update sublinks, especially by a bot (e.g. a cronjob)!
-
-Both the `reachable` and `reachable_last_check` fields could be kept up-to-date by using a cronjob checking the reachability of the sublinks.
 
 ### Tags (table `tags`)
 
