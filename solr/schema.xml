@@ -31,6 +31,6 @@
     </fields>
 
     <uniqueKey>id</uniqueKey>
-    <defaultSearchField>_text_</defaultSearchField>
-    <solrQueryParser defaultOperator="AND"/>
+    <df>text</df>
+    <solrQueryParser q.op="AND"/>
 </schema>

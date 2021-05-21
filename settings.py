@@ -25,15 +25,11 @@ BOOTSTRAP_SERVE_LOCAL = True
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 # cache
-CACHE_MEMCACHED_SERVERS = ['127.0.0.1:11211']
 DEFAULT_CACHE_TIMEOUT = 86400
 
 # CitySDK api
 CITYSDK_API_TARGET_NAME = 'Klarschiff.HRO'
 CITYSDK_API_TARGET_LINK = 'https://www.klarschiff-hro.de/map?request='
-
-# Solr
-SOLR_URL = 'http://127.0.0.1:8983/solr/geolotse'
 
 # redirection URLs for HTTP error codes
 REDIRECT_URL_400 = 'https://geo.sv.rostock.de/400.html'

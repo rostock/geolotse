@@ -425,7 +425,7 @@ def search():
   data = []
   for result in results:
     item = { 'id': result['id']}
-    item['database_id'] = result['database_id']
+    item['database_id'] = result['database_id'][0]
     item['category'] = result['category']
     if item['category'] == 'api':
       item['category_label'] = gettext(u'API (Programmierschnittstelle)')
@@ -455,14 +455,14 @@ def search():
     if 'link' in result and result['link']:
       item['link'] = result['link']
     elif item['category'] == 'geoservice':
-      item['link'] = url_for('catalog', lang_code = g.current_lang if g.current_lang else app.config['BABEL_DEFAULT_LOCALE']) + '#geoservice-' + str(result['database_id'])
+      item['link'] = url_for('catalog', lang_code = g.current_lang if g.current_lang else app.config['BABEL_DEFAULT_LOCALE']) + '#geoservice-' + str(result['database_id'][0])
     elif item['category'] == 'inspire':
-      item['link'] = url_for('catalog', lang_code = g.current_lang if g.current_lang else app.config['BABEL_DEFAULT_LOCALE']) + '#inspire-theme-' + str(result['database_id'])
+      item['link'] = url_for('catalog', lang_code = g.current_lang if g.current_lang else app.config['BABEL_DEFAULT_LOCALE']) + '#inspire-theme-' + str(result['database_id'][0])
     elif item['category'] == 'theme':
-      item['link'] = url_for('themes', lang_code = g.current_lang if g.current_lang else app.config['BABEL_DEFAULT_LOCALE']) + '#theme-' + str(result['database_id'])
+      item['link'] = url_for('themes', lang_code = g.current_lang if g.current_lang else app.config['BABEL_DEFAULT_LOCALE']) + '#theme-' + str(result['database_id'][0])
     else:
       item['link'] = ''
-    item['public'] = result['public']
+    item['public'] = result['public'][0]
     if item['public'] == True:
       item['public_label'] = gettext(u'öffentlich zugänglich')
     else:
