@@ -312,11 +312,6 @@ msgstr "Press Office"
 msgid "Telefon"
 msgstr "telephone"
 
-#: templates/imprint.html:35 templates/imprint.html:48
-#: templates/imprint.html:58
-msgid "Telefax"
-msgstr "telefax"
-
 #: templates/imprint.html:36 templates/imprint.html:49
 #: templates/imprint.html:59
 msgid "E-Mail"

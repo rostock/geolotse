@@ -257,7 +257,7 @@ msgid_plural "Autoren"
 msgstr[0] ""
 msgstr[1] ""
 
-#: templates/geoservices.html:80 templates/imprint.html:73
+#: templates/geoservices.html:80 templates/imprint.html:69
 #: templates/privacy_policy.html:36
 msgid "Kontakt"
 msgstr ""
@@ -266,12 +266,12 @@ msgstr ""
 msgid "Herausgeberin"
 msgstr ""
 
-#: templates/imprint.html:30 templates/imprint.html:42
-#: templates/imprint.html:53 templates/privacy_policy.html:38
+#: templates/imprint.html:30 templates/imprint.html:41
+#: templates/imprint.html:51 templates/privacy_policy.html:38
 msgid "Hanse- und Universitätsstadt Rostock"
 msgstr ""
 
-#: templates/imprint.html:31 templates/imprint.html:43
+#: templates/imprint.html:31 templates/imprint.html:42
 #: templates/privacy_policy.html:39
 msgid "Büro des Oberbürgermeisters"
 msgstr ""
@@ -280,46 +280,40 @@ msgstr ""
 msgid "Presse- und Informationsstelle"
 msgstr ""
 
-#: templates/imprint.html:34 templates/imprint.html:47
-#: templates/imprint.html:57
+#: templates/imprint.html:34 templates/imprint.html:46
 msgid "Telefon"
 msgstr ""
 
-#: templates/imprint.html:35 templates/imprint.html:48
-#: templates/imprint.html:58
-msgid "Telefax"
-msgstr ""
-
-#: templates/imprint.html:36 templates/imprint.html:49
-#: templates/imprint.html:59
+#: templates/imprint.html:35 templates/imprint.html:47
+#: templates/imprint.html:55
 msgid "E-Mail"
 msgstr ""
 
-#: templates/imprint.html:38
+#: templates/imprint.html:37
 msgid "Umsatzsteuer-Identifikationsnummer gemäß § 27a Umsatzsteuergesetz"
 msgstr ""
 
-#: templates/imprint.html:40
+#: templates/imprint.html:39
 msgid "Verantwortung gemäß § 7 Abs. 1 Telemediengesetz"
 msgstr ""
 
-#: templates/imprint.html:45
+#: templates/imprint.html:44
 msgid "Pressesprecher Presse- und Informationsstelle"
 msgstr ""
 
-#: templates/imprint.html:51
+#: templates/imprint.html:49
 msgid "Konzept, Betreuung und technische Realisierung"
 msgstr ""
 
-#: templates/imprint.html:54
+#: templates/imprint.html:52
 msgid "Kataster-, Vermessungs- und Liegenschaftsamt"
 msgstr ""
 
-#: templates/imprint.html:61
+#: templates/imprint.html:57
 msgid "Haftung für angebotene Inhalte"
 msgstr ""
 
-#: templates/imprint.html:62
+#: templates/imprint.html:58
 msgid ""
 "Trotz sorgfältigen Recherchen und Prüfungen übernimmt die Hanse- und "
 "Universitätsstadt Rostock für die Richtigkeit, Vollständigkeit und "
@@ -340,11 +334,11 @@ msgid ""
 "Kenntnis einer konkreten Rechtsverletzung."
 msgstr ""
 
-#: templates/imprint.html:63
+#: templates/imprint.html:59
 msgid "Haftung für externe Links"
 msgstr ""
 
-#: templates/imprint.html:64
+#: templates/imprint.html:60
 msgid ""
 "Für die von Dritten angebotenen fremden Inhalte, auf die mittels externer"
 " Links verwiesen ist, übernimmt die Hanse- und Universitätsstadt Rostock "
@@ -360,27 +354,27 @@ msgid ""
 " externen Links umgehend entfernen."
 msgstr ""
 
-#: templates/imprint.html:65
+#: templates/imprint.html:61
 msgid "Urheberrecht"
 msgstr ""
 
-#: templates/imprint.html:66 templates/terms_of_use.html:29
+#: templates/imprint.html:62 templates/terms_of_use.html:29
 msgid ""
 "Die von der Hanse- und Universitätsstadt Rostock angebotenen und in ihrem"
 " Eigentum befindlichen Inhalte unterliegen der gemeinfreien Lizenz"
 msgstr ""
 
-#: templates/imprint.html:66 templates/terms_of_use.html:29
+#: templates/imprint.html:62 templates/terms_of_use.html:29
 msgid ""
 "(CC0 1.0). Damit ist alles gestattet, ohne um weitere Erlaubnis bitten zu"
 " müssen."
 msgstr ""
 
-#: templates/imprint.html:67
+#: templates/imprint.html:63
 msgid "Verweise auf angebotene Inhalte"
 msgstr ""
 
-#: templates/imprint.html:68
+#: templates/imprint.html:64
 msgid ""
 "Verweise auf die angebotenen Inhalte durch externe Angebote Dritter sind "
 "ausdrücklich erwünscht. Hingegen sind Verweise durch Angebote natürlicher"
@@ -389,11 +383,11 @@ msgid ""
 "Artikeln mit sittenwidrigem Inhalt betreiben, nicht zulässig."
 msgstr ""
 
-#: templates/imprint.html:69
+#: templates/imprint.html:65
 msgid "Barrierefreiheit"
 msgstr ""
 
-#: templates/imprint.html:70
+#: templates/imprint.html:66
 msgid ""
 "Die Hanse- und Universitätsstadt Rostock verpflichtet sich in ihren "
 "Leitlinien zur Stadtentwicklung die zum 26. März 2009 in Deutschland in "
@@ -409,11 +403,11 @@ msgid ""
 " Wide Web Consortiums (W3C)."
 msgstr ""
 
-#: templates/imprint.html:71
+#: templates/imprint.html:67
 msgid "Nutzung der Kontaktdaten"
 msgstr ""
 
-#: templates/imprint.html:72
+#: templates/imprint.html:68
 msgid ""
 "Der unverlangten Nutzung der in diesem Impressum veröffentlichten "
 "Kontaktdaten der Hanse- und Universitätsstadt Rostock durch Dritte, "
@@ -424,7 +418,7 @@ msgid ""
 "Informationsmaterialien vor."
 msgstr ""
 
-#: templates/imprint.html:75
+#: templates/imprint.html:71
 msgid ""
 "Kommentare, Anregungen und Kritik zu dem vorliegenden Angebot der Hanse- "
 "und Universitätsstadt Rostock richten Sie bitte an:"
