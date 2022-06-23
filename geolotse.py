@@ -273,8 +273,8 @@ def get_inspire_theme_links(inspire_theme_id = 1):
   return Links.query.join(Links.inspire).with_entities(Links.parent_id, Links.title).filter(Inspire.id == inspire_theme_id).group_by(Links.parent_id, Links.title).order_by(Links.title).all()
 
 @cache.memoize(timeout = app.config['DEFAULT_CACHE_TIMEOUT'])
-def get_inspire_theme_link_children_groups(inspire_theme_link_parent_id = 1):
-  return Links.query.with_entities(Links.group).filter(Links.parent_id == inspire_theme_link_parent_id, Links.group.like('INSPIRE%')).order_by(Links.group).all()
+def get_inspire_theme_link_children_groups(inspire_theme_link_parent_id = 1, title = ''):
+  return Links.query.with_entities(Links.group).filter(Links.parent_id == inspire_theme_link_parent_id, Links.title == title, Links.group.like('INSPIRE%')).order_by(Links.group).all()
 
 @cache.memoize(timeout = app.config['DEFAULT_CACHE_TIMEOUT'])
 def get_inspire_theme_link_children_tags(inspire_theme_link_parent_id = 1):
@@ -287,8 +287,8 @@ def get_inspire_theme_link_children_tags(inspire_theme_link_parent_id = 1):
   return tuple(list)
 
 @cache.memoize(timeout = app.config['DEFAULT_CACHE_TIMEOUT'])
-def get_inspire_theme_link_links(inspire_theme_link_parent_id = 1):
-  return Links.query.join(Links.inspire).with_entities(Links.id, Links.group, Links.group_order, Links.link, Links.public, Links.description, Inspire.annex.label('inspire_annex'), Inspire.short.label('inspire_short'), Inspire.theme_de.label('inspire_theme_de'), Inspire.theme_en.label('inspire_theme_en'), Inspire.link.label('inspire_link')).filter(Links.parent_id == inspire_theme_link_parent_id, Links.group.like('INSPIRE%')).order_by(Links.group_order).all()
+def get_inspire_theme_link_links(inspire_theme_link_parent_id = 1, title = ''):
+  return Links.query.join(Links.inspire).with_entities(Links.id, Links.group, Links.group_order, Links.link, Links.public, Links.description, Inspire.annex.label('inspire_annex'), Inspire.short.label('inspire_short'), Inspire.theme_de.label('inspire_theme_de'), Inspire.theme_en.label('inspire_theme_en'), Inspire.link.label('inspire_link')).filter(Links.parent_id == inspire_theme_link_parent_id, Links.title == title, Links.group.like('INSPIRE%')).order_by(Links.group_order).all()
 
 @cache.memoize(timeout = app.config['DEFAULT_CACHE_TIMEOUT'])
 def get_link_sublink(id = 1, target = 'geoportal'):
@@ -312,7 +312,7 @@ def get_parent_link_children(parent_id = 1, search_only = False, include_parent_
   if search_only == True:
     return Links.query.with_entities(Links.id, Links.group, Links.group_order, Links.link, Links.public, Links.search_title).filter(Links.parent_id == parent_id, Links.search == True).order_by(Links.group_order).all() if include_parent_link == True else Links.query.with_entities(Links.id, Links.group, Links.group_order, Links.link, Links.public, Links.search_title).filter(Links.parent_id == parent_id, Links.id != parent_id, Links.search == True).order_by(Links.group_order).all()
   else:
-    return Links.query.join(Links.inspire, isouter = True).with_entities(Links.id, Links.group, Links.group_order, Links.title, Links.link, Links.public, Links.description, Inspire.annex.label('inspire_annex'), Inspire.short.label('inspire_short'), Inspire.theme_de.label('inspire_theme_de'), Inspire.theme_en.label('inspire_theme_en'), Inspire.link.label('inspire_link')).filter(Links.parent_id == parent_id).order_by(Links.group_order).all() if include_parent_link == True else Links.query.join(Links.inspire, isouter = True).with_entities(Links.id, Links.group, Links.group_order, Links.title, Links.link, Links.public, Links.description, Inspire.annex.label('inspire_annex'), Inspire.short.label('inspire_short'), Inspire.theme_de.label('inspire_theme_de'), Inspire.theme_en.label('inspire_theme_en'), Inspire.link.label('inspire_link')).filter(Links.parent_id == parent_id, Links.id != parent_id).order_by(Links.group_order).all()
+    return Links.query.join(Links.inspire, isouter = True).with_entities(Links.id, Links.group, Links.group_order, Links.title, Links.link, Links.public, Links.description, Inspire.annex.label('inspire_annex'), Inspire.short.label('inspire_short'), Inspire.theme_de.label('inspire_theme_de'), Inspire.theme_en.label('inspire_theme_en'), Inspire.link.label('inspire_link')).filter(Links.parent_id == parent_id).order_by(Links.group_order, Inspire.annex, Inspire.theme_de, Inspire.link).all() if include_parent_link == True else Links.query.join(Links.inspire, isouter = True).with_entities(Links.id, Links.group, Links.group_order, Links.title, Links.link, Links.public, Links.description, Inspire.annex.label('inspire_annex'), Inspire.short.label('inspire_short'), Inspire.theme_de.label('inspire_theme_de'), Inspire.theme_en.label('inspire_theme_en'), Inspire.link.label('inspire_link')).filter(Links.parent_id == parent_id, Links.id != parent_id).order_by(Links.group_order, Inspire.annex, Inspire.theme_de, Inspire.link).all()
 
 @cache.memoize(timeout = app.config['DEFAULT_CACHE_TIMEOUT'])
 def get_parent_link_children_groups(parent_id = 1, include_parent_link_groups = True):
