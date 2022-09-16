@@ -12,7 +12,7 @@ Flask-SQLAlchemy==2.4.4
 Flask-SQLAlchemy-Caching==1.0.4
 greenlet==1.1.1
 importlib-metadata==4.7.1
-Mako==1.1.5
+Mako==1.2.2
 MarkupSafe==2.0.1
 psycopg2==2.8.6
 PyICU==2.4.3
