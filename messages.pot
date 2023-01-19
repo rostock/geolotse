@@ -273,7 +273,7 @@ msgstr ""
 
 #: templates/imprint.html:31 templates/imprint.html:42
 #: templates/privacy_policy.html:39
-msgid "Büro des Oberbürgermeisters"
+msgid "Büro der Oberbürgermeisterin"
 msgstr ""
 
 #: templates/imprint.html:32
