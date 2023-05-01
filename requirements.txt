@@ -2,7 +2,7 @@ alembic==1.6.5
 Babel==2.9.1
 certifi==2022.12.7
 dominate==2.6.0
-Flask==1.1.4
+Flask==2.3.2
 Flask-Babel==1.0.0
 Flask-Bootstrap==3.3.7.1
 Flask-Caching==1.11.1
