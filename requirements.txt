@@ -19,7 +19,7 @@ PyICU==2.4.3
 pysolr==3.9.0
 python-memcached==1.59
 pytz==2021.1
-requests==2.23.0
+requests==2.31.0
 SQLAlchemy==1.4.23
 typing-extensions==3.10.0.0
 ua-parser==0.10.0
