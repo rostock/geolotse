@@ -312,8 +312,7 @@ msgstr "Press Office"
 msgid "Telefon"
 msgstr "telephone"
 
-#: templates/imprint.html:36 templates/imprint.html:49
-#: templates/imprint.html:59
+#: templates/imprint.html:35 templates/imprint.html:47
 msgid "E-Mail"
 msgstr "email"
 
@@ -564,9 +563,17 @@ msgstr ""
 "precautions are being improved continuously according to technological "
 "progress."
 
+#: templates/privacy_policy.html:28
+msgid "Datenverarbeitende Stelle"
+msgstr "Data processing body"
+
+#: templates/privacy_policy.html:36
+msgid "Behördliche Datenschutzbeauftragte"
+msgstr "Data protection officer"
+
 #: templates/privacy_policy.html:40
 msgid "Behördlicher Datenschutz"
-msgstr "Data Security Officer"
+msgstr "Data Protection Officer"
 
 #: templates/terms_of_use.html:28
 msgid "Nutzung der Inhalte der Hanse- und Universitätsstadt Rostock"

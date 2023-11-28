@@ -258,7 +258,6 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: templates/geoservices.html:80 templates/imprint.html:69
-#: templates/privacy_policy.html:36
 msgid "Kontakt"
 msgstr ""
 
@@ -267,7 +266,8 @@ msgid "Herausgeberin"
 msgstr ""
 
 #: templates/imprint.html:30 templates/imprint.html:41
-#: templates/imprint.html:51 templates/privacy_policy.html:38
+#: templates/imprint.html:51 templates/privacy_policy.html:30
+#: templates/privacy_policy.html:38
 msgid "Hanse- und Universitätsstadt Rostock"
 msgstr ""
 
@@ -285,7 +285,6 @@ msgid "Telefon"
 msgstr ""
 
 #: templates/imprint.html:35 templates/imprint.html:47
-#: templates/imprint.html:55
 msgid "E-Mail"
 msgstr ""
 
@@ -305,7 +304,7 @@ msgstr ""
 msgid "Konzept, Betreuung und technische Realisierung"
 msgstr ""
 
-#: templates/imprint.html:52
+#: templates/imprint.html:52 templates/privacy_policy.html:31
 msgid "Kataster-, Vermessungs- und Liegenschaftsamt"
 msgstr ""
 
@@ -454,42 +453,54 @@ msgid ""
 msgstr ""
 
 #: templates/privacy_policy.html:28
+msgid "Datenverarbeitende Stelle"
+msgstr ""
+
+#: templates/privacy_policy.html:36
+msgid "Behördliche Datenschutzbeauftragte"
+msgstr ""
+
+#: templates/privacy_policy.html:40
+msgid "Behördlicher Datenschutz"
+msgstr ""
+
+#: templates/privacy_policy.html:44
 msgid ""
 "Nutzung des vorliegenden Angebotes der Hanse- und Universitätsstadt "
 "Rostock"
 msgstr ""
 
-#: templates/privacy_policy.html:29
+#: templates/privacy_policy.html:45
 msgid ""
 "Die Nutzung des vorliegenden Angebotes der Hanse- und Universitätsstadt "
 "Rostock ist ohne Angabe personenbezogener Daten möglich."
 msgstr ""
 
-#: templates/privacy_policy.html:30
+#: templates/privacy_policy.html:46
 msgid "Protokollierung"
 msgstr ""
 
-#: templates/privacy_policy.html:31
+#: templates/privacy_policy.html:47
 msgid ""
 "Wenn Sie auf das vorliegende Angebot der Hanse- und Universitätsstadt "
 "Rostock zugreifen, werden keine Zugriffsdaten protokolliert."
 msgstr ""
 
-#: templates/privacy_policy.html:32
+#: templates/privacy_policy.html:48
 msgid "Einsatz von Cookies"
 msgstr ""
 
-#: templates/privacy_policy.html:33
+#: templates/privacy_policy.html:49
 msgid ""
 "Das vorliegende Angebot der Hanse- und Universitätsstadt Rostock "
 "verwendet keine Cookies."
 msgstr ""
 
-#: templates/privacy_policy.html:34
+#: templates/privacy_policy.html:50
 msgid "Sicherheit"
 msgstr ""
 
-#: templates/privacy_policy.html:35
+#: templates/privacy_policy.html:51
 msgid ""
 "Die Hanse- und Universitätsstadt Rostock setzt für das vorliegende "
 "Angebot technische und organisatorische Sicherheitsmaßnahmen ein, um "
@@ -497,10 +508,6 @@ msgid ""
 "Manipulation, Verlust, Zerstörung oder gegen den Zugriff unberechtigter "
 "Dritter zu schützen. Die Sicherheitsmaßnahmen werden entsprechend der "
 "technologischen Entwicklung fortlaufend verbessert."
-msgstr ""
-
-#: templates/privacy_policy.html:40
-msgid "Behördlicher Datenschutz"
 msgstr ""
 
 #: templates/terms_of_use.html:28
