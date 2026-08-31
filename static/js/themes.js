@@ -860,6 +860,5 @@ if (!MOBILE) {
 }
 
 $('#geoportal-link').click(function() {
-  var transformation = proj4('EPSG:4326', 'EPSG:25833', [map.getCenter().lng, map.getCenter().lat]);
-  window.open('https://www.geoport-hro.de/?center=' + transformation[0] + ',' + transformation[1] + '&scale=2133', '_blank');
+  window.open('https://www.geoport-hro.de/?state=[[0,[' + map.getCenter().lng + ',' + map.getCenter().lat + '],599.3,0,-90,0],"OpenlayersMap",["public"],[],[["@gdmhro/metadata-viewer",{"prop":"*"}]],0,[]]', '_blank');
 });

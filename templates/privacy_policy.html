@@ -25,30 +25,31 @@
   {% include 'navbar.html' %}
   <div class="container-fluid">
     <h3 class="headline">{{ subtitle }}</h3>
-    <h4 class="subheadline">{{ _('Datenverarbeitende Stelle') }}</h4>
+    <h4 class="subheadline">{{ _('Verantwortliche Stelle') }}</h4>
     <p>
       <span class="full-width">{{ _('Hanse- und Universitätsstadt Rostock') }}</span>
       <span class="full-width">{{ _('Kataster-, Vermessungs- und Liegenschaftsamt') }}</span>
-      <span class="full-width">Holbeinplatz 14</span>
+      <span class="full-width">An der Jägerbäk 3</span>
       <span class="full-width">18069 Rostock</span>
       <a href="mailto:geodienste@rostock.de">geodienste@rostock.de</a>
     </p>
-    <h4 class="subheadline">{{ _('Behördliche Datenschutzbeauftragte') }}</h4>
+    <h4 class="subheadline">{{ _('Behördliche:r Datenschutzbeauftragte:r') }}</h4>
     <p>
       <span class="full-width">{{ _('Hanse- und Universitätsstadt Rostock') }}</span>
+      <span class="full-width">{{ _('Die Oberbürgermeisterin') }}</span>
       <span class="full-width">{{ _('Büro der Oberbürgermeisterin') }}</span>
       <span class="full-width">{{ _('Behördlicher Datenschutz') }}</span>
       <span class="full-width">18050 Rostock</span>
       <a href="mailto:datenschutz@rostock.de">datenschutz@rostock.de</a>
     </p>
-    <h4 class="subheadline">{{ _('Nutzung des vorliegenden Angebotes der Hanse- und Universitätsstadt Rostock') }}</h4>
-    <p>{{ _('Die Nutzung des vorliegenden Angebotes der Hanse- und Universitätsstadt Rostock ist ohne Angabe personenbezogener Daten möglich.') }}</p>
-    <h4 class="subheadline">{{ _('Protokollierung') }}</h4>
-    <p>{{ _('Wenn Sie auf das vorliegende Angebot der Hanse- und Universitätsstadt Rostock zugreifen, werden keine Zugriffsdaten protokolliert.') }}</p>
-    <h4 class="subheadline">{{ _('Einsatz von Cookies') }}</h4>
-    <p>{{ _('Das vorliegende Angebot der Hanse- und Universitätsstadt Rostock verwendet keine Cookies.') }}</p>
+    <h4 class="subheadline">{{ _('Nutzung der Website') }}</h4>
+    <p>{{ _('Die Nutzung dieser Website ist grundsätzlich ohne Angabe personenbezogener Daten möglich.') }}</p>
+    <h4 class="subheadline">{{ _('Verarbeitung von Zugriffsdaten') }}</h4>
+    <p>{{ _('Beim Aufruf der Website werden aus technischen Gründen Daten (IP-Adresse, Datum und Uhrzeit, aufgerufene Seite) verarbeitet. Die Verarbeitung erfolgt zur Sicherstellung des technischen Betriebs und der IT-Sicherheit auf Grundlage von Art. 6 Abs. 1 lit. e DSGVO. Die Daten werden nur vorübergehend gespeichert und anschließend gelöscht.') }}</p>
+    <h4 class="subheadline">{{ _('Cookies') }}</h4>
+    <p>{{ _('Diese Website verwendet keine Cookies, die einer Einwilligung bedürfen.') }}</p>
     <h4 class="subheadline">{{ _('Sicherheit') }}</h4>
-    <p>{{ _('Die Hanse- und Universitätsstadt Rostock setzt für das vorliegende Angebot technische und organisatorische Sicherheitsmaßnahmen ein, um gespeicherte und verwendete Daten gegen zufällige oder vorsätzliche Manipulation, Verlust, Zerstörung oder gegen den Zugriff unberechtigter Dritter zu schützen. Die Sicherheitsmaßnahmen werden entsprechend der technologischen Entwicklung fortlaufend verbessert.') }}</p>
+    <p>{{ _('Es werden technische und organisatorische Maßnahmen eingesetzt, um Daten vor Verlust, Manipulation und unberechtigtem Zugriff zu schützen.') }}</p>
   </div>
   {% if not mobile %}
     {% include 'footer.html' %}
