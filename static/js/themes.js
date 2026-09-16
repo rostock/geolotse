@@ -29,14 +29,14 @@ var defaultLon = 12.0980385366347;
 // END ATTENTION
 // ATTENTION
 // define both the base map and the base aerial image layer for the map
-var mapLayer = L.tileLayer('https://www.orka-mv.de/geodienste/orkamv/tiles/1.0.0/orkamv/GLOBAL_WEBMERCATOR/{z}/{x}/{y}.png', {
+var mapLayer = L.tileLayer('https://sgx.geodatenzentrum.de/wmts_basemapde/tile/1.0.0/de_basemapde_web_raster_farbe/default/GLOBAL_WEBMERCATOR/{z}/{y}/{x}.png', {
   minZoom: 17,
-  attribution: '© Hanse- und Universitätsstadt Rostock (<a rel="license" target="_blank" href="http://creativecommons.org/licenses/by/4.0/deed.de">CC BY 4.0</a>)',
+  attribution: '© <a rel="license" target="_blank" href="https://basemap.de/">GeoBasis-DE/BKG</a>',
   id: 'mapLayer'
 });
 var aerialLayer = L.tileLayer('https://geo.sv.rostock.de/geodienste/luftbild_mv-20/tiles/1.0.0/hro.luftbild_mv-20.luftbild_mv-20/GLOBAL_WEBMERCATOR/{z}/{x}/{y}.png', {
   minZoom: 17,
-  attribution: '© <a target="_blank" href="https://www.geoportal-mv.de/portal/Geowebdienste">GeoBasis-DE/M-V</a>',
+  attribution: '© <a rel="license" target="_blank" href="https://www.geoportal-mv.de/portal/Geowebdienste">GeoBasis-DE/M-V</a>',
   id: 'aerialLayer'
 });
 // END ATTENTION
