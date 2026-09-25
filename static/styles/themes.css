@@ -31,6 +31,12 @@
   margin-bottom: 12px;
 }
 
+.leaflet-container img.leaflet-tile {
+  mix-blend-mode: normal;
+  width: 257px !important;
+  height: 257px !important;
+}
+
 .offer,
 .theme {
   margin: auto;

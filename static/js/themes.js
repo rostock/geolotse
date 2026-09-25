@@ -43,10 +43,11 @@ var aerialLayer = L.tileLayer('https://geo.sv.rostock.de/geodienste/luftbild_mv-
 var baseMaps = {};
 baseMaps[TRANSLATIONS.map] = mapLayer;
 baseMaps[TRANSLATIONS.aerial] = aerialLayer;
-var map;
-map = L.map('map', {
-  layers: [mapLayer]
-}).fitWorld();
+var maxBounds = L.latLngBounds(L.latLng(52.5, 10), L.latLng(55, 15));
+var map = L.map('map', {
+  layers: [mapLayer],
+  maxBounds: maxBounds
+});
 L.control.layers(baseMaps).addTo(map);
 var locationControl = L.control.locate({
   drawCircle: false,
